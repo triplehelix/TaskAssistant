@@ -1,0 +1,31 @@
+<div>
+	<h1>Welcome to your dashboard!</h1>
+	<div class="col-md-8 col-md-offset-2">
+		<!-- Quick Add section -->
+		<a class="btn btn-default" href="#" role="button">Add Task</a>
+		<a class="btn btn-default" href="#" role="button">Add Event</a>
+		
+		<!-- Top pending tasks section -->
+		<h2>Top Pending Tasks:</h2>
+		<table class="table table-hover">
+		<tr>
+			<th>Task Name</th>
+			<th>Task Deadline</th>
+		</tr>
+		<tr ng-repeat="t in toptasks">
+			<td>{{ t.name }}</td>
+			<td>{{ t.deadline }}</td>
+		</tr>
+		</table>
+	</div>
+	<div class="col-md-4 col-md-offset-1">
+		<!-- Today's schedule section -->
+		<h2>Today's Schedule:</h2>
+		<table class="table table-hover">
+			<tr ng-repeat="ts in timeslot">
+				<td>{{ ts.time }}</td>
+				<td>{{ ts.contents }}</td>
+			</tr>
+		</table>
+	</div>
+</div>	
