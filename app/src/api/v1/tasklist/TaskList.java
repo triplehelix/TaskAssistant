@@ -1,7 +1,7 @@
 package api.v1.tasklist;
 import java.util.ArrayList;
 
-import api.v1.task.Task;
+import api.v1.model.Task;
 
 /**
  * This class serves as a list of Tasks. 

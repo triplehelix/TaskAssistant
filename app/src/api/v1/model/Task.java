@@ -1,4 +1,4 @@
-package api.v1.task;
+package api.v1.model;
 
 import java.util.Date;
 

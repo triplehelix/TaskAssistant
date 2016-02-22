@@ -33,13 +33,19 @@ protected JSONObject parseRequest(String requestString){
 		return param;
 	}
 	
+	/**
+	 * Incomplete. Always returns true.
+	 * @param credential
+	 * @return
+	 */
 	protected boolean validateCredentials(Subject credential){
 		//TODO return false sometimes.
 		return true;
 	}
 	
 	/**
-	 * 
+	 * Parse a String representing a given date and return a Date object.
+	 * String must be in the format: yyyy-MM-dd_HH:mm:ss
 	 * @param stringDate
 	 * @return
 	 */
@@ -52,6 +58,22 @@ protected JSONObject parseRequest(String requestString){
 			log.error("Exception while parsing date token: " + stringDate);
 		}
 			return result;
-		
+	}
+	
+	/**
+	 * Parse a String representation of an integer as an Integer object. A
+	 * null Integer indicates that a NumberFormatException has occurred.
+	 * 
+	 * @param i
+	 * @return
+	 */
+	protected Integer parseJsonIntAsInt(String i){
+		Integer myInt = null;
+		try{
+			myInt = Integer.parseInt(i);
+		}catch(NumberFormatException e){
+			log.error("Exception while parsing integer token: " + i);
+		}
+		return myInt;
 	}
 }
