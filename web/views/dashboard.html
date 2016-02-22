@@ -1,12 +1,12 @@
 <div>
-	<h1>Welcome to your dashboard!</h1>
-	<div class="col-md-8 col-md-offset-2">
+	<h2>Welcome to your dashboard!</h2>
+	<div class="col-md-8 col-md-offset-0">
 		<!-- Quick Add section -->
-		<a class="btn btn-default" href="#" role="button">Add Task</a>
-		<a class="btn btn-default" href="#" role="button">Add Event</a>
+		<a class="btn btn-default" href="#" role="button">Add Task</a>&nbsp;
+		<a class="btn btn-default" href="#" role="button">Add Event</a><br />
 		
 		<!-- Top pending tasks section -->
-		<h2>Top Pending Tasks:</h2>
+		<h3>Top Pending Tasks:</h3><br />
 		<table class="table table-hover">
 		<tr>
 			<th>Task Name</th>
@@ -18,9 +18,9 @@
 		</tr>
 		</table>
 	</div>
-	<div class="col-md-4 col-md-offset-1">
+	<div class="col-md-4 col-md-offset-0">
 		<!-- Today's schedule section -->
-		<h2>Today's Schedule:</h2>
+		<h3>Today's Schedule:</h3><br />
 		<table class="table table-hover">
 			<tr ng-repeat="ts in timeslot">
 				<td>{{ ts.time }}</td>
