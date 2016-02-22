@@ -2,6 +2,11 @@ package api.v1.model;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author kennethlyon
+ *
+ */
 public class Reminder {
 	private int id;
 	private int taskId;

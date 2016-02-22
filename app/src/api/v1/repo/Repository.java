@@ -1,13 +1,9 @@
 package api.v1.repo;
 
-import java.util.Map;
-
 public interface Repository<T> {
-	//public <E> get(<E> e);
-	//public void create(Object o);
-	//public Map<T> myMap;
-	public void add(Object o);
-	public Object get(Object o);
-	public void update(Object o);
 	
+	public void add(final T t);
+	public T get(final T t);
+	public void update(final T t);
+	public void delete(final T t);
 }
