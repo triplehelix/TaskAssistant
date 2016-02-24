@@ -1,20 +1,30 @@
 (function () {
-	angular.module('timeAssistant', []).controller('LoginController', ['$location', '$log', function($location, $log){
-		var that = this;
-		var login = function(){
-			$log.info("logging in email: " + that.email);
-			AuthService.login(that.email, that.password, function (response) {
-				that.fetchingData = true;
+	angular.module('taskAssistant').controller('LoginController', ['$scope', '$location', '$log', 'AuthService', function($scope, $location, $log, AuthService){
+		var LoginController = this;
+		$log.info("LoginController Initialized.");
+		
+		$scope.login = login;
+		function login(){
+			$log.info("$scope.login() called for email: " + $scope.LoginController.email);
+			var that = this;
+			that.email = $scope.LoginController.email;
+			that.password = $scope.LoginController.password;
+			AuthService.login($scope.LoginController.email, $scope.LoginController.password, function (response) {
+				$scope.LoginController.fetchingData = true;
+				$log.debug("logging in user with email: " + that.email);
 				//Handle login response
 				if (response.success){
-					AuthService.SetCredentials(that.email, that.password);
+					$log.debug("Authentication Successful... Updating cookies & redirecting to home page.");
+					AuthService.setCreds($scope.LoginController.email, $scope.LoginController.password);
 					$location.path('/');
 				}else{
-					ErrorService.error(response.message);
-					that.fetchingData = false;
+					$log.warn("User Authentication failed");
+					//ErrorService.error(response.message);
+					$scope.LoginController.fetchingData = false;
 				}
 			});
 			
 		};
+		
 	}]);
 })();

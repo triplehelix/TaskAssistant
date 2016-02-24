@@ -1,3 +1,16 @@
 <div>
-	Login View Hello World!
+	<h2>Please Login:</h2><br />
+	<form name="form" role="form">
+	  <div class="form-group">
+		<label for="loginEmail">Email address:</label>
+		<input type="email" class="form-control" id="loginEmail" ng-model="LoginController.email" placeholder="Email" required>
+	  </div>
+	  <div class="form-group">
+		<label for="loginPassword">Password:</label>
+		<input type="password" class="form-control" id="loginPassword" ng-model="LoginController.password" placeholder="Password" required>
+	  </div>
+	  <button type="submit" ng-disabled="form.$invalid" ng-click="login()" class="btn btn-primary">Submit</button><br />
+	  <span ng-show="LoginController.fetchingData">Loading... Please wait</span>
+	</form><br />
+	<a href="#/register">Register</a>
 </div>	

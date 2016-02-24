@@ -1,5 +1,6 @@
 (function () {
-	angular.module('timeAssistant').controller('TaskController', function (){
-		// TODO
-	});
+	angular.module('taskAssistant').controller('TaskController', ['$scope', function ($scope) {
+		//TODO
+			
+	}]);
 })();

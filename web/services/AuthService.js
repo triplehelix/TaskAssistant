@@ -12,7 +12,11 @@
 			});
 			*/
 			//Mock backend response to be true for the moment
-			response = { success : true };
+			if(email == "mike@test.com"){
+				response = { success : true };
+			}else{
+				response = { error : { code: 101, message: "invalid email"} };
+			}
 			callbackFunction(response);
 		};
 		
@@ -33,8 +37,10 @@
 				}
 			};
 			
-			$http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;)
-			$cookies.put('globals', $rootScope.globals
+			$http.defaults.headers.common['Authorization'] = 'Basic ' + userCreds;
+			$cookies.put('globals', $rootScope.globals);
 		};
+		
+		return service;
 	}]);	
 })();

@@ -1,5 +1,7 @@
 (function () {
-	angular.module('timeAssistant').controller('RegisterController', function () {
+	angular.module('taskAssistant').controller('RegisterController', ['$scope', '$log', function ($scope, $log) {
 		//TODO
-	});
+		$log.info('RegisterController initialized');
+			
+	}]);
 })();

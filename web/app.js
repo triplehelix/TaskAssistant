@@ -1,27 +1,28 @@
 (function() {
-	var NO_AUTH_PAGES = ['/login', '/register'];
+	//var NO_AUTH_PAGES = ['/login', '/register'];
 	
-	angular.module('timeAssistant', ['ngRoute', 'ngCookies']).
+	angular.module('taskAssistant', ['ngRoute', 'ngCookies' ]).
 		config(['$routeProvider', function($routeProvider) {
 			$routeProvider.
 				when('/', {
-					templateUrl: 'views/home.html'
+					templateUrl: 'views/dashboard.html',
+					controller: 'DashboardController'
 				}).
 				when('/login', {
 					templateUrl: 'views/login.html',
-					controller: 'controllers/login_controller.js'
+					controller: 'LoginController'
 				}).
 				when('/register', {
 					templateUrl: 'views/register.html',
-					controller: 'controllers/register_controller.js'
+					controller: 'RegisterController'
 				}).
 				when('/tasks', {
 					templateUrl: 'views/tasks.html',
-					controller: 'controllers/task_controller.js'
+					controller: 'TaskController'
 				}).
 				when('/schedule', {
 					templateUrl: 'views/schedule.html',
-					controller: 'controllers/schedule_controller.js'
+					controller: 'ScheduleController'
 				}).
 				otherwise({redirectTo: '/login'});
 		}]);
