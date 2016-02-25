@@ -19,7 +19,7 @@
 					$location.path('/');
 				}else{
 					$log.warn("User Authentication failed");
-					//ErrorService.error(response.message);
+					$scope.LoginController.error_message = "Authentication failed with inputted Credentials. Please validate and retry."
 					$scope.LoginController.fetchingData = false;
 				}
 			});
