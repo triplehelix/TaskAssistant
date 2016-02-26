@@ -4,7 +4,10 @@
 				<h3 class="panel-title">Please Login:</h3>
 		</div>
 		<div class="panel-body">
-			<div ng-show="LoginController.error_message" class="alert alert-danger" role="alert">{{ LoginController.error_message }}</div>
+			<div ng-show="LoginController.error_message" class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				{{ LoginController.error_message }}
+			</div>
 			<form name="form" role="form">
 			  <div class="form-group">
 				<label for="loginEmail">Email address:</label>

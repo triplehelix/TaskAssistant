@@ -1,20 +1,34 @@
-<div>
-	<h2>Please Fill out Registration Form:</h2><br />
-	<form name="form" role="form">
-	  <div class="form-group">
-		<label for="registerEmail">Email address:</label>
-		<input type="email" class="form-control" id="registerEmail" ng-model="RegisterController.email" placeholder="Email" required>
-	  </div>
-	  <div class="form-group">
-		<label for="registerPassword">Password:</label>
-		<input type="password" class="form-control" id="registerPassword" ng-model="RegisterController.password" placeholder="Password" required>
-	  </div>
-	  <div class="form-group">
-		<label for="registerConfirmPassword">Confirm Password:</label>
-		<input type="password" class="form-control" id="registerConfirmPassword" ng-model="RegisterController.confirmPassword" placeholder="Password" required>
-	  </div>
-	  <button type="submit" ng-disabled="form.$invalid" ng-click="register()" class="btn btn-primary">Submit</button><br />
-	  <span ng-show="RegisterController.fetchingData">Loading... Please wait</span>
-	</form><br />
-	<a href="#/login">Log in.</a>
+<div class="container col-md-6 col-md-offset-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Please Fill out Registration Form:</h3>
+        </div>
+        <div class="panel-body">
+            <div ng-show="RegisterController.error_message" class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                {{ RegisterController.error_message }}
+            </div>
+            <div ng-show="RegisterController.success_message" class="alert alert-success" role="alert">
+                <span class="glyphicon glyphicon glyphicon-saved" aria-hidden="true"></span>
+                {{ RegisterController.success_message }}
+            </div>
+            <form name="form" role="form">
+              <div class="form-group">
+                <label for="registerEmail">Email address:</label>
+                <input type="email" class="form-control" id="registerEmail" ng-model="RegisterController.email" placeholder="Email" required>
+              </div>
+              <div class="form-group">
+                <label for="registerPassword">Password:</label>
+                <input type="password" class="form-control" id="registerPassword" ng-model="RegisterController.password" placeholder="Password" required>
+              </div>
+              <div class="form-group">
+                <label for="registerConfirmPassword">Confirm Password:</label>
+                <input type="password" class="form-control" id="registerConfirmPassword" ng-model="RegisterController.confirmPassword" placeholder="Password" required>
+              </div>
+              <button type="submit" ng-disabled="form.$invalid" ng-click="register()" class="btn btn-primary">Submit</button><br />
+              <span ng-show="RegisterController.fetchingData">Loading... Please wait</span>
+            </form><br />
+            <a href="#/login">Already a user? Log in Here.</a>
+        </div>
+    </div>
 </div>	

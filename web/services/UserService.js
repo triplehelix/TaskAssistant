@@ -1,7 +1,7 @@
 (function() {
 	angular.module('taskAssistant').
-	factory('UserService', ['$http', '$cookies', '$rootScope', function($http, $cookies, $rootScope){
-		var service = {}
+	factory('UserService', ['$http',  function($http){
+		var service = {};
 		
 		service.createUser = function(email, password, callbackFunction) {
 			var response;
@@ -12,10 +12,10 @@
 			});
 			*/
 			//Mock backend response to be true for the moment
-			if(email){
+			if(email != "mike@test.com"){
 				response = { success : true };
 			}else{
-				response = { error : { code: 101, message: "invalid email"} };
+				response = { error : { code: 101, message: "An account has already been registered with that e-mail address."} };
 			}
 			callbackFunction(response);
 		};
