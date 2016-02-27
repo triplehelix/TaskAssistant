@@ -10,8 +10,8 @@
             var that = this;
             that.email = $scope.RegisterController.email;
             that.password = $scope.RegisterController.password;
-            that.checkPassword = $scope.RegisterController.checkPassword;
-            if (that.password != that.checkPassword) {
+            that.confirmPassword = $scope.RegisterController.confirmPassword;
+            if (that.password != that.confirmPassword) {
                 $log.error("The submitted passwords do not match. Aborting Registration.");
                 var msg = "Inputted passwords do not match. Please re-enter and try again.";
                 $scope.RegisterController.error_message = msg;
