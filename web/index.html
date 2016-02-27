@@ -31,13 +31,14 @@
 
     <div class="container">
 		<div class="row">
-		  <div class="header clearfix">
+		  <div class="header clearfix" ng-controller="NavController">
 			<nav>
 			  <ul class="nav nav-pills pull-right">
-				<li role="presentation" class="active"><a href="#">Dashboard</a></li>
-				<li role="presentation"><a href="#/tasks">Tasks</a></li>
-                <li role="presentation"><a href="#/schedule">Schedule</a></li>
-				<li role="presentation"><a href="#/reports">Reports</a></li>
+                <li role="presentation" id="nav-login" ng-class="{ active: isActive('/login')}"><a href="#/login">Login</a></li>
+				<li role="presentation" id="nav-dashboard" ng-class="{ active: isActive('/')}"><a href="#/">Dashboard</a></li>
+				<li role="presentation" id="nav-tasks" ng-class="{ active: isActive('/tasks')}"><a href="#/tasks">Tasks</a></li>
+                <li role="presentation" id="nav-schedule" ng-class="{ active: isActive('/schedule')}"><a href="#/schedule">Schedule</a></li>
+				<li role="presentation" id="nav-reports" ng-class="{ active: isActive('/reports')}"><a href="#/reports">Reports</a></li>
 			  </ul>
 			</nav>
 			<h3 class="text-muted">Task Assistant</h3>
@@ -61,12 +62,13 @@
 	<!-- Angular -->
 	<script src="app.js"></script>
 	<!-- Controllers -->
+    <script src="controllers/nav_controller.js"></script>
 	<script src="controllers/dashboard_controller.js"></script>
 	<script src="controllers/task_controller.js"></script>
 	<script src="controllers/schedule_controller.js"></script>
 	<script src="controllers/login_controller.js"></script>
 	<script src="controllers/register_controller.js"></script>
-	
+    <script src="controllers/reports_controller.js"></script>
 	<!-- Services -->
 	<script src="services/AuthService.js"></script>
 	<script src="services/UserService.js"></script>

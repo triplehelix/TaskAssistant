@@ -24,6 +24,10 @@
 					templateUrl: 'views/schedule.html',
 					controller: 'ScheduleController'
 				}).
+				when('/reports', {
+					templateUrl: 'views/reports.html',
+					controller: 'ReportsController'
+				}).
 				otherwise({redirectTo: '/login'});
 		}]);
 		/**.run(['$rootScope', '$location', '$cookies', '$http', '$log', function($rootScope, $location, $cookies, $http, $log) {
