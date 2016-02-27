@@ -1,5 +1,5 @@
 (function() {
-	//var NO_AUTH_PAGES = ['/login', '/register'];
+	var NO_AUTH_PAGES = ['/login', '/register'];
 	
 	angular.module('taskAssistant', ['ngRoute', 'ngCookies' ]).
 		config(['$routeProvider', function($routeProvider) {
@@ -29,22 +29,21 @@
 					controller: 'ReportsController'
 				}).
 				otherwise({redirectTo: '/login'});
-		}]);
-		/**.run(['$rootScope', '$location', '$cookies', '$http', '$log', function($rootScope, $location, $cookies, $http, $log) {
+		}]).run(['$rootScope', '$location', '$cookies', '$http', '$log', function($rootScope, $location, $cookies, $http, $log) {
 			$rootScope.globals = $cookies.get('globals') || {};
-		    $log.info("globals: " + $rootScope.globals);
+		    $log.debug("globals.currentUser: " + $rootScope.globals.currentUser);
 			if ($rootScope.globals.currentUser) {
 				$http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
 			}
 			
 			$rootScope.$on('$locationChangeStart', function(event, next, current){
-				var pageRestricted = $.inArray($location.path(), NO_AUTH_PAGES) === -1;
-				
+				var pageRestricted = NO_AUTH_PAGES.indexOf($location.path()) == -1;
 				var authenticated = $rootScope.globals.currentUser;
+				$log.debug("Location change event-pageRestricted:" + pageRestricted + " authenticated:" + !!authenticated);
 				if(pageRestricted && !authenticated){
 					$location.path('/login');
 				}
 			});
-		}]); */
+		}]);
 
 })();
