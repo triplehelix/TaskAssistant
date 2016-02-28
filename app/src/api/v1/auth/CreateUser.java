@@ -57,13 +57,8 @@ public class CreateUser extends BaseAuthRequestHandler{
 			log.error(e.getMessage());
 			errorMsg="Error. " + e.getMessage();
 			error=true;
-		}
-		
-		//Return success or error via JSON.
-		JSONObject obj = new JSONObject();
-		obj.put("error", error);
-		obj.put("errorMsg", errorMsg);		
-		PrintWriter out = response.getWriter();
-		out.println(obj);
+		}		
+		//sendResponse is inherited from BaseRequestHandler
+		sendResponse(error, errorMsg, response);
 	}
 }

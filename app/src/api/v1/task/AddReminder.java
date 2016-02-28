@@ -33,11 +33,12 @@ public class AddReminder extends BaseAuthRequestHandler{
 		boolean error = false;
 		String errorMsg = "no error";
 		// Step 1: parse taskId and reminderDate.
+
 		JSONObject jsonRequest = parseRequest(request.getParameter("params"));		
 		Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminder_time"));		
 		Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("task_id"));		
 
-		//Step 2: determine error status
+			//Step 2: determine error status
 		if(null==taskId){
 			error=true;	
 			errorMsg="Non-Integer task id recieved.";
@@ -51,18 +52,11 @@ public class AddReminder extends BaseAuthRequestHandler{
 		Reminder reminder = new Reminder();
 		if(!error){
 			reminder.setTaskId((int)taskId);
-			reminder.setReminderTime(reminderDate);
+		reminder.setReminderTime(reminderDate);
 		}else
 			reminder=null;		
-		
-		//Step 4: return success or error via JSON.
-		JSONObject obj = new JSONObject();
-		obj.put("error", error);
-		obj.put("errorMsg", errorMsg);
-		
-		//Step 5: output
-		PrintWriter out = response.getWriter();
-		out.println(obj);
-		//TODO write to database?
+
+		//sendResponse is inherited from BaseRequestHandler
+		sendResponse(error, errorMsg, response);
 	}
 }

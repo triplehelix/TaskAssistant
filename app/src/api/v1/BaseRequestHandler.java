@@ -1,10 +1,13 @@
 package api.v1;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.security.auth.Subject;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,6 +22,7 @@ import api.v1.repo.UserRepository;
  * @author kennethlyon
  *
  */
+
 public class BaseRequestHandler extends HttpServlet{
 	protected static UserRepository userRepository;
 	
@@ -56,7 +60,7 @@ protected JSONObject parseRequest(String requestString){
 	 * @param stringDate
 	 * @return
 	 */
-	protected Date parseJsonDateAsDate(String stringDate){		
+	protected Date parseJsonDateAsDate(String stringDate) {
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
 		Date result = null;
 		try{
@@ -82,5 +86,28 @@ protected JSONObject parseRequest(String requestString){
 			log.error("Exception while parsing integer token: " + i);
 		}
 		return myInt;
+	}
+
+	/**
+	 * This method sends success/failure response back to the web layer that 
+	 * called the given servlet subclass. It also logs an error 
+	 * 
+	 * @param error
+	 * @param message
+	 * @param response
+	 */
+	@SuppressWarnings("unchecked")
+	protected static void sendResponse(boolean error, String message, HttpServletResponse response){
+		String jsonError=" IOException: JSON response could not be made.";
+		try{
+			JSONObject obj = new JSONObject();
+			obj.put("error", error);
+			obj.put("errorMsg", message);
+		
+			PrintWriter out = response.getWriter();
+			out.println(obj);
+		}catch(IOException e){
+			log.error("Servlet error: " + message + jsonError);
+		}
 	}
 }
