@@ -17,7 +17,7 @@ public class User {
 	/**
 	 * Create an empty User object.
 	 */
-	public User(){		
+	public User(){
 	}
 		
 	public int getId() {

@@ -1,7 +1,5 @@
-package api.v1.tasklist;
+package api.v1.model;
 import java.util.ArrayList;
-
-import api.v1.model.Task;
 
 /**
  * This class serves as a list of Tasks. 
@@ -19,8 +17,4 @@ public class TaskList {
 	public void addTask(Task task){
 		this.taskArrayList.add(task);
 	}
-	
-
-
-	
 }

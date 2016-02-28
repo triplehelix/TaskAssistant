@@ -14,7 +14,7 @@ import api.v1.BaseAuthRequestHandler;
 import api.v1.model.Reminder;
 
 /**
- * 
+ * TODO refactor this class in the form of CreateUser.
  * @author kennethlyon
  *
  */
@@ -22,11 +22,11 @@ public class AddReminder extends BaseAuthRequestHandler{
 
 	/**
 	 * Request
-	 *   Task_id
-	 *   Reminder_time
+	 *   task_id
+	 *   reminder_time
 	 * Response
-	 *   Success
-	 *   Error
+	 *   success
+	 *   error
 	 */
 	public void doPost(HttpServletRequest request, 
 				HttpServletResponse response)throws ServletException, IOException {

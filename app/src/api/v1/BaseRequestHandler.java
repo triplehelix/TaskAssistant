@@ -11,6 +11,8 @@ import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import api.v1.repo.UserRepository;
+
 /**
  * This class is used by all handlers to parse the JSONObject referred
  * to as the JSONObject.
@@ -18,7 +20,13 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class BaseRequestHandler extends HttpServlet{
-private static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
+	protected static UserRepository userRepository;
+	
+	static{
+		userRepository=new UserRepository();
+	}
+
+protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
 private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";		
 	
 protected JSONObject parseRequest(String requestString){

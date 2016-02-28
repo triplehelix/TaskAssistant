@@ -20,19 +20,21 @@ public class Task {
 	 * Create a new task that comes from the database. Such a task will
 	 * be supplied an ID.
 	 */
-	public Task(int id, String name, boolean important)
+	public Task(int id)
 	{
-		this(name, important);
 		this.id=id;
+		this.note="";
+		this.estimatedTime=0;
+		this.investedTime=0;
+		this.urgent=false;
+		this.dueDate=null;
 	}
 	
 	/**
 	 * Create a new task that comes from the client. Such an instantiation
 	 * should not be supplied an ID value.
 	 */
-	public Task(String name, boolean important){
-		this.name = name;
-		this.important = important;
+	public Task(){
 		this.note="";
 		this.estimatedTime=0;
 		this.investedTime=0;
