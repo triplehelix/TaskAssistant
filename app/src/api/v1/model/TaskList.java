@@ -9,12 +9,18 @@ import java.util.ArrayList;
  */
 public class TaskList {	
 	private ArrayList<Task> taskArrayList;
-
-	public TaskList(){
-		this.taskArrayList = new ArrayList<Task>();
+	private int id;
+	private String description;
+	
+	/**
+	 * Use this constructor to fetch a TaskList that already exists.
+	 * @param id
+	 */
+	public TaskList(int id){
+		
 	}
 	
-	public void addTask(Task task){
-		this.taskArrayList.add(task);
-	}
+	public TaskList(){
+		this.taskArrayList = new ArrayList<Task>();
+	}	
 }
