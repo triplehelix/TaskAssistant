@@ -15,6 +15,8 @@ public class Task {
 	private long investedTime;
 	private boolean urgent;
 	private Date dueDate;
+	private enum Status{NEW, IN_PROGRESS, DELIGATED, DEFERRED, DONE};
+	private Status status;
 	/* Mike thinks we need to add a "status" field. Methinks this is a good idea.
 	 * TODO all status field. Should be enum.
 	 */

@@ -1,66 +1,54 @@
 package api.v1.task;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
 import api.v1.BaseAuthRequestHandler;
+import api.v1.error.BaseRequestException;
 import api.v1.model.Reminder;
 
 /**
- * TODO refactor this class in the form of CreateUser.
+ * Add Reminder allows the client to add a reminder for a given 
+ * task. A valid reminder must specify a task by it's task_id and 
+ * specify a time that the reminder must be made. 
+ * for this task. 
  * @author kennethlyon
  *
  */
+@SuppressWarnings("serial")
+@WebServlet("/api/v1/task/AddReminder")
 public class AddReminder extends BaseAuthRequestHandler{
 
-/* The standard thing to do is have your Servlet's doXxx() method
- * (eg. doGet(), doPost(), etc.) throw a ServletException and allow 
- * the container to catch and handle it.  
- */
-
-
 	/**
-	 * Request
-	 *   task_id
-	 *   reminder_time
-	 * Response
-	 *   success
-	 *   error
+	 * Post a new Reminder object. Request must provide task_id and reminder_time. 
+	 * Responds with success or error.
 	 */
 	public void doPost(HttpServletRequest request, 
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
 		// Step 1: parse taskId and reminderDate.
-
-		JSONObject jsonRequest = parseRequest(request.getParameter("params"));		
-		Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminder_time"));		
-		Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("task_id"));		
-
-			//Step 2: determine error status
-		if(null==taskId){
-			error=true;	
-			errorMsg="Non-Integer task id recieved.";
-		}
-		if(null==reminderDate){
-			error=true;
-			errorMsg="Malformed reminder date recieved.";
-		}
-
-		//Step 3: Conditionally create a reminder.		
-		Reminder reminder = new Reminder();
-		if(!error){
+		try{
+			JSONObject jsonRequest = parseRequest(request.getParameter("params"));		
+			Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminder_time"));		
+			Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("task_id"));		
+			Reminder reminder = new Reminder();
 			reminder.setTaskId((int)taskId);
-		reminder.setReminderTime(reminderDate);
-		}else
-			reminder=null;		
+			reminder.setReminderTime(reminderDate);
+			
+			//TODO add a reminder object. 
+			
+		}catch(BaseRequestException e){
+			errorMsg=e.getMessage();
+			error=true;
+		}
 		//
 		//sendResponse is inherited from BaseRequestHandler
 		sendResponse(error, errorMsg, response);

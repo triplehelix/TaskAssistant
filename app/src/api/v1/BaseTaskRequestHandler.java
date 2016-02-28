@@ -1,6 +1,5 @@
 package api.v1;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 public class BaseTaskRequestHandler extends BaseRequestHandler{
 
