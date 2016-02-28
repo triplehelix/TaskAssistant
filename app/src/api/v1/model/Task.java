@@ -15,7 +15,9 @@ public class Task {
 	private long investedTime;
 	private boolean urgent;
 	private Date dueDate;
-	
+	/* Mike thinks we need to add a "status" field. Methinks this is a good idea.
+	 * TODO all status field. Should be enum.
+	 */
 	/**
 	 * Create a new task that comes from the database. Such a task will
 	 * be supplied an ID.

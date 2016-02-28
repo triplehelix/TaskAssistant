@@ -20,6 +20,12 @@ import api.v1.model.Reminder;
  */
 public class AddReminder extends BaseAuthRequestHandler{
 
+/* The standard thing to do is have your Servlet's doXxx() method
+ * (eg. doGet(), doPost(), etc.) throw a ServletException and allow 
+ * the container to catch and handle it.  
+ */
+
+
 	/**
 	 * Request
 	 *   task_id
@@ -55,7 +61,7 @@ public class AddReminder extends BaseAuthRequestHandler{
 		reminder.setReminderTime(reminderDate);
 		}else
 			reminder=null;		
-
+		//
 		//sendResponse is inherited from BaseRequestHandler
 		sendResponse(error, errorMsg, response);
 	}

@@ -57,7 +57,7 @@ public class CreateUser extends BaseAuthRequestHandler{
 			log.error(e.getMessage());
 			errorMsg="Error. " + e.getMessage();
 			error=true;
-		}		
+		}
 		//sendResponse is inherited from BaseRequestHandler
 		sendResponse(error, errorMsg, response);
 	}

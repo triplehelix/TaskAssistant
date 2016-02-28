@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.security.auth.Subject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,13 +35,14 @@ public class BaseRequestHandler extends HttpServlet{
 protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
 private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";		
 	
-protected JSONObject parseRequest(String requestString){
-		JSONObject param = null;		
+protected JSONObject parseRequest(String requestString) throws ServletException {
+		JSONObject param = null;	
 		try{
 			JSONParser parser = new JSONParser();
 			param =  (JSONObject) parser.parse(requestString);
-		}catch(org.json.simple.parser.ParseException e){
+		}catch(ParseException e){
 			log.error("Exception while parsing request: " + requestString);
+			throw new ServletException("Could not parse Json string: "+ requestString);
 		}
 		return param;
 	}
@@ -60,13 +63,14 @@ protected JSONObject parseRequest(String requestString){
 	 * @param stringDate
 	 * @return
 	 */
-	protected Date parseJsonDateAsDate(String stringDate) {
+	protected Date parseJsonDateAsDate(String stringDate) throws ServletException{
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
 		Date result = null;
 		try{
 			result = df.parse(stringDate);
 		} catch (java.text.ParseException e) {			
 			log.error("Exception while parsing date token: " + stringDate);
+			throw new ServletException("Could not parse date string: " + stringDate);
 		}
 			return result;
 	}
@@ -78,12 +82,13 @@ protected JSONObject parseRequest(String requestString){
 	 * @param i
 	 * @return
 	 */
-	protected Integer parseJsonIntAsInt(String i){
+	protected Integer parseJsonIntAsInt(String i) throws ServletException{
 		Integer myInt = null;
 		try{
 			myInt = Integer.parseInt(i);
 		}catch(NumberFormatException e){
 			log.error("Exception while parsing integer token: " + i);
+			throw new ServletException("Could not read string as int:" + i);
 		}
 		return myInt;
 	}
@@ -97,17 +102,12 @@ protected JSONObject parseRequest(String requestString){
 	 * @param response
 	 */
 	@SuppressWarnings("unchecked")
-	protected static void sendResponse(boolean error, String message, HttpServletResponse response){
+	protected static void sendResponse(boolean error, String message, HttpServletResponse response) throws IOException{
 		String jsonError=" IOException: JSON response could not be made.";
-		try{
-			JSONObject obj = new JSONObject();
-			obj.put("error", error);
-			obj.put("errorMsg", message);
-		
-			PrintWriter out = response.getWriter();
-			out.println(obj);
-		}catch(IOException e){
-			log.error("Servlet error: " + message + jsonError);
-		}
+		JSONObject obj = new JSONObject();
+		obj.put("error", error);
+		obj.put("errorMsg", message);
+		PrintWriter out = response.getWriter();
+		out.println(obj);		
 	}
 }
