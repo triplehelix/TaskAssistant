@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Task Assistant WebApplication">
+    <meta name="author" content="Ken Lyon & Michael Hedden">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Task Assistant WebApplication</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+    <!-- Custom styles for this template -->
+    <link href="./assets/css/app.css" rel="stylesheet">
+	
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="./assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script src="./assets/js/ie-emulation-modes-warning.js"></script>
+
+	<!-- Angular Minified -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-cookies.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
+  </head>
+
+  <body ng-app="taskAssistant">
+
+    <div class="container">
+		<div class="row">
+		  <div class="header clearfix" ng-controller="NavController">
+			<nav>
+			  <ul class="nav nav-pills pull-right">
+                <li role="presentation" id="nav-login" ng-class="{ active: isActive('/login')}"
+					ng-show="currentUser == null"><a href="#/login">Login</a></li>
+				<li role="presentation" id="nav-logout" ng-class="{ active: isActive('/logout')}"
+					ng-show="currentUser != null"><a href="#/logout">Logout</a></li>
+				<li role="presentation" id="nav-dashboard" ng-class="{ active: isActive('/')}"><a href="#/">Dashboard</a></li>
+				<li role="presentation" id="nav-tasks" ng-class="{ active: isActive('/tasks')}"><a href="#/tasks">Tasks</a></li>
+                <li role="presentation" id="nav-schedule" ng-class="{ active: isActive('/schedule')}"><a href="#/schedule">Schedule</a></li>
+				<li role="presentation" id="nav-reports" ng-class="{ active: isActive('/reports')}"><a href="#/reports">Reports</a></li>
+			  </ul>
+			</nav>
+			<h3 class="text-muted">Task Assistant</h3>
+		  </div>
+		</div>
+		
+		<div class="row">
+		    <div class="col-sm-12 col-sm-offset-0">
+			  <div ng-view></div>
+		    </div>
+		</div>
+
+		<div class="row">
+		    <footer class="footer">
+			  <p>&copy; 2016 Ken Lyon and Michael Hedden</p>
+		    </footer>
+		</div>
+
+    </div> <!-- /container -->
+
+	<!-- Angular -->
+	<script src="app.js"></script>
+	<!-- Controllers -->
+    <script src="controllers/nav_controller.js"></script>
+	<script src="controllers/dashboard_controller.js"></script>
+	<script src="controllers/task_controller.js"></script>
+	<script src="controllers/schedule_controller.js"></script>
+	<script src="controllers/login_controller.js"></script>
+	<script src="controllers/logout_controller.js"></script>
+	<script src="controllers/register_controller.js"></script>
+    <script src="controllers/reports_controller.js"></script>
+	<!-- Services -->
+	<script src="services/AuthService.js"></script>
+	<script src="services/UserService.js"></script>
+	
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
