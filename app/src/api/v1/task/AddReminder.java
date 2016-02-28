@@ -15,26 +15,20 @@ import api.v1.error.BaseRequestException;
 import api.v1.model.Reminder;
 
 /**
- * TODO refactor this class in the form of CreateUser.
+ * Add Reminder allows the client to add a reminder for a given 
+ * task. A valid reminder must specify a task by it's task_id and 
+ * specify a time that the reminder must be made. 
+ * for this task. 
  * @author kennethlyon
  *
  */
+@SuppressWarnings("serial")
 @WebServlet("/api/v1/task/AddReminder")
 public class AddReminder extends BaseAuthRequestHandler{
 
-/* The standard thing to do is have your Servlet's doXxx() method
- * (eg. doGet(), doPost(), etc.) throw a ServletException and allow 
- * the container to catch and handle it.  
- */
-
-
 	/**
-	 * Request
-	 *   task_id
-	 *   reminder_time
-	 * Response
-	 *   success
-	 *   error
+	 * Post a new Reminder object. Request must provide task_id and reminder_time. 
+	 * Responds with success or error.
 	 */
 	public void doPost(HttpServletRequest request, 
 				HttpServletResponse response)throws ServletException, IOException {
@@ -48,6 +42,8 @@ public class AddReminder extends BaseAuthRequestHandler{
 			Reminder reminder = new Reminder();
 			reminder.setTaskId((int)taskId);
 			reminder.setReminderTime(reminderDate);
+			
+			//TODO add a reminder object. 
 			
 		}catch(BaseRequestException e){
 			errorMsg=e.getMessage();

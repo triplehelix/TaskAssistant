@@ -19,8 +19,23 @@ public class TaskList {
 	public TaskList(int id){
 		
 	}
-	
 	public TaskList(){
 		this.taskArrayList = new ArrayList<Task>();
+	}
+	
+	public ArrayList<Task> getTaskArrayList() {
+		return taskArrayList;
+	}
+	public void setTaskArrayList(ArrayList<Task> taskArrayList) {
+		this.taskArrayList = taskArrayList;
+	}
+	public int getId() {
+		return id;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}	
 }
