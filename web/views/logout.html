@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="container col-md-6 col-md-offset-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Log out:</h3>
+        </div>
+        <div class="panel-body">
+            <div ng-show="LogoutController.error_message" class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                {{ LogoutController.error_message }}
+            </div>
+            <div ng-show="currentUser == null" class="alert alert-info" role="alert">
+                <span class="glyphicon glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                User Logged out.
+            </div>
+            <div ng-show="currentUser == null">
+                Would you like to <a href="#/login">login</a> or <a href="#/register">register</a>
+                another user?
+            </div>
+            <form name="form" role="form" ng-show="currentUser != null">
+                <label>Log out {{ currentUser }} of Task Assistant?:</label>
+                <button name="logout" type="submit"  ng-click="logout()" class="btn btn-primary btn-md">Logout</button><br />
+                <span ng-show="LogoutController.fetchingData">Loading... Please wait</span>
+            </form><br />
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 (function() {
 	angular.module('taskAssistant').
 	factory('AuthService', ['$http', '$cookies', '$rootScope', function($http, $cookies, $rootScope){
-		var service = {}
+		var service = {};
 		
 		service.login = function(email, password, callbackFunction) {
 			var response;
@@ -27,18 +27,21 @@
 		};
 		
 		service.setCreds = function(email, password) {
-			// TODO Replace with encryption
-			var userCreds = email + ':' + password;
-			
+			var userCreds = encrypt(email,password);
 			$rootScope.globals = {
 				currentUser: {
 					email: email,
 					userCreds: userCreds				
 				}
 			};
-			
 			$http.defaults.headers.common['Authorization'] = 'Basic ' + userCreds;
 			$cookies.put('globals', $rootScope.globals);
+		};
+
+		encrypt = function(email, password){
+			// TODO implement encryption algorithm
+			var encryptedToken = email + ':' + password;
+			return encryptedToken;
 		};
 		
 		return service;
