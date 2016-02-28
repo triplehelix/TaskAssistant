@@ -1,5 +1,7 @@
 package api.v1.repo;
 
+import java.sql.SQLException;
+
 import api.v1.model.User;
 
 public class UserRepository implements Repository<User>{
@@ -8,7 +10,7 @@ public class UserRepository implements Repository<User>{
 	 *  Add a user to the database. If the user already exists.
 	 *  Throw an exception.
 	 */
-	public void add(User u) throws Exception{
+	public void add(User u) throws SQLException{
 		// TODO Auto-generated method stub
 	}
 
@@ -21,7 +23,7 @@ public class UserRepository implements Repository<User>{
 	 * known user name and password.
 	 * 
 	 */
-	public User get(User u)throws Exception{
+	public User get(User u)throws SQLException{
 		// TODO Auto-generated method stub
 		return null;
 	}

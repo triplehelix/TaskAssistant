@@ -1,6 +1,4 @@
 package api.v1;
-import javax.servlet.ServletException;
-
 import api.v1.error.BadEmailException;
 import api.v1.error.BadPasswordException;
 import api.v1.error.BaseAuthRequestException;
@@ -37,7 +35,6 @@ public class BaseAuthRequestHandler extends BaseRequestHandler{
 	 * @throws Exception
 	 */
 	protected String parseJsonAsPassword(String password) throws BaseAuthRequestException{
-		password=password.trim();
 		try{
 		if(!password.matches("^[a-zA-Z]\\w{3,14}$"))
 			throw new BadPasswordException("Password: '"+ password + "' not strong enough.");

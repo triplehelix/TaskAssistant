@@ -1,9 +1,9 @@
 package api.v1.auth;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +19,7 @@ import api.v1.repo.UserRepository;
  * @author kennethlyon
  *
  */
+@WebServlet("/api/v1/auth/CreateUser")
 public class CreateUser extends BaseAuthRequestHandler{
 	/**
 	 * POST
@@ -34,6 +35,7 @@ public class CreateUser extends BaseAuthRequestHandler{
 	 * @throws ServletException
 	 * @throws IOException
 	 */
+
 	public void doPost(HttpServletRequest request, 
 			HttpServletResponse response)throws ServletException, IOException {
 		//First get the email and password.
@@ -43,7 +45,7 @@ public class CreateUser extends BaseAuthRequestHandler{
 		try{
 			JSONObject jsonRequest=parseRequest(request.getParameter("params"));
 			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
-			String password= parseJsonAsEmail((String)jsonRequest.get("password"));
+			String password= parseJsonAsPassword((String)jsonRequest.get("password"));
 			user.setEmail(email);
 			user.setPassword(password);
 			
@@ -52,7 +54,6 @@ public class CreateUser extends BaseAuthRequestHandler{
 			 * repository too. So we do this: (which makes even less sense)
 			 */
 			new UserRepository().add(user);
-
 		}catch(Exception e){
 			log.error(e.getMessage());
 			errorMsg="Error. " + e.getMessage();
