@@ -1,5 +1,6 @@
 /bin/
-/target/
+*/target/
+*/WebContent/
 *bin/
 *workspace/
 *data/
@@ -11,5 +12,9 @@
 .DS_Store
 temp
 .~lock.*
+# Exclide IDE related files:
 *eclipse*
 .idea/
+*.settings/
+*.classpath
+*.project
