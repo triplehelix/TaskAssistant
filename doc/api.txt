@@ -1,0 +1,133 @@
+===========================================================================
+Model:
+·  Users
+·  Taskslist_users
+·  Tasklist
+·  Tasklist_tasks
+·  Tasks
+·  Reminders
+·  Categories_tasks
+·  Categories
+·  Category_user
+·  Users_calendars
+·  Calendars
+ 
+API:
+** /api/v1/auth/validateuser
+o POST
+·  Request
+   ·  Email
+   ·  Password
+·  Response
+   ·  Authenticated
+   ·  Error
+** /api/v1/auth/createuser
+o POST
+·  Request
+   ·  Email
+   ·  Password
+·  Response
+   ·  Success
+   ·  Error
+** /api/v1/auth/forgotpassword (secondary)
+o POST
+·  Request
+   ·  Email
+·  Reponse
+   ·  Success
+   ·  Error
+** /api/v1/auth/updatepassword (secondary)
+o POST
+·  Request
+   ·  Email
+   ·  Old_password
+   ·  Password
+.  Response
+   .  Success
+   ·  error
+
+** /api/v1/user/addtasklist
+o POST
+·  Request
+   ·  UserID
+   ·  Tasklistid (can be null)
+   ·  Name (can be null)
+   ·  Description (can be null)
+   ·  Permission
+·  Response
+   ·  Success
+   ·  Tasklistid
+   ·  Error
+** /api/v1/user/addcalendar
+o POST
+·  Request
+   ·  User_Id
+   ·  Calendar_type
+   ·  Remote_Calendar_id
+   ·  Calendar_client_id
+   ·  Calendar_secret
+·  Response
+   ·  Success
+   ·  Error
+** /api/v1/user/updatecalendar
+o POST
+·  Request
+   ·  Calendar_id
+   ·  Calendar_type
+   ·  Remote_calendar_id
+   ·  Calendar_client_id
+   ·  Calendar_secret
+·  Response
+   ·  Success
+   ·  Error
+** /api/v1/user/addcategory
+o POST
+·  Request
+   ·  Category_name
+   ·  User_id
+   ·  Category_timespan
+·  Response
+   ·  Success
+   ·  Error
+** /api/v1/user/updatecategory
+** /api/v1/user/getcategories
+** /api/v1/user/getreminders
+** /api/v1/user/getrecommendation
+** /api/v1/user/getschedule
+
+** /api/v1/task/addtask
+o POST
+·  Request
+   ·  Tasklist_id
+   ·  Category_id
+   ·  Name
+   ·  Estimated_time
+   ·  Invested_time
+   ·  scheduled_time
+   ·  Importance
+   ·  Urgency
+   ·  Deadline
+·  Response
+   ·  Success
+   ·  Error
+** /api/v1/task/addreminder
+o POST
+·  Request
+   ·  Task_id
+   ·  Reminder_time
+·  Response
+   ·  Success
+   ·  Error
+** /api/v1/task/updatetask
+** /api/v1/task/updatereminder
+
+** /api/v1/tasklist/updatetasklist (secondary)
+o POST
+·  Request
+   ·  TasklistId
+   ·  Name
+   ·  Description
+·  Response
+   ·  Success
+   ·  Error
+** /api/v1/tasklist/gettasks

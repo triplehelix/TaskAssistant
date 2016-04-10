@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.security.auth.Subject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +16,6 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import api.v1.error.BaseRequestException;
 import api.v1.repo.UserRepository;
 
 /**
@@ -34,14 +34,14 @@ public class BaseRequestHandler extends HttpServlet{
 protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
 private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";		
 	
-protected JSONObject parseRequest(String requestString) throws BaseRequestException {
+protected JSONObject parseRequest(String requestString)  throws ServletException {
 		JSONObject param = null;	
 		try{
 			JSONParser parser = new JSONParser();
 			param =  (JSONObject) parser.parse(requestString);
 		}catch(ParseException e){
 			log.error("Exception while parsing request: " + requestString);
-			throw new BaseRequestException("Could not parse Json string: "+ requestString);
+			throw new ServletException ("Could not parse Json string: "+ requestString);
 		}
 		return param;
 	}
@@ -62,14 +62,14 @@ protected JSONObject parseRequest(String requestString) throws BaseRequestExcept
 	 * @param stringDate
 	 * @return
 	 */
-	protected Date parseJsonDateAsDate(String stringDate) throws BaseRequestException{
+	protected Date parseJsonDateAsDate(String stringDate) throws ServletException {
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
 		Date result = null;
 		try{
 			result = df.parse(stringDate);
 		} catch (java.text.ParseException e) {			
 			log.error("Exception while parsing date token: " + stringDate);
-			throw new BaseRequestException("Could not parse date string: " + stringDate);
+			throw new ServletException("Could not parse date string: " + stringDate);
 		}
 			return result;
 	}
@@ -81,14 +81,14 @@ protected JSONObject parseRequest(String requestString) throws BaseRequestExcept
 	 * @param i
 	 * @return
 	 */
-	protected Integer parseJsonIntAsInt(String i) throws BaseRequestException{
+	protected Integer parseJsonIntAsInt(String i) throws ServletException {
 		Integer myInt = null;
 		String nfeError="Exception while parsing integer token: " + i;
 		try{
 			myInt = Integer.parseInt(i);
 		}catch(NumberFormatException e){
 			log.error(nfeError);
-			throw new BaseRequestException(nfeError);
+			throw new ServletException(nfeError);
 		}
 		return myInt;
 	}

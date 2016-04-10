@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
 import api.v1.BaseAuthRequestHandler;
-import api.v1.error.BaseRequestException;
 import api.v1.model.Reminder;
 
 /**

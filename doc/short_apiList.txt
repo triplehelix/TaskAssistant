@@ -1,0 +1,27 @@
+
+***** Authorization
+* /api/v1/auth/validateuser
+* /api/v1/auth/createuser
+** /api/v1/auth/forgotpassword (secondary)
+** /api/v1/auth/updatepassword (secondary)
+
+***** Users
+** /api/v1/user/addcalendar
+** /api/v1/user/addtasklist
+** /api/v1/user/updatecalendar
+** /api/v1/user/addcategory
+** /api/v1/user/updatecategory
+** /api/v1/user/getcategories
+** /api/v1/user/getreminders
+** /api/v1/user/getrecommendation
+** /api/v1/user/getschedule
+
+***** Task
+** /api/v1/task/addtask
+* /api/v1/task/addreminder
+** /api/v1/task/updatetask
+** /api/v1/task/updatereminder
+
+***** TaskList
+** /api/v1/tasklist/updatetasklist (secondary)
+** /api/v1/tasklist/gettasks
