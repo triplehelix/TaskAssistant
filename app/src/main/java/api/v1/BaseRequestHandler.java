@@ -25,26 +25,21 @@ import api.v1.repo.UserRepository;
  *
  */
 public class BaseRequestHandler extends HttpServlet{
-	protected static UserRepository userRepository;
-	
-	static{
-		userRepository=new UserRepository();
-	}
 
-protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
-private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";		
-	
-protected JSONObject parseRequest(String requestString)  throws ServletException {
-		JSONObject param = null;	
-		try{
-			JSONParser parser = new JSONParser();
-			param =  (JSONObject) parser.parse(requestString);
-		}catch(ParseException e){
-			log.error("Exception while parsing request: " + requestString);
-			throw new ServletException ("Could not parse Json string: "+ requestString);
-		}
-		return param;
+    protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
+    private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";		
+
+    protected JSONObject parseRequest(String requestString)  throws ServletException {
+	JSONObject param = null;	
+	try{
+	    JSONParser parser = new JSONParser();
+	    param =  (JSONObject) parser.parse(requestString);
+	}catch(ParseException e){
+	    log.error("Exception while parsing request: " + requestString);
+	    throw new ServletException ("Could not parse Json string: "+ requestString);
 	}
+	return param;
+    }
 	
 	/**
 	 * Incomplete. Always returns true.
@@ -82,7 +77,7 @@ protected JSONObject parseRequest(String requestString)  throws ServletException
 	 * @return
 	 */
 	protected Integer parseJsonIntAsInt(String i) throws ServletException {
-		Integer myInt = null;
+		Integer myInt=0;
 		String nfeError="Exception while parsing integer token: " + i;
 		try{
 			myInt = Integer.parseInt(i);

@@ -1,32 +1,56 @@
 package api.v1.repo;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import api.v1.model.User;
 
 public class UserRepository implements Repository<User>{
 
+	//private HashMap<Integer, User> userMap;
+	//
+	private HashMap<User, User> experimentalMap;
 	/**
-	 *  Add a user to the database. If the user already exists.
-	 *  Throw an exception.
-	 */
+	 *  Add a user to the user-map/database. If the user already exists,
+	 *  throw an exception.
+	 *
+	 * @param u
+	 * @throws SQLException
+     */
 	public void add(User u) throws SQLException{
-		// TODO Auto-generated method stub
+		String errMsg="User already exits.";
+		if(!experimentalMap.containsKey(u))
+			experimentalMap.put(u.makeShell(),u);
+		else
+			throw new SQLException();
+	}
+
+
+	/**
+	 * Returns a User with the same User ID
+	 * @param u
+	 * @return
+	 * @throws SQLException
+     */
+	public User get(User u)throws SQLException{
+		if(experimentalMap.containsKey(u))
+			return experimentalMap.get(u);
+		else
+			return deepSearch(u);
 	}
 
 	/**
-	 * This method must return an instance of a User, that is identical
-	 * to user that it was given. Since the user that it returns comes 
-	 * from the database, it cannot have a null id, email, or password.
-	 * 
-	 * Incoming methods are expected to either have a known id, OR a 
-	 * known user name and password.
-	 * 
-	 */
-	public User get(User u)throws SQLException{
-		// TODO Auto-generated method stub
+	 * Find a User from the database with the same User ID.
+	 * @param u
+	 * @return
+     */
+	private User deepSearch(User u) throws SQLException{
+		//TODO actually check the database for such an item.
+		if(true)
+			throw new SQLException("User does not exist");
 		return null;
 	}
+
 
 	public void update(User u) {
 		// TODO Auto-generated method stub	

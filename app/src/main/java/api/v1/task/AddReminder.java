@@ -44,7 +44,7 @@ public class AddReminder extends BaseAuthRequestHandler{
 			
 			//TODO add a reminder object. 
 			
-		}catch(BaseRequestException e){
+		}catch(Exception e){
 			errorMsg=e.getMessage();
 			error=true;
 		}

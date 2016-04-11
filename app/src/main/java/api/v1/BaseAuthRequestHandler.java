@@ -1,6 +1,7 @@
 package api.v1;
 import api.v1.error.BadEmailException;
 import api.v1.error.BadPasswordException;
+import api.v1.repo.UserRepository;
 
 /**
  * We probably won't use this.
@@ -8,7 +9,14 @@ import api.v1.error.BadPasswordException;
  *
  */
 public class BaseAuthRequestHandler extends BaseRequestHandler{
-	
+
+	/* Instantiate the user repository here. Only Auth classes need
+	 * to access to the userRepository.
+	 */
+	protected static UserRepository userRepository;
+	static{
+		userRepository=new UserRepository();
+	}
 	/**
 	 * Validates that an email is well formed. Throws Exception 
 	 * if it is not well formed.
@@ -25,7 +33,7 @@ public class BaseAuthRequestHandler extends BaseRequestHandler{
 			log.error("Exception while parsing request. " + e.getMessage());
 			throw new BadEmailException(e.getMessage());
 		}
-			return email;
+		return email;
 	}
 
 
