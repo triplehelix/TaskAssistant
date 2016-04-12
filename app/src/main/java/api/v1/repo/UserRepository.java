@@ -7,9 +7,8 @@ import api.v1.model.User;
 
 public class UserRepository implements Repository<User>{
 
-	//private HashMap<Integer, User> userMap;
-	//
-	private HashMap<User, User> experimentalMap;
+	private HashMap<Integer, User> userMap;
+
 	/**
 	 *  Add a user to the user-map/database. If the user already exists,
 	 *  throw an exception.
@@ -19,12 +18,11 @@ public class UserRepository implements Repository<User>{
      */
 	public void add(User u) throws SQLException{
 		String errMsg="User already exits.";
-		if(!experimentalMap.containsKey(u))
-			experimentalMap.put(u.makeShell(),u);
+		if(!userMap.containsKey(u))
+			userMap.put(u.getId(),u);
 		else
 			throw new SQLException();
 	}
-
 
 	/**
 	 * Returns a User with the same User ID
@@ -33,8 +31,8 @@ public class UserRepository implements Repository<User>{
 	 * @throws SQLException
      */
 	public User get(User u)throws SQLException{
-		if(experimentalMap.containsKey(u))
-			return experimentalMap.get(u);
+		if(userMap.containsKey(u))
+			return userMap.get(u);
 		else
 			return deepSearch(u);
 	}
@@ -50,7 +48,6 @@ public class UserRepository implements Repository<User>{
 			throw new SQLException("User does not exist");
 		return null;
 	}
-
 
 	public void update(User u) {
 		// TODO Auto-generated method stub	
