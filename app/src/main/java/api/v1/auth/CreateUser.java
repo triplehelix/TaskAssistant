@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
 
 import api.v1.BaseAuthRequestHandler;
@@ -42,8 +43,10 @@ public class CreateUser extends BaseAuthRequestHandler{
 		boolean error=false;
 		String errorMsg = "no error";
 		User user=new User();
+		int errorCode = 0;
+		JSONObject jsonRequest = new JSONObject();
 		try{
-			JSONObject jsonRequest=parseRequest(request.getParameter("params"));
+			jsonRequest=parseRequest(request.getParameter("params"));
 			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
 			String password= parseJsonAsPassword((String)jsonRequest.get("password"));
 			user.setEmail(email);
@@ -55,11 +58,21 @@ public class CreateUser extends BaseAuthRequestHandler{
 			 */
 			new UserRepository().add(user);
 		}catch(Exception e){
-			log.error("An error occurred while handling a CreateUser Request: {}.", request.toString(),  e);
+			log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(),  e);
 			errorMsg="Error. " + e.getMessage();
+			errorCode=1000;
 			error=true;
 		}
-		//sendResponse is inherited from BaseRequestHandler
-		sendResponse(error, errorMsg, response);
+
+
+		JSONObject jsonResponse = new JSONObject();
+		if (error){
+			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+		}else{
+			jsonResponse.put("success", true);
+		}
+
+
+		sendMessage(jsonResponse, response);
 	}
 }

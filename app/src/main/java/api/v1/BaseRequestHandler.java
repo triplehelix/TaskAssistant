@@ -109,4 +109,9 @@ protected JSONObject parseRequest(String requestString) throws BaseRequestExcept
 		PrintWriter out = response.getWriter();
 		out.println(obj);		
 	}
+
+	protected static void sendMessage(JSONObject response, HttpServletResponse httpResponse) throws IOException{
+		PrintWriter out = httpResponse.getWriter();
+		out.println(response);
+	}
 }
