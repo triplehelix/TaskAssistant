@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add a task!</h3>
+</div>
+<div class="modal-body">
+    <form name="form" role="form">
+        <div class="form-group">
+            <label for="taskName">Task Name:</label>
+            <input type="text" class="form-control" id="taskName" ng-model="TaskModal.name" placeholder="Task Name" required>
+        </div>
+        <div class="form-group">
+            <strong>Importance / Urgency:</strong><br />
+            <div class="col-md-1">
+                <input type="checkbox" class="check-box" id="importance" ng-model="TaskModal.important" value="important">
+            </div>
+            <div class="col-md-11">
+                <label for="importance">Important</label>
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" class="check-box" id="urgency" ng-model="TaskModal.urgent" value="urgent">
+            </div>
+            <div class="col-md-11">
+               <label for="urgency"> Urgent</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="estimatedTime">Estimated Time to complete:</label>
+            <input type="text" class="form-control" id="estimatedTime" ng-model="TaskModal.estimatedTime" placeholder="time in hours" >
+            <label for="investedTime">Time Invested in task:</label>
+            <input type="text" class="form-control" id="investedTime" ng-model="TaskModal.investedTime" placeholder="time in hours" >
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <input type="text" class="form-control" id="status" ng-model="TaskModal.status" placeholder="New" >
+            <label for="deadline">Deadline:</label>
+            <!-- Requires ngMaterial -->
+            <md-content>
+                <md-datepicker ng-model="TaskModal.deadline" md-placeholder="Enter date" id="deadline"></md-datepicker>
+            </md-content>
+        </div>
+        <div class="form-group">
+            <label for="notes">Task Notes:</label>
+            <textarea ng-model="TaskModal.notes" placeholder="Type your notes here..." id="notes"></textarea>
+        </div>
+        <button type="submit" ng-disabled="form.$invalid" ng-click="submitTask()" class="btn btn-primary btn-md">Submit</button><br />
+        <span ng-show="TaskModal.fetchingData">Loading... Please wait</span>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancelTask()">Cancel</button>
+</div>

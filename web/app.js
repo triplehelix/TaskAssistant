@@ -1,7 +1,7 @@
 (function() {
 	var NO_AUTH_PAGES = ['/login', '/register'];
 	
-	angular.module('taskAssistant', ['ngRoute', 'ngCookies' ]).
+	angular.module('taskAssistant', ['ngRoute', 'ngCookies', 'ngAnimate', 'ui.bootstrap']).
 		config(['$routeProvider', function($routeProvider) {
 			$routeProvider.
 				when('/', {
