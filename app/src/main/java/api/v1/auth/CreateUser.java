@@ -55,7 +55,7 @@ public class CreateUser extends BaseAuthRequestHandler{
 			 */
 			new UserRepository().add(user);
 		}catch(Exception e){
-			log.error(e.getMessage());
+			log.error("An error occurred while handling a CreateUser Request: {}.", request.toString(),  e);
 			errorMsg="Error. " + e.getMessage();
 			error=true;
 		}
