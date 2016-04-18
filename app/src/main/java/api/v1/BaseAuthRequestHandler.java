@@ -1,7 +1,11 @@
 package api.v1;
+import api.v1.repo.UserRepository;
 import api.v1.error.BadEmailException;
 import api.v1.error.BadPasswordException;
-import api.v1.repo.UserRepository;
+import api.v1.error.BaseAuthRequestException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 
 /**
  * We probably won't use this.
@@ -25,15 +29,22 @@ public class BaseAuthRequestHandler extends BaseRequestHandler{
 	 */
 	protected String parseJsonAsEmail(String email) throws BadEmailException{
 		email=email.trim();
-		try{
-			if(!email.matches("^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$"))
-				throw new BadEmailException("Not a well formed email: " + email);
-		
-		}catch(BadEmailException e){
-			log.error("Exception while parsing request. " + e.getMessage());
-			throw new BadEmailException(e.getMessage());
+		if(!isValidEmail(email)){
+			log.error("Supplied email address: {} is not well formed.", email);
+			throw new BadEmailException("Email address: " + email + " is not well formed.");
 		}
 		return email;
+	}
+
+	private boolean isValidEmail(String email){
+		boolean result = true;
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+		} catch (AddressException ex) {
+			result = false;
+		}
+		return result;
 	}
 
 
@@ -45,7 +56,7 @@ public class BaseAuthRequestHandler extends BaseRequestHandler{
 	 */
 	protected String parseJsonAsPassword(String password) throws BadPasswordException{
 		try{
-		if(!password.matches("^[a-zA-Z]\\w{3,14}$"))
+		if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
 			throw new BadPasswordException("Password: '"+ password + "' not strong enough.");
 	
 		}catch(BadPasswordException e){
