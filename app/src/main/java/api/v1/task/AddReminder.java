@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
 import api.v1.BaseAuthRequestHandler;
-import api.v1.error.BaseRequestException;
 import api.v1.model.Reminder;
 
 /**
@@ -45,7 +44,7 @@ public class AddReminder extends BaseAuthRequestHandler{
 			
 			//TODO add a reminder object. 
 			
-		}catch(BaseRequestException e){
+		}catch(Exception e){
 			errorMsg=e.getMessage();
 			error=true;
 		}

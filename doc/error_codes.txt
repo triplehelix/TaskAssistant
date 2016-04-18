@@ -1,0 +1,3 @@
+1000-1999 Business errors.
+2000-2999 System error.
+3000-3999 WTF error.

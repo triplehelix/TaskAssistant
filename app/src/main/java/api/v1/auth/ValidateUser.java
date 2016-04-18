@@ -34,8 +34,8 @@ public class ValidateUser extends BaseAuthRequestHandler{
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void doPost(HttpServletRequest request, 
-			HttpServletResponse response)throws ServletException, IOException {
+	public void doPost(HttpServletRequest request,
+					   HttpServletResponse response)throws ServletException, IOException {
 		//First get the email and password.
 		boolean error=false;
 		String errorMsg = "no error";
@@ -49,13 +49,32 @@ public class ValidateUser extends BaseAuthRequestHandler{
 			
 			/* Create a user object. Then, use the repository to 'get' that 
 			 * user. If the user does not exist, an exception is thrown.
+			 *
+			 * TODO what kind of response does Mike need from ValidateUser.
+			 *
+			 * I'm guessing he needs a JSON String. So this class will provide
+			 * him with one? But the only purpose this serves is to give the
+			 * Client an User ID. Does he need the user ID? Well, he obviously
+			 * needs the User ID.
 			 */
 			userRepository.get(user);
+			//
+
 		}catch(Exception e){
 			log.error(e.getMessage());
 			errorMsg=e.getMessage();
 			error=true;
 		}
-		sendResponse(error, errorMsg, response);		
+		//TODO set the response output.
+		sendResponse(error, errorMsg, response);
 	}
+
+	/**
+	 *
+	 * @return
+     */
+	private static String makeResponse(User u){
+		return null;
+	}
+
 }

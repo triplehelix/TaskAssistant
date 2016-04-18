@@ -16,5 +16,4 @@ temp
 *eclipse*
 .idea/
 *.settings/
-*.classpath
-*.project
+*.iml
