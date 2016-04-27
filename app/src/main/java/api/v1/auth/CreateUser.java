@@ -1,12 +1,14 @@
 package api.v1.auth;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import api.v1.error.BusinessException;
 import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
 
@@ -57,21 +59,23 @@ public class CreateUser extends BaseAuthRequestHandler{
 			 * repository too. So we do this: (which makes even less sense)
 			 */
 			new UserRepository().add(user);
-		}catch(Exception e){
-			log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(),  e);
-			errorMsg="Error. " + e.getMessage();
-			errorCode=1000;
-			error=true;
+		}catch(BusinessException e) {
+			log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), e);
+			errorMsg = "Error. " + e.getMessage();
+			errorCode = e.getError().getCode();
+			error = true;
+		}catch(SQLException s){
+			log.error("An error occurred while trying to add a new User.", jsonRequest.toJSONString(), s);
+			errorCode=2999;
+			error = true;
 		}
-
 
 		JSONObject jsonResponse = new JSONObject();
 		if (error){
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		}else{
+		}else {
 			jsonResponse.put("success", true);
 		}
-
 
 		sendMessage(jsonResponse, response);
 	}

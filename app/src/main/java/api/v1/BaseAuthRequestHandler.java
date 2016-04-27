@@ -1,14 +1,14 @@
 package api.v1;
+import api.v1.error.BusinessException;
 import api.v1.repo.UserRepository;
-import api.v1.error.BadEmailException;
-import api.v1.error.BadPasswordException;
-import api.v1.error.BaseAuthRequestException;
+import api.v1.error.Error;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 
 /**
- * We probably won't use this.
+ * BaseAuthRequestHandler is a subclass of BaseRequestHandler and provides functionality 
+ * for APIs that require Authentication.
  * @author kennethlyon
  *
  */
@@ -21,21 +21,27 @@ public class BaseAuthRequestHandler extends BaseRequestHandler{
 	static{
 		userRepository=new UserRepository();
 	}
+
 	/**
 	 * Validates that an email is well formed. Throws Exception 
 	 * if it is not well formed.
 	 * @param email
 	 * @return
 	 */
-	protected String parseJsonAsEmail(String email) throws BadEmailException{
+	protected String parseJsonAsEmail(String email) throws BusinessException{
 		email=email.trim();
 		if(!isValidEmail(email)){
 			log.error("Supplied email address: {} is not well formed.", email);
-			throw new BadEmailException("Email address: " + email + " is not well formed.");
+			throw new BusinessException("Email address: " + email + " is not well formed.", Error.valueOf("BAD_EMAIL_ERROR"));
 		}
 		return email;
 	}
 
+	/**
+	 * Validates that the email is well formed. Returns T/F.
+	 * @param email
+	 * @return
+     */
 	private boolean isValidEmail(String email){
 		boolean result = true;
 		try {
@@ -47,22 +53,15 @@ public class BaseAuthRequestHandler extends BaseRequestHandler{
 		return result;
 	}
 
-
 	/**
 	 * Validates the password as being well formed. Throws Exception.
 	 * @param password
 	 * @return
 	 * @throws Exception
 	 */
-	protected String parseJsonAsPassword(String password) throws BadPasswordException{
-		try{
+	protected String parseJsonAsPassword(String password) throws BusinessException{
 		if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
-			throw new BadPasswordException("Password: '"+ password + "' not strong enough.");
-	
-		}catch(BadPasswordException e){
-			log.error("Exception while parsing request. " + e.getMessage());
-			throw new BadPasswordException(e.getMessage());
-		}
+			throw new BusinessException("Try another password. ", Error.valueOf("BAD_PASSWORD_ERROR"));
 		return password;
 	}
 }

@@ -15,6 +15,8 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import api.v1.error.BusinessException;
+import api.v1.error.Error;
+
 import api.v1.repo.UserRepository;
 
 
@@ -27,8 +29,15 @@ import api.v1.repo.UserRepository;
 public class BaseRequestHandler extends HttpServlet{
 
     protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
-    private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";		
+    private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
 
+
+	/**
+	 *
+	 * @param requestString
+	 * @return
+	 * @throws BusinessException
+     */
     protected JSONObject parseRequest(String requestString)  throws BusinessException {
 	JSONObject param = null;
 	try{
@@ -36,7 +45,7 @@ public class BaseRequestHandler extends HttpServlet{
 	    param =  (JSONObject) parser.parse(requestString);
 	}catch(ParseException e){
 	    log.error("Exception while parsing request: " + requestString);
-	    throw new BusinessException ("Could not parse Json string: " + requestString);
+	    throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_EXCEPTION"));
 	}
 	return param;
     }
@@ -62,9 +71,9 @@ public class BaseRequestHandler extends HttpServlet{
 		Date result = null;
 		try{
 			result = df.parse(stringDate);
-		} catch (java.text.ParseException e) {			
+		} catch (java.text.ParseException e) {
 			log.error("Exception while parsing date token: " + stringDate);
-			throw new BusinessException("Could not parse date string: " + stringDate);
+			throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_EXCEPTION"));
 		}
 			return result;
 	}
@@ -78,12 +87,12 @@ public class BaseRequestHandler extends HttpServlet{
 	 */
 	protected Integer parseJsonIntAsInt(String i) throws BusinessException {
 		Integer myInt=0;
-		String nfeError="Exception while parsing integer token: " + i;
+		String nfeError="Exception while parsing the token: " + i;
 		try{
 			myInt = Integer.parseInt(i);
 		}catch(NumberFormatException e){
 			log.error(nfeError);
-			throw new BusinessException(nfeError);
+			throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_EXCEPTION"));
 		}
 		return myInt;
 	}
@@ -102,7 +111,7 @@ public class BaseRequestHandler extends HttpServlet{
 		obj.put("error", error);
 		obj.put("errorMsg", message);
 		PrintWriter out = response.getWriter();
-		out.println(obj);		
+		out.println(obj);
 	}
 
 	protected static void sendMessage(JSONObject response, HttpServletResponse httpResponse) throws IOException{
