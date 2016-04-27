@@ -1,0 +1,3 @@
+1. Make exception classes serializable.
+2. Remove the second column of the error class. This is kinda shitty. Maybe.
+3. How do I deal with the CreateUser problem?

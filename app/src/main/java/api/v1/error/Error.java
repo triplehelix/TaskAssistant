@@ -15,34 +15,26 @@ package api.v1.error;
  */
 public enum Error{
 
-
-    PARSE_DATE_ERROR(1001, "Error Parsing String as Date. "),
-    PARSE_INTEGER_ERROR(1002, "The String provided could not be parsed as an Integer. "),
-    BAD_EMAIL_ERROR(1003, "Invalid email error. "),
-    BAD_PASSWORD_ERROR(1004, "The password provided is not strong enough."),
-
-    PARSE_JSON_ERROR(1999, "Error parsing the JSON String. ");
+    //BusinessErrors.
+    PARSE_JSON_ERROR(1999),
+    PARSE_DATE_ERROR(1001),
+    PARSE_INTEGER_ERROR(1002),
+    BAD_EMAIL_ERROR(1003),
+    BAD_PASSWORD_ERROR(1004),
+    CREATE_USER_ERROR_USER_EXISTS(1005),
+    CREATE_USER_ERROR_USER_DNE(1015),
+    CREATE_USER_SQL_ERROR(2005)
+    ;
 
 
     int code;
-    String  message;
 
     /**
      *
      * @param code
-     * @param message
      */
-    Error(int code, String message){
+    Error(int code){
         this.code=code;
-        this.message=message;
-    }
-
-    /**
-     * return the default message for this kind of exception.
-     * @return
-     */
-    public String getMessage() {
-        return message;
     }
 
     /**

@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import api.v1.error.BusinessException;
+import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
 
 import api.v1.BaseAuthRequestHandler;
@@ -38,10 +40,12 @@ public class ValidateUser extends BaseAuthRequestHandler{
 					   HttpServletResponse response)throws ServletException, IOException {
 		//First get the email and password.
 		boolean error=false;
+		int errorCode=1;
 		String errorMsg = "no error";
-		User user=new User();		
+		User user=new User();
+		JSONObject jsonRequest = new JSONObject();
 		try{
-			JSONObject jsonRequest=parseRequest(request.getParameter("params"));
+			jsonRequest=parseRequest(request.getParameter("params"));
 			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
 			String password= parseJsonAsEmail((String)jsonRequest.get("password"));
 			user.setEmail(email);
@@ -50,7 +54,6 @@ public class ValidateUser extends BaseAuthRequestHandler{
 			/* Create a user object. Then, use the repository to 'get' that 
 			 * user. If the user does not exist, an exception is thrown.
 			 *
-			 * TODO what kind of response does Mike need from ValidateUser.
 			 *
 			 * I'm guessing he needs a JSON String. So this class will provide
 			 * him with one? But the only purpose this serves is to give the
@@ -60,12 +63,18 @@ public class ValidateUser extends BaseAuthRequestHandler{
 			userRepository.get(user);
 			//
 
-		}catch(Exception e){
+		}catch(BusinessException e){
+			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
 			log.error(e.getMessage());
-			errorMsg=e.getMessage();
-			error=true;
+			errorMsg = "Error " + e.getMessage();
+			errorCode = e.getError().getCode();
+			error = true;
+		}catch(SystemException s){
+			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), s);
+			errorMsg = "Error " + s.getMessage();
+			errorCode = s.getError().getCode();
+			error = true;
 		}
-		//TODO set the response output.
 		sendResponse(error, errorMsg, response);
 	}
 

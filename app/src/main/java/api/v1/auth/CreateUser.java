@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import api.v1.error.BusinessException;
+import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
 
@@ -46,7 +47,7 @@ public class CreateUser extends BaseAuthRequestHandler{
 		String errorMsg = "no error";
 		User user=new User();
 		int errorCode = 0;
-		JSONObject jsonRequest = new JSONObject();
+        JSONObject jsonRequest = new JSONObject();
 		try{
 			jsonRequest=parseRequest(request.getParameter("params"));
 			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
@@ -59,15 +60,16 @@ public class CreateUser extends BaseAuthRequestHandler{
 			 * repository too. So we do this: (which makes even less sense)
 			 */
 			new UserRepository().add(user);
-		}catch(BusinessException e) {
-			log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), e);
-			errorMsg = "Error. " + e.getMessage();
-			errorCode = e.getError().getCode();
-			error = true;
-		}catch(SQLException s){
-			log.error("An error occurred while trying to add a new User.", jsonRequest.toJSONString(), s);
-			errorCode=2999;
-			error = true;
+		}catch(BusinessException b) {
+            log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), b);
+            errorMsg = "Error. " + b.getMessage();
+            errorCode = b.getError().getCode();
+            error = true;
+		}catch(SystemException s){
+            log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), s);
+            errorMsg = "Error. " + s.getMessage();
+            errorCode = s.getError().getCode();
+            error = true;
 		}
 
 		JSONObject jsonResponse = new JSONObject();
@@ -76,7 +78,6 @@ public class CreateUser extends BaseAuthRequestHandler{
 		}else {
 			jsonResponse.put("success", true);
 		}
-
 		sendMessage(jsonResponse, response);
 	}
 }
