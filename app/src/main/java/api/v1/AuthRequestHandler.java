@@ -12,7 +12,7 @@ import javax.mail.internet.InternetAddress;
  * @author kennethlyon
  *
  */
-public class BaseAuthRequestHandler extends BaseRequestHandler{
+public class AuthRequestHandler extends BaseRequestHandler{
 
 	/* Instantiate the user repository here. Only Auth classes need
 	 * to access to the userRepository.

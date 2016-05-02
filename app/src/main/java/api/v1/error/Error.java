@@ -26,7 +26,6 @@ public enum Error{
     CREATE_USER_SQL_ERROR(2005)
     ;
 
-
     int code;
 
     /**

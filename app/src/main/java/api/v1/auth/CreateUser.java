@@ -1,7 +1,6 @@
 package api.v1.auth;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +12,8 @@ import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
 
-import api.v1.BaseAuthRequestHandler;
+import api.v1.AuthRequestHandler;
 import api.v1.model.User;
-import api.v1.repo.UserRepository;
 
 /**
  * CreateUser responds to a request to create a new user. A JSONObject
@@ -24,7 +22,7 @@ import api.v1.repo.UserRepository;
  *
  */
 @WebServlet("/api/v1/auth/CreateUser")
-public class CreateUser extends BaseAuthRequestHandler{
+public class CreateUser extends AuthRequestHandler{
 	/**
 	 * POST
 	 * request 
@@ -55,11 +53,7 @@ public class CreateUser extends BaseAuthRequestHandler{
 			user.setEmail(email);
 			user.setPassword(password);
 			
-			/* Internet says I am supposed to use dependency injection.
-			 * Also that a static reference is the wrong way to use the 
-			 * repository too. So we do this: (which makes even less sense)
-			 */
-			new UserRepository().add(user);
+            userRepository.add(user);
 		}catch(BusinessException b) {
             log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();

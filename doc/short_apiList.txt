@@ -8,8 +8,8 @@
 ***** Users
 ** /api/v1/user/addcalendar
 ** /api/v1/user/addtasklist
-** /api/v1/user/updatecalendar
 ** /api/v1/user/addcategory
+** /api/v1/user/updatecalendar
 ** /api/v1/user/updatecategory
 ** /api/v1/user/getcategories
 ** /api/v1/user/getreminders

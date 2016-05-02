@@ -8,9 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import api.v1.repo.ReminderRepository;
 import org.json.simple.JSONObject;
 
-import api.v1.BaseAuthRequestHandler;
+
+import api.v1.error.BusinessException;
+import api.v1.error.SystemException;
+import api.v1.helper.ErrorHelper;
+import api.v1.TaskRequestHandler;
 import api.v1.model.Reminder;
 
 /**
@@ -23,7 +28,8 @@ import api.v1.model.Reminder;
  */
 @SuppressWarnings("serial")
 @WebServlet("/api/v1/task/AddReminder")
-public class AddReminder extends BaseAuthRequestHandler{
+public class AddReminder extends TaskRequestHandler{
+
 
 	/**
 	 * Post a new Reminder object. Request must provide task_id and reminder_time. 
@@ -33,23 +39,40 @@ public class AddReminder extends BaseAuthRequestHandler{
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
+		int errorCode = 0;
+		JSONObject jsonRequest = new JSONObject();
+		Reminder reminder = new Reminder();
 		// Step 1: parse taskId and reminderDate.
 		try{
-			JSONObject jsonRequest = parseRequest(request.getParameter("params"));		
+			jsonRequest = parseRequest(request.getParameter("params"));
 			Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminder_time"));		
 			Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("task_id"));		
-			Reminder reminder = new Reminder();
+			reminder = new Reminder();
 			reminder.setTaskId((int)taskId);
 			reminder.setReminderTime(reminderDate);
 			
-			//TODO add a reminder object. 
-			
-		}catch(Exception e){
-			errorMsg=e.getMessage();
-			error=true;
+		    //TODO: add reminder repository.
+
+
+			reminderRepository.add(reminder);
+		} catch (BusinessException b) {
+			log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+			errorMsg = "Error. " + b.getMessage();
+			errorCode = b.getError().getCode();
+			error = true;
+		} catch (SystemException s) {
+			log.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+			errorMsg = "Error. " + s.getMessage();
+			errorCode = s.getError().getCode();
+			error = true;
 		}
-		//
-		//sendResponse is inherited from BaseRequestHandler
-		sendResponse(error, errorMsg, response);
+
+		JSONObject jsonResponse = new JSONObject();
+		if (error) {
+			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+		} else {
+			jsonResponse.put("success", true);
+		}
+		sendMessage(jsonResponse, response);
 	}
 }

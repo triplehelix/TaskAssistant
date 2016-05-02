@@ -11,7 +11,7 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
 
-import api.v1.BaseAuthRequestHandler;
+import api.v1.AuthRequestHandler;
 import api.v1.model.User;
 
 /**
@@ -21,7 +21,7 @@ import api.v1.model.User;
  *
  */
 @WebServlet("/api/v1/auth/ValidateUser")
-public class ValidateUser extends BaseAuthRequestHandler{
+public class ValidateUser extends AuthRequestHandler{
 	/**
 	 * POST
 	 * request 
