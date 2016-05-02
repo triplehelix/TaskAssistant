@@ -16,10 +16,12 @@ import api.v1.AuthRequestHandler;
 import api.v1.model.User;
 
 /**
- * CreateUser responds to a request to create a new user. A JSONObject
- * instance must provide a string email and a string password.
- * @author kennethlyon
+ * This api is used to create a new User. Use the class member
+ * doPost(HttpServletRequest, HttpServletResponse) to create a
+ * new User. A JSONObject must provide a string email and a
+ * string password.
  *
+ * @author Ken Lyon
  */
 @WebServlet("/api/v1/auth/CreateUser")
 public class CreateUser extends AuthRequestHandler{
@@ -37,7 +39,6 @@ public class CreateUser extends AuthRequestHandler{
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-
 	public void doPost(HttpServletRequest request, 
 			HttpServletResponse response)throws ServletException, IOException {
 		//First get the email and password.

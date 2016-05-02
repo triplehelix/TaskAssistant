@@ -1,20 +1,26 @@
-package api.v1.task;
-
+package api.v1.auth;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.TaskRequestHandler;
+import org.json.simple.JSONObject;
+import api.v1.AuthRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
-import api.v1.model.Task;
+import api.v1.model.User;
 
-@WebServlet("/api/v1/task/AddTask")
-public class AddTask extends TaskRequestHandler {
+/**
+ * This api is used to delete a given user. Use the class member
+ * doDelete(HttpServletRequest, HttpServletResponse) to delete
+ * this user.
+ *
+ * @author Ken Lyon
+ */
+@WebServlet("/api/v1/auth/DeleteUser")
+public class DeleteUser extends AuthRequestHandler {
 
 	/**
 	 *
@@ -22,30 +28,30 @@ public class AddTask extends TaskRequestHandler {
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
-     */
-	public void doPost(HttpServletRequest request, 
+	 */
+	public void doDelete(HttpServletRequest request, 
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Task task = new Task();
+		User user = new User();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
+		/**
+		 * TODO: Delete this type.
+		 * At a minimum, the type id must be read from the json string
+		 * and sent to the repository, which can handle the removal.
+		 */
 
-
-			/**
-			 * TODO: populate task object.
-			 */
-
-			taskRepository.add(task);
+			userRepository.delete(user);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an DeleteUser  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			log.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+			log.error("An error occurred while handling an DeleteUser Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
@@ -59,5 +65,4 @@ public class AddTask extends TaskRequestHandler {
 		}
 		sendMessage(jsonResponse, response);
 	}
-
 }
