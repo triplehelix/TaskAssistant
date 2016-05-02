@@ -38,9 +38,8 @@ public class AddTask extends TaskRequestHandler {
 			/**
 			 * TODO: populate task object.
 			 */
+
 			taskRepository.add(task);
-
-
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
