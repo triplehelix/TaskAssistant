@@ -1,4 +1,4 @@
-package api.v1.task;
+package api.v1.handlerTemplate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,20 +7,20 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.TaskRequestHandler;
+import api.v1.TypeRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
-import api.v1.model.Task;
+import api.v1.model.Type;
 
 /**
- * This api is used to create a new task. Use the class member
- * doPost(HttpServletRequest, HttpServletResponse) to create a
- * new task.
+ * This api is used to update a given type. Use the class member
+ * doPut(HttpServletRequest, HttpServletResponse) to update this
+ * type.
  *
  * @author Ken Lyon
  */
-@WebServlet("/api/v1/task/AddTask")
-public class AddTask extends TaskRequestHandler {
+@WebServlet("/api/v1/type/PutType")
+public class PutType extends TypeRequestHandler {
 
 	/**
 	 *
@@ -28,30 +28,31 @@ public class AddTask extends TaskRequestHandler {
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
-     */
-	public void doPost(HttpServletRequest request, 
+         */
+	public void doPut(HttpServletRequest request, 
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Task task = new Task();
+		Type type = new Type();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-         /**
-          * TODO: populate task object.
-          * Ensure that all of the methods needed to parse for this task's
-          * fields are present in the super class of this requestHandler.
-          */
+			/**
+			 * TODO: Update this type.
+			 * First, we have to read the type id from the jsonRequest. Then, an instance of type must
+			 * be sent to repository containing the id and all member fields that need to be modified.
+			 * Finally, the client should be notified of success/failure.
+			 */
 
-		taskRepository.add(task);
+		typeRepository.update(type);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an PutType  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			log.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+			log.error("An error occurred while handling an PutType Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;

@@ -1,1 +1,3 @@
 1. Make exception classes serializable.
+2. Refactor the Reminder api. Should Reminder be a child of Task? or is it 
+   it's own api? Methinks the latter makes sense.

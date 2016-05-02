@@ -1,4 +1,4 @@
-package api.v1.task;
+package api.v1.reminder;
 
 import java.io.IOException;
 import java.util.Date;
@@ -19,17 +19,20 @@ import api.v1.TaskRequestHandler;
 import api.v1.model.Reminder;
 
 /**
- * Add Reminder allows the client to add a reminder for a given 
- * task. A valid reminder must specify a task by it's task_id and 
- * specify a time that the reminder must be made. 
- * for this task. 
- * @author kennethlyon
  *
+ * This api is used to create a new type. Use the class member
+ * doPost(HttpServletRequest, HttpServletResponse) to create a
+ * new type.
+ *
+ * Add Reminder allows the client to add a reminder for a given
+ * task. A valid reminder must specify a task by it's task_id and
+ * specify a time that the reminder must be made for this task.
+ *
+ * @author Ken Lyon
  */
 @SuppressWarnings("serial")
 @WebServlet("/api/v1/task/AddReminder")
 public class AddReminder extends TaskRequestHandler{
-
 
 	/**
 	 * Post a new Reminder object. Request must provide task_id and reminder_time. 
@@ -41,7 +44,7 @@ public class AddReminder extends TaskRequestHandler{
 		String errorMsg = "no error";
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
-		Reminder reminder = new Reminder();
+		Reminder reminder = null;
 		// Step 1: parse taskId and reminderDate.
 		try{
 			jsonRequest = parseRequest(request.getParameter("params"));
@@ -51,8 +54,11 @@ public class AddReminder extends TaskRequestHandler{
 			reminder.setTaskId((int)taskId);
 			reminder.setReminderTime(reminderDate);
 			
-		    //TODO: add reminder repository.
-
+    	/**
+		 * TODO: populate type object.
+		 * Ensure that all of the methods needed to parse for this type's
+		 * fields are present in the super class of this requestHandler.
+		 */
 
 			reminderRepository.add(reminder);
 		} catch (BusinessException b) {
