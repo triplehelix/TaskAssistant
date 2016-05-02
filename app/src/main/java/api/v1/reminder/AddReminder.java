@@ -7,15 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import api.v1.repo.ReminderRepository;
 import org.json.simple.JSONObject;
-
 
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
-import api.v1.TaskRequestHandler;
+import api.v1.ReminderRequestHandler;
 import api.v1.model.Reminder;
 
 /**
@@ -31,8 +28,8 @@ import api.v1.model.Reminder;
  * @author Ken Lyon
  */
 @SuppressWarnings("serial")
-@WebServlet("/api/v1/task/AddReminder")
-public class AddReminder extends TaskRequestHandler{
+@WebServlet("/api/v1/reminder/AddReminder")
+public class AddReminder extends ReminderRequestHandler{
 
 	/**
 	 * Post a new Reminder object. Request must provide task_id and reminder_time. 
@@ -55,8 +52,8 @@ public class AddReminder extends TaskRequestHandler{
 			reminder.setReminderTime(reminderDate);
 			
     	/**
-		 * TODO: populate type object.
-		 * Ensure that all of the methods needed to parse for this type's
+		 * TODO: populate Reminder object.
+		 * Ensure that all of the methods needed to parse for this reminder's
 		 * fields are present in the super class of this requestHandler.
 		 */
 
