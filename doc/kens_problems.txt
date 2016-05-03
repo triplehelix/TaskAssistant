@@ -1,3 +1,6 @@
 1. Make exception classes serializable.
 2. Refactor the Reminder api. Should Reminder be a child of Task? or is it 
    it's own api? Methinks the latter makes sense.
+3. Do we need both taskLists and task Categories? Somehow I figured that 
+   the taskList would be all tasks that fall within a given category. Or
+   maybe not. Should readdress with Mike.
