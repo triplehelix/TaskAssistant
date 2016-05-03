@@ -8,8 +8,9 @@ package api.v1.model;
  * See: 
  *    developers.google.com/google-apps/calendar/quickstart/java
  *    com.google.api.services.calendar.Calendar.Builder
- * 
+ *
  * @author kennethlyon
+ *
  *
  */
 public class Calendar {
@@ -17,10 +18,9 @@ public class Calendar {
 	private String name;
 	public static enum CalendarTypes{};
 	private CalendarTypes calendarType;
-	private String remoteId;
+    private String remoteId;
 	private String remoteToken;
-	
-	
+
 	/**
 	 * Create a Calendar that already has an assigned id. Such a 
 	 * Calendar can only come from the database.
@@ -63,5 +63,4 @@ public class Calendar {
 	public void setRemoteToken(String remoteToken) {
 		this.remoteToken = remoteToken;
 	}
-	
 }

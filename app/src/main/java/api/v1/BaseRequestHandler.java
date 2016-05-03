@@ -12,13 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import api.v1.error.BusinessException;
+import org.slf4j.LoggerFactory;
 import api.v1.error.Error;
-
-//import api.v1.repo.UserRepository;
-
+import org.slf4j.Logger;
 
 /**
  * This class is used by all handlers to parse the JSONObject referred

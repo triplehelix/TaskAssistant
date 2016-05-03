@@ -4,3 +4,5 @@
 3. Do we need both taskLists and task Categories? Somehow I figured that 
    the taskList would be all tasks that fall within a given category. Or
    maybe not. Should readdress with Mike.
+4. Mike and I should revisit the model, and what we want to do with this 
+   application. Just to make sure we don't want to change anything right now.

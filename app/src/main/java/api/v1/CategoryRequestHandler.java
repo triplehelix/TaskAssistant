@@ -1,15 +1,15 @@
 package api.v1;
-
 import api.v1.repo.CategoryRepository;
+
 /**
- * The CategoryHadler Class provides tools to parse the input expected
- * for category manipulation.
- * 
+ * CategoryRequestHandler contains, fields and methods that are common to
+ * category APIs. All category APIs inherit CategoryRequestHandler. 
  */
-public class CategoryRequestHandler extends BaseRequestHandler{
+public class CategoryRequestHandler extends BaseRequestHandler {
 
     protected static CategoryRepository categoryRepository;
+
     static {
-        categoryRepository= new CategoryRepository();
+        categoryRepository = new CategoryRepository();
     }
 }
