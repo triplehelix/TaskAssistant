@@ -23,7 +23,9 @@ import api.v1.model.TaskList;
 public class DeleteTaskList extends TaskListRequestHandler {
 
 	/**
-	 *
+	 * Delete a particular taskList. A taskList "id" is required to specify the 
+	 * taskList to be removed.
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -33,20 +35,15 @@ public class DeleteTaskList extends TaskListRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		TaskList taskList = new TaskList();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Delete this taskList.
-			 * At a minimum, the taskList id must be read from the json string
-			 * and sent to the repository, which can handle the removal.
-			 */
+		    jsonRequest = parseRequest(request.getParameter("params"));
+		    int taskListId=parseJsonIntAsInt((String)jsonRequest.get("id"));
+		    taskListRepository.delete(new TaskList(taskListId));
 
-			taskListRepository.delete(taskList);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an DeleteTaskList  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;

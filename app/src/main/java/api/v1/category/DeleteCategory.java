@@ -23,7 +23,9 @@ import api.v1.model.Category;
 public class DeleteCategory extends CategoryRequestHandler {
 
 	/**
-	 *
+	 * Delete a particular category. A category "id" is required to specify the 
+	 * category to be removed.
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -33,18 +35,13 @@ public class DeleteCategory extends CategoryRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Category category = new Category();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Delete this category.
-			 * At a minimum, the category id must be read from the json string
-			 * and sent to the repository, which can handle the removal.
-			 */
+		    jsonRequest = parseRequest(request.getParameter("params"));
+		    int categoryId=parseJsonIntAsInt((String)jsonRequest.get("id"));
+		    categoryRepository.delete(new Category(categoryId));
 
-			categoryRepository.delete(category);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteCategory  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

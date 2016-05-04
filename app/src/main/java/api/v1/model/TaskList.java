@@ -19,6 +19,7 @@ public class TaskList {
 	public TaskList(int id){
 		
 	}
+
 	public TaskList(){
 		this.taskArrayList = new ArrayList<Task>();
 	}
@@ -37,5 +38,5 @@ public class TaskList {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}	
+	}
 }

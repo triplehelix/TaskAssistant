@@ -23,7 +23,9 @@ import api.v1.model.Schedule;
 public class DeleteSchedule extends ScheduleRequestHandler {
 
 	/**
-	 *
+	 * Delete a particular schedule. A schedule "id" is required to specify the 
+	 * schedule to be removed.
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -33,20 +35,15 @@ public class DeleteSchedule extends ScheduleRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Schedule schedule = new Schedule();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Delete this schedule.
-			 * At a minimum, the schedule id must be read from the json string
-			 * and sent to the repository, which can handle the removal.
-			 */
+		    jsonRequest = parseRequest(request.getParameter("params"));
+		    int scheduleId=parseJsonIntAsInt((String)jsonRequest.get("id"));
+		    scheduleRepository.delete(new Schedule(scheduleId));
 
-			scheduleRepository.delete(schedule);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an DeleteSchedule  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an DeleteSchedule Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;

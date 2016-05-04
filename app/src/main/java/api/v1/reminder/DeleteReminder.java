@@ -23,7 +23,9 @@ import api.v1.model.Reminder;
 public class DeleteReminder extends ReminderRequestHandler {
 
 	/**
-	 *
+	 * Delete a particular reminder. A reminder "id" is required to specify the 
+	 * reminder to be removed.
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -33,18 +35,13 @@ public class DeleteReminder extends ReminderRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Reminder reminder = new Reminder();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Delete this reminder.
-			 * At a minimum, the reminder id must be read from the json string
-			 * and sent to the repository, which can handle the removal.
-			 */
+		    jsonRequest = parseRequest(request.getParameter("params"));
+		    int reminderId=parseJsonIntAsInt((String)jsonRequest.get("id"));
+		    reminderRepository.delete(new Reminder(reminderId));
 
-			reminderRepository.delete(reminder);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteReminder  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

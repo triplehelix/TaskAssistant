@@ -10,13 +10,7 @@ public class Schedule {
 	private RepeatTypes repeatType;	
 	
 	/**
-	 * Create a complete Schedule object. Such an object only comes from the 
-	 * database.
-	 * 
-	 * @param id
-	 * @param startDate
-	 * @param endDate
-	 * @param repeatType
+	 * Create a Schedule object with an existing id.
 	 */
 	public Schedule(int id){
 		this.id = id;

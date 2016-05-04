@@ -22,8 +22,7 @@ public class Calendar {
 	private String remoteToken;
 
 	/**
-	 * Create a Calendar that already has an assigned id. Such a 
-	 * Calendar can only come from the database.
+	 * Create a Calendar that already has an assigned id.
 	 * @param id
 	 */
 	public Calendar(int id){

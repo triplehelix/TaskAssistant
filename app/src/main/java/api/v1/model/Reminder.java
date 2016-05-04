@@ -14,7 +14,6 @@ public class Reminder {
 	
 	/**
 	 * Create a Reminder object that already has an id.
-	 * Such a reminder must come from the database.
 	 * @param id
 	 */
 	public Reminder(int id){
@@ -47,4 +46,3 @@ public class Reminder {
 		this.reminderTime = reminderTime;
 	}
 }
-

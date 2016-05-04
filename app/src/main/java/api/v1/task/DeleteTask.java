@@ -23,7 +23,9 @@ import api.v1.model.Task;
 public class DeleteTask extends TaskRequestHandler {
 
 	/**
-	 *
+	 * Delete a particular task. A task "id" is required to specify the 
+	 * task to be removed.
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -36,12 +38,12 @@ public class DeleteTask extends TaskRequestHandler {
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            int taskId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-            taskRepository.delete(new Task(taskId));
+		    jsonRequest = parseRequest(request.getParameter("params"));
+		    int taskId=parseJsonIntAsInt((String)jsonRequest.get("id"));
+		    taskRepository.delete(new Task(taskId));
 
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an DeleteTask  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an DeleteTask Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;

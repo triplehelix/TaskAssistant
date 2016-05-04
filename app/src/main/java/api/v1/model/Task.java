@@ -21,8 +21,7 @@ public class Task {
 	 * TODO all status field. Should be enum.
 	 */
 	/**
-	 * Create a new task that comes from the database. Such a task will
-	 * be supplied an ID.
+	 * Create a task with a user id.
 	 */
 	public Task(int id)
 	{
@@ -35,8 +34,7 @@ public class Task {
 	}
 	
 	/**
-	 * Create a new task that comes from the client. Such an instantiation
-	 * should not be supplied an ID value.
+	 * Create a new task w/o an id.
 	 */
 	public Task(){
 		this.note="";

@@ -6,8 +6,8 @@ public class User {
 	private String password;
 	
 	/**
-	 * Create a User object with a preexisting id. Such User objects
-	 * must come from the database.
+	 * Create a User object with a preexisting id.
+	 *
 	 * @param id
 	 */
 	public User(int id){
