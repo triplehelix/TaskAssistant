@@ -33,18 +33,13 @@ public class DeleteTask extends TaskRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Task task = new Task();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Delete this task.
-			 * At a minimum, the task id must be read from the json string
-			 * and sent to the repository, which can handle the removal.
-			 */
+            jsonRequest = parseRequest(request.getParameter("params"));
+            int taskId=parseJsonIntAsInt((String)jsonRequest.get("id"));
+            taskRepository.delete(new Task(taskId));
 
-			taskRepository.delete(task);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteTask  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

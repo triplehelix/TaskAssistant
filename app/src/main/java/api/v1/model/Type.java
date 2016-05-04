@@ -7,7 +7,11 @@ package api.v1.model;
 public class Type {
 	private int id;
 
-	public void setId(int id){
+    public Type(){
+
+    }
+
+    public Type(int id){
 		this.id=id;
 	}
 

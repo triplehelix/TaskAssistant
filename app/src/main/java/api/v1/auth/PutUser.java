@@ -33,16 +33,21 @@ public class PutUser extends AuthRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		User user = new User();
+		User user = null;
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
+            int id= parseJsonIntAsInt((String)jsonRequest.get("id"));
+            user=new User(id);
 		/**
-		 * TODO: Update this type.
-		 * First, we have to read the type id from the jsonRequest. Then, an instance of type must
+         * TODO: Update this type.
+         * First, we have to read the type id from the jsonRequest. Then, an instance of type must
 		 * be sent to repository containing the id and all member fields that need to be modified.
 		 * Finally, the client should be notified of success/failure.
+         *
+         * TODO The json message sent should specify which fields need to be updated.
+         * This class should be able to identify which fields need to be updated.
 		 */
 
 		userRepository.update(user);

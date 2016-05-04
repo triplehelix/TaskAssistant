@@ -4,6 +4,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -34,19 +36,29 @@ public class GetUser extends AuthRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		User user = new User();
+
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
+        String userAsJsonString="";
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
+            int userId= parseJsonIntAsInt((String)jsonRequest.get("id"));
+            User user = userRepository.get(new User(userId));
 		/**
-		 * TODO: Return an instance of this type.
-		 * To successfully, return an instance of type to the client, it is necessary to
-		 * first discover the type id, then a serialized version of that instance should be
-		 * sent back to the client through the HttpServletResponse.
+		 * To successfully return an user to the client, we first get the
+         * user id, then a "serialized" user should be sent back to the
+         * client through the HttpServletResponse.
+         *
+         * Example usage of com.google.code.gson 2.6.2:
+		 *   Gson gson = new Gson();
+         *   String objectAsJsonString = gson.toJson(someObject);
+         *
+         * Sending a response:
+         * someJsonObject.put("name of object", objectAsJsonString);
 		 */
+            Gson gson = new Gson();
+            userAsJsonString = gson.toJson(user);
 
-		userRepository.get(user);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an GetUser  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
@@ -63,7 +75,8 @@ public class GetUser extends AuthRequestHandler {
 		if (error) {
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
 		} else {
-			jsonResponse.put("success", true);
+            jsonResponse.put("success", true);
+            jsonResponse.put("user", userAsJsonString);
 		}
 		sendMessage(jsonResponse, response);
 	}

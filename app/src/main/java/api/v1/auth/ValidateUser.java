@@ -51,17 +51,10 @@ public class ValidateUser extends AuthRequestHandler{
 			user.setEmail(email);
 			user.setPassword(password);
 			
-			/* Create a user object. Then, use the repository to 'get' that 
-			 * user. If the user does not exist, an exception is thrown.
-			 *
-			 *
-			 * I'm guessing he needs a JSON String. So this class will provide
-			 * him with one? But the only purpose this serves is to give the
-			 * Client an User ID. Does he need the user ID? Well, he obviously
-			 * needs the User ID.
+			/**
+			 * TODO verify that there is a User with this email and password.
 			 */
 			userRepository.get(user);
-			//
 
 		}catch(BusinessException e){
 			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cp DeleteType.java auth/.
+cp DeleteType.java category/.
+cp DeleteType.java reminder/.
+cp DeleteType.java schedule/.
+cp DeleteType.java task/.
+cp DeleteType.java taskList/.
+cp DeleteType.java calendar/.

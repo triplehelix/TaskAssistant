@@ -6,3 +6,8 @@
    maybe not. Should readdress with Mike.
 4. Mike and I should revisit the model, and what we want to do with this 
    application. Just to make sure we don't want to change anything right now.
+5. When updating an existing object, (ie User) should Mike specify what needs
+   to be updated in the json String?
+6. How about json serilization. Can it really be that easy?
+7. Tell mike that I am using gson to serialize these objects.
+

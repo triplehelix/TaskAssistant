@@ -33,18 +33,18 @@ public class DeleteUser extends AuthRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		User user = new User();
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
+			int userId= parseJsonIntAsInt((String)jsonRequest.get("id"));
+			userRepository.delete(new User(userId));
 		/**
-		 * TODO: Delete this type.
+		 *
 		 * At a minimum, the type id must be read from the json string
 		 * and sent to the repository, which can handle the removal.
 		 */
 
-			userRepository.delete(user);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteUser  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

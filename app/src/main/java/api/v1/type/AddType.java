@@ -1,4 +1,4 @@
-package api.v1.handlerTemplate;
+package api.v1.type;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +13,14 @@ import java.io.IOException;
 import api.v1.model.Type;
 
 /**
- * This api is used to update a given type. Use the class member
- * doPut(HttpServletRequest, HttpServletResponse) to update this
- * type.
+ * This api is used to create a new type. Use the class member
+ * doPost(HttpServletRequest, HttpServletResponse) to create a
+ * new type.
  *
  * @author Ken Lyon
  */
-@WebServlet("/api/v1/type/PutType")
-public class PutType extends TypeRequestHandler {
+@WebServlet("/api/v1/type/AddType")
+public class AddType extends TypeRequestHandler {
 
 	/**
 	 *
@@ -28,8 +28,8 @@ public class PutType extends TypeRequestHandler {
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
-         */
-	public void doPut(HttpServletRequest request, 
+     */
+	public void doPost(HttpServletRequest request, 
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
@@ -38,21 +38,20 @@ public class PutType extends TypeRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Update this type.
-			 * First, we have to read the type id from the jsonRequest. Then, an instance of type must
-			 * be sent to repository containing the id and all member fields that need to be modified.
-			 * Finally, the client should be notified of success/failure.
-			 */
+         /**
+          * TODO: populate type object.
+          * Ensure that all of the methods needed to parse for this type's
+          * fields are present in the super class of this requestHandler.
+          */
 
-		typeRepository.update(type);
+		typeRepository.add(type);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an PutType  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an AddType  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			log.error("An error occurred while handling an PutType Request: {}.", jsonRequest.toJSONString(), s);
+			log.error("An error occurred while handling an AddType Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;

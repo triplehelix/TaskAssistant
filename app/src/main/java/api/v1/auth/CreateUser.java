@@ -49,8 +49,8 @@ public class CreateUser extends AuthRequestHandler{
         JSONObject jsonRequest = new JSONObject();
 		try{
 			jsonRequest=parseRequest(request.getParameter("params"));
-			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
-			String password= parseJsonAsPassword((String)jsonRequest.get("password"));
+            String email= parseJsonAsEmail((String)jsonRequest.get("email"));
+			String password=parseJsonAsPassword((String)jsonRequest.get("password"));
 			user.setEmail(email);
 			user.setPassword(password);
 			

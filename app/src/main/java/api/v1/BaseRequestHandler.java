@@ -83,7 +83,7 @@ public class BaseRequestHandler extends HttpServlet{
 	 * @return
 	 */
 	protected Integer parseJsonIntAsInt(String i) throws BusinessException {
-		Integer myInt=0;
+        Integer myInt=0;
 		String nfeError="Exception while parsing the token: " + i;
 		try{
 			myInt = Integer.parseInt(i);
