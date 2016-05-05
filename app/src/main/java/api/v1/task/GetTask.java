@@ -2,6 +2,7 @@ package api.v1.task;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
@@ -21,7 +22,6 @@ import api.v1.model.Task;
  */
 @WebServlet("/api/v1/task/GetTask")
 public class GetTask extends TaskRequestHandler {
-
 	/**
 	 *
 	 * @param request
@@ -33,21 +33,26 @@ public class GetTask extends TaskRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Task task = new Task();
+
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
+		Task task=null;
+		String taskAsJsonString="";
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
 			/**
-			 * TODO: Return an instance of this task.
-			 * To successfully, return an instance of task to the client, it is necessary to
-			 * first discover the task id, then a serialized version of that instance should be
-			 * sent back to the client through the HttpServletResponse.
+			 * To successfully, return an instance of task to the client, it
+             * is necessary to first discover the task id, then a serialized
+             * version of that instance should be sent back to the client
+             * through the HttpServletResponse.
+             *
 			 */
+            jsonRequest = parseRequest(request.getParameter("params"));
+            task = taskRepository.get(new Task(parseJsonIntAsInt((String)jsonRequest.get("id"))));
+            Gson gson = new Gson();
+			taskAsJsonString = gson.toJson(task);
 
-		taskRepository.get(task);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an GetTask  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an GetTask Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
@@ -63,6 +68,7 @@ public class GetTask extends TaskRequestHandler {
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
 		} else {
 			jsonResponse.put("success", true);
+			jsonResponse.put("task", taskAsJsonString);
 		}
 		sendMessage(jsonResponse, response);
 	}

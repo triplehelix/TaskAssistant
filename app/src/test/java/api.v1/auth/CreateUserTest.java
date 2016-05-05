@@ -151,6 +151,4 @@ public class CreateUserTest {
         request.addParameter("params", requestObj.toJSONString());
         return request;
     }
-
-
 }

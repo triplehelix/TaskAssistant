@@ -45,8 +45,6 @@ public class GetType extends TypeRequestHandler {
 			 * sent back to the client through the HttpServletResponse.
 			 */
 
-
-
             typeRepository.get(type);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an GetType  Request: {}.", jsonRequest.toJSONString(), b);

@@ -5,13 +5,13 @@ package api.v1.error;
  * enumerating Business errors, which ought to encompass all of our checked exceptions.
  *
  * In this API we expect to handle errors of three major types: business errors, system
- * errors and WTF errors. Note that All WTF errors are unchecked. As such, you're sol
- * when that happens.
+ * errors and WTF errors. Note that All WTF errors are unchecked. As such, they are not
+ * included in this class.
+ *
  * //1000-1999 business errors.
  * //2000-2999 System error.
  * //0000-0999 WTF error.
  *
- * I got high hopes for you niggas, we gonna see.
  */
 public enum Error{
 
@@ -24,7 +24,6 @@ public enum Error{
     PARSE_LONG_INTEGER_ERROR(1005),
     CREATE_USER_ERROR_USER_EXISTS(1006),
     CREATE_USER_ERROR_USER_DNE(1015),
-
     /*** System Errors ***/
     CREATE_USER_SQL_ERROR(2005)
     ;

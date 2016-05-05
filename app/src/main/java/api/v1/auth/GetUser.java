@@ -59,7 +59,7 @@ public class GetUser extends AuthRequestHandler {
             Gson gson = new Gson();
             userAsJsonString = gson.toJson(user);
 
-		} catch (BusinessException b) {
+        } catch (BusinessException b) {
 			log.error("An error occurred while handling an GetUser  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
