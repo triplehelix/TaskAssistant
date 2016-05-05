@@ -3,5 +3,4 @@ install:
     - cd app
     - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
-    - cd app
     - mvn test
