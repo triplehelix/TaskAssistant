@@ -9,6 +9,7 @@ import javax.security.auth.Subject;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
+import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -84,13 +85,13 @@ public class BaseRequestHandler extends HttpServlet{
 	 */
 	protected Integer parseJsonIntAsInt(String i) throws BusinessException {
         Integer myInt=0;
-		String nfeError="Exception while parsing the token: " + i;
+        String nfeError="Exception while parsing the token as an integer: " + i;
 		try{
 			myInt = Integer.parseInt(i);
 		}catch(NumberFormatException e){
-			log.error(nfeError);
-			throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_EXCEPTION"));
-		}
+            log.error(nfeError);
+            throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_EXCEPTION"));
+        }
 		return myInt;
 	}
 
@@ -111,8 +112,42 @@ public class BaseRequestHandler extends HttpServlet{
 		out.println(obj);
 	}
 
+    /**
+     *
+     * @param response
+     * @param httpResponse
+     * @throws IOException
+     */
 	protected static void sendMessage(JSONObject response, HttpServletResponse httpResponse) throws IOException{
-		PrintWriter out = httpResponse.getWriter();
-		out.println(response);
+        PrintWriter out = httpResponse.getWriter();
+        out.println(response);
 	}
+
+    /**
+     * Parse a String as a long integer.
+     * @param l
+     * @return
+     */
+    protected long parseJsonLongAsLong(String l) throws BusinessException{
+        l=l.trim();
+        long myLong=0;
+        String nfeError="Exception while parsing the token as a long integer: " + l;
+        try{
+            myLong=java.lang.Long.parseLong(l);
+        }catch(NumberFormatException nfe){
+            log.error(nfeError);
+            throw new BusinessException(nfeError, Error.valueOf("PARSE_LONG_INTEGER_EXCEPTION"));
+        }
+        return myLong;
+    }
+
+    /**
+     * Parse string as boolean.
+     * @param b
+     * @return
+     */
+    protected boolean parseJsonBooleanAsBoolean(String b){
+        return java.lang.Boolean.parseBoolean(b.trim());
+    }
+
 }

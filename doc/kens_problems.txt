@@ -1,13 +1,21 @@
-1. Make exception classes serializable.
-2. Refactor the Reminder api. Should Reminder be a child of Task? or is it 
-   it's own api? Methinks the latter makes sense.
-3. Do we need both taskLists and task Categories? Somehow I figured that 
-   the taskList would be all tasks that fall within a given category. Or
-   maybe not. Should readdress with Mike.
-4. Mike and I should revisit the model, and what we want to do with this 
-   application. Just to make sure we don't want to change anything right now.
-5. When updating an existing object, (ie User) should Mike specify what needs
-   to be updated in the json String?
-6. How about json serilization. Can it really be that easy?
-7. Tell mike that I am using gson to serialize these objects.
-
+ 1. Make exception classes serializable.
+ 2. Refactor the Reminder api. Should Reminder be a child of Task? or is it 
+    it's own api? Methinks the latter makes sense.
+ 3. Do we need both taskLists and task Categories? Somehow I figured that 
+    the taskList would be all tasks that fall within a given category. Or
+    maybe not. Should readdress with Mike.
+ 4. Mike and I should revisit the model, and what we want to do with this 
+    application. Just to make sure we don't want to change anything right now.
+ 5. When updating an existing object, (ie User) should Mike specify what needs
+    to be updated in the json String?
+ 6. How about json serilization. Can it really be that easy?
+ 7. Tell mike that I am using gson to serialize these objects.
+ 8. What is the "invested time" Task field for? How is it calculated?
+ 9. What constitutes urgency? And where is it set?
+10. Mike should make sure that all "params" for a given object.
+11. Database sanitization. When someone creates a "note" or names a task,
+    how do we make sure the database is not corrupted?
+12. Empty model constructors should set the id number to -1. or -9 or something.
+13. How do we handle imcomplete objects? A task w/o a due date for example. 
+    Should I have to check for null parameters or should Mike always send a 
+    default.

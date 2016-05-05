@@ -21,9 +21,11 @@ public class Reminder {
 	}
 	
 	/**
-	 * Create a new, empty Reminder.
+	 * Create a new, Reminder w/o an reminder id. Reminders without an id are
+     * assigned an id of -9.
 	 */
 	public Reminder(){
+        this.id=-9;
 	}
 
 	public int getId() {

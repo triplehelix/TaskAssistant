@@ -45,7 +45,9 @@ public class GetType extends TypeRequestHandler {
 			 * sent back to the client through the HttpServletResponse.
 			 */
 
-		typeRepository.get(type);
+
+
+            typeRepository.get(type);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an GetType  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
@@ -57,13 +59,12 @@ public class GetType extends TypeRequestHandler {
 			errorCode = s.getError().getCode();
 			error = true;
 		}
-
-		JSONObject jsonResponse = new JSONObject();
-		if (error) {
-			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		} else {
-			jsonResponse.put("success", true);
-		}
-		sendMessage(jsonResponse, response);
+        JSONObject jsonResponse = new JSONObject();
+        if (error) {
+            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+        } else {
+            jsonResponse.put("success", true);
+        }
+        sendMessage(jsonResponse, response);
 	}
 }

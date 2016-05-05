@@ -17,9 +17,11 @@ public class Schedule {
 	}
 
 	/**
-	 * Create a new, empty schedule.
+	 * Create a new schedule w/o an id. Schedules without an id are
+     * assigned an id of -9.
 	 */
 	public Schedule(){
+		this.id=-9;
 	}
 	
 	public int getId() {

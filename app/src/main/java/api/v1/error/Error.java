@@ -15,14 +15,17 @@ package api.v1.error;
  */
 public enum Error{
 
-    //BusinessErrors.
+    /*** Business Errors ***/
     PARSE_JSON_ERROR(1999),
     PARSE_DATE_ERROR(1001),
     PARSE_INTEGER_ERROR(1002),
     BAD_EMAIL_ERROR(1003),
     BAD_PASSWORD_ERROR(1004),
-    CREATE_USER_ERROR_USER_EXISTS(1005),
+    PARSE_LONG_INTEGER_ERROR(1005),
+    CREATE_USER_ERROR_USER_EXISTS(1006),
     CREATE_USER_ERROR_USER_DNE(1015),
+
+    /*** System Errors ***/
     CREATE_USER_SQL_ERROR(2005)
     ;
 

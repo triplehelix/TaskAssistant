@@ -30,10 +30,13 @@ public class Calendar {
 	}
 	
 	/**
-	 * Create a new, empty calendar object.
+	 * Create a new calendar w/o a calendar id. Calendars without an id are
+     * assigned an id of -9.
 	 */
 	public Calendar(){
-	}
+        this.id = -9;
+    }
+
 	
 	public int getId() {
 		return id;

@@ -29,20 +29,45 @@ public class AddTask extends TaskRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
      */
-	public void doPost(HttpServletRequest request, 
-				HttpServletResponse response)throws ServletException, IOException {
+	public void doPost(HttpServletRequest request,
+                  HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Task task = new Task();
-		int errorCode = 0;
+
+        int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-         /**
-          * TODO: populate task object.
-          * Ensure that all of the methods needed to parse for this task's
-          * fields are present in the super class of this requestHandler.
-          */
+
+            // do not attempt to set task id.
+            Task task = new Task();
+
+            // private String name;
+            task.setName((String)jsonRequest.get("name"));
+
+            // private boolean important;
+            task.setImportant(parseJsonBooleanAsBoolean((String)jsonRequest.get("important")));
+
+	        // private String note;
+            task.setNote((String)jsonRequest.get("note"));
+
+	        // private long estimatedTime;
+            task.setEstimatedTime(parseJsonLongAsLong((String)jsonRequest.get("estimatedTime")));
+
+            // private long investedTime;
+            //TODO does it make sense to set InvestedTime here? Methinks the answer is yes.
+            task.setInvestedTime(parseJsonLongAsLong((String)jsonRequest.get("investedTime")));
+
+            // private boolean urgent;
+            //TODO does it make sense to set urgent?
+            task.setUrgent(parseJsonBooleanAsBoolean((String)jsonRequest.get("urgent")));
+
+	        // private Date dueDate;
+            task.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
+
+	        // private enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
+	        // private Status status;
+            task.setStatus(Task.State.valueOf((String)jsonRequest.get("status")));
 
 		taskRepository.add(task);
 		} catch (BusinessException b) {

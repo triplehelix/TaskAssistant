@@ -17,13 +17,18 @@ public class TaskList {
 	 * @param id
 	 */
 	public TaskList(int id){
-		
+		this.id=id;
 	}
 
+    /**
+     * Create a new TaskList w/o a taskList id. TasksLists created without
+     * an id are assigned an id of -9.
+     */
 	public TaskList(){
-		this.taskArrayList = new ArrayList<Task>();
+		this.id=-9;
 	}
-	
+
+
 	public ArrayList<Task> getTaskArrayList() {
 		return taskArrayList;
 	}

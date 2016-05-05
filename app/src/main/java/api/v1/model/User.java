@@ -15,9 +15,11 @@ public class User {
 	}
 	
 	/**
-	 * Create an empty User object.
+	 * Create a new User w/o an user id. Users created without an id
+     * are assigned an id of -9.
 	 */
 	public User(){
+        this.id=-9;
 	}
 
 	public int getId() {return id;}
