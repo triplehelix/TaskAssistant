@@ -17,3 +17,8 @@ temp
 .idea/
 *.settings/
 *.iml
+# Hide template classes.
+# app/src/main/java/api/v1/handlerTemplate/
+# app/src/main/java/api/v1/TypeRequestHandler.java
+# app/src/main/java/api/v1/repo/TypeRepository.java
+# app/src/main/java/api/v1/model/Type.java

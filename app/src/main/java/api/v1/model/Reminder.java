@@ -14,7 +14,6 @@ public class Reminder {
 	
 	/**
 	 * Create a Reminder object that already has an id.
-	 * Such a reminder must come from the database.
 	 * @param id
 	 */
 	public Reminder(int id){
@@ -22,9 +21,11 @@ public class Reminder {
 	}
 	
 	/**
-	 * Create a new, empty Reminder.
+	 * Create a new, Reminder w/o an reminder id. Reminders without an id are
+     * assigned an id of -9.
 	 */
 	public Reminder(){
+        this.id=-9;
 	}
 
 	public int getId() {
@@ -47,4 +48,3 @@ public class Reminder {
 		this.reminderTime = reminderTime;
 	}
 }
-

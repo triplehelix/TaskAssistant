@@ -10,22 +10,18 @@ public class Schedule {
 	private RepeatTypes repeatType;	
 	
 	/**
-	 * Create a complete Schedule object. Such an object only comes from the 
-	 * database.
-	 * 
-	 * @param id
-	 * @param startDate
-	 * @param endDate
-	 * @param repeatType
+	 * Create a Schedule object with an existing id.
 	 */
 	public Schedule(int id){
 		this.id = id;
 	}
 
 	/**
-	 * Create a new, empty schedule.
+	 * Create a new schedule w/o an id. Schedules without an id are
+     * assigned an id of -9.
 	 */
 	public Schedule(){
+		this.id=-9;
 	}
 	
 	public int getId() {

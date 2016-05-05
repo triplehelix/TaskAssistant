@@ -11,13 +11,15 @@ public class Category {
 	 * @param id
 	 */
 	public Category(int id){
-		
+		this.id=id;
 	}
 	
 	/**
-	 * Create an new empty Category object. 
+	 * Create an new Category w/o a category id. Categories without an
+     * id are assigned an id of -9.
 	 */
-	public Category(){		
+	public Category(){
+		this.id=-9;
 	}
 
 
