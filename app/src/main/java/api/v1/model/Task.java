@@ -85,12 +85,28 @@ public class Task {
         this.status=status;
     }
 
-    public int getId(){return this.id;}
-    public String getName(){return this.name;}
-    public String getNote(){return this.note;}
-    public boolean getImportant(){return this.important;}
-    public long getEstimatedTime(){return this.estimatedTime;}
-    public long getInvestedTime(){return this.investedTime;}
-    public boolean getUrgent(){return this.urgent;}
-    public Date getDueDate(){return this.dueDate;}
+    public int getId(){
+        return this.id;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public String getNote(){
+        return this.note;
+    }
+    public boolean getImportant(){
+        return this.important;
+    }
+    public long getEstimatedTime(){
+        return this.estimatedTime;
+    }
+    public long getInvestedTime(){
+        return this.investedTime;
+    }
+    public boolean getUrgent(){
+        return this.urgent;
+    }
+    public Date getDueDate(){
+        return this.dueDate;
+    }
 }

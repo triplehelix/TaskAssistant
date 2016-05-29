@@ -1,21 +1,65 @@
  1. Make exception classes serializable.
- 2. Refactor the Reminder api. Should Reminder be a child of Task? or is it 
-    it's own api? Methinks the latter makes sense.
- 3. Do we need both taskLists and task Categories? Somehow I figured that 
+ 2. Do we need both taskLists and task Categories? Somehow I figured that 
     the taskList would be all tasks that fall within a given category. Or
     maybe not. Should readdress with Mike.
- 4. Mike and I should revisit the model, and what we want to do with this 
+ 3. Mike and I should revisit the model, and what we want to do with this 
     application. Just to make sure we don't want to change anything right now.
- 5. When updating an existing object, (ie User) should Mike specify what needs
+ 4. When updating an existing object, (ie User) should Mike specify what needs
     to be updated in the json String?
- 6. How about json serilization. Can it really be that easy?
- 7. Tell mike that I am using gson to serialize these objects.
- 8. What is the "invested time" Task field for? How is it calculated?
- 9. What constitutes urgency? And where is it set?
-10. Mike should make sure that all "params" for a given object.
-11. Database sanitization. When someone creates a "note" or names a task,
+ 5. How about json serilization. Can it really be that easy?
+ 6. Tell mike that I am using gson to serialize these objects.
+ 7. What is the "invested time" Task field for? How is it calculated?
+ 8. What constitutes urgency? And where is it set?
+ 9. Mike should make sure that all "params" for a given object.
+10. Database sanitization. When someone creates a "note" or names a task,
     how do we make sure the database is not corrupted?
-12. Empty model constructors should set the id number to -1. or -9 or something.
-13. How do we handle imcomplete objects? A task w/o a due date for example. 
+11. Empty model constructors should set the id number to -1. or -9 or something.
+12. How do we handle imcomplete objects? A task w/o a due date for example. 
     Should I have to check for null parameters or should Mike always send a 
     default.
+
+
+
+Tha Fuck are services? 
+Create a "getLiteTask" for taskList api. such that only necessary infor about a task is genereated.
+TaskList MUST HOLD REFERENCES TO TASK OBJECTS IN THE REPO.
+
+Mike says write a test case to solve this problem.
+
+Regarding model objects, mike says null pointers are better than negative numbers.
+
+WTF Exceptions: ALL 
+
+Edgecase - some word mike says alot.
+
+
+Allways check that all necessary fields are present. This applies to all doPost 
+methods. 
+
+Mike says that object passed through doPut should be complete. As such, the 
+repository ought to just replace the instance.
+
+
+
+
+
+
+
+***************************
+Mike likes a program called: http://todotxt.com/
+
+Also, mike says that if something is low priority, but is really short, then
+the cost of keeping it on the task list is too expensive to not jsut leave it
+on the task list. Alternatively: if the cost of making a dicission is more than
+the difference between decisions, then jsut flip a coin.
+
+
+Use "O"-auth to protect all of out APIs. There exists a philosophy that all get
+requests are open, and everything else ought to be behind a token. This probably
+sucks for out purposes however.
+
+*** Security ***
+Logins require user name and password. The response is a token, and tokens 
+are required for all post, get, delete and put requests.
+
+
