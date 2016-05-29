@@ -5,6 +5,11 @@
     angular.module('taskAssistant').controller('TaskModalController', ['$scope', '$log', '$uibModalInstance', function ($scope, $log, $uibModalInstance) {
 
         $log.info("TaskModalController Initialized.");
+        $scope.dateOptions = {
+            minDate: new Date(),
+            showWeeks: true
+        };
+        
         $scope.submitTask = function () {
             $log.info("Submit Task called");
             var result = { success: "false", message: "System Error"};
