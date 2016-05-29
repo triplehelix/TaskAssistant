@@ -12,7 +12,16 @@
 				});
 			} else {
 				var response = {};
-				// TODO write mock code
+                if (email == "mike@test.com") {
+                    response = [{id: 1, name: "Mikes Tasks", description: "A list of Mikes tasks"}];
+                } else {
+                    response = {
+                        error: {
+                            code: 104,
+                            message: "A Task list does not exist for a user with that email."
+                        }
+                    };
+                }
 				callbackFunction(response)
 			}
 		};
@@ -30,7 +39,16 @@
 				});
 			} else {
 				var response = {};
-				// TODO write mock code
+                if (tasklist.id != 1) {
+                    response = {success: true};
+                } else {
+                    response = {
+                        error: {
+                            code: 103,
+                            message: "A Task list already exists with that id."
+                        }
+                    };
+                }
 				callbackFunction(response)
 			}
 		};
@@ -47,8 +65,17 @@
 					callbackFunction(response);
 				});
 			} else {
-				var response = {};
-				// TODO write mock code
+                var response = {};
+                if (tasklist.id == 1) {
+                    response = {success: true};
+                } else {
+                    response = {
+                        error: {
+                            code: 102,
+                            message: "A Task list does not exist with that id."
+                        }
+                    };
+                }
 				callbackFunction(response)
 			}
 		};
@@ -69,8 +96,16 @@
 				//Mock backend response for the moment
 				response = [{
 					id: 1, name: "Task Assistant Application", estimated_time: 40, invested_time: 10,
-					important: 0, urgent: 0, deadline_date: null, status: "WIP"
-				}];
+					important: 0, urgent: 0, deadline_date: null, status: "IN_PROGRESS"
+				},
+					{
+						id: 2, name: "Shopping list application", estimated_time: 40, invested_time: 10,
+						important: 0, urgent: 0, deadline_date: null, status: "IN_PROGRESS"
+					},
+					{
+						id: 3, name: "Serial Number Manager application", estimated_time: 40, invested_time: 10,
+						important: 0, urgent: 0, deadline_date: null, status: "NEW"
+					}];
 
 				callbackFunction(response);
 			}
@@ -91,7 +126,16 @@
 				});
 			} else {
 				var response = {};
-				// TODO write mock code
+                if (tasklist.id == 1) {
+                    response = {success: true};
+                } else {
+                    response = {
+                        error: {
+                            code: 106,
+                            message: "Failed to add task because a Task list does not exist with that id."
+                        }
+                    };
+                }
 				callbackFunction(response)
 			}
 		};
@@ -111,7 +155,16 @@
 				});
 			} else {
 				var response = {};
-				// TODO write mock code
+                if (task.id == 1) {
+                    response = {success: true};
+                } else {
+                    response = {
+                        error: {
+                            code: 107,
+                            message: "Failed to update task because a Task does not exist with that id."
+                        }
+                    };
+                }
 				callbackFunction(response)
 			}
 		};
