@@ -26,6 +26,12 @@ public class CreateUserTest {
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
+    /**
+     * First create a new Instance of CreateUser() object, then add new
+     * user test cases to validRequestList and errorRequestList.
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         instance = new CreateUser();
@@ -47,6 +53,10 @@ public class CreateUserTest {
         errorRequestList.add(createDoPostMockRequest("toosimple@password.com", "ab1"));
     }
 
+    /**
+     * After doPost runs, set pertinent objects to null.
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
         instance = null;
@@ -54,6 +64,13 @@ public class CreateUserTest {
         errorRequestList = null;
     }
 
+    /**
+     * Loop though validRequestList and errorRequestList sending each
+     * MockHttpServletRequest to CreateUser then forward responses to
+     * validateDoPostValidResponse and validateDoPostErrorResponse
+     * respectfully.
+     * @throws Exception
+     */
     @Test
     public void doPost() throws Exception {
         for (MockHttpServletRequest request : validRequestList) {
@@ -68,6 +85,12 @@ public class CreateUserTest {
         }
     }
 
+    /**
+     * Check to verify that valid CreateUser doPost responses are indeed
+     * valid and log results.
+     *
+     * @param response
+     */
     private void validateDoPostValidResponse(MockHttpServletResponse response) {
         // Valid cases are: success or error if error then error
         String responseString;
@@ -105,6 +128,11 @@ public class CreateUserTest {
 
     }
 
+    /**
+     * Check to verify that invalid CreateUser requests are caught
+     * by CreateUser().doPost and are received as error messages.
+     * @param response
+     */
     private void validateDoPostErrorResponse(MockHttpServletResponse response) {
         // Valid cases are: success or error if error then error
         String responseString;
@@ -142,6 +170,12 @@ public class CreateUserTest {
 
     }
 
+    /**
+     * Create and return a new MockHttpServletRequest.
+     * @param email
+     * @param password
+     * @return
+     */
     private MockHttpServletRequest createDoPostMockRequest(String email, String password) {
         MockHttpServletRequest request = new MockHttpServletRequest();
         JSONObject requestObj = new JSONObject();
