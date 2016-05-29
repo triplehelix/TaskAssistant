@@ -5,7 +5,6 @@
 		var mock = true; // Set to false post-dev
 		
 		service.createUser = function(email, password, callbackFunction) {
-			var response;
 			if (mock == false) {
 				//Make backend call for creation of user
 				$http.post('/api/v1/auth/createuser', {
@@ -17,6 +16,7 @@
 					callbackFunction(response);
 				});
 			}else {
+                var response;
 				//Mock backend response to be true for the moment
 				if (email != "mike@test.com") {
 					response = {success: true};
@@ -33,7 +33,6 @@
 		};
 		
 		service.changePassword  = function(email, password, callbackFunction) {
-			var response;
 			if (mock == false) {
 				//Make backend call for updating of password
 				$http.post('/api/v1/auth/updatePassword', {
@@ -45,6 +44,7 @@
 					callbackFunction(response);
 				});
 			} else {
+                var response;
 				//Mock backend response to be true for the moment
 				if (email == "mike@test.com") {
 					response = {success: true};
@@ -56,7 +56,6 @@
 		};
 		
 		service.forgotPassword = function(email, password, callbackFunction) {
-			var response;
 			if (mock == false) {
 				//Make backend call for forgetting password
 				$http.post('/api/v1/auth/forgotPassword', {
@@ -68,7 +67,8 @@
 					callbackFunction(response);
 				});
 			} else {
-				//Mock backend response to be true for the moment
+                var response;
+                //Mock backend response to be true for the moment
 				if (email == "mike@test.com") {
 					response = {success: true};
 				} else {
