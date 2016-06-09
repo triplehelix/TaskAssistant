@@ -20,7 +20,7 @@ import api.v1.model.Task;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/task/PutTask")
-public class PutTask extends TaskRequestHandler {
+public class UpdateTask extends TaskRequestHandler {
 
 	/**
 	 *
