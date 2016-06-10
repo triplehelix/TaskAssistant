@@ -29,7 +29,6 @@ public class BaseRequestHandler extends HttpServlet{
     protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
     private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
 
-
 	/**
 	 *
 	 * @param requestString
@@ -71,7 +70,7 @@ public class BaseRequestHandler extends HttpServlet{
 			result = df.parse(stringDate);
 		} catch (java.text.ParseException e) {
 			log.error("Exception while parsing date token: " + stringDate);
-			throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_EXCEPTION"));
+			throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
 		}
 			return result;
 	}
@@ -136,7 +135,7 @@ public class BaseRequestHandler extends HttpServlet{
             myLong=java.lang.Long.parseLong(l);
         }catch(NumberFormatException nfe){
             log.error(nfeError);
-            throw new BusinessException(nfeError, Error.valueOf("PARSE_LONG_INTEGER_EXCEPTION"));
+            throw new BusinessException(nfeError, Error.valueOf("PARSE_LONG_INTEGER_ERROR"));
         }
         return myLong;
     }
@@ -146,8 +145,14 @@ public class BaseRequestHandler extends HttpServlet{
      * @param b
      * @return
      */
-    protected boolean parseJsonBooleanAsBoolean(String b){
-        return java.lang.Boolean.parseBoolean(b.trim());
+    protected boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
+        log.debug("The passed to BaseRequestHandler.parseJsonBooleanAsBoolean is " + b + ".");
+        b = b.trim().toUpperCase();
+        if (b.equals("TRUE"))
+            return true;
+        else if(b.equals("FALSE"))
+            return false;
+        else
+            throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
     }
-
 }
