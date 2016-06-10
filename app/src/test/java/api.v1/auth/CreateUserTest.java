@@ -166,8 +166,6 @@ public class CreateUserTest {
         }else{
             fail("Response Object is empty");
         }
-
-
     }
 
     /**

@@ -39,7 +39,7 @@ public class AddTask extends TaskRequestHandler {
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
 
-            // do not attempt to set task id.
+            // do not attempt to set task id. If a task id is provided, ignore it.
             Task task = new Task();
 
             // private String name;

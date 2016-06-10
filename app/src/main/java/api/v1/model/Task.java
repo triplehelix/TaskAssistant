@@ -85,6 +85,9 @@ public class Task {
         this.status=status;
     }
 
+    public State getStatus() {
+        return status;
+    }
     public int getId(){
         return this.id;
     }
