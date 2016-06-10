@@ -85,7 +85,6 @@ public class Task {
 
     public void setStatus(String status) throws BusinessException{
         try {
-
             this.status = Status.valueOf(status);
         }
         catch(java.lang.IllegalArgumentException e){
