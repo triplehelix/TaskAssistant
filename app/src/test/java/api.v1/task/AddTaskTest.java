@@ -1,5 +1,7 @@
-package api.v1.auth;
+package api.v1.task;
 
+import api.v1.model.Task;
+import api.v1.task.AddTask;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,39 +20,30 @@ import static org.junit.Assert.fail;
 
 /**
  * Created by mikeh on 4/17/2016.
- * This class will test the CreateUser Class
+ * This class will test the AddTask Class
  */
-public class CreateUserTest {
-    private Logger LOGGER = LoggerFactory.getLogger(CreateUserTest.class);
-    private static CreateUser instance;
+public class AddTaskTest {
+    private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);
+    private static AddTask addTaskInstance;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
     /**
-     * First create a new Instance of CreateUser() object, then add new
+     * First create a new Instance of AddTask() object, then add new
      * user test cases to validRequestList and errorRequestList.
      *
      * @throws Exception
      */
     @Before
     public void setUp() throws Exception {
-        instance = new CreateUser();
-        // Creating Valid requests
-        validRequestList.add(createDoPostMockRequest("mikehedden@gmail.com", "a681wo$dKo"));
-        validRequestList.add(createDoPostMockRequest("kenlyon@gmail.com","Mouwkl87%qo"));
-        validRequestList.add(createDoPostMockRequest("kenlyon@test.com","e-W^2VmQ"));
-        validRequestList.add(createDoPostMockRequest("fatsteaks@gmail.com","+%D5|x%b"));
-        validRequestList.add(createDoPostMockRequest("yannisgreek@gmail.com","sy@UCL0_"));
-        validRequestList.add(createDoPostMockRequest("rustypuppy@gmail.com","3Z^V)xkE"));
-        validRequestList.add(createDoPostMockRequest("yo.momma.so.fat@gmail.com","6PnCK/?8"));
-        validRequestList.add(createDoPostMockRequest("under_scores_rule@gmail.com","6~Zas2R*"));
-        validRequestList.add(createDoPostMockRequest("test@mikehedden.gmail.com","i2@<uMtJ"));
-        // Creating invalid requests
-        errorRequestList.add(createDoPostMockRequest("mike", "password1"));
-        errorRequestList.add(createDoPostMockRequest("mike@test.com", ""));
-        errorRequestList.add(createDoPostMockRequest("mike@test@test.com", "aHouw8789"));
-        errorRequestList.add(createDoPostMockRequest("houston@wehaveaproblem.com", "11111111111111111111"));
-        errorRequestList.add(createDoPostMockRequest("toosimple@password.com", "ab1"));
+        addTaskInstance = new AddTask();
+        // Create valid mock tasks.
+        for(String s: TaskTestHelper.validTasks)
+            validRequestList.add(createDoPostMockRequest(s));
+
+        // Create invalid mock tasks.
+        for(String s: TaskTestHelper.errorTasks)
+            errorRequestList.add(createDoPostMockRequest(s));
     }
 
     /**
@@ -59,14 +52,14 @@ public class CreateUserTest {
      */
     @After
     public void tearDown() throws Exception {
-        instance = null;
+        addTaskInstance = null;
         validRequestList = null;
         errorRequestList = null;
     }
 
     /**
      * Loop though validRequestList and errorRequestList sending each
-     * MockHttpServletRequest to CreateUser then forward responses to
+     * MockHttpServletRequest to AddTask then forward responses to
      * validateDoPostValidResponse and validateDoPostErrorResponse
      * respectfully.
      * @throws Exception
@@ -75,18 +68,18 @@ public class CreateUserTest {
     public void doPost() throws Exception {
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            instance.doPost(request, response);
+            addTaskInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            instance.doPost(request, response);
+            addTaskInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
     }
 
     /**
-     * Check to verify that valid CreateUser doPost responses are indeed
+     * Check to verify that valid AddTask doPost responses are indeed
      * valid and log results.
      *
      * @param response
@@ -124,13 +117,11 @@ public class CreateUserTest {
         }else{
             fail("Response Object is empty");
         }
-
-
     }
 
     /**
-     * Check to verify that invalid CreateUser requests are caught
-     * by CreateUser().doPost and are received as error messages.
+     * Check to verify that invalid AddTask requests are caught
+     * by AddTask().doPost and are received as error messages.
      * @param response
      */
     private void validateDoPostErrorResponse(MockHttpServletResponse response) {
@@ -168,19 +159,29 @@ public class CreateUserTest {
         }
     }
 
+
     /**
-     * Create and return a new MockHttpServletRequest.
-     * @param email
-     * @param password
+     * Pass this method a String that can be interpreted as a well
+     * formed Task. The string parameter should be delimitted by
+     * backticks and
+     * @param stringTask
      * @return
      */
-    private MockHttpServletRequest createDoPostMockRequest(String email, String password) {
+    private MockHttpServletRequest createDoPostMockRequest(String stringTask){
+        String[] taskElementArray=stringTask.split("`");
         MockHttpServletRequest request = new MockHttpServletRequest();
-        JSONObject requestObj = new JSONObject();
-        requestObj.put("email", email);
-        requestObj.put("password", password);
-        LOGGER.info("Created request {}", requestObj.toJSONString());
-        request.addParameter("params", requestObj.toJSONString());
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("id",                taskElementArray[0]);
+        jsonObj.put("name",              taskElementArray[1]);
+        jsonObj.put("important",         taskElementArray[2]);
+        jsonObj.put("note",              taskElementArray[3]);
+        jsonObj.put("estimatedTime",     taskElementArray[4]);
+        jsonObj.put("investedTime",      taskElementArray[5]);
+        jsonObj.put("urgent",            taskElementArray[6]);
+        jsonObj.put("dueDate",           taskElementArray[7]);
+        jsonObj.put("status",            taskElementArray[8]);
+        LOGGER.info("Created request {}",jsonObj.toJSONString());
+        request.addParameter("params", jsonObj.toJSONString());
         return request;
     }
 }

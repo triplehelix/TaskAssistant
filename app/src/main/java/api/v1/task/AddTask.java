@@ -39,7 +39,7 @@ public class AddTask extends TaskRequestHandler {
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
 
-            // do not attempt to set task id.
+            // do not attempt to set task id. If a task id is provided, ignore it.
             Task task = new Task();
 
             // private String name;
@@ -67,7 +67,7 @@ public class AddTask extends TaskRequestHandler {
 
 	        // private enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
 	        // private Status status;
-            task.setStatus(Task.State.valueOf((String)jsonRequest.get("status")));
+            task.setStatus((String)jsonRequest.get("status"));
 
 		taskRepository.add(task);
 		} catch (BusinessException b) {

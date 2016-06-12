@@ -21,7 +21,9 @@
 
 
 Tha Fuck are services? 
-Create a "getLiteTask" for taskList api. such that only necessary infor about a task is genereated.
+Create a "getLiteTask" for taskList api. such that only necessary info about a task 
+is genereated.
+
 TaskList MUST HOLD REFERENCES TO TASK OBJECTS IN THE REPO.
 
 Mike says write a test case to solve this problem.
@@ -38,10 +40,6 @@ methods.
 
 Mike says that object passed through doPut should be complete. As such, the 
 repository ought to just replace the instance.
-
-
-
-
 
 
 
@@ -62,4 +60,11 @@ sucks for out purposes however.
 Logins require user name and password. The response is a token, and tokens 
 are required for all post, get, delete and put requests.
 
+
+****************************************************************************
+1. Move Gson serialization to objects. 
+2. Test GetUser:
+   a. Get a user that DNE. 
+   b. Send invalid Json.
+3. 
 
