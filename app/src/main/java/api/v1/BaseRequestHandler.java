@@ -42,7 +42,7 @@ public class BaseRequestHandler extends HttpServlet{
 	    param =  (JSONObject) parser.parse(requestString);
 	}catch(ParseException e){
 	    log.error("Exception while parsing request: " + requestString);
-	    throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_EXCEPTION"));
+	    throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_ERROR"));
 	}
 	return param;
     }
@@ -65,6 +65,7 @@ public class BaseRequestHandler extends HttpServlet{
 	 */
 	protected Date parseJsonDateAsDate(String stringDate) throws  BusinessException{
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
+        df.setLenient(false);
 		Date result = null;
 		try{
 			result = df.parse(stringDate);

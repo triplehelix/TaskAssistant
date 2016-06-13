@@ -30,7 +30,7 @@ public class AddTaskTest {
 
     /**
      * First create a new Instance of AddTask() object, then add new
-     * user test cases to validRequestList and errorRequestList.
+     * task test cases to validRequestList and errorRequestList.
      *
      * @throws Exception
      */
