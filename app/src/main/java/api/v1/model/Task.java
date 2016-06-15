@@ -92,6 +92,20 @@ public class Task {
         }
     }
 
+    /**
+     * Copy the member fields of t into this. Note that this will keep
+     * it's existing taskid.
+     * @param t
+     */
+    public void clone(Task t){
+		this.note=t.getNote();
+		this.estimatedTime=t.getEstimatedTime();
+		this.investedTime=t.getInvestedTime();
+		this.urgent=t.getUrgent();
+		this.dueDate=t.getDueDate();
+        this.status=t.getStatus();
+    }
+
     public Status getStatus() {
         return status;
     }
