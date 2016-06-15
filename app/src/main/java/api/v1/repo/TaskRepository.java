@@ -25,7 +25,7 @@ public class TaskRepository implements Repository<Task>{
     public void add(Task t) throws BusinessException, SystemException{
 	// First, we make sure that the task DNE. Else throw BusinessException
         int taskId=0;
-        while(taskDNE(taskId))
+        while(!taskIdDNE(taskId))
             taskId++;
         Task newTask=new Task(taskId);
         newTask.clone(t);
@@ -75,7 +75,7 @@ public class TaskRepository implements Repository<Task>{
         taskMap=new HashMap<Integer, Task>();
     }
 
-    private boolean taskDNE(int i){
+    private boolean taskIdDNE(int i){
         if(taskMap.containsKey(i))
             return false;
         else

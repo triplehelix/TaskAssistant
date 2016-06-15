@@ -14,4 +14,8 @@ public class TaskRequestHandler extends BaseRequestHandler {
     static {
         taskRepository = new TaskRepository();
     }
+
+    public static TaskRepository getTaskRepository(){
+        return taskRepository;
+    }
 }
