@@ -16,19 +16,23 @@ public class TaskRepository implements Repository<Task>{
      private HashMap<Integer, Task> taskMap;
 
     /**
-     *
+     * First discover a task id that has not been used. Then copy the incoming
+     * task fields into the new task.
      * @param t
      * @throws BusinessException
      * @throws SystemException
      */
-
     public void add(Task t) throws BusinessException, SystemException{
 	// First, we make sure that the task DNE. Else throw BusinessException
-        if(taskDNE(t))
-            taskMap.put(taskMap.size(), t);
+        int taskId=0;
+        while(taskDNE(taskId))
+            taskId++;
+        Task newTask=new Task(taskId);
+        newTask.clone(t);
+        taskMap.put(newTask.getId(), newTask);
     }
 
-/**
+    /**
      * @param t
      * @return
      * @throws BusinessException
@@ -71,8 +75,8 @@ public class TaskRepository implements Repository<Task>{
         taskMap=new HashMap<Integer, Task>();
     }
 
-    private boolean taskDNE(Task t){
-        if(taskMap.containsKey(t))
+    private boolean taskDNE(int i){
+        if(taskMap.containsKey(i))
             return false;
         else
             return true;
