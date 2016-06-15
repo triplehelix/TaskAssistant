@@ -26,11 +26,11 @@ public enum Error{
     PARSE_BOOLEAN_ERROR(1007),
     INVALID_ENUM_TYPE(1008),
     CREATE_USER_ERROR_USER_DNE(1015),
-    /*** System Errors ***/
-    CREATE_USER_SQL_ERROR(2005)
-    ;
+    UNIT_TEST_LOGIC_ERROR(1101),
 
-    int code;
+    /*** System Errors ***/
+    CREATE_USER_SQL_ERROR(2001);
+    private int code;
 
     /**
      *

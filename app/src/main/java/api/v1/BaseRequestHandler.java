@@ -64,16 +64,16 @@ public class BaseRequestHandler extends HttpServlet{
 	 * @return
 	 */
 	protected Date parseJsonDateAsDate(String stringDate) throws  BusinessException{
-		DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
         df.setLenient(false);
-		Date result = null;
-		try{
-			result = df.parse(stringDate);
-		} catch (java.text.ParseException e) {
-			log.error("Exception while parsing date token: " + stringDate);
-			throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
-		}
-			return result;
+        Date result = null;
+        try{
+            result = df.parse(stringDate);
+        } catch (java.text.ParseException e) {
+            log.error("Exception while parsing date token: " + stringDate);
+            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
+        }
+        return result;
 	}
 	
 	/**
