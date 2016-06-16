@@ -48,8 +48,10 @@ public class Task {
         this.status=Status.valueOf("NEW");
 	}
 
-    public void setName(String name){
-        this.name=name;
+    public void setName(String name)throws BusinessException{
+        if(name==null || name.equals(""))
+            throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_TASK_NAME_ERROR"));
+            this.name=name;
     }
     public void setImportant(boolean important){
         this.important=important;
@@ -88,7 +90,7 @@ public class Task {
             this.status = Status.valueOf(status);
         }
         catch(java.lang.IllegalArgumentException e){
-            throw new BusinessException(status +" is not a valid task status.", Error.valueOf("INVALID_ENUM_TYPE"));
+            throw new BusinessException(status +" is not a valid task status.", Error.valueOf("INVALID_TASK_STATUS_ERROR"));
         }
     }
 
