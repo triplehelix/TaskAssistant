@@ -147,7 +147,6 @@ public class BaseRequestHandler extends HttpServlet{
      * @return
      */
     protected boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
-        log.debug("The passed to BaseRequestHandler.parseJsonBooleanAsBoolean is " + b + ".");
         b = b.trim().toUpperCase();
         if (b.equals("TRUE"))
             return true;

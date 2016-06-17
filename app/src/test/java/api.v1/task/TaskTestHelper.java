@@ -3,6 +3,7 @@ package api.v1.task;
 import java.util.ArrayList;
 
 /**
+ * This class serves a a container for test case proto-tasks.
  * Created by kennethlyon on 6/9/16.
  */
 public class TaskTestHelper {
@@ -27,23 +28,14 @@ public class TaskTestHelper {
 
         // Add error causing tasks.
         errorTasks=new ArrayList<String>();
-        errorTasks.add("9`Call Attorney J.P. Coleostomy`TRUE`Bring photographic proof!`3600000`0`YES`2016-06-14_15:15:00`NEW");
-        errorTasks.add("10`Fix mom's computer.`TRUE`Again!?!`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
-        errorTasks.add("11`Prepare for apocalyptic zombie-cat-hoard.`TRUE`Need cat nip and shotguns.`4200000`0`TRUE`yyyy-MM-dd_HH:mm:ss`NEW");
-        errorTasks.add("12`Vaccinate cat against zombie cat syndrome.`TRUE`Don't forget that Mr Bigglesworth doesn't like shots.`1 hour`0`TRUE`2020-08-31_00:00:00`NEW");
-        errorTasks.add("13`Change motor oil`BLUE`Use quicky-lube coupon.`1600000`0`FALSE`2020-05-31_22:00:00`NEW");
-        errorTasks.add("14`merge git conflicts`TRUE`I really need to learn how to use git.`180000`0`TRUE`2020-05-31_03:00:00`incomplete");
-        errorTasks.add("15`Refinish porch`FALSE``210000`0`TRUE`2020-09-31_00:00:00`NEW");
-        errorTasks.add("16``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
-    
-
-
-
-
-
-
-
-
-
+        errorTasks.add("0`Call Attorney J.P. Coleostomy`TRUE`Bring photographic proof!`3600000`0`YES`2016-06-14_15:15:00`NEW");
+        errorTasks.add("1`Fix mom's computer.`TRUE`Again!?!`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
+        errorTasks.add("2`Prepare for apocalyptic zombie-cat-hoard.`TRUE`Need cat nip and shotguns.`4200000`0`TRUE`yyyy-MM-dd_HH:mm:ss`NEW");
+        errorTasks.add("3`Vaccinate cat against zombie cat syndrome.`TRUE`Don't forget that Mr Bigglesworth doesn't like shots.`1 hour`0`TRUE`2020-08-31_00:00:00`NEW");
+        errorTasks.add("4`Change motor oil`BLUE`Use quicky-lube coupon.`1600000`0`FALSE`2020-05-31_22:00:00`NEW");
+        errorTasks.add("5`merge git conflicts`TRUE`I really need to learn how to use git.`180000`0`TRUE`2020-05-31_03:00:00`incomplete");
+        errorTasks.add("6`Refinish porch`FALSE``210000`0`TRUE`2020-09-31_00:00:00`NEW");
+        errorTasks.add("7``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
+        validTasks.add("100`Finish TaskAssistant`TRUE`APIs, Unit tests, services …`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
     }
 }

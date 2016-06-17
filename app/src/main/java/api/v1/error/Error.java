@@ -16,7 +16,6 @@ package api.v1.error;
 public enum Error{
 
     /*** Business Errors ***/
-    PARSE_JSON_ERROR(1999),
     PARSE_DATE_ERROR(1001),
     PARSE_INTEGER_ERROR(1002),
     BAD_EMAIL_ERROR(1003),
@@ -25,12 +24,18 @@ public enum Error{
     CREATE_USER_ERROR_USER_EXISTS(1006),
     PARSE_BOOLEAN_ERROR(1007),
     INVALID_ENUM_TYPE(1008),
-    CREATE_USER_ERROR_USER_DNE(1050),
-    INVALID_TASK_NAME_ERROR(1060),
-    INVALID_TASK_STATUS_ERROR(1061),
-    UNIT_TEST_LOGIC_ERROR(1901),
 
+    /** model errors */
+    CREATE_USER_ERROR_USER_DNE(1150),
+    INVALID_TASK_NAME_ERROR(1160),
+    INVALID_TASK_STATUS_ERROR(1161),
+
+    /** Repo errors */
+    NO_SUCH_TASK_ERROR(1200),
+
+    UNIT_TEST_LOGIC_ERROR(1901),
     /*** System Errors ***/
+    PARSE_JSON_ERROR(1999),
     CREATE_USER_SQL_ERROR(2001);
     private int code;
 

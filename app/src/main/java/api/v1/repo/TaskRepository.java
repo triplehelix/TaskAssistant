@@ -42,7 +42,7 @@ public class TaskRepository implements Repository<Task>{
         if(taskMap.containsKey(t))
             return taskMap.get(t);
         else
-            throw new BusinessException(" Task not found. ", Error.valueOf("")); //TODO specifty error.
+            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_TASK_ERROR")); //TODO specifty error.
     }
 
 
