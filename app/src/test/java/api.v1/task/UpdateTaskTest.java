@@ -1,7 +1,5 @@
 package api.v1.task;
 
-import api.v1.model.Task;
-import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,10 +21,9 @@ import static org.junit.Assert.fail;
  * Created by kennethlyon on 6/15/16.
  */
 public class UpdateTaskTest{
-    private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);
+    private Logger LOGGER = LoggerFactory.getLogger(UpdateTaskTest.class);
     private static AddTask addTaskInstance;
     private static UpdateTask updateTaskInstance;
-    private TaskRepository taskRepository;
     private static ArrayList<MockHttpServletRequest> validUpdateTaskRequestList = new ArrayList<MockHttpServletRequest>();
     private static ArrayList<MockHttpServletRequest> errorUpdateTaskRequestList = new ArrayList<MockHttpServletRequest>();
 
@@ -37,21 +34,36 @@ public class UpdateTaskTest{
      */
     @Before
     public void setUp() throws Exception {
-        LOGGER.debug("// 1. Start by crating AddTask and UpdateTask Objects.");
+        LOGGER.debug("");
+        LOGGER.debug("*********** Starting @Before ***********");
+        LOGGER.debug("// 1. Start by creating AddTask and UpdateTask Objects.");
         addTaskInstance = new AddTask();
         updateTaskInstance = new UpdateTask();
-        taskRepository=updateTaskInstance.getTaskRepository();
         validUpdateTaskRequestList=new ArrayList<MockHttpServletRequest>();
         errorUpdateTaskRequestList=new ArrayList<MockHttpServletRequest>();
 
         LOGGER.debug("// 2. Next, use AddTask to populate the TaskRepository with Valid Tasks.");
         populateTaskRepositoryWithValidTasks();
 
-        LOGGER.debug("// 3. Fetch completed tasks from the repository and create valid mock requests.");
-        createValidUpdateRequests();
 
-        LOGGER.debug("// 5. Create invalid mock requests.");
-        createErrorUpdateRequests();
+
+        /* Use the TaskTestHelper.validUpdates ArrayList to populate the
+        * validUpdateTaskRequestList.
+        */
+        LOGGER.debug("// 3. Fetch completed tasks from the repository and create valid mock requests.");
+        for(String stringTask: TaskTestHelper.validUpdates)
+            validUpdateTaskRequestList.add(createDoPostMockRequest(stringTask));
+
+
+        /* Use the TaskTestHelper.errorTasks ArrayList to populate the
+        * errorUpdateTaskRequestList.
+        */
+        LOGGER.debug("// 4. Create invalid mock requests.");
+        for(String stringTask: TaskTestHelper.errorUpdates)
+            errorUpdateTaskRequestList.add(createDoPostMockRequest(stringTask));
+
+
+
     }
 
     /**
@@ -63,11 +75,13 @@ public class UpdateTaskTest{
      */
     @Test
     public void doPost() throws Exception {
+        LOGGER.debug("// 5. Post valid mock requests...");
         for (MockHttpServletRequest request : validUpdateTaskRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             updateTaskInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
+        LOGGER.debug("// 6. Post error mock requests...");
         for (MockHttpServletRequest request : errorUpdateTaskRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             updateTaskInstance.doPost(request, response);
@@ -81,9 +95,9 @@ public class UpdateTaskTest{
      */
     @After
     public void tearDown() throws Exception {
+        LOGGER.debug("@After: " + validUpdateTaskRequestList.size() + " " + errorUpdateTaskRequestList.size() + " ");
         addTaskInstance=null;
         updateTaskInstance=null;
-        taskRepository=null;
         validUpdateTaskRequestList=null;
         errorUpdateTaskRequestList=null;
     }
@@ -169,82 +183,11 @@ public class UpdateTaskTest{
         }
     }
 
-
-    /**
-     * This method populates the validUpdateTaskRequestList ArrayList with
-     * valid MockHttpServletRequest objects. This method expects that there
-     * be 9 existing valid requests in the validUpdateTaskRequestList
-     * ArrayList. Each of these tasks ought to have a valid mutation applied
-     * to them.
-     * @throws Exception
-     */
-    private void createValidUpdateRequests() throws Exception{
-        ArrayList<Task> repoTasks=fetchRepositoryTasks();
-
-        //"0`Feed dog`TRUE`Dog eats kibble.`60000`0`TRUE`2020-05-28_08:31:01`NEW"
-        repoTasks.get(0).setName("Give food to the fluff.");
-
-        //"1`Create AddTask unit test`TRUE`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS"
-        repoTasks.get(1).setImportant(false);
-
-        //2`Buy beer`TRUE`Pick up some IPAs on the way home from work. Edit: Bill said he would pick up beers instead.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED"
-        repoTasks.get(2).setNote("Bill is getting IPAs for the party.");
-
-        //"3`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`3600000`0`FALSE`2016-06-12_08:00:00`DEFERRED"
-        repoTasks.get(3).setEstimatedTime(1800000);
-
-        //"4`Shave`FALSE`GF said I need to shave.`180000`0`TRUE`2016-06-09_19:00:00`DONE");
-        repoTasks.get(4).setInvestedTime(90000);
-
-        //"5`Robert')); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`TRUE`2016-06-09_19:00:00`NEW"
-        repoTasks.get(5).setUrgent(false);
-
-        // "6`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW"
-        //repoTasks.get(6).setDueDate();
-
-        // "7`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED"
-        //repoTasks.get(7).setStatus("DONE");
-
-        // "8`Finish TaskAssistant`TRUE`APIs, Unit tests, services …`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS"
-        //repoTasks.get(8).setStatus();
-
-        for(Task t: repoTasks)
-            validUpdateTaskRequestList.add(createDoPostMockRequest(t));
-    }
-
-    /**
-     * This method populates the errorUpdateTaskRequestList ArrayList with
-     * valid MockHttpServletRequest objects. This method uses the strings
-     * from TaskTestHelper.errorTasks ArrayList. Each of these tasks ought
-     * represent an invalid mutation to valid Task.
-     *
-     * @throws Exception
-     */
-    private void createErrorUpdateRequests() throws Exception {
-        for(String stringTask: TaskTestHelper.errorTasks)
-            errorUpdateTaskRequestList.add(createDoPostMockRequest(stringTask));
-    }
-
-    /**
-     * This method fetches an ArrayList of Task objects as they appear
-     * in the TaskRepository.
-     * @throws Exception
-     */
-    private ArrayList<Task> fetchRepositoryTasks() throws Exception{
-        ArrayList<Task> repoTaskArrayList=new ArrayList<Task>(9);
-        for(int i=0;i<TaskTestHelper.validTasks.size(); i++){
-            repoTaskArrayList.add(taskRepository.get(new Task(i)));
-        }
-        return repoTaskArrayList;
-    }
-
-
-
     /**
      * This method populates the task repository with valid tasks.
      * @throws Exception
      */
-    public void populateTaskRepositoryWithValidTasks() throws Exception{
+    private void populateTaskRepositoryWithValidTasks() throws Exception{
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         for(String stringTask: TaskTestHelper.validTasks){
@@ -273,31 +216,7 @@ public class UpdateTaskTest{
         jsonObj.put("dueDate",         taskElementArray[7]);
         jsonObj.put("status",          taskElementArray[8]);
         LOGGER.info("Created request {}",jsonObj.toJSONString());
-        request.addParameter("params", jsonObj.toJSONString());
-        return request;
-    }
-
-
-    /**
-     * Create MockHttpServletRequests from an existing Task object.
-     * @param task
-     * @return
-     */
-    private MockHttpServletRequest createDoPostMockRequest(Task task) {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",                task.getId());
-        jsonObj.put("name",              task.getName());
-        jsonObj.put("important",         task.getImportant());
-        jsonObj.put("note",              task.getNote());
-        jsonObj.put("estimatedTime",     task.getEstimatedTime());
-        jsonObj.put("investedTime",      task.getInvestedTime());
-        jsonObj.put("urgent",            task.getUrgent());
-        jsonObj.put("dueDate",           task.getDueDate());
-        jsonObj.put("status",            task.getStatus());
-        LOGGER.info("Created request {}",jsonObj.toJSONString());
-        request.addParameter("params", jsonObj.toJSONString());
+        request.addParameter("params",   jsonObj.toJSONString());
         return request;
     }
 }
-

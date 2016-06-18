@@ -75,6 +75,9 @@ public class TaskRepository implements Repository<Task>{
      * @throws SystemException
      */
 	public void delete(Task t) throws BusinessException, SystemException{
-	    taskMap.remove(taskMap.get(t.getId()));
+        if(taskMap.containsKey(t.getId()))
+            taskMap.remove(taskMap.get(t.getId()));
+        else
+            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_TASK_ERROR"));
     }
 }

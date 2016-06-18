@@ -75,7 +75,6 @@ public class UpdateTask extends TaskRequestHandler {
             // private Status status;
             task.setStatus((String)jsonRequest.get("status"));
 
-
             taskRepository.update(task);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an PutTask  Request: {}.", jsonRequest.toJSONString(), b);
