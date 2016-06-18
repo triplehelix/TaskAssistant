@@ -15,6 +15,14 @@ public class TaskRepository implements Repository<Task>{
 
      private HashMap<Integer, Task> taskMap;
 
+
+    /**
+     * Create a new instance of a repository.
+     */
+    public TaskRepository(){
+        taskMap=new HashMap<Integer, Task>();
+    }
+
     /**
      * First discover a task id that has not been used. Then copy the incoming
      * task fields into the new task.
@@ -25,7 +33,7 @@ public class TaskRepository implements Repository<Task>{
     public void add(Task t) throws BusinessException, SystemException{
 	// First, we make sure that the task DNE. Else throw BusinessException
         int taskId=0;
-        while(!taskIdDNE(taskId))
+        while(taskMap.containsKey(taskId))
             taskId++;
         Task newTask=new Task(taskId);
         newTask.clone(t);
@@ -39,10 +47,10 @@ public class TaskRepository implements Repository<Task>{
      * @throws SystemException
      */
 	public Task get(Task t)throws BusinessException, SystemException{
-        if(taskMap.containsKey(t))
-            return taskMap.get(t);
+        if(taskMap.containsKey(t.getId()))
+            return taskMap.get(t.getId());
         else
-            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_TASK_ERROR")); //TODO specifty error.
+            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_TASK_ERROR"));
     }
 
 
@@ -55,7 +63,7 @@ public class TaskRepository implements Repository<Task>{
 	public void update(Task t) throws BusinessException, SystemException{
         // First, delete the task:
         this.delete(t);
-        // Then add the new u:
+        // Then add the new task:
         this.add(t);
 	}
 
@@ -68,17 +76,5 @@ public class TaskRepository implements Repository<Task>{
      */
 	public void delete(Task t) throws BusinessException, SystemException{
 	    taskMap.remove(taskMap.get(t.getId()));
-    }
-
-
-    public TaskRepository(){
-        taskMap=new HashMap<Integer, Task>();
-    }
-
-    private boolean taskIdDNE(int i){
-        if(taskMap.containsKey(i))
-            return false;
-        else
-            return true;
     }
 }

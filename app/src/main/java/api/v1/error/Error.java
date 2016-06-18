@@ -16,6 +16,7 @@ package api.v1.error;
 public enum Error{
 
     /*** Business Errors ***/
+    PARSE_JSON_ERROR(1999),
     PARSE_DATE_ERROR(1001),
     PARSE_INTEGER_ERROR(1002),
     BAD_EMAIL_ERROR(1003),
@@ -35,7 +36,6 @@ public enum Error{
 
     UNIT_TEST_LOGIC_ERROR(1901),
     /*** System Errors ***/
-    PARSE_JSON_ERROR(1999),
     CREATE_USER_SQL_ERROR(2001);
     private int code;
 

@@ -36,15 +36,16 @@ public class BaseRequestHandler extends HttpServlet{
 	 * @throws BusinessException
      */
     protected JSONObject parseRequest(String requestString)  throws BusinessException {
-	JSONObject param = null;
-	try{
-	    JSONParser parser = new JSONParser();
-	    param =  (JSONObject) parser.parse(requestString);
-	}catch(ParseException e){
-	    log.error("Exception while parsing request: " + requestString);
-	    throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_ERROR"));
-	}
-	return param;
+	    JSONObject param = null;
+        log.debug("This is the JSON reqest: " + requestString);
+	    try{
+	        JSONParser parser = new JSONParser();
+	        param =  (JSONObject) parser.parse(requestString);
+	    }catch(ParseException e){
+    	    log.error("Exception while parsing request: " + requestString);
+    	    throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_ERROR"));
+    	}
+    	return param;
     }
 	
 	/**
