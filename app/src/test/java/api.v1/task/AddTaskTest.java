@@ -1,7 +1,5 @@
 package api.v1.task;
 
-import api.v1.model.Task;
-import api.v1.task.AddTask;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
