@@ -2,6 +2,8 @@ package api.v1.model;
 
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+
 import java.util.Date;
 
 /**
@@ -134,5 +136,16 @@ public class Task {
     }
     public Date getDueDate(){
         return this.dueDate;
+    }
+
+
+    /**
+     * Create a serialized JSON String of this instance
+     * using GSON.
+     * @return
+     */
+    public String toGson(){
+        Gson gson=new Gson();
+        return gson.toJson(this);
     }
 }
