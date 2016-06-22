@@ -1,9 +1,9 @@
-package api.v1;
+package api.v1.model;
 
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
-import api.v1.model.Task;
 import org.json.simple.JSONObject;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.fail;
@@ -12,23 +12,24 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+import static org.junit.Assert.fail;
 /**
  * This class serves a a container for test case proto-tasks.
  * Created by kennethlyon on 6/9/16.
  */
-public class TaskTestHelper {
-    private static Logger LOGGER = LoggerFactory.getLogger(TaskTestHelper.class);
-    public static ArrayList<String> validTasks;
-    public static ArrayList<String> errorTasks;
-    public static ArrayList<String> validUpdates;
-    public static ArrayList<String> errorUpdates;
-    static{
+public class TaskTest {
+    private static Logger LOGGER = LoggerFactory.getLogger(TaskTest.class);
+    private static ArrayList<String> validTasks;
+    private static ArrayList<String> errorTasks;
+    private static ArrayList<String> validUpdates;
+    private static ArrayList<String> errorUpdates;
+
+    static {
 
         /* Add valid tasks. Tasks fields are arranged in the order:
          * validTasks.add("int id` String name` boolean important` String note` long estimatedTime` long investedTime` boolean urgent` Date dueDate` State status");
          */
-        validTasks=new ArrayList<String>();
+        validTasks = new ArrayList<String>();
         validTasks.add("0`Feed dog`TRUE`Dog eats kibble.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
         validTasks.add("1`Create AddTask unit test`TRUE`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
         validTasks.add("2`Buy beer`TRUE`Pick up some IPAs on the way home from work. Edit: Bill said he would pick up beers instead.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
@@ -38,10 +39,10 @@ public class TaskTestHelper {
         validTasks.add("6`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW");
         validTasks.add("7`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
         validTasks.add("8`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
-    
+
 
         // Add error causing tasks.
-        errorTasks=new ArrayList<String>();
+        errorTasks = new ArrayList<String>();
         errorTasks.add("0`Call Attorney J.P. Coleostomy`TRUE`Bring photographic proof!`3600000`0`YES`2016-06-14_15:15:00`NEW");
         errorTasks.add("1`Fix mom's computer.`TRUE`Again!?!`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
         errorTasks.add("2`Prepare for apocalyptic zombie-cat-hoard.`TRUE`Need cat nip and shotguns.`4200000`0`TRUE`yyyy-MM-dd_HH:mm:ss`NEW");
@@ -54,7 +55,7 @@ public class TaskTestHelper {
 
 
         // Add valid mutations to valid tasks.         
-        validUpdates=new ArrayList<String>();
+        validUpdates = new ArrayList<String>();
         validUpdates.add("0`Feed dog`TRUE`Give food to the fluff.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
         validUpdates.add("1`Create AddTask unit test`false`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
         validUpdates.add("2`Buy beer`TRUE`Bill is getting IPAs for the party.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
@@ -66,7 +67,7 @@ public class TaskTestHelper {
         validUpdates.add("8`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`DONE");
 
         // Add invalid mutations to valid tasks.
-        errorUpdates=new ArrayList<String>();
+        errorUpdates = new ArrayList<String>();
         errorUpdates.add("0`Call Attorney J.P. Coleostomy`TRUE`Bring photographic proof!`3600000`0`YES`2016-06-14_15:15:00`NEW");
         errorUpdates.add("1`Fix mom's computer.`TRUE`Again!?!`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
         errorUpdates.add("2`Prepare for apocalyptic zombie-cat-hoard.`TRUE`Need cat nip and shotguns.`4200000`0`TRUE`yyyy-MM-dd_HH:mm:ss`NEW");
@@ -75,88 +76,85 @@ public class TaskTestHelper {
         errorUpdates.add("5`merge git conflicts`TRUE`I really need to learn how to use git.`180000`0`TRUE`2020-05-31_03:00:00`incomplete");
         errorUpdates.add("6`Refinish porch`FALSE``210000`0`TRUE`2020-09-31_00:00:00`NEW");
         errorUpdates.add("7``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
-        errorUpdates.add("100`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
+        errorUpdates.add("8`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`abcdefg`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
     }
 
 
-    public static ArrayList<JSONObject> getValidTestTasksAsJson(){
-        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
+    public static ArrayList<JSONObject> getValidTestTasksAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
 
-        for(String s: validTasks)
-            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
-        return jsonObjectArrayList;
-    }
-    public static ArrayList<JSONObject> getErrorTestTasksAsJson(){
-        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
-        for(String s: errorTasks)
-            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
-        return jsonObjectArrayList;
-
-    }
-    public static ArrayList<JSONObject> getValidTestTaskUpdatesAsJson(){
-        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
-        for(String s: validUpdates)
-            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
-        return jsonObjectArrayList;
-    }
-    public static ArrayList<JSONObject> getErrorTestTaskUpdatesAsJson(){
-        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
-        for(String s: errorUpdates)
-            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
+        for (String s : validTasks)
+            jsonObjectArrayList.add(TaskTest.toJson(s));
         return jsonObjectArrayList;
     }
 
+    public static ArrayList<JSONObject> getErrorTestTasksAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : errorTasks)
+            jsonObjectArrayList.add(TaskTest.toJson(s));
+        return jsonObjectArrayList;
 
-    public static ArrayList<Task> getValidTestTasksAsTasks(){
-        ArrayList<Task> taskArrayList=new ArrayList<Task>();
-        for(String s: validTasks){
-            taskArrayList.add(TaskTestHelper.toTask(s));
+    }
+
+    public static ArrayList<JSONObject> getValidTestTaskUpdatesAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : validUpdates)
+            jsonObjectArrayList.add(TaskTest.toJson(s));
+        return jsonObjectArrayList;
+    }
+
+    public static ArrayList<JSONObject> getErrorTestTaskUpdatesAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : errorUpdates)
+            jsonObjectArrayList.add(TaskTest.toJson(s));
+        return jsonObjectArrayList;
+    }
+
+
+    public static ArrayList<Task> getValidTestTasksAsTasks() throws Exception{
+        ArrayList<Task> taskArrayList = new ArrayList<Task>();
+        for (String s : validTasks) {
+            taskArrayList.add(TaskTest.toTask(s));
         }
         return taskArrayList;
     }
 
-    public static ArrayList<Task> getValidTestTasksUpdatesAsTasks(){
-        ArrayList<Task> taskArrayList=new ArrayList<Task>();
-        for(String s: validUpdates){
-            taskArrayList.add(TaskTestHelper.toTask(s));
+    public static ArrayList<Task> getValidTestTasksUpdatesAsTasks() throws Exception{
+        ArrayList<Task> taskArrayList = new ArrayList<Task>();
+        for (String s : validUpdates) {
+            taskArrayList.add(TaskTest.toTask(s));
         }
         return taskArrayList;
     }
 
 
-
-
-    private static Task toTask(String s) {
-        String[] taskElementArray=s.split("`");
-        Task task=new Task();
-        try {
+    private static Task toTask(String s) throws Exception{
+        String[] taskElementArray = s.split("`");
+        Task task = new Task();
             task.setId(Integer.parseInt(taskElementArray[0]));
             task.setName(taskElementArray[1]);
-            task.setImportant(Boolean.parseBoolean(taskElementArray[2]));
+            task.setImportant(TaskTest.parseJsonBooleanAsBoolean(taskElementArray[2]));
             task.setNote(taskElementArray[3]);
             task.setEstimatedTime(Long.parseLong(taskElementArray[4]));
             task.setInvestedTime(Long.parseLong(taskElementArray[5]));
-            task.setUrgent(Boolean.parseBoolean(taskElementArray[6]));
+            task.setUrgent(TaskTest.parseJsonBooleanAsBoolean(taskElementArray[6]));
             task.setDueDate(parseJsonDateAsDate(taskElementArray[7]));
             task.setStatus(taskElementArray[8]);
-        }catch (Exception e){
-            LOGGER.error("Could not create task from: " + s);
-            fail(e.getMessage());
-        }
         return task;
     }
 
     /**
      * Parse a String representing a given date and return a Date object.
      * String must be in the format: yyyy-MM-dd_HH:mm:ss
+     *
      * @param stringDate
      * @return
      */
-    private static Date parseJsonDateAsDate(String stringDate) throws  BusinessException{
+    private static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         df.setLenient(false);
         Date result = null;
-        try{
+        try {
             result = df.parse(stringDate);
         } catch (java.text.ParseException e) {
             LOGGER.error("Exception while parsing date token: " + stringDate);
@@ -166,20 +164,74 @@ public class TaskTestHelper {
     }
 
 
+    /**
+     * Parse string as boolean.
+     * @param b
+     * @return
+     */
+    private static boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
+        b = b.trim().toUpperCase();
+        if (b.equals("TRUE"))
+            return true;
+        else if(b.equals("FALSE"))
+            return false;
+        else
+            throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
+    }
 
     private static JSONObject toJson(String stringTask) {
-        String[] taskElementArray=stringTask.split("`");
+        String[] taskElementArray = stringTask.split("`");
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",              taskElementArray[0]);
-        jsonObj.put("name",            taskElementArray[1]);
-        jsonObj.put("important",       taskElementArray[2]);
-        jsonObj.put("note",            taskElementArray[3]);
-        jsonObj.put("estimatedTime",   taskElementArray[4]);
-        jsonObj.put("investedTime",    taskElementArray[5]);
-        jsonObj.put("urgent",          taskElementArray[6]);
-        jsonObj.put("dueDate",         taskElementArray[7]);
-        jsonObj.put("status",          taskElementArray[8]);
-        LOGGER.info("Created request {}",jsonObj.toJSONString());
+        jsonObj.put("id", taskElementArray[0]);
+        jsonObj.put("name", taskElementArray[1]);
+        jsonObj.put("important", taskElementArray[2]);
+        jsonObj.put("note", taskElementArray[3]);
+        jsonObj.put("estimatedTime", taskElementArray[4]);
+        jsonObj.put("investedTime", taskElementArray[5]);
+        jsonObj.put("urgent", taskElementArray[6]);
+        jsonObj.put("dueDate", taskElementArray[7]);
+        jsonObj.put("status", taskElementArray[8]);
+        LOGGER.info("Created request {}", jsonObj.toJSONString());
         return jsonObj;
+    }
+
+    /**
+     * @throws Exception
+     */
+    @Test
+    public void setUp() throws Exception {
+        for(String s: validTasks){
+            TaskTest.toTask(s);
+            LOGGER.info("Valid task {}", toJson(s));
+        }
+
+        for(String s: validUpdates){
+            TaskTest.toTask(s);
+            LOGGER.info("Valid task {}", toJson(s));
+        }
+
+        for(String s: errorTasks){
+            validateErrorTask(s);
+            LOGGER.info("Error task {}", toJson(s));
+        }
+
+        for(String s: errorUpdates){
+            validateErrorTask(s);
+            LOGGER.info("Error task {}", toJson(s));
+        }
+
+    }
+
+    public void validateErrorTask(String s){
+        boolean error=false;
+        try{
+            TaskTest.toTask(s);
+        }catch(Exception e){
+            error=true;
+            LOGGER.info("Invalid Task returned error. " + e.getMessage());
+        }
+        if(!error){
+            fail("Success returned for invalid Task: " + s);
+        }
     }
 }

@@ -91,7 +91,7 @@ public class BaseRequestHandler extends HttpServlet{
 			myInt = Integer.parseInt(i);
 		}catch(NumberFormatException e){
             log.error(nfeError);
-            throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_EXCEPTION"));
+            throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_ERROR"));
         }
 		return myInt;
 	}

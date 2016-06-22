@@ -1,6 +1,6 @@
 package api.v1.task;
 
-import api.v1.TaskTestHelper;
+import api.v1.model.TaskTest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -37,12 +37,14 @@ public class AddTaskTest {
     public void setUp() throws Exception {
         addTaskInstance = new AddTask();
         // Create valid mock tasks.
-        for(String s: TaskTestHelper.validTasks)
-            validRequestList.add(createDoPostMockRequest(s));
+        for(JSONObject jsonObj: TaskTest.getValidTestTasksAsJson())
+            validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Create invalid mock tasks.
-        for(String s: TaskTestHelper.errorTasks)
-            errorRequestList.add(createDoPostMockRequest(s));
+        for(JSONObject jsonObj: TaskTest.getErrorTestTasksAsJson())
+            errorRequestList.add(createDoPostMockRequest(jsonObj));
+
+
     }
 
     /**
@@ -160,25 +162,12 @@ public class AddTaskTest {
 
 
     /**
-     * Pass this method a String that can be interpreted as a well
-     * formed Task. The string parameter should be delimitted by
-     * backticks and
-     * @param stringTask
+     * Pass this method a json object to return a MockHttpServletRequest.
+     * @param jsonObj
      * @return
      */
-    private MockHttpServletRequest createDoPostMockRequest(String stringTask){
-        String[] taskElementArray=stringTask.split("`");
+    private MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj){
         MockHttpServletRequest request = new MockHttpServletRequest();
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",                taskElementArray[0]);
-        jsonObj.put("name",              taskElementArray[1]);
-        jsonObj.put("important",         taskElementArray[2]);
-        jsonObj.put("note",              taskElementArray[3]);
-        jsonObj.put("estimatedTime",     taskElementArray[4]);
-        jsonObj.put("investedTime",      taskElementArray[5]);
-        jsonObj.put("urgent",            taskElementArray[6]);
-        jsonObj.put("dueDate",           taskElementArray[7]);
-        jsonObj.put("status",            taskElementArray[8]);
         LOGGER.info("Created request {}",jsonObj.toJSONString());
         request.addParameter("params", jsonObj.toJSONString());
         return request;

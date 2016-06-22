@@ -1,6 +1,6 @@
 package api.v1.task;
 
-import api.v1.TaskTestHelper;
+import api.v1.model.TaskTest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -48,20 +48,20 @@ public class UpdateTaskTest{
 
 
 
-        /* Use the TaskTestHelper.validUpdates ArrayList to populate the
+        /* Use the TaskTest.validUpdates ArrayList to populate the
         * validUpdateTaskRequestList.
         */
         LOGGER.debug("// 3. Fetch completed tasks from the repository and create valid mock requests.");
-        for(String stringTask: TaskTestHelper.validUpdates)
-            validUpdateTaskRequestList.add(createDoPostMockRequest(stringTask));
+        for(JSONObject jsonObj: TaskTest.getValidTestTasksAsJson())
+            validUpdateTaskRequestList.add(createDoPostMockRequest(jsonObj));
 
 
-        /* Use the TaskTestHelper.errorTasks ArrayList to populate the
+        /* Use the TaskTest.errorTasks ArrayList to populate the
         * errorUpdateTaskRequestList.
         */
         LOGGER.debug("// 4. Create invalid mock requests.");
-        for(String stringTask: TaskTestHelper.errorUpdates)
-            errorUpdateTaskRequestList.add(createDoPostMockRequest(stringTask));
+        for(JSONObject jsonObj: TaskTest.getErrorTestTasksAsJson())
+            errorUpdateTaskRequestList.add(createDoPostMockRequest(jsonObj));
 
 
 
@@ -191,31 +191,20 @@ public class UpdateTaskTest{
     private void populateTaskRepositoryWithValidTasks() throws Exception{
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
-        for(String stringTask: TaskTestHelper.validTasks){
-            request=createDoPostMockRequest(stringTask);
+        for(JSONObject jsonTask: TaskTest.getValidTestTasksAsJson()){
+            request=createDoPostMockRequest(jsonTask);
             addTaskInstance.doPost(request, response);
         }
     }
 
     /**
      * This class creates a mock http servlet request from a string
-     * task object such as those found in TaskTestHelper.errorTasks.
-     * @param stringTask
+     * task object such as those found in TaskTest.errorTasks.
+     * @param jsonObj
      * @return
      */
-    private MockHttpServletRequest createDoPostMockRequest(String stringTask) {
-        String[] taskElementArray=stringTask.split("`");
+    private MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj) {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",              taskElementArray[0]);
-        jsonObj.put("name",            taskElementArray[1]);
-        jsonObj.put("important",       taskElementArray[2]);
-        jsonObj.put("note",            taskElementArray[3]);
-        jsonObj.put("estimatedTime",   taskElementArray[4]);
-        jsonObj.put("investedTime",    taskElementArray[5]);
-        jsonObj.put("urgent",          taskElementArray[6]);
-        jsonObj.put("dueDate",         taskElementArray[7]);
-        jsonObj.put("status",          taskElementArray[8]);
         LOGGER.info("Created request {}",jsonObj.toJSONString());
         request.addParameter("params",   jsonObj.toJSONString());
         return request;
