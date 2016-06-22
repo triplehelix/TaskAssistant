@@ -35,7 +35,7 @@ public class Task {
 		this.dueDate=null;
         this.status=Status.valueOf("NEW");
 	}
-	
+
 	/**
 	 * Create a new task w/o an id. Tasks created without an id are assigned
      * an id of -1.
@@ -49,7 +49,9 @@ public class Task {
 		this.dueDate=null;
         this.status=Status.valueOf("NEW");
 	}
-
+    public void setId(int id){
+        this.id=id;
+    }
     public void setName(String name)throws BusinessException{
         if(name==null || name.equals(""))
             throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_TASK_NAME_ERROR"));

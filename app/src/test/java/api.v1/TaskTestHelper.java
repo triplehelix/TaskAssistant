@@ -1,16 +1,28 @@
-package api.v1.task;
+package api.v1;
 
+import api.v1.error.BusinessException;
+import api.v1.error.Error;
+import api.v1.model.Task;
+import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import static org.junit.Assert.fail;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class serves a a container for test case proto-tasks.
  * Created by kennethlyon on 6/9/16.
  */
 public class TaskTestHelper {
-    protected static ArrayList<String> validTasks;
-    protected static ArrayList<String> errorTasks;
-    protected static ArrayList<String> validUpdates;
-    protected static ArrayList<String> errorUpdates;
+    private static Logger LOGGER = LoggerFactory.getLogger(TaskTestHelper.class);
+    public static ArrayList<String> validTasks;
+    public static ArrayList<String> errorTasks;
+    public static ArrayList<String> validUpdates;
+    public static ArrayList<String> errorUpdates;
     static{
 
         /* Add valid tasks. Tasks fields are arranged in the order:
@@ -43,43 +55,15 @@ public class TaskTestHelper {
 
         // Add valid mutations to valid tasks.         
         validUpdates=new ArrayList<String>();
-        //repoTasks.get(0).setName("Give food to the fluff.");
-        //               "0`Feed dog`TRUE`Dog eats kibble.`60000`0`TRUE`2020-05-28_08:31:01`NEW"
-        validUpdates.add("0`Feed dog`TRUE`Dog eats kibble.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
-
-        //repoTasks.get(1).setImportant(false);
-        //               "1`Create AddTask unit test`TRUE`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS"
+        validUpdates.add("0`Feed dog`TRUE`Give food to the fluff.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
         validUpdates.add("1`Create AddTask unit test`false`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
-
-        //repoTasks.get(2).setNote("Bill is getting IPAs for the party.");
-        //               "2`Buy beer`TRUE`Pick up some IPAs on the way home from work. Edit: Bill said he would pick up beers instead.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
         validUpdates.add("2`Buy beer`TRUE`Bill is getting IPAs for the party.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
-
-        // repoTasks.get(3).setEstimatedTime(1800000);
-        //               "3`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`3600000`0`FALSE`2016-06-12_08:00:00`DEFERRED"
         validUpdates.add("3`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`1800000`0`FALSE`2016-06-12_08:00:00`DEFERRED");
-
-        //repoTasks.get(4).setInvestedTime(90000);
-        //               "4`Shave`FALSE`GF said I need to shave.`180000`0`TRUE`2016-06-09_19:00:00`DONE");
         validUpdates.add("4`Shave`FALSE`GF said I need to shave.`180000`90000`TRUE`2016-06-09_19:00:00`DONE");
-
-        // repoTasks.get(5).setUrgent(false);
-        //               "5`Robert'); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`TRUE`2016-06-09_19:00:00`NEW"
         validUpdates.add("5`Robert'); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`false`2016-06-09_19:00:00`NEW");
-
-        //repoTasks.get(6).setDueDate();
-        //               "6`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW"
         validUpdates.add("6`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW");
-
-        //repoTasks.get(7).setStatus("DONE");
-        //               "7`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED"
         validUpdates.add("7`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
-
-        //repoTasks.get(8).setStatus(Status.valueOf("DONE"));
-        //               "8`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS"
         validUpdates.add("8`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`DONE");
-    
-
 
         // Add invalid mutations to valid tasks.
         errorUpdates=new ArrayList<String>();
@@ -92,5 +76,110 @@ public class TaskTestHelper {
         errorUpdates.add("6`Refinish porch`FALSE``210000`0`TRUE`2020-09-31_00:00:00`NEW");
         errorUpdates.add("7``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
         errorUpdates.add("100`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
+    }
+
+
+    public static ArrayList<JSONObject> getValidTestTasksAsJson(){
+        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
+
+        for(String s: validTasks)
+            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
+        return jsonObjectArrayList;
+    }
+    public static ArrayList<JSONObject> getErrorTestTasksAsJson(){
+        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
+        for(String s: errorTasks)
+            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
+        return jsonObjectArrayList;
+
+    }
+    public static ArrayList<JSONObject> getValidTestTaskUpdatesAsJson(){
+        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
+        for(String s: validUpdates)
+            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
+        return jsonObjectArrayList;
+    }
+    public static ArrayList<JSONObject> getErrorTestTaskUpdatesAsJson(){
+        ArrayList<JSONObject> jsonObjectArrayList=new ArrayList<JSONObject>();
+        for(String s: errorUpdates)
+            jsonObjectArrayList.add(TaskTestHelper.toJson(s));
+        return jsonObjectArrayList;
+    }
+
+
+    public static ArrayList<Task> getValidTestTasksAsTasks(){
+        ArrayList<Task> taskArrayList=new ArrayList<Task>();
+        for(String s: validTasks){
+            taskArrayList.add(TaskTestHelper.toTask(s));
+        }
+        return taskArrayList;
+    }
+
+    public static ArrayList<Task> getValidTestTasksUpdatesAsTasks(){
+        ArrayList<Task> taskArrayList=new ArrayList<Task>();
+        for(String s: validUpdates){
+            taskArrayList.add(TaskTestHelper.toTask(s));
+        }
+        return taskArrayList;
+    }
+
+
+
+
+    private static Task toTask(String s) {
+        String[] taskElementArray=s.split("`");
+        Task task=new Task();
+        try {
+            task.setId(Integer.parseInt(taskElementArray[0]));
+            task.setName(taskElementArray[1]);
+            task.setImportant(Boolean.parseBoolean(taskElementArray[2]));
+            task.setNote(taskElementArray[3]);
+            task.setEstimatedTime(Long.parseLong(taskElementArray[4]));
+            task.setInvestedTime(Long.parseLong(taskElementArray[5]));
+            task.setUrgent(Boolean.parseBoolean(taskElementArray[6]));
+            task.setDueDate(parseJsonDateAsDate(taskElementArray[7]));
+            task.setStatus(taskElementArray[8]);
+        }catch (Exception e){
+            LOGGER.error("Could not create task from: " + s);
+            fail(e.getMessage());
+        }
+        return task;
+    }
+
+    /**
+     * Parse a String representing a given date and return a Date object.
+     * String must be in the format: yyyy-MM-dd_HH:mm:ss
+     * @param stringDate
+     * @return
+     */
+    private static Date parseJsonDateAsDate(String stringDate) throws  BusinessException{
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        df.setLenient(false);
+        Date result = null;
+        try{
+            result = df.parse(stringDate);
+        } catch (java.text.ParseException e) {
+            LOGGER.error("Exception while parsing date token: " + stringDate);
+            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
+        }
+        return result;
+    }
+
+
+
+    private static JSONObject toJson(String stringTask) {
+        String[] taskElementArray=stringTask.split("`");
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("id",              taskElementArray[0]);
+        jsonObj.put("name",            taskElementArray[1]);
+        jsonObj.put("important",       taskElementArray[2]);
+        jsonObj.put("note",            taskElementArray[3]);
+        jsonObj.put("estimatedTime",   taskElementArray[4]);
+        jsonObj.put("investedTime",    taskElementArray[5]);
+        jsonObj.put("urgent",          taskElementArray[6]);
+        jsonObj.put("dueDate",         taskElementArray[7]);
+        jsonObj.put("status",          taskElementArray[8]);
+        LOGGER.info("Created request {}",jsonObj.toJSONString());
+        return jsonObj;
     }
 }
