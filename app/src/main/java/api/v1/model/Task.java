@@ -99,12 +99,14 @@ public class Task {
     }
 
     /**
-     * Copy the member fields of t into this. Note that this will keep
-     * it's existing taskid.
+     * Copy the member fields of t into this.
      * @param t
      */
     public void clone(Task t){
-		this.note=t.getNote();
+        this.id=t.getId();
+        this.name=t.getName();
+        this.note=t.getNote();
+        this.important=t.getImportant();
 		this.estimatedTime=t.getEstimatedTime();
 		this.investedTime=t.getInvestedTime();
 		this.urgent=t.getUrgent();
@@ -146,7 +148,7 @@ public class Task {
      * using GSON.
      * @return
      */
-    public String toGson(){
+    public String toJson(){
         Gson gson=new Gson();
         return gson.toJson(this);
     }
