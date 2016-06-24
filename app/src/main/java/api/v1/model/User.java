@@ -6,15 +6,6 @@ public class User {
 	private String password;
 	
 	/**
-	 * Create a User object with a preexisting id.
-	 *
-	 * @param id
-	 */
-	public User(int id){
-		this.id = id;
-	}
-	
-	/**
 	 * Create a new User w/o an user id. Users created without an id
      * are assigned an id of -9.
 	 */
