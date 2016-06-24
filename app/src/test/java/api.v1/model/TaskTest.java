@@ -12,7 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import static org.junit.Assert.fail;
+
 /**
  * This class serves a a container for test case proto-tasks.
  * Created by kennethlyon on 6/9/16.

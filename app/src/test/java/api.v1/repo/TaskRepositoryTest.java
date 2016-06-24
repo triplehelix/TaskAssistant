@@ -23,11 +23,10 @@ import static org.junit.Assert.fail;
  */
 public class TaskRepositoryTest {
 
-
     private Logger LOGGER = LoggerFactory.getLogger(TaskRepositoryTest.class);
     private TaskRepository taskRepository = new TaskRepository();
-    private static ArrayList<Task> validTasks = new ArrayList();
-    private static ArrayList<Task> validUpdates = new ArrayList();
+    private static ArrayList<Task> validTasks = new ArrayList<Task>();
+    private static ArrayList<Task> validUpdates = new ArrayList<Task>();
 
     @Before
     public void setUp() throws Exception {
@@ -51,6 +50,7 @@ public class TaskRepositoryTest {
         }
         validateUpdatedTasks();
         testDelete();
+        testUpdate();
     }
 
     @After
@@ -102,6 +102,10 @@ public class TaskRepositoryTest {
         }
     }
 
+    /**
+     * Delete all of the tasks in the repository. Then, Attempt to
+     * delete them again.
+     */
     private void testDelete() {
         //First delete them all.
         Task t = null;
@@ -114,14 +118,16 @@ public class TaskRepositoryTest {
             LOGGER.error("delete task error. Task not deleted {}", t.toJson());
             fail("The task could not be deleted.");
         }
-
+        //LOGGER.debug("Re: TaskRepositoryTest.testDelete: ");
         boolean error=false;
         for (int i=0;i<validUpdates.size();i++){
             try {
                 t=validUpdates.get(i);
+          //    LOGGER.debug("Re: TaskRepositoryTest.testDelete: Attempting to delete " + t.toJson());
                 taskRepository.delete(t);
             } catch (Exception e) {
-                LOGGER.error("delete task error {}", t.toJson());
+                LOGGER.error("Delete Task error \n\t{}", t.toJson());
+                LOGGER.error(e.getMessage());
                 error = true;
             }
             if(!error)
@@ -129,4 +135,22 @@ public class TaskRepositoryTest {
         }
     }
 
+    private void testUpdate(){
+        LOGGER.debug("Re: TaskRepositoryTest.testUpdate: ");
+        boolean error=false;
+        Task t=null;
+        for (int i=0;i<validUpdates.size();i++){
+            try {
+                t=validUpdates.get(i);
+                LOGGER.debug("Re: TaskRepositoryTest.testDelete: Attempting to delete " + t.toJson());
+                taskRepository.update(t);
+            } catch (Exception e) {
+                LOGGER.error("Update Task error \n\t{}", t.toJson());
+                LOGGER.error(e.getMessage());
+                error = true;
+            }
+            if(!error)
+                fail("Success returned for an invalid update.");
+        }
+    }
 }
