@@ -6,14 +6,16 @@ import api.v1.error.Error;
 import java.util.HashMap;
 import api.v1.model.Task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * This is the ProtoTaskRepository. This class does not yet
  * interact with a database.
  */
 public class TaskRepository implements Repository<Task>{
-
-     private HashMap<Integer, Task> taskMap;
+    private static Logger LOGGER = LoggerFactory.getLogger(TaskRepository.class);
+    private HashMap<Integer, Task> taskMap;
 
 
     /**
@@ -35,9 +37,7 @@ public class TaskRepository implements Repository<Task>{
         int taskId=0;
         while(taskMap.containsKey(taskId))
             taskId++;
-        Task newTask=new Task(taskId);
-        newTask.clone(t);
-        taskMap.put(newTask.getId(), newTask);
+        taskMap.put(taskId, t);
     }
 
     /**
@@ -74,8 +74,9 @@ public class TaskRepository implements Repository<Task>{
      * @throws SystemException
      */
 	public void delete(Task t) throws BusinessException, SystemException{
-        if(taskMap.containsKey(t.getId()))
-            taskMap.remove(taskMap.get(t.getId()));
+        if(taskMap.containsKey(t.getId())){
+            taskMap.remove(t.getId());
+        }
         else
             throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_TASK_ERROR"));
     }

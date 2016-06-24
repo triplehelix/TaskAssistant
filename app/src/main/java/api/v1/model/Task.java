@@ -22,19 +22,6 @@ public class Task {
     public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
     private Status status;
 
-    /**
-	 * Create a task with a user id.
-	 */
-	public Task(int id)
-	{
-		this.id=id;
-		this.note="";
-		this.estimatedTime=0;
-		this.investedTime=0;
-		this.urgent=false;
-		this.dueDate=null;
-        this.status=Status.valueOf("NEW");
-	}
 
 	/**
 	 * Create a new task w/o an id. Tasks created without an id are assigned

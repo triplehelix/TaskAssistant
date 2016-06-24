@@ -47,7 +47,9 @@ public class UpdateTask extends TaskRequestHandler {
             jsonRequest = parseRequest(request.getParameter("params"));
 
             // DO attempt to set task id. If a task id is not present an exception should be thrown.
-            task = new Task(parseJsonIntAsInt((String)jsonRequest.get("id")));
+			task = new Task();
+
+			task.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
 
             // private String name;
             task.setName((String)jsonRequest.get("name"));
