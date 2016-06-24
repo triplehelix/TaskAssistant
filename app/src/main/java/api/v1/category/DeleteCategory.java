@@ -40,7 +40,9 @@ public class DeleteCategory extends CategoryRequestHandler {
 		try {
 		    jsonRequest = parseRequest(request.getParameter("params"));
 		    int categoryId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-		    categoryRepository.delete(new Category(categoryId));
+			Category category = new Category();
+            category.setId(categoryId);
+		    categoryRepository.delete(category);
 
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteCategory  Request: {}.", jsonRequest.toJSONString(), b);

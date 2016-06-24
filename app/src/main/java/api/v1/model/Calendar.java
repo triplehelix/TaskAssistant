@@ -22,14 +22,6 @@ public class Calendar {
 	private String remoteToken;
 
 	/**
-	 * Create a Calendar that already has an assigned id.
-	 * @param id
-	 */
-	public Calendar(int id){
-		this.id=id;
-	}
-	
-	/**
 	 * Create a new calendar w/o a calendar id. Calendars without an id are
      * assigned an id of -9.
 	 */
@@ -37,10 +29,15 @@ public class Calendar {
         this.id = -9;
     }
 
-	
+
+    public void setId(int id){
+        this.id=id;
+    }
+
 	public int getId() {
 		return id;
 	}
+
 	public String getName() {
 		return name;
 	}

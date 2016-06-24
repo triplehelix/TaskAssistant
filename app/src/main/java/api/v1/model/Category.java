@@ -7,14 +7,6 @@ public class Category {
 	
 	
 	/**
-	 * Create a new category class with an id that is already defined. 
-	 * @param id
-	 */
-	public Category(int id){
-		this.id=id;
-	}
-	
-	/**
 	 * Create an new Category w/o a category id. Categories without an
      * id are assigned an id of -9.
 	 */
@@ -27,6 +19,9 @@ public class Category {
 		return id;
 	}
 
+	public void setId(int id){
+		this.id=id;
+	}
 
 	public String getName() {
 		return name;

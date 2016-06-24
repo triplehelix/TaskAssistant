@@ -12,14 +12,6 @@ public class TaskList {
 	private int id;
 	private String description;
 	
-	/**
-	 * Use this constructor to fetch a TaskList that already exists.
-	 * @param id
-	 */
-	public TaskList(int id){
-		this.id=id;
-	}
-
     /**
      * Create a new TaskList w/o a taskList id. TasksLists created without
      * an id are assigned an id of -9.
@@ -37,6 +29,9 @@ public class TaskList {
 	}
 	public int getId() {
 		return id;
+	}
+	public void setId(int id){
+		this.id=id;
 	}
 	public String getDescription() {
 		return description;

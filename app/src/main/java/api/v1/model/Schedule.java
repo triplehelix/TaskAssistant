@@ -10,13 +10,6 @@ public class Schedule {
 	private RepeatTypes repeatType;	
 	
 	/**
-	 * Create a Schedule object with an existing id.
-	 */
-	public Schedule(int id){
-		this.id = id;
-	}
-
-	/**
 	 * Create a new schedule w/o an id. Schedules without an id are
      * assigned an id of -9.
 	 */
@@ -26,6 +19,10 @@ public class Schedule {
 	
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id){
+		this.id=id;
 	}
 
 	public Date getStartDate() {

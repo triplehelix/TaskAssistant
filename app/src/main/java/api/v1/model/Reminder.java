@@ -13,14 +13,6 @@ public class Reminder {
 	private Date reminderTime;
 	
 	/**
-	 * Create a Reminder object that already has an id.
-	 * @param id
-	 */
-	public Reminder(int id){
-		this.id=id;
-	}
-	
-	/**
 	 * Create a new, Reminder w/o an reminder id. Reminders without an id are
      * assigned an id of -9.
 	 */
@@ -31,6 +23,11 @@ public class Reminder {
 	public int getId() {
 		return id;
 	}
+
+	public void setId(int id){
+		this.id=id;
+	}
+
 
 	public int getTaskId() {
 		return taskId;

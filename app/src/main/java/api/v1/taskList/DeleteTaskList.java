@@ -40,7 +40,9 @@ public class DeleteTaskList extends TaskListRequestHandler {
 		try {
 		    jsonRequest = parseRequest(request.getParameter("params"));
 		    int taskListId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-		    taskListRepository.delete(new TaskList(taskListId));
+			TaskList taskList=new TaskList();
+			taskList.setId(taskListId);
+		    taskListRepository.delete(taskList);
 
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), b);

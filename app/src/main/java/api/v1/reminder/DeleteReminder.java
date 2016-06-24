@@ -40,7 +40,9 @@ public class DeleteReminder extends ReminderRequestHandler {
 		try {
 		    jsonRequest = parseRequest(request.getParameter("params"));
 		    int reminderId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-		    reminderRepository.delete(new Reminder(reminderId));
+			Reminder reminder=new Reminder();
+			reminder.setId(reminderId);
+		    reminderRepository.delete(reminder);
 
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteReminder  Request: {}.", jsonRequest.toJSONString(), b);
