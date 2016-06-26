@@ -40,11 +40,31 @@ public class UserTest {
         validUsers.add("07`yo.momma.so.fat@gmail.com`6PnCK/?8");
         validUsers.add("08`under_scores_rule@gmail.com`6~Zas2R*");
         validUsers.add("09`test@mikehedden.gmail.com`i2@<uMtJ");
+
         errorUsers.add("10`mike`password1");
         errorUsers.add("11`mike@test.com` ");
         errorUsers.add("12`mike@test@test.com`aHouw8789");
         errorUsers.add("13`houston@wehaveaproblem.com`11111111111111111111");
         errorUsers.add("14`toosimple@password.com`ab1");
+
+        errorUpdates.add("-10`mike`password1");
+        errorUpdates.add("-1`mike@test.com` ");
+        errorUpdates.add("102`mike@test@test.com`aHouw8789");
+        errorUpdates.add("4294967297`houston@wehaveaproblem.com`11111111111111111111");
+        errorUpdates.add("-204`toosimple@password.com`ab1");
+
+        validUpdates.add("01`mikeHeddenIsAGirl@gmail.com`a681wo$dKo");
+        validUpdates.add("02`ken.lyon@ymail.com`Mouwkl87%qo");
+        validUpdates.add("03`ken_lyon@test.com`e-W^2VmQ");
+        validUpdates.add("04`fatstakes@gmail.com`+%D5|x%b");
+        validUpdates.add("05`yannisgreekfood@goodfood.com`sy@UCL0_");
+        validUpdates.add("06`rusty_puppy@gmail.com`3Z^V)xkE");
+        validUpdates.add("07`yo.momma.so.tall@gmail.com`6PnCK/?8");
+        validUpdates.add("08`under_scores_rule@gmail.com`6~Zas2R*");
+        validUpdates.add("09`test@mikehedden.gmail.com`i2@<uMtJ");
+
+
+
     }
         // Creating invalid requests 
 
@@ -104,42 +124,6 @@ public class UserTest {
         return User;
     }
 
-    /**
-     * Parse a String representing a given date and return a Date object.
-     * String must be in the format: yyyy-MM-dd_HH:mm:ss
-     *
-     * @param stringDate
-     * @return
-     */
-    private static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        df.setLenient(false);
-        Date result = null;
-        try {
-            result = df.parse(stringDate);
-        } catch (java.text.ParseException e) {
-            LOGGER.error("Exception while parsing date token: " + stringDate);
-            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
-        }
-        return result;
-    }
-
-
-    /**
-     * Parse string as boolean.
-     * @param b
-     * @return
-     */
-    private static boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
-        b = b.trim().toUpperCase();
-        if (b.equals("TRUE"))
-            return true;
-        else if(b.equals("FALSE"))
-            return false;
-        else
-            throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
-    }
-
     private static JSONObject toJson(String stringUser) {
         String[] UserElementArray = stringUser.split("`");
         JSONObject jsonObj = new JSONObject();
@@ -154,27 +138,30 @@ public class UserTest {
      * @throws Exception
      */
     @Test
-    public void setUp() throws Exception {
+    public void doTest() throws Exception {
+        LOGGER.info("TESTING_VALID_USERS");
         for(String s: validUsers){
             UserTest.toUser(s);
             LOGGER.info("Valid User {}", toJson(s));
         }
 
+        LOGGER.info("TESTING_VALID_UPDATES");
         for(String s: validUpdates){
             UserTest.toUser(s);
             LOGGER.info("Valid User {}", toJson(s));
         }
 
+        LOGGER.info("TESTING_ERROR_USERS");
         for(String s: errorUsers){
             validateErrorUser(s);
             LOGGER.info("Error User {}", toJson(s));
         }
-        
+
+        LOGGER.info("TESTING_ERROR_UPDATES");
         for(String s: errorUpdates){
             validateErrorUser(s);
             LOGGER.info("Error User {}", toJson(s));
         }//*/
-
     }
 
     public void validateErrorUser(String s){
@@ -183,7 +170,7 @@ public class UserTest {
             UserTest.toUser(s);
         }catch(Exception e){
             error=true;
-            LOGGER.info("Invalid User returned error. " + e.getMessage());
+            LOGGER.info("Invalid User returned error. " + e.getMessage(), e);
         }
         if(!error){
             fail("Success returned for invalid User: " + s);

@@ -157,7 +157,7 @@ public class TaskTest {
         try {
             result = df.parse(stringDate);
         } catch (java.text.ParseException e) {
-            LOGGER.error("Exception while parsing date token: " + stringDate);
+            LOGGER.error("Exception while parsing date token: " + stringDate, e);
             throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
         }
         return result;
@@ -228,7 +228,7 @@ public class TaskTest {
             TaskTest.toTask(s);
         }catch(Exception e){
             error=true;
-            LOGGER.info("Invalid Task returned error. " + e.getMessage());
+            LOGGER.info("Invalid Task returned error. " + e.getMessage(), e);
         }
         if(!error){
             fail("Success returned for invalid Task: " + s);

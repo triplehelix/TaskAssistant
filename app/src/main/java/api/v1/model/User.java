@@ -14,6 +14,7 @@ public class User {
 	private String email;
 	private String password;
     protected static final Logger log = LoggerFactory.getLogger(User.class);
+
 	/**
 	 * Create a new User w/o an user id. Users created without an id
      * are assigned an id of -1.
@@ -28,7 +29,6 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) throws BusinessException {
         try {
             InternetAddress emailAddr = new InternetAddress(email);
@@ -44,12 +44,15 @@ public class User {
      * TODO revisit authentication & security.
      * Currently, setPassword just duplicates the code used in AuthRequestHandler to
      * validate the password. It is reused here for unit testing purposes.
+     *
      * @param password
      * @throws BusinessException
      */
 	public void setPassword(String password) throws BusinessException {
-        if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
+        if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$")) {
+            log.error("Supplied password: {} is not valid.", password);
             throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
+        }
         else
 	        this.password=password;
 	}
