@@ -3,7 +3,7 @@ package api.v1.model;
 import java.util.Date;
 
 /**
- * 
+ * TODO should this be implemented as a google calendar reminder?
  * @author kennethlyon
  *
  */
@@ -14,10 +14,10 @@ public class Reminder {
 	
 	/**
 	 * Create a new, Reminder w/o an reminder id. Reminders without an id are
-     * assigned an id of -9.
+     * assigned an id of -1.
 	 */
 	public Reminder(){
-        this.id=-9;
+        this.id=-1;
 	}
 
 	public int getId() {

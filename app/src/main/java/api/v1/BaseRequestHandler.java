@@ -26,7 +26,7 @@ import org.slf4j.Logger;
  */
 public class BaseRequestHandler extends HttpServlet{
 
-    protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
+	protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
     private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
 
 	/**
