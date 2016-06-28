@@ -14,45 +14,45 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * This class serves a a container for test case proto-Types.
+ * This class serves a a container for test case proto-Categories.
  * Created by kennethlyon on 6/9/16.
  */
-public class TypeTest {
-    private static Logger LOGGER = LoggerFactory.getLogger(TypeTest.class);
-    private static ArrayList<String> validTypes;
-    private static ArrayList<String> errorTypes;
+public class CategoryTest {
+    private static Logger LOGGER = LoggerFactory.getLogger(CategoryTest.class);
+    private static ArrayList<String> validCategories;
+    private static ArrayList<String> errorCategories;
     private static ArrayList<String> validUpdates;
     private static ArrayList<String> errorUpdates;
 
     static {
 
-        /* Add valid Types. Types fields are arranged in the order:
-         * validTypes.add("int id`);
+        /* Add valid Categories. Categories fields are arranged in the order:
+         * validCategories.add("int id`);
          */
-        validTypes = new ArrayList<String>();
+        validCategories = new ArrayList<String>();
         validUpdates = new ArrayList<String>();
-        errorTypes = new ArrayList<String>();
+        errorCategories = new ArrayList<String>();
         errorUpdates = new ArrayList<String>();
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        validTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
-        errorTypes.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        validCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
+        errorCategories.add("");
 
         validUpdates.add("");
         validUpdates.add("");
@@ -76,59 +76,59 @@ public class TypeTest {
     }
 
 
-    public static ArrayList<JSONObject> getValidTestTypesAsJson() {
+    public static ArrayList<JSONObject> getValidTestCategoriesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
 
-        for (String s : validTypes)
-            jsonObjectArrayList.add(TypeTest.toJson(s));
+        for (String s : validCategories)
+            jsonObjectArrayList.add(CategoryTest.toJson(s));
         return jsonObjectArrayList;
     }
 
-    public static ArrayList<JSONObject> getErrorTestTypesAsJson() {
+    public static ArrayList<JSONObject> getErrorTestCategoriesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorTypes)
-            jsonObjectArrayList.add(TypeTest.toJson(s));
+        for (String s : errorCategories)
+            jsonObjectArrayList.add(CategoryTest.toJson(s));
         return jsonObjectArrayList;
 
     }
 
-    public static ArrayList<JSONObject> getValidTestTypeUpdatesAsJson() {
+    public static ArrayList<JSONObject> getValidTestCategoryUpdatesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : validUpdates)
-            jsonObjectArrayList.add(TypeTest.toJson(s));
+            jsonObjectArrayList.add(CategoryTest.toJson(s));
         return jsonObjectArrayList;
     }
 
-    public static ArrayList<JSONObject> getErrorTestTypeUpdatesAsJson() {
+    public static ArrayList<JSONObject> getErrorTestCategoryUpdatesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : errorUpdates)
-            jsonObjectArrayList.add(TypeTest.toJson(s));
+            jsonObjectArrayList.add(CategoryTest.toJson(s));
         return jsonObjectArrayList;
     }
 
 
-    public static ArrayList<Type> getValidTestTypesAsTypes() throws Exception{
-        ArrayList<Type> TypeArrayList = new ArrayList<Type>();
-        for (String s : validTypes) {
-            TypeArrayList.add(TypeTest.toType(s));
+    public static ArrayList<Category> getValidTestCategoriesAsCategories() throws Exception{
+        ArrayList<Category> CategoryArrayList = new ArrayList<Category>();
+        for (String s : validCategories) {
+            CategoryArrayList.add(CategoryTest.toCategory(s));
         }
-        return TypeArrayList;
+        return CategoryArrayList;
     }
 
-    public static ArrayList<Type> getValidTestTypesUpdatesAsTypes() throws Exception{
-        ArrayList<Type> TypeArrayList = new ArrayList<Type>();
+    public static ArrayList<Category> getValidTestCategoriesUpdatesAsCategories() throws Exception{
+        ArrayList<Category> CategoryArrayList = new ArrayList<Category>();
         for (String s : validUpdates) {
-            TypeArrayList.add(TypeTest.toType(s));
+            CategoryArrayList.add(CategoryTest.toCategory(s));
         }
-        return TypeArrayList;
+        return CategoryArrayList;
     }
 
 
-    private static Type toType(String s) throws Exception{
-        String[] TypeElementArray = s.split("`");
-        Type Type = new Type();
-            Type.setId(Integer.parseInt(TypeElementArray[0]));
-        return Type;
+    private static Category toCategory(String s) throws Exception{
+        String[] CategoryElementArray = s.split("`");
+        Category Category = new Category();
+            Category.setId(Integer.parseInt(CategoryElementArray[0]));
+        return Category;
     }
 
     /**
@@ -167,10 +167,10 @@ public class TypeTest {
             throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
     }
 
-    private static JSONObject toJson(String stringType) {
-        String[] TypeElementArray = stringType.split("`");
+    private static JSONObject toJson(String stringCategory) {
+        String[] CategoryElementArray = stringCategory.split("`");
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",   TypeElementArray[0]);
+        jsonObj.put("id",   CategoryElementArray[0]);
         LOGGER.info("Created request {}", jsonObj.toJSONString());
         return jsonObj;
     }
@@ -180,38 +180,38 @@ public class TypeTest {
      */
     @Test
     public void setUp() throws Exception {
-        for(String s: validTypes){
-            TypeTest.toType(s);
-            LOGGER.info("Valid Type {}", toJson(s));
+        for(String s: validCategories){
+            CategoryTest.toCategory(s);
+            LOGGER.info("Valid Category {}", toJson(s));
         }
 
         for(String s: validUpdates){
-            TypeTest.toType(s);
-            LOGGER.info("Valid Type {}", toJson(s));
+            CategoryTest.toCategory(s);
+            LOGGER.info("Valid Category {}", toJson(s));
         }
 
-        for(String s: errorTypes){
-            validateErrorType(s);
-            LOGGER.info("Error Type {}", toJson(s));
+        for(String s: errorCategories){
+            validateErrorCategory(s);
+            LOGGER.info("Error Category {}", toJson(s));
         }
 
         for(String s: errorUpdates){
-            validateErrorType(s);
-            LOGGER.info("Error Type {}", toJson(s));
+            validateErrorCategory(s);
+            LOGGER.info("Error Category {}", toJson(s));
         }
 
     }
 
-    public void validateErrorType(String s){
+    public void validateErrorCategory(String s){
         boolean error=false;
         try{
-            TypeTest.toType(s);
+            CategoryTest.toCategory(s);
         }catch(Exception e){
             error=true;
-            LOGGER.info("Invalid Type returned error. " + e.getMessage(), e);
+            LOGGER.info("Invalid Category returned error. " + e.getMessage(), e);
         }
         if(!error){
-            fail("Success returned for invalid Type: " + s);
+            fail("Success returned for invalid Category: " + s);
         }
     }
 }

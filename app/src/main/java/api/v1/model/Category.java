@@ -4,14 +4,13 @@ public class Category {
 	private int id;
 	private String name;
 	private String description;
-	
-	
+
 	/**
 	 * Create an new Category w/o a category id. Categories without an
-     * id are assigned an id of -9.
+     * id are assigned an id of -1.
 	 */
 	public Category(){
-		this.id=-9;
+		this.id=-1;
 	}
 
 
@@ -28,23 +27,13 @@ public class Category {
 	}
 
 
-	/**
-	 * String name must be < 128 chars.
-	 * @param name
-	 */
-	public void setName(String name) {
+    public void setName(String name) {
 		this.name = name;
 	}
 
-
-	/**
-	 * Description must be < 1024 chars.
-	 * @return
-	 */
-	public String getDescription() {
+    public String getDescription() {
 		return description;
 	}
-
 
 	public void setDescription(String description) {
 		this.description = description;

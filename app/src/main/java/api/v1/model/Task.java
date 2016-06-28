@@ -41,7 +41,7 @@ public class Task {
     }
     public void setName(String name)throws BusinessException{
         if(name==null || name.equals(""))
-            throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_TASK_NAME_ERROR"));
+            throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
         this.name=name;
     }
     public void setImportant(boolean important){
