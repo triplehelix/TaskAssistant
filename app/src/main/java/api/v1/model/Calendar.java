@@ -11,7 +11,6 @@ package api.v1.model;
  *
  * @author kennethlyon
  *
- *
  */
 public class Calendar {
 	private int id;
@@ -23,12 +22,11 @@ public class Calendar {
 
 	/**
 	 * Create a new calendar w/o a calendar id. Calendars without an id are
-     * assigned an id of -9.
+     * assigned an id of -1.
 	 */
 	public Calendar(){
-        this.id = -9;
+        this.id = -1;
     }
-
 
     public void setId(int id){
         this.id=id;

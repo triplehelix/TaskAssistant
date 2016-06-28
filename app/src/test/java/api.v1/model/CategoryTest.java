@@ -14,65 +14,40 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * This class serves a a container for test case proto-Categories.
+ * What can go wrong with categories? This class is intended to test Category class 
+ * and also serves as a container for sample category objects. 
+ * At present, the only error a category should throw is an exception for a null or
+ * empty String provided as it's name.
  * Created by kennethlyon on 6/9/16.
  */
 public class CategoryTest {
     private static Logger LOGGER = LoggerFactory.getLogger(CategoryTest.class);
     private static ArrayList<String> validCategories;
     private static ArrayList<String> errorCategories;
-    private static ArrayList<String> validUpdates;
-    private static ArrayList<String> errorUpdates;
 
     static {
-
         /* Add valid Categories. Categories fields are arranged in the order:
          * validCategories.add("int id`);
          */
         validCategories = new ArrayList<String>();
-        validUpdates = new ArrayList<String>();
         errorCategories = new ArrayList<String>();
-        errorUpdates = new ArrayList<String>();
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        validCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
-        errorCategories.add("");
 
-        validUpdates.add("");
-        validUpdates.add("");
-        validUpdates.add("");
-        validUpdates.add("");
-        validUpdates.add("");
-        validUpdates.add("");
-        validUpdates.add("");
-        validUpdates.add("");
-        validUpdates.add("");
+        validCategories.add("0`Physics`Homework, study groups, lab reports, etc, for physics II");
+        validCategories.add("1`chores`Any kind of household chores.");
+        validCategories.add("2`work`work related stuff only!");
+        validCategories.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
+        validCategories.add("4`Journal club`Tasks related to journal club");
+        validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
+        validCategories.add("6`Social`Tasks related to semi-important social activities, not related to a higher priority category.");
 
-        errorUpdates.add("");
-        errorUpdates.add("");
-        errorUpdates.add("");
-        errorUpdates.add("");
-        errorUpdates.add("");
-        errorUpdates.add("");
-        errorUpdates.add("");
-        errorUpdates.add("");
-        errorUpdates.add("");
+        errorCategories.add("0``Homework, study groups, lab reports, etc, for physics II");
+        errorCategories.add("1``Any kind of household chores.");
+        errorCategories.add("2``work related stuff only!");
+        errorCategories.add("3``Anything related to money. Taxes, budgeting, student loans, etc.");
+        errorCategories.add("4``Tasks related to journal club");
+        errorCategories.add("5``Study groups, lab reports, etc, for organic chemistry.");
+        errorCategories.add("6``Tasks related to semi-important social activities, not related to a higher priority category.");
+
     }
 
 
@@ -92,21 +67,6 @@ public class CategoryTest {
 
     }
 
-    public static ArrayList<JSONObject> getValidTestCategoryUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validUpdates)
-            jsonObjectArrayList.add(CategoryTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestCategoryUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorUpdates)
-            jsonObjectArrayList.add(CategoryTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-
     public static ArrayList<Category> getValidTestCategoriesAsCategories() throws Exception{
         ArrayList<Category> CategoryArrayList = new ArrayList<Category>();
         for (String s : validCategories) {
@@ -115,62 +75,21 @@ public class CategoryTest {
         return CategoryArrayList;
     }
 
-    public static ArrayList<Category> getValidTestCategoriesUpdatesAsCategories() throws Exception{
-        ArrayList<Category> CategoryArrayList = new ArrayList<Category>();
-        for (String s : validUpdates) {
-            CategoryArrayList.add(CategoryTest.toCategory(s));
-        }
-        return CategoryArrayList;
-    }
-
-
     private static Category toCategory(String s) throws Exception{
         String[] CategoryElementArray = s.split("`");
         Category Category = new Category();
-            Category.setId(Integer.parseInt(CategoryElementArray[0]));
+        Category.setId(Integer.parseInt(CategoryElementArray[0]));
+        Category.setName(CategoryElementArray[1]);
+        Category.setDescription(CategoryElementArray[2]);
         return Category;
-    }
-
-    /**
-     * Parse a String representing a given date and return a Date object.
-     * String must be in the format: yyyy-MM-dd_HH:mm:ss
-     *
-     * @param stringDate
-     * @return
-     */
-    private static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        df.setLenient(false);
-        Date result = null;
-        try {
-            result = df.parse(stringDate);
-        } catch (java.text.ParseException e) {
-            LOGGER.error("Exception while parsing date token: " + stringDate, e);
-            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
-        }
-        return result;
-    }
-
-
-    /**
-     * Parse string as boolean.
-     * @param b
-     * @return
-     */
-    private static boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
-        b = b.trim().toUpperCase();
-        if (b.equals("TRUE"))
-            return true;
-        else if(b.equals("FALSE"))
-            return false;
-        else
-            throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
     }
 
     private static JSONObject toJson(String stringCategory) {
         String[] CategoryElementArray = stringCategory.split("`");
         JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",   CategoryElementArray[0]);
+        jsonObj.put("id",          CategoryElementArray[0]);
+        jsonObj.put("name",        CategoryElementArray[1]);
+        jsonObj.put("description", CategoryElementArray[2]);
         LOGGER.info("Created request {}", jsonObj.toJSONString());
         return jsonObj;
     }
@@ -185,21 +104,10 @@ public class CategoryTest {
             LOGGER.info("Valid Category {}", toJson(s));
         }
 
-        for(String s: validUpdates){
-            CategoryTest.toCategory(s);
-            LOGGER.info("Valid Category {}", toJson(s));
-        }
-
         for(String s: errorCategories){
             validateErrorCategory(s);
             LOGGER.info("Error Category {}", toJson(s));
         }
-
-        for(String s: errorUpdates){
-            validateErrorCategory(s);
-            LOGGER.info("Error Category {}", toJson(s));
-        }
-
     }
 
     public void validateErrorCategory(String s){

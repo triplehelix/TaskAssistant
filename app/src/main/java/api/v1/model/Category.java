@@ -1,5 +1,8 @@
 package api.v1.model;
 
+import api.v1.error.BusinessException;
+import api.v1.error.Error;
+
 public class Category {
 	private int id;
 	private String name;
@@ -11,14 +14,15 @@ public class Category {
 	 */
 	public Category(){
 		this.id=-1;
-	}
-
+        this.description=null;
+        this.name=null;
+    }
 
 	public int getId() {
-		return id;
+        return id;
 	}
 
-	public void setId(int id){
+	public void setId(int id) {
 		this.id=id;
 	}
 
@@ -26,10 +30,11 @@ public class Category {
 		return name;
 	}
 
-
-    public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name)throws BusinessException {
+        if(name==null || name.equals(""))
+            throw new BusinessException("The Category name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
+        this.name=name;
+    }
 
     public String getDescription() {
 		return description;

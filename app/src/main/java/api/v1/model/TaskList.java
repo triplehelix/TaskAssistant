@@ -14,10 +14,10 @@ public class TaskList {
 	
     /**
      * Create a new TaskList w/o a taskList id. TasksLists created without
-     * an id are assigned an id of -9.
+     * an id are assigned an id of -1.
      */
 	public TaskList(){
-		this.id=-9;
+		this.id=-1;
 	}
 
 
