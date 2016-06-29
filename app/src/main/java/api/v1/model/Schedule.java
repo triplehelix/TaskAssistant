@@ -1,5 +1,7 @@
 package api.v1.model;
 
+import api.v1.error.BusinessException;
+import api.v1.error.Error;
 import java.util.Date;
 
 public class Schedule {
@@ -45,8 +47,13 @@ public class Schedule {
 		return repeatType;
 	}
 
-	public void setRepeatType(RepeatTypes repeatType) {
-		this.repeatType = repeatType;
+	public void setRepeatType(String repeatType) throws BusinessException{
+		try {
+			this.repeatType = RepeatTypes.valueOf(repeatType);
+		}
+		catch(java.lang.IllegalArgumentException e){
+			throw new BusinessException(repeatType +" is not a valid schedule repeat type.", Error.valueOf("INVALID_TASK_STATUS_ERROR"));
+		}
 	}
 	
 }
