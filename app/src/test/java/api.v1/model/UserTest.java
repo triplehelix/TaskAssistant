@@ -26,6 +26,7 @@ public class UserTest {
 
     static {
         /* Add valid Users. Users fields are arranged in the order:
+         * id, email, password
          */
         validUsers = new ArrayList<String>();
         validUpdates = new ArrayList<String>();

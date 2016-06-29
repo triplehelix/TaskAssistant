@@ -23,7 +23,8 @@ public class ReminderTest {
     private static ArrayList<String> errorReminders;
     static {
         /* Add valid Reminders. Reminders fields are arranged in the order:
-         * validReminders.add("int id`);
+         *    id, taskId, reminderTime
+         *    
          */
         validReminders=new ArrayList<String>();
         errorReminders=new ArrayList<String>();

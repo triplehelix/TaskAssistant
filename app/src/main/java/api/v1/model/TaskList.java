@@ -7,9 +7,9 @@ import java.util.ArrayList;
  * be done here or in the view?
  * @author kennethlyon
  */
-public class TaskList {	
-	private ArrayList<Task> taskArrayList;
+public class TaskList {
 	private int id;
+	private ArrayList<Task> taskArrayList;
 	private String description;
 	
     /**

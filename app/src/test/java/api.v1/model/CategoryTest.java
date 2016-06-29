@@ -27,7 +27,7 @@ public class CategoryTest {
 
     static {
         /* Add valid Categories. Categories fields are arranged in the order:
-         * validCategories.add("int id`);
+	 * id, name, description.
          */
         validCategories = new ArrayList<String>();
         errorCategories = new ArrayList<String>();
