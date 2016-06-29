@@ -27,13 +27,12 @@ public enum Error{
     INVALID_ENUM_TYPE(1008),
 
     /** model errors */
-    CREATE_USER_ERROR_USER_DNE(1150), //TODO: This name makes no sense.
     INVALID_NAME_ERROR(1160),
-    INVALID_TASK_STATUS_ERROR(1161),
+    INVALID_TASK_STATUS_ERROR(1162),
 
     /** Repo errors */
     NO_SUCH_TASK_ERROR(1200),
-    UNIT_TEST_LOGIC_ERROR(1901),
+
     /*** System Errors ***/
     CREATE_USER_SQL_ERROR(2001);
     private int code;

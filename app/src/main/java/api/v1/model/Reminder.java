@@ -33,7 +33,7 @@ public class Reminder {
 	}
 
 	public void setTaskId(int taskId) {
-		this.taskId = taskId;
+        this.taskId = taskId;
 	}
 
 	public Date getReminderTime() {
