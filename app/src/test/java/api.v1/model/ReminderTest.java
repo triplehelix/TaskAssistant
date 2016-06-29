@@ -25,6 +25,8 @@ public class ReminderTest {
         /* Add valid Reminders. Reminders fields are arranged in the order:
          * validReminders.add("int id`);
          */
+        validReminders=new ArrayList<String>();
+        errorReminders=new ArrayList<String>();
         validReminders.add("0`1`2020-05-28_08:31:01");
         validReminders.add("1`1`2020-05-31_00:00:00");
         validReminders.add("2`2`2016-06-09_18:30:00");
@@ -32,13 +34,12 @@ public class ReminderTest {
         validReminders.add("4`3`2016-06-09_19:00:00");
         validReminders.add("5`4`2020-05-31_00:00:00");
 
-        errorReminders.add("0`1`0");
-        errorReminders.add("1`1` ");
         errorReminders.add("2`2`yyyy-MM-dd_HH:mm:ss");
         errorReminders.add("3`2`2020-18-31_00:00:00");
         errorReminders.add("4`3`2020-05-31_22:99:00");
         errorReminders.add("5`3`2020-05-31_44:00:00");
-
+        errorReminders.add("0`1`0");
+        errorReminders.add("1`1` ");
     }
 
     public static ArrayList<JSONObject> getValidTestRemindersAsJson() {
@@ -56,18 +57,21 @@ public class ReminderTest {
     }
 
     public static ArrayList<Reminder> getValidTestRemindersAsReminders() throws Exception{
-        ArrayList<Reminder> ReminderArrayList = new ArrayList<Reminder>();
+        ArrayList<Reminder> reminderArrayList = new ArrayList<Reminder>();
         for (String s : validReminders) {
-            ReminderArrayList.add(ReminderTest.toReminder(s));
+            reminderArrayList.add(ReminderTest.toReminder(s));
         }
-        return ReminderArrayList;
+        return reminderArrayList;
     }
 
     private static Reminder toReminder(String s) throws Exception{
-        String[] ReminderElementArray = s.split("`");
-        Reminder Reminder = new Reminder();
-            Reminder.setId(Integer.parseInt(ReminderElementArray[0]));
-        return Reminder;
+        String[] reminderElementArray = s.split("`");
+        Reminder reminder = new Reminder();
+        reminder.setId(Integer.parseInt(reminderElementArray[0]));
+        reminder.setTaskId(Integer.parseInt(reminderElementArray[1]));
+        reminder.setReminderTime(parseJsonDateAsDate(reminderElementArray[2]));
+            reminder.setId(Integer.parseInt(reminderElementArray[0]));
+        return reminder;
     }
 
     /**
@@ -84,7 +88,7 @@ public class ReminderTest {
         try {
             result = df.parse(stringDate);
         } catch (java.text.ParseException e) {
-            LOGGER.error("Exception while parsing date token: " + stringDate, e);
+            // LOGGER.error("Exception while parsing date token: " + stringDate, e);
             throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
         }
         return result;
