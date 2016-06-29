@@ -110,7 +110,6 @@ public class TaskTest {
         return jsonObjectArrayList;
     }
 
-
     public static ArrayList<Task> getValidTestTasksAsTasks() throws Exception{
         ArrayList<Task> taskArrayList = new ArrayList<Task>();
         for (String s : validTasks) {

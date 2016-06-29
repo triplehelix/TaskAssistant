@@ -25,25 +25,18 @@ public class TaskListTest {
     static {
 
         /* Add valid TaskLists.
-         *
+         * To add valid tasks, create an ArrayList of valid task objects. Use 
+         * getValidTestTasksAsTasks to set the ArrayListOfTasks
          */
         validTaskLists = new ArrayList<String>();
         errorTaskLists = new ArrayList<String>();
 
         validTaskLists.add("0");
         validTaskLists.add("1");
-        validTaskLists.add("2");
-        validTaskLists.add("3");
-        validTaskLists.add("4");
-			     
+
         errorTaskLists.add("0");
         errorTaskLists.add("1");
-        errorTaskLists.add("2");
-        errorTaskLists.add("3");
-        errorTaskLists.add("4");
     }
-
-
 
     public static ArrayList<JSONObject> getValidTestTaskListsAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
@@ -75,49 +68,12 @@ public class TaskListTest {
         return taskList;
     }
 
-    /**
-     * Parse a String representing a given date and return a Date object.
-     * String must be in the format: yyyy-MM-dd_HH:mm:ss
-     *
-     * @param stringDate
-     * @return
-     */
-    private static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        df.setLenient(false);
-        Date result = null;
-        try {
-            result = df.parse(stringDate);
-        } catch (java.text.ParseException e) {
-            LOGGER.error("Exception while parsing date token: " + stringDate);
-            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
-        }
-        return result;
-    }
-
-
-    /**
-     * Parse string as boolean.
-     * @param b
-     * @return
-     */
-    private static boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
-        b = b.trim().toUpperCase();
-        if (b.equals("TRUE"))
-            return true;
-        else if(b.equals("FALSE"))
-            return false;
-        else
-            throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
-    }
 
     private static JSONObject toJson(String stringTaskList) {
         String[] taskListElementArray = stringTaskList.split("`");
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("id",         taskListElementArray[0]);
-        jsonObj.put("startDate",  taskListElementArray[1]);
-        jsonObj.put("endDate",    taskListElementArray[2]);
-        jsonObj.put("repeatType", taskListElementArray[3]);
+        //TODO how does one populate Json with nested objects?
         LOGGER.info("Created request {}", jsonObj.toJSONString());
         return jsonObj;
     }
