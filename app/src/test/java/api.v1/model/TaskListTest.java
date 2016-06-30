@@ -14,51 +14,56 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * This class serves a a container for test case proto-TaskLists.
+ * This model test is the trickiest of all. As it stands, there are
+ * no errors thrown form TaskList directly. However, we still need
+ * to generate error and valid JSON tasks as well as complete and
+ * valid tasks.
+ *
+ * To populate our TaskList with Tasks, we use the sample tasks in
+ * the class TaskTest.
  * Created by kennethlyon on 6/9/16.
  */
 public class TaskListTest {
     private static Logger LOGGER = LoggerFactory.getLogger(TaskListTest.class);
-    private static ArrayList<String> validTaskLists;
-    private static ArrayList<String> errorTaskLists;
+
 
     static {
 
         /* Add valid TaskLists.
          * To add valid tasks, create an ArrayList of valid task objects. Use 
-         * getValidTestTasksAsTasks to set the ArrayListOfTasks
+         * getValidTestTasksAsTasks to set the ArrayListOfTasks.
          */
-        validTaskLists = new ArrayList<String>();
-        errorTaskLists = new ArrayList<String>();
-
-        validTaskLists.add("0");
-        validTaskLists.add("1");
-
-        errorTaskLists.add("0");
-        errorTaskLists.add("1");
     }
 
     public static ArrayList<JSONObject> getValidTestTaskListsAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-
-        for (String s : validTaskLists)
-            jsonObjectArrayList.add(TaskListTest.toJson(s));
-        return jsonObjectArrayList;
+        return null;
     }
 
     public static ArrayList<JSONObject> getErrorTestTaskListsAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorTaskLists)
-            jsonObjectArrayList.add(TaskListTest.toJson(s));
-        return jsonObjectArrayList;
-
+        return null;
     }
+
     public static ArrayList<TaskList> getValidTestTaskListsAsTaskLists() throws Exception{
-        ArrayList<TaskList> TaskListArrayList = new ArrayList<TaskList>();
-        for (String s : validTaskLists) {
-            TaskListArrayList.add(TaskListTest.toTaskList(s));
-        }
-        return TaskListArrayList;
+        ArrayList<TaskList> taskListArrayList = new ArrayList<TaskList>(2);
+
+        // First create two new task lists...
+        TaskList tl0=new TaskList();
+        TaskList tl1=new TaskList();
+
+        tl0.setId(0);
+        tl1.setId(1);
+
+        tl0.setTaskArrayList(TaskTest.getValidTestTasksAsTasks());
+        tl1.setTaskArrayList(TaskTest.getValidTestTasksUpdatesAsTasks());
+
+        tl0.setDescription("This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        tl1.setDescription("This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+
+        // Then add them to the ArrayList
+        taskListArrayList.add(tl0);
+        taskListArrayList.add(tl1);
+
+        return taskListArrayList;
     }
 
     private static TaskList toTaskList(String s) throws Exception{
@@ -67,7 +72,6 @@ public class TaskListTest {
         taskList.setId(Integer.parseInt(taskListElementArray[0]));
         return taskList;
     }
-
 
     private static JSONObject toJson(String stringTaskList) {
         String[] taskListElementArray = stringTaskList.split("`");
@@ -83,15 +87,8 @@ public class TaskListTest {
      */
     @Test
     public void setUp() throws Exception {
-        for(String s: validTaskLists){
-            TaskListTest.toTaskList(s);
-            LOGGER.info("Valid TaskList {}", toJson(s));
-        }
+        ArrayList<TaskList> taskListArrayList=getValidTestTaskListsAsTaskLists();
 
-        for(String s: errorTaskLists){
-            validateErrorTaskList(s);
-            LOGGER.info("Error TaskList {}", toJson(s));
-        }
     }
 
     public void validateErrorTaskList(String s){
