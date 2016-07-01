@@ -1,9 +1,11 @@
 package api.v1.model;
 
+import api.v1.error.BusinessException;
+import api.v1.error.Error;
 import java.util.Date;
 
 /**
- * 
+ * This class serves as a basic data structure for tasks.
  * @author kennethlyon
  */
 public class Task {
@@ -15,8 +17,8 @@ public class Task {
     private long investedTime;
     private boolean urgent;
     private Date dueDate;
-    public enum State{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
-    private State status;
+    public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
+    private Status status;
 
     /**
 	 * Create a task with a user id.
@@ -29,21 +31,21 @@ public class Task {
 		this.investedTime=0;
 		this.urgent=false;
 		this.dueDate=null;
-        this.status=State.valueOf("NEW");
+        this.status=Status.valueOf("NEW");
 	}
 	
 	/**
 	 * Create a new task w/o an id. Tasks created without an id are assigned
-     * an id of -9.
+     * an id of -1.
 	 */
 	public Task(){
-        this.id=-9;
+        this.id=-1;
 		this.note="";
 		this.estimatedTime=0;
 		this.investedTime=0;
 		this.urgent=false;
 		this.dueDate=null;
-        this.status=State.valueOf("NEW");
+        this.status=Status.valueOf("NEW");
 	}
 
     public void setName(String name){
@@ -81,10 +83,19 @@ public class Task {
     	this.dueDate = dueDate;
     }
 
-    public void setStatus(State status){
-        this.status=status;
+    public void setStatus(String status) throws BusinessException{
+        try {
+
+            this.status = Status.valueOf(status);
+        }
+        catch(java.lang.IllegalArgumentException e){
+            throw new BusinessException(status +" is not a valid task status.", Error.valueOf("INVALID_ENUM_TYPE"));
+        }
     }
 
+    public Status getStatus() {
+        return status;
+    }
     public int getId(){
         return this.id;
     }
