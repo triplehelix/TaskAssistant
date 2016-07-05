@@ -1,5 +1,7 @@
 package api.v1.model;
 
+import com.google.appengine.repackaged.com.google.gson.Gson;
+
 /**
  * Note that this is a dummy class. At the moment I am not sure how
  * to handle the google calendar objects so  a substantial revision
@@ -60,4 +62,13 @@ public class Calendar {
 	public void setRemoteToken(String remoteToken) {
 		this.remoteToken = remoteToken;
 	}
+    /**
+     * Create a serialized JSON String of this instance
+     * using GSON.
+     * @return
+     */
+    public String toJson(){
+        Gson gson=new Gson();
+        return gson.toJson(this);
+    }
 }

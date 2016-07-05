@@ -69,11 +69,11 @@ public class Task {
     }
 
     public void setUrgent(boolean urgent){
-	this.urgent = urgent;
+    this.urgent = urgent;
     }
 
     public void setDueDate(Date dueDate){
-    	this.dueDate = dueDate;
+        this.dueDate = dueDate;
     }
 
     public void setStatus(String status) throws BusinessException{
@@ -94,10 +94,10 @@ public class Task {
         this.name=t.getName();
         this.note=t.getNote();
         this.important=t.getImportant();
-		this.estimatedTime=t.getEstimatedTime();
-		this.investedTime=t.getInvestedTime();
-		this.urgent=t.getUrgent();
-		this.dueDate=t.getDueDate();
+        this.estimatedTime=t.getEstimatedTime();
+        this.investedTime=t.getInvestedTime();
+        this.urgent=t.getUrgent();
+        this.dueDate=t.getDueDate();
         this.status=t.getStatus();
     }
 

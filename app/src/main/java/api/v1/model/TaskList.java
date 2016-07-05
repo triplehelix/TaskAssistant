@@ -1,4 +1,6 @@
 package api.v1.model;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 /**
@@ -39,4 +41,13 @@ public class TaskList {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+    /**
+     * Create a serialized JSON String of this instance
+     * using GSON.
+     * @return
+     */
+    public String toJson(){
+        Gson gson=new Gson();
+        return gson.toJson(this);
+    }
 }
