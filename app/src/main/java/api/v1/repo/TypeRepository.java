@@ -41,7 +41,7 @@ public class TypeRepository implements Repository<Type>{
     }
 
     /**
-     *
+     * Fetch a type object from the repository with the given type id.
      * @param foobar
      * @return
      * @throws BusinessException
@@ -55,7 +55,7 @@ public class TypeRepository implements Repository<Type>{
     }
 
     /**
-     *
+     * Replace an instance of Type with the instance provided.
      * @param foobar
      * @throws BusinessException
      * @throws SystemException
@@ -69,7 +69,6 @@ public class TypeRepository implements Repository<Type>{
 
     /**
      * Deletes the provided type.
-     *
      * @param foobar
      * @throws BusinessException
      * @throws SystemException
