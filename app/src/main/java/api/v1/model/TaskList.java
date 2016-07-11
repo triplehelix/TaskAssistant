@@ -12,6 +12,9 @@ import java.util.ArrayList;
 public class TaskList {
 	private int id;
 	private ArrayList<Task> taskArrayList;
+
+
+    private String name;
 	private String description;
 	
     /**
@@ -22,6 +25,13 @@ public class TaskList {
 		this.id=-1;
 	}
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name=name;
+    }
 
 	public ArrayList<Task> getTaskArrayList() {
 		return taskArrayList;

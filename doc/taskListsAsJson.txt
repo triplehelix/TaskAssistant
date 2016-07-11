@@ -1,0 +1,89 @@
+{"id":0,"taskArrayList":[{"id":0,"name":"Feed dog","important":true,"note":"Dog eats kibble.","estimatedTime":60000,"investedTime":0,"urgent":true,"dueDate":"May 28, 2020 8:31:01 AM","status":"NEW"},{"id":1,"name":"Create AddTask unit test","important":true,"note":"A unit test for the AddTask api needs to be created.","estimatedTime":3600000,"investedTime":60000,"urgent":false,"dueDate":"May 31, 2020 12:00:00 AM","status":"IN_PROGRESS"},{"id":2,"name":"Buy beer","important":true,"note":"Pick up some IPAs on the way home from work. Edit: Bill said he would pick up beers instead.","estimatedTime":900000,"investedTime":0,"urgent":true,"dueDate":"Jun 9, 2016 6:30:00 PM","status":"DELEGATED"},{"id":3,"name":"Play basketball with Tom and Eric.","important":false,"note":"Sunday morning at 08:00 at Sunset Park.","estimatedTime":3600000,"investedTime":0,"urgent":false,"dueDate":"Jun 12, 2016 8:00:00 AM","status":"DEFERRED"},{"id":4,"name":"Shave","important":false,"note":"GF said I need to shave.","estimatedTime":180000,"investedTime":0,"urgent":true,"dueDate":"Jun 9, 2016 7:00:00 PM","status":"DONE"},{"id":5,"name":"Robert\u0027); DROP TABLE","important":true,"note":"We call him little Bobby Tables.","estimatedTime":300000,"investedTime":0,"urgent":true,"dueDate":"Jun 9, 2016 7:00:00 PM","status":"NEW"},{"id":6,"name":"Collect underpants","important":true,"note":"In phase 1 we collect underpants.","estimatedTime":94620000000,"investedTime":31540000000,"urgent":false,"dueDate":"May 31, 2020 12:00:00 AM","status":"NEW"},{"id":7,"name":"Do taxes","important":true,"note":"Yay!! Taxes!!!","estimatedTime":3600000,"investedTime":60000,"urgent":true,"dueDate":"Apr 15, 2016 12:00:01 AM","status":"DEFERRED"},{"id":8,"name":"Finish TaskAssistant","important":true,"note":"APIs, Unit tests, services...","estimatedTime":1080000000,"investedTime":360000000,"urgent":false,"dueDate":"Jun 1, 2016 12:00:01 AM","status":"IN_PROGRESS"}],"name":"TaskList 0 created from ValidTasks","description":"This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks()."}
+{"id":1,"taskArrayList":[{"id":0,"name":"Feed dog","important":true,"note":"Give food to the fluff.","estimatedTime":60000,"investedTime":0,"urgent":true,"dueDate":"May 28, 2020 8:31:01 AM","status":"NEW"},{"id":1,"name":"Create AddTask unit test","important":false,"note":"A unit test for the AddTask api needs to be created.","estimatedTime":3600000,"investedTime":60000,"urgent":false,"dueDate":"May 31, 2020 12:00:00 AM","status":"IN_PROGRESS"},{"id":2,"name":"Buy beer","important":true,"note":"Bill is getting IPAs for the party.","estimatedTime":900000,"investedTime":0,"urgent":true,"dueDate":"Jun 9, 2016 6:30:00 PM","status":"DELEGATED"},{"id":3,"name":"Play basketball with Tom and Eric.","important":false,"note":"Sunday morning at 08:00 at Sunset Park.","estimatedTime":1800000,"investedTime":0,"urgent":false,"dueDate":"Jun 12, 2016 8:00:00 AM","status":"DEFERRED"},{"id":4,"name":"Shave","important":false,"note":"GF said I need to shave.","estimatedTime":180000,"investedTime":90000,"urgent":true,"dueDate":"Jun 9, 2016 7:00:00 PM","status":"DONE"},{"id":5,"name":"Robert\u0027); DROP TABLE","important":true,"note":"We call him little Bobby Tables.","estimatedTime":300000,"investedTime":0,"urgent":false,"dueDate":"Jun 9, 2016 7:00:00 PM","status":"NEW"},{"id":6,"name":"Collect underpants","important":true,"note":"In phase 1 we collect underpants.","estimatedTime":94620000000,"investedTime":31540000000,"urgent":false,"dueDate":"May 31, 2020 12:00:00 AM","status":"NEW"},{"id":7,"name":"Do taxes","important":true,"note":"Yay!! Taxes!!!","estimatedTime":3600000,"investedTime":60000,"urgent":true,"dueDate":"Apr 15, 2016 12:00:01 AM","status":"DEFERRED"},{"id":8,"name":"Finish TaskAssistant","important":true,"note":"APIs, Unit tests, services...","estimatedTime":1080000000,"investedTime":360000000,"urgent":false,"dueDate":"Jun 1, 2016 12:00:01 AM","status":"DONE"}],"name":"TaskList 1 created from ValidTaskUpdates","description":"This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks()."}
+
+{"id":1
+"taskArrayList":[{"id":0
+"name":"Feed dog"
+"important":true
+"note":"Give food to the fluff."
+"estimatedTime":60000
+"investedTime":0
+"urgent":true
+"dueDate":"May 28, 2020 8:31:01 AM"
+"status":"NEW"}
+{"id":1
+"name":"Create AddTask unit test"
+"important":false
+"note":"A unit test for the AddTask api needs to be created."
+"estimatedTime":3600000
+"investedTime":60000
+"urgent":false
+"dueDate":"May 31, 2020 12:00:00 AM"
+"status":"IN_PROGRESS"}
+{"id":2
+"name":"Buy beer"
+"important":true
+"note":"Bill is getting IPAs for the party."
+"estimatedTime":900000
+"investedTime":0
+"urgent":true
+"dueDate":"Jun 9, 2016 6:30:00 PM"
+"status":"DELEGATED"}
+{"id":3
+"name":"Play basketball with Tom and Eric."
+"important":false
+"note":"Sunday morning at 08:00 at Sunset Park."
+"estimatedTime":1800000
+"investedTime":0
+"urgent":false
+"dueDate":"Jun 12, 2016 8:00:00 AM"
+"status":"DEFERRED"}
+{"id":4
+"name":"Shave"
+"important":false
+"note":"GF said I need to shave."
+"estimatedTime":180000
+"investedTime":90000
+"urgent":true
+"dueDate":"Jun 9, 2016 7:00:00 PM"
+"status":"DONE"}
+{"id":5
+"name":"Robert\u0027); DROP TABLE"
+"important":true
+"note":"We call him little Bobby Tables."
+"estimatedTime":300000
+"investedTime":0
+"urgent":false
+"dueDate":"Jun 9, 2016 7:00:00 PM"
+"status":"NEW"}
+{"id":6
+"name":"Collect underpants"
+"important":true
+"note":"In phase 1 we collect underpants."
+"estimatedTime":94620000000
+"investedTime":31540000000
+"urgent":false
+"dueDate":"May 31, 2020 12:00:00 AM"
+"status":"NEW"}
+{"id":7
+"name":"Do taxes"
+"important":true
+"note":"Yay!! Taxes!!!"
+"estimatedTime":3600000
+"investedTime":60000
+"urgent":true
+"dueDate":"Apr 15, 2016 12:00:01 AM"
+"status":"DEFERRED"}
+{"id":8
+"name":"Finish TaskAssistant"
+"important":true
+"note":"APIs
+ Unit tests
+ services..."
+"estimatedTime":1080000000
+"investedTime":360000000
+"urgent":false
+"dueDate":"Jun 1,  2016 12:00:01 AM"
+"status":"DONE"}]
+"name":"TaskList 1 created from ValidTaskUpdates"
+"description":"This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks()."}

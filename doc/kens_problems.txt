@@ -11,6 +11,14 @@
    Should I have to check for null parameters or should Mike always send a 
    default.
 7. What are abstract classes. Have Mike expain that shit.
+8. It is not clear how TaskLists are going to be used. The API specifies an
+   "UpdateTaskList" api field.
+9. I would like to see a UI where TaskLists are generated on the fly. This way
+   a person can create a task list by selecting and de-selecting categories.
+   At present, this api does not really support that.
+
+
+
 edge case - some word mike says alot.
 
 ****************************************************************************
@@ -30,4 +38,3 @@ Logins require user name and password. The response is a token, and tokens
 are required for all post, get, delete and put requests.
 
 ****************************************************************************
-

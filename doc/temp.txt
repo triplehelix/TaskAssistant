@@ -12,7 +12,18 @@ Model:
 ·  Users_calendars
 ·  Calendars
  
-API:
+** /api/v1/user/addtasklist
+o POST
+·  Request
+   ·  user_id
+   ·  tasklistid (can be null)
+   ·  name (can be null)
+   ·  description (can be null)
+   ·  permission
+·  Response
+   ·  Success
+   ·  Tasklistid
+   ·  error
 ** /api/v1/task/addtask
 o POST
 ·  Request
@@ -47,5 +58,5 @@ o POST
    ·  description
 ·  Response
    ·  success
-   ·  error
+   ·  errord
 ** /api/v1/tasklist/gettasks

@@ -75,7 +75,22 @@ public class TypeTest {
         errorUpdates.add("");
     }
 
+    /**
+     *
+     * @return
+     */
+    private static JSONObject toJson(String stringType) {
+        String[] TypeElementArray = stringType.split("`");
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("id",   TypeElementArray[0]);
+        LOGGER.info("Created request {}", jsonObj.toJSONString());
+        return jsonObj;
+    }
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList<JSONObject> getValidTestTypesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
 
@@ -84,6 +99,10 @@ public class TypeTest {
         return jsonObjectArrayList;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList<JSONObject> getErrorTestTypesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : errorTypes)
@@ -92,6 +111,10 @@ public class TypeTest {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList<JSONObject> getValidTestTypeUpdatesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : validUpdates)
@@ -99,6 +122,10 @@ public class TypeTest {
         return jsonObjectArrayList;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList<JSONObject> getErrorTestTypeUpdatesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : errorUpdates)
@@ -107,6 +134,10 @@ public class TypeTest {
     }
 
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList<Type> getValidTestTypesAsTypes() throws Exception{
         ArrayList<Type> TypeArrayList = new ArrayList<Type>();
         for (String s : validTypes) {
@@ -115,6 +146,10 @@ public class TypeTest {
         return TypeArrayList;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList<Type> getValidTestTypesUpdatesAsTypes() throws Exception{
         ArrayList<Type> TypeArrayList = new ArrayList<Type>();
         for (String s : validUpdates) {
@@ -123,7 +158,10 @@ public class TypeTest {
         return TypeArrayList;
     }
 
-
+    /**
+     *
+     * @return
+     */
     private static Type toType(String s) throws Exception{
         String[] TypeElementArray = s.split("`");
         Type Type = new Type();
@@ -167,13 +205,6 @@ public class TypeTest {
             throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
     }
 
-    private static JSONObject toJson(String stringType) {
-        String[] TypeElementArray = stringType.split("`");
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",   TypeElementArray[0]);
-        LOGGER.info("Created request {}", jsonObj.toJSONString());
-        return jsonObj;
-    }
 
     /**
      * @throws Exception
