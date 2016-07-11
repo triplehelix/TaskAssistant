@@ -49,7 +49,7 @@ public class TypeRepository implements Repository<Type>{
         if(typeMap.containsKey(foobar.getId()))
             return typeMap.get(foobar.getId());
         else
-            throw new BusinessException(" Type not found. ", Error.valueOf("NO_SUCH_TYPE_ERROR"));
+            throw new BusinessException(" Type not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
 
@@ -77,6 +77,6 @@ public class TypeRepository implements Repository<Type>{
             typeMap.remove(foobar.getId());
         }
         else
-            throw new BusinessException(" Type not found. ", Error.valueOf("NO_SUCH_TYPE_ERROR"));
+            throw new BusinessException(" Type not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 }

@@ -53,7 +53,6 @@ public class TaskRepository implements Repository<Task>{
             throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
-
     /**
      *
      * @param t
@@ -66,6 +65,7 @@ public class TaskRepository implements Repository<Task>{
         // Then add the new task:
         this.add(t);
 	}
+
     /**
      * Deletes the provided task.
      *
