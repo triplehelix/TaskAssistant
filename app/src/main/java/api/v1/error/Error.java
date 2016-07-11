@@ -1,7 +1,7 @@
 package api.v1.error;
 
 /**
- * This class is a container for a grip of different kinds of errors. Mostly we are 
+ * This class is a container for a grip of different kinds of errors. Mostly we are
  * enumerating Business errors, which ought to encompass all of our checked exceptions.
  *
  * In this API we expect to handle errors of three major types: business errors, system
