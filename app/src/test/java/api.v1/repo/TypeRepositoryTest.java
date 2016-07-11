@@ -127,7 +127,7 @@ public class TypeRepositoryTest {
                 typeRepository.delete(foobar);
             } catch (Exception e) {
                 LOGGER.error("Delete Type error \n\t{}", foobar.toJson());
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e);
                 error = true;
             }
             if(!error)
@@ -135,6 +135,9 @@ public class TypeRepositoryTest {
         }
     }
 
+    /**
+     *  Test the updateType function of this repository.
+     */
     private void testUpdate(){
         LOGGER.debug("Re: TypeRepositoryTest.testUpdate: ");
         boolean error=false;
@@ -146,7 +149,7 @@ public class TypeRepositoryTest {
                 typeRepository.update(foobar);
             } catch (Exception e) {
                 LOGGER.error("Update Type error \n\t{}", foobar.toJson());
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e);
                 error = true;
             }
             if(!error)

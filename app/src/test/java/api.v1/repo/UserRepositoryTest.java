@@ -43,7 +43,6 @@ public class UserRepositoryTest {
         }
         validateAddedUsers();
 
-
         for (User u : validUpdates) {
             LOGGER.info("Add valid user {}", u.toJson());
             userRepository.update(u);
@@ -127,7 +126,7 @@ public class UserRepositoryTest {
                 userRepository.delete(u);
             } catch (Exception e) {
                 LOGGER.error("Delete User error \n\t{}", u.toJson());
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e);
                 error = true;
             }
             if(!error)
@@ -146,7 +145,7 @@ public class UserRepositoryTest {
                 userRepository.update(u);
             } catch (Exception e) {
                 LOGGER.error("Update User error \n\t{}", u.toJson());
-                LOGGER.error(e.getMessage());
+                LOGGER.error(e.getMessage(), e);
                 error = true;
             }
             if(!error)

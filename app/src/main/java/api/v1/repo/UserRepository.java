@@ -32,6 +32,7 @@ public class UserRepository implements Repository<User>{
      * @throws SystemException
      */
     public void add(User foobar) throws BusinessException, SystemException{
+        LOGGER.debug("ADDING: " + foobar.toJson());
 	// First, we make sure that the user DNE. Else throw BusinessException
         int userId=0;
         while(userMap.containsKey(userId))
@@ -46,10 +47,11 @@ public class UserRepository implements Repository<User>{
      * @throws SystemException
      */
 	public User get(User foobar)throws BusinessException, SystemException{
+        //LOGGER.debug("GETTING: " + foobar.toJson());
         if(userMap.containsKey(foobar.getId()))
             return userMap.get(foobar.getId());
         else
-            throw new BusinessException(" User not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(" User not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
     /**
@@ -59,6 +61,7 @@ public class UserRepository implements Repository<User>{
      * @throws SystemException
      */
 	public void update(User foobar) throws BusinessException, SystemException{
+        LOGGER.debug(foobar.toJson());
         // First, delete the user:
         this.delete(foobar);
         // Then add the new user:
@@ -77,6 +80,6 @@ public class UserRepository implements Repository<User>{
             userMap.remove(foobar.getId());
         }
         else
-            throw new BusinessException(" User not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(" User not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 }
