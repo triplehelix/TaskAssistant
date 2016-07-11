@@ -25,8 +25,9 @@ public class TypeRepository implements Repository<Type>{
     }
 
     /**
-     * First discover a type id that has not been used. Then copy the incoming
-     * type fields into the new type.
+     * First discover a type id that has not been used and assign it to
+     * the given task. Then, add the new task to the repository.
+     *
      * @param foobar
      * @throws BusinessException
      * @throws SystemException
@@ -40,6 +41,7 @@ public class TypeRepository implements Repository<Type>{
     }
 
     /**
+     *
      * @param foobar
      * @return
      * @throws BusinessException
@@ -51,7 +53,6 @@ public class TypeRepository implements Repository<Type>{
         else
             throw new BusinessException(" Type not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
-
 
     /**
      *
@@ -65,6 +66,7 @@ public class TypeRepository implements Repository<Type>{
         // Then add the new type:
         this.add(foobar);
 	}
+
     /**
      * Deletes the provided type.
      *
