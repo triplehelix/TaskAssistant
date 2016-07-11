@@ -50,9 +50,8 @@ public class TaskRepository implements Repository<Task>{
         if(taskMap.containsKey(t.getId()))
             return taskMap.get(t.getId());
         else
-            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_TASK_ERROR"));
+            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
-
 
     /**
      *
@@ -66,6 +65,7 @@ public class TaskRepository implements Repository<Task>{
         // Then add the new task:
         this.add(t);
 	}
+
     /**
      * Deletes the provided task.
      *
@@ -78,6 +78,6 @@ public class TaskRepository implements Repository<Task>{
             taskMap.remove(t.getId());
         }
         else
-            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_TASK_ERROR"));
+            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 }

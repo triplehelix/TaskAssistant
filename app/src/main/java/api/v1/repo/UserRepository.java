@@ -1,96 +1,85 @@
 package api.v1.repo;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-//import java.sql.SQLException;
 import api.v1.error.Error;
 import java.util.HashMap;
 import api.v1.model.User;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * This is the ProtoUserRepository. This class does not yet
  * interact with a database.
  */
 public class UserRepository implements Repository<User>{
-
-	private HashMap<Integer, User> userMap;
-
-	/**
-	 *  Add a user to the user-map/database. If the user already exists,
-	 *  throw an exception.
-	 *
-     * @param u
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    public void add(User u) throws BusinessException, SystemException{
-	// First, we make sure that the user DNE. Else throw BusinessException
-        if(userDNE(u))
-            userMap.put(userMap.size(), u);
-
-        // Then, if the User DE add user. Now only BusinessExceptions can be
-        // Thrown.
-
-    }
-
-	/**
-	 * Returns a User with the same User ID.
-	 *
-     * @param u
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     */
-	public User get(User u)throws BusinessException, SystemException{
-        if(userMap.containsKey(u))
-            return userMap.get(u);
-        else
-            throw new BusinessException(" User not found. ", Error.valueOf("")); //TODO specifty error.
-    }
+    private static Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
+    private HashMap<Integer, User> userMap;
 
 
     /**
-     *
-     * @param u
-     * @throws BusinessException
-     * @throws SystemException
-     */
-	public void update(User u) throws BusinessException, SystemException{
-        // First, delete the user:
-        this.delete(u);
-        // Then add the new u:
-        this.add(u);
-	}
-
-    /**
-     * Deletes the provided user.
-     *
-     * @param u
-     * @throws BusinessException
-     * @throws SystemException
-     */
-	public void delete(User u) throws BusinessException, SystemException{
-	    userMap.remove(userMap.get(u.getId()));
-	}
-
-
-    /**
-     * The UserRepository Constructor is created by a static reference from
-     * the BaseAuthRequestHandler. This constructor creates the userMap.
+     * Create a new instance of a repository.
      */
     public UserRepository(){
         userMap=new HashMap<Integer, User>();
     }
 
     /**
-     * Verify that the user Does not exist. 
-     * @param u
-     * @return
+     * First discover a user id that has not been used. Then copy the incoming
+     * user fields into the new user.
+     * @param foobar
+     * @throws BusinessException
+     * @throws SystemException
      */
-    private boolean userDNE(User u){
-        if(userMap.containsKey(u))
-            return false;
+    public void add(User foobar) throws BusinessException, SystemException{
+        LOGGER.debug("ADDING: " + foobar.toJson());
+	// First, we make sure that the user DNE. Else throw BusinessException
+        int userId=0;
+        while(userMap.containsKey(userId))
+            userId++;
+        userMap.put(userId, foobar);
+    }
+
+    /**
+     * @param foobar
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+	public User get(User foobar)throws BusinessException, SystemException{
+        //LOGGER.debug("GETTING: " + foobar.toJson());
+        if(userMap.containsKey(foobar.getId()))
+            return userMap.get(foobar.getId());
         else
-            return true;
+            throw new BusinessException(" User not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+    /**
+     *
+     * @param foobar
+     * @throws BusinessException
+     * @throws SystemException
+     */
+	public void update(User foobar) throws BusinessException, SystemException{
+        LOGGER.debug(foobar.toJson());
+        // First, delete the user:
+        this.delete(foobar);
+        // Then add the new user:
+        this.add(foobar);
+	}
+
+    /**
+     * Deletes the provided user.
+     *
+     * @param foobar
+     * @throws BusinessException
+     * @throws SystemException
+     */
+	public void delete(User foobar) throws BusinessException, SystemException{
+        if(userMap.containsKey(foobar.getId())){
+            userMap.remove(foobar.getId());
+        }
+        else
+            throw new BusinessException(" User not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 }
