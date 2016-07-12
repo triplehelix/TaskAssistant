@@ -22,3 +22,4 @@ temp
 # app/src/main/java/api/v1/TypeRequestHandler.java
 # app/src/main/java/api/v1/repo/TypeRepository.java
 # app/src/main/java/api/v1/model/Type.java
+doc/kens_problems.txt

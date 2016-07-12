@@ -4,10 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.TaskListRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.TaskList;
@@ -20,7 +21,7 @@ import api.v1.model.TaskList;
  *  @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/GetTaskList")
-public class GetTaskList extends TaskListRequestHandler {
+public class GetTaskList extends TaskRequestHandler {
 
 	/**
 	 *

@@ -4,10 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
-import api.v1.TaskListRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.TaskList;
@@ -20,7 +21,7 @@ import api.v1.model.TaskList;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/DeleteTaskList")
-public class DeleteTaskList extends TaskListRequestHandler {
+public class DeleteTaskList extends TaskRequestHandler {
 
 	/**
 	 * Delete a particular taskList. A taskList "id" is required to specify the 
