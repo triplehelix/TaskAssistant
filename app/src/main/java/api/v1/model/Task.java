@@ -38,11 +38,15 @@ public class Task {
         this.status=Status.valueOf("NEW");
 	}
 
-    public void setId(int id){
+    public void setId(int id) throws BusinessException{
+        if(id<0)
+            throw new BusinessException("Invalid id: " + id + ". A non-negative Task id is required", Error.valueOf("INVALID_ID_ERROR"));
         this.id=id;
     }
 
-    public void setTaskListId(int taskListId) {
+    public void setTaskListId(int taskListId) throws BusinessException{
+        if(taskListId<0)
+            throw new BusinessException("Invalid id: " + taskListId + ". A non-negative TaskList id is required", Error.valueOf("INVALID_ID_ERROR"));
         this.taskListId = taskListId;
     }
 
@@ -51,9 +55,11 @@ public class Task {
             throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
         this.name=name;
     }
+
     public void setNote(String note){
 	this.note = note;
 	}
+
     /**
      * The amount of continuous time a expected for a task to
      * be completed.

@@ -39,7 +39,6 @@ public class TaskTest {
         validTasks.add("7`0`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
         validTasks.add("8`0`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
 
-
         // Add error causing tasks.
         errorTasks = new ArrayList<String>();
         errorTasks.add("0`1`Call Attorney J.P. Coleostomy`TRUE`Bring photographic proof!`3600000`0`YES`2016-06-14_15:15:00`NEW");
@@ -50,7 +49,8 @@ public class TaskTest {
         errorTasks.add("5`1`merge git conflicts`TRUE`I really need to learn how to use git.`180000`0`TRUE`2020-05-31_03:00:00`incomplete");
         errorTasks.add("6`1`Refinish porch`FALSE``210000`0`TRUE`2020-09-31_00:00:00`NEW");
         errorTasks.add("7`1``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
-        errorTasks.add(" `1```` ``` ``` ``` ``` ``` ``` ``` ```");
+        errorTasks.add("8`-9`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
+
 
 
         // Add valid mutations to valid tasks.         
@@ -177,18 +177,21 @@ public class TaskTest {
             throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
     }
 
+
     private static JSONObject toJson(String stringTask) {
         String[] taskElementArray = stringTask.split("`");
         JSONObject jsonObj = new JSONObject();
+
         jsonObj.put("id", taskElementArray[0]);
-        jsonObj.put("name", taskElementArray[1]);
-        jsonObj.put("important", taskElementArray[2]);
-        jsonObj.put("note", taskElementArray[3]);
-        jsonObj.put("estimatedTime", taskElementArray[4]);
-        jsonObj.put("investedTime", taskElementArray[5]);
-        jsonObj.put("urgent", taskElementArray[6]);
-        jsonObj.put("dueDate", taskElementArray[7]);
-        jsonObj.put("status", taskElementArray[8]);
+        jsonObj.put("taskListId", taskElementArray[1]);
+        jsonObj.put("name", taskElementArray[2]);
+        jsonObj.put("important", taskElementArray[3]);
+        jsonObj.put("note", taskElementArray[4]);
+        jsonObj.put("estimatedTime", taskElementArray[5]);
+        jsonObj.put("investedTime", taskElementArray[6]);
+        jsonObj.put("urgent", taskElementArray[7]);
+        jsonObj.put("dueDate", taskElementArray[8]);
+        jsonObj.put("status", taskElementArray[9]);
         LOGGER.info("Created request {}", jsonObj.toJSONString());
         return jsonObj;
     }
@@ -197,7 +200,7 @@ public class TaskTest {
      * @throws Exception
      */
     @Test
-    public void setUp() throws Exception {
+    public void test() throws Exception {
         for(String s: validTasks){
             TaskTest.toTask(s);
             LOGGER.info("Valid task {}", toJson(s));

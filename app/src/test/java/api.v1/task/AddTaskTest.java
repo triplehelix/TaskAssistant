@@ -38,8 +38,6 @@ public class AddTaskTest extends ApiTest {
         // Create invalid mock tasks.
         for(JSONObject jsonObj: TaskTest.getErrorTestTasksAsJson())
             errorRequestList.add(createDoPostMockRequest(jsonObj));
-
-
     }
 
     /**
