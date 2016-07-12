@@ -37,12 +37,15 @@ public class Task {
 		this.dueDate=null;
         this.status=Status.valueOf("NEW");
 	}
+
     public void setId(int id){
         this.id=id;
     }
+
     public void setTaskListId(int taskListId) {
         this.taskListId = taskListId;
     }
+
     public void setName(String name)throws BusinessException{
         if(name==null || name.equals(""))
             throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));

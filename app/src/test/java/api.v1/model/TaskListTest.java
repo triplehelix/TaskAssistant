@@ -1,42 +1,38 @@
 package api.v1.model;
 
 import api.v1.error.BusinessException;
-import api.v1.error.Error;
+import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
 import org.junit.Test;
+import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.fail;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 /**
- * This model test is the trickiest of all. As it stands, there are
- * no errors thrown form TaskList directly. However, we still need
- * to generate error and valid JSON tasks as well as complete and
- * valid tasks.
+ * Here we create TaskLists and test their functionality.
  *
- * To populate our TaskList with Tasks, we use the sample tasks in
- * the class TaskTest.
  * Created by kennethlyon on 6/9/16.
  */
 public class TaskListTest {
     private static Logger LOGGER = LoggerFactory.getLogger(TaskListTest.class);
-    private static ArrayList<String> validTaskListsAsJson;
-    private static ArrayList<String> errorTaskListsAsJson;
+    private static ArrayList<String> validTaskLists;
+    private static ArrayList<String> errorTaskLists;
 
     static {
         /* Add valid TaskLists.
-         * To add valid tasks, create an ArrayList of valid task objects. Use 
-         * getValidTestTasksAsTasks to set the ArrayListOfTasks.
          */
+        validTaskLists=new ArrayList<String>();
+        //TODO create some valid TaskLists.
+        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 
-        validTaskListsAsJson=new ArrayList<String>();
-        errorTaskListsAsJson=new ArrayList<String>();
-
+        errorTaskLists=new ArrayList<String>();
+        errorTaskLists.add("0``This TaskList has no name.");
+        errorTaskLists.add("abc`TaskList 3 created from ErrorTaskUpdates`This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        errorTaskLists.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
     }
 
     public static ArrayList<JSONObject> getValidTestTaskListsAsJson() {
@@ -54,15 +50,6 @@ public class TaskListTest {
         TaskList tl0=new TaskList();
         TaskList tl1=new TaskList();
         // Set their name, id and description fields:
-        tl0.setId(0);
-        tl1.setId(1);
-        tl0.setName("TaskList 0 created from ValidTasks");
-        tl1.setName("TaskList 1 created from ValidTaskUpdates");
-        tl0.setDescription("This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
-        tl1.setDescription("This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
-        // Finally assign a valid ArrayList of Tasks ...
-        tl0.setTaskArrayList(TaskTest.getValidTestTasksAsTasks());
-        tl1.setTaskArrayList(TaskTest.getValidTestTasksUpdatesAsTasks());
 
         // Then add them to the ArrayList
         taskListArrayList.add(tl0);
@@ -71,55 +58,48 @@ public class TaskListTest {
         return taskListArrayList;
     }
 
-    private static TaskList toTaskList(String s) throws Exception{
+    /**
+     * Use the backtick delimited Strings in errorTaskLists, or
+     * validTaskLists to create a TaskList.
+     * @param s
+     * @return taskList
+     * @throws BusinessException
+     */
+    private static TaskList toTaskList(String s) throws BusinessException{
         String[] taskListElementArray = s.split("`");
         TaskList taskList = new TaskList();
         taskList.setId(Integer.parseInt(taskListElementArray[0]));
+        taskList.setName(taskListElementArray[1]);
+        taskList.setDescription(taskListElementArray[2]);
         return taskList;
     }
 
-    private static JSONObject toJson(String stringTaskList) {
-        String[] taskListElementArray = stringTaskList.split("`");
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",         taskListElementArray[0]);
-        //TODO how does one populate Json with nested objects?
-        LOGGER.info("Created request {}", jsonObj.toJSONString());
-        return jsonObj;
-    }
 
     /**
      * @throws Exception
      */
     @Test
-    public void setUp() throws Exception {
+    public void test() throws Exception {
+        LOGGER.info("Creating valid TaskLists...");
+        for(String s: validTaskLists)
+            validateValidTaskList(s);
 
-        /* Start by creating valid TaskLists, and converting them
-         * to Json strings.
-         */
-        LOGGER.info("Creating valid TaskList objects.");
-        ArrayList<TaskList> taskListArrayList=getValidTestTaskListsAsTaskLists();
-        /* Next attempt to convert these valid TaskLists into a json string.
-         * Place the resulting strings into the private static field "validTaskLists"
-         */
-        LOGGER.info("Writing as Json.");
-        String taskListAsJson0=taskListArrayList.get(0).toJson();
-        String taskListAsJson1=taskListArrayList.get(1).toJson();
-
-        validTaskListsAsJson.add(taskListAsJson0);
-        validTaskListsAsJson.add(taskListAsJson1);
-        LOGGER.info(validTaskListsAsJson.get(0));
-        LOGGER.info(validTaskListsAsJson.get(1));
-
-        /* TODO implement errorTaskLists as json objects.
-         *
-         */
-
+        LOGGER.info("Creating error TaskLists...");
+        for(String s: errorTaskLists)
+            validateErrorTaskList(s);
+        LOGGER.info("Success!");
     }
 
+    /**
+     * This method is used to verify that an error causing TaskList results
+     * in an error. Errors should result from invalid IDs, or null names.
+     * @param s
+     */
     public void validateErrorTaskList(String s){
         boolean error=false;
+        TaskList taskList;
         try{
-            TaskListTest.toTaskList(s);
+            taskList=TaskListTest.toTaskList(s);
         }catch(Exception e){
             error=true;
             LOGGER.info("Invalid TaskList returned error. " + e.getMessage(), e);
@@ -127,5 +107,22 @@ public class TaskListTest {
         if(!error){
             fail("Success returned for invalid TaskList: " + s);
         }
+    }
+
+    /**
+     * Ensure that the provided String can be translated into a
+     * valid TaskList.
+     * @param s
+     */
+    public void validateValidTaskList(String s){
+        TaskList taskList;
+        try{
+            taskList=TaskListTest.toTaskList(s);
+            LOGGER.info("Valid TaskList returned {}", taskList.toJson());
+        }catch (Exception e){
+            LOGGER.error("Invalid TaskList returned error. " + e.getMessage(), e);
+            fail("Error returned for valid TaskList. {} " + s);
+        }
+
     }
 }

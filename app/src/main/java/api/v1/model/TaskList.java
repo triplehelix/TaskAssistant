@@ -1,17 +1,17 @@
 package api.v1.model;
+import api.v1.error.BusinessException;
+import api.v1.error.Error;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 /**
- * This class serves as a list of Tasks. 
- * TODO decide how we want to order prioritize tasks. Should this
- * be done here or in the view?
+ * This class serves as a container to which tasks must belong.
+ * TODO decide how we want to order prioritize tasks. Should this be done here or in the view?
  * @author kennethlyon
  */
 public class TaskList {
 	private int id;
-	private ArrayList<Integer> taskIdList;
     private String name;
 	private String description;
 	
@@ -25,26 +25,27 @@ public class TaskList {
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+
+    /**
+     * This method sets the name of a task list. Null and empty
+     * strings throw an exception.
+     *
+     * TODO should TaskLists with identical names be allowed?
+     * @param name
+     * @throws BusinessException
+     */
+    public void setName(String name) throws BusinessException{
+        if(name==null || name.equals(""))
+            throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
         this.name=name;
     }
 
-    /**
-     *
-     * @return
-     */
-    public ArrayList<Integer> getTaskIdList() {
-       // TODO Search through the TaskRepository for Tasks that belong to this TaskList.
-		return taskIdList;
-	}
-
-	public void setTaskArrayList(ArrayList<Integer> taskArrayList) {
-		this.taskIdList = taskArrayList;
-	}
 	public int getId() {
 		return id;
 	}
-	public void setId(int id){
+	public void setId(int id) throws BusinessException{
+        if(id<0)
+            throw new BusinessException("Invalid id: " + id + ". A non-negative TaskList id is required", Error.valueOf("INVALID_ID_ERROR"));
 		this.id=id;
 	}
 	public String getDescription() {
@@ -63,4 +64,6 @@ public class TaskList {
         Gson gson=new Gson();
         return gson.toJson(this);
     }
+
+
 }

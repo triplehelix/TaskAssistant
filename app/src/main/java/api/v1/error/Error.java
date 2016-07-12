@@ -28,6 +28,7 @@ public enum Error{
 
     /** model errors */
     INVALID_NAME_ERROR(1160),
+    INVALID_ID_ERROR(1161),
     INVALID_TASK_STATUS_ERROR(1162),
 
     /** Repo errors */
