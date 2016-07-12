@@ -25,7 +25,6 @@ public class TaskListTest {
         /* Add valid TaskLists.
          */
         validTaskLists=new ArrayList<String>();
-        //TODO create some valid TaskLists.
         validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
         validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 

@@ -42,6 +42,9 @@ public class AddTask extends TaskRequestHandler {
 			// do not attempt to set task id. If a task id is provided, ignore it.
 			Task task = new Task();
 
+			// private String taskListId
+			task.setTaskListId(parseJsonIntAsInt((String)jsonRequest.get("taskListId")));
+
 			// private String name;
 			task.setName((String)jsonRequest.get("name"));
 
