@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by kennethlyon on 20160711.
+ * @author kennethlyon on 20160711.
  */
 public class AddTaskListTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(AddTaskListTest.class);

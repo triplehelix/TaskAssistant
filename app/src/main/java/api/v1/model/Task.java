@@ -12,16 +12,16 @@ import java.util.Date;
  */
 public class Task {
     private int id;
+    private int taskListId;
     private String name;
-    private boolean important;
     private String note;
     private long estimatedTime;
     private long investedTime;
+    private boolean important;
     private boolean urgent;
     private Date dueDate;
-    public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
     private Status status;
-
+    public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
 
 	/**
 	 * Create a new task w/o an id. Tasks created without an id are assigned
@@ -29,6 +29,7 @@ public class Task {
 	 */
 	public Task(){
         this.id=-1;
+        this.taskListId=-1;
 		this.note="";
 		this.estimatedTime=0;
 		this.investedTime=0;
@@ -39,18 +40,17 @@ public class Task {
     public void setId(int id){
         this.id=id;
     }
+    public void setTaskListId(int taskListId) {
+        this.taskListId = taskListId;
+    }
     public void setName(String name)throws BusinessException{
         if(name==null || name.equals(""))
             throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
         this.name=name;
     }
-    public void setImportant(boolean important){
-        this.important=important;
-    }
     public void setNote(String note){
 	this.note = note;
 	}
-
     /**
      * The amount of continuous time a expected for a task to
      * be completed.
@@ -59,7 +59,6 @@ public class Task {
     public void setEstimatedTime(long estimatedTime){
 	this.estimatedTime = estimatedTime;
     }
-
     /**
      * The amount of time invested in this task so far.
      * @param investedTime
@@ -67,15 +66,15 @@ public class Task {
     public void setInvestedTime(long investedTime){
 	this.investedTime = investedTime;
     }
-
+    public void setImportant(boolean important){
+        this.important=important;
+    }
     public void setUrgent(boolean urgent){
     this.urgent = urgent;
     }
-
     public void setDueDate(Date dueDate){
         this.dueDate = dueDate;
     }
-
     public void setStatus(String status) throws BusinessException{
         try {
             this.status = Status.valueOf(status);
@@ -85,27 +84,11 @@ public class Task {
         }
     }
 
-    /**
-     * Copy the member fields of t into this.
-     * @param t
-     */
-    public void clone(Task t){
-        this.id=t.getId();
-        this.name=t.getName();
-        this.note=t.getNote();
-        this.important=t.getImportant();
-        this.estimatedTime=t.getEstimatedTime();
-        this.investedTime=t.getInvestedTime();
-        this.urgent=t.getUrgent();
-        this.dueDate=t.getDueDate();
-        this.status=t.getStatus();
-    }
-
-    public Status getStatus() {
-        return status;
-    }
     public int getId(){
         return this.id;
+    }
+    public int getTaskListId() {
+        return taskListId;
     }
     public String getName(){
         return this.name;
@@ -113,14 +96,14 @@ public class Task {
     public String getNote(){
         return this.note;
     }
-    public boolean getImportant(){
-        return this.important;
-    }
     public long getEstimatedTime(){
         return this.estimatedTime;
     }
     public long getInvestedTime(){
         return this.investedTime;
+    }
+    public boolean getImportant(){
+        return this.important;
     }
     public boolean getUrgent(){
         return this.urgent;
@@ -128,7 +111,9 @@ public class Task {
     public Date getDueDate(){
         return this.dueDate;
     }
-
+    public Status getStatus() {
+        return status;
+    }
 
     /**
      * Create a serialized JSON String of this instance

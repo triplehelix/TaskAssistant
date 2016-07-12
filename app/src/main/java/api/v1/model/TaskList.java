@@ -11,9 +11,7 @@ import java.util.ArrayList;
  */
 public class TaskList {
 	private int id;
-	private ArrayList<Task> taskArrayList;
-
-
+	private ArrayList<Integer> taskIdList;
     private String name;
 	private String description;
 	
@@ -24,20 +22,24 @@ public class TaskList {
 	public TaskList(){
 		this.id=-1;
 	}
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name=name;
     }
 
-	public ArrayList<Task> getTaskArrayList() {
-		return taskArrayList;
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Integer> getTaskIdList() {
+       // TODO Search through the TaskRepository for Tasks that belong to this TaskList.
+		return taskIdList;
 	}
-	public void setTaskArrayList(ArrayList<Task> taskArrayList) {
-		this.taskArrayList = taskArrayList;
+
+	public void setTaskArrayList(ArrayList<Integer> taskArrayList) {
+		this.taskIdList = taskArrayList;
 	}
 	public int getId() {
 		return id;
@@ -51,6 +53,7 @@ public class TaskList {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
     /**
      * Create a serialized JSON String of this instance
      * using GSON.
