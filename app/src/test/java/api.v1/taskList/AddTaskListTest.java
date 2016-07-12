@@ -1,6 +1,7 @@
 package api.v1.taskList;
 
 import api.v1.ApiTest;
+import api.v1.model.TaskListTest;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -8,6 +9,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+
 import java.util.ArrayList;
 
 
@@ -28,6 +31,14 @@ public class AddTaskListTest extends ApiTest {
      */
     @Before
     public void setUp() throws Exception {
+        addTaskListInstance=new AddTaskList();
+
+        for(JSONObject jsonObj: TaskListTest.getValidTestTaskListsAsJson())
+            validRequestList.add(createDoPostMockRequest(jsonObj));
+
+        // Create invalid mock tasks.
+        for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListsAsJson())
+            errorRequestList.add(createDoPostMockRequest(jsonObj));
 
     }
 
@@ -53,6 +64,16 @@ public class AddTaskListTest extends ApiTest {
      */
     @Test
     public void doPost() throws Exception {
+        for (MockHttpServletRequest request : validRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            addTaskListInstance.doPost(request, response);
+            validateDoPostValidResponse(response);
+        }
+        for (MockHttpServletRequest request : errorRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            addTaskListInstance.doPost(request, response);
+            validateDoPostErrorResponse(response);
+        }
     }
 
     /**
@@ -69,4 +90,3 @@ public class AddTaskListTest extends ApiTest {
 
     }
 }
-

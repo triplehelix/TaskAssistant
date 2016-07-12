@@ -80,31 +80,29 @@ public class TaskTest {
 
     public static ArrayList<JSONObject> getValidTestTasksAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-
         for (String s : validTasks)
-            jsonObjectArrayList.add(TaskTest.toJson(s));
+            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
         return jsonObjectArrayList;
     }
 
     public static ArrayList<JSONObject> getErrorTestTasksAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : errorTasks)
-            jsonObjectArrayList.add(TaskTest.toJson(s));
+            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
         return jsonObjectArrayList;
-
     }
 
     public static ArrayList<JSONObject> getValidTestTaskUpdatesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : validUpdates)
-            jsonObjectArrayList.add(TaskTest.toJson(s));
+            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
         return jsonObjectArrayList;
     }
 
     public static ArrayList<JSONObject> getErrorTestTaskUpdatesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : errorUpdates)
-            jsonObjectArrayList.add(TaskTest.toJson(s));
+            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
         return jsonObjectArrayList;
     }
 
@@ -177,8 +175,14 @@ public class TaskTest {
             throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
     }
 
-
-    private static JSONObject toJson(String stringTask) {
+    /**
+     * Returns a string from validTasks, errorTasks, validUpdates or
+     * errorUpdates as a JSONObject suitable to create HTTP servlet
+     * mock requests from.
+     * @param stringTask
+     * @return
+     */
+    private static JSONObject toJsonObject(String stringTask) {
         String[] taskElementArray = stringTask.split("`");
         JSONObject jsonObj = new JSONObject();
 
@@ -203,22 +207,22 @@ public class TaskTest {
     public void test() throws Exception {
         for(String s: validTasks){
             TaskTest.toTask(s);
-            LOGGER.info("Valid task {}", toJson(s));
+            LOGGER.info("Valid task {}", toJsonObject(s));
         }
 
         for(String s: validUpdates){
             TaskTest.toTask(s);
-            LOGGER.info("Valid task {}", toJson(s));
+            LOGGER.info("Valid task {}", toJsonObject(s));
         }
 
         for(String s: errorTasks){
             validateErrorTask(s);
-            LOGGER.info("Error task {}", toJson(s));
+            LOGGER.info("Error task {}", toJsonObject(s));
         }
 
         for(String s: errorUpdates){
             validateErrorTask(s);
-            LOGGER.info("Error task {}", toJson(s));
+            LOGGER.info("Error task {}", toJsonObject(s));
         }
 
     }

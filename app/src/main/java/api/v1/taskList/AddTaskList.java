@@ -50,13 +50,11 @@ public class AddTaskList extends TaskRequestHandler {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
-         /**
-          * TODO: populate taskList object.
-          * Ensure that all of the methods needed to parse for this taskList's
-          * fields are present in the super class of this requestHandler.
-          */
 
-        taskListRepository.add(taskList);
+            // private String name;
+            taskList.setName((String)jsonRequest.get("name"));
+            taskList.setDescription((String)jsonRequest.get("description"));
+            taskListRepository.add(taskList);
         } catch (BusinessException b) {
             log.error("An error occurred while handling an AddTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();

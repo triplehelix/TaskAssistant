@@ -34,9 +34,9 @@ public class TaskList {
      * @throws BusinessException
      */
     public void setName(String name) throws BusinessException{
-        if(name==null || name.equals(""))
+        this.name=name.trim();
+        if(this.name==null || this.name.equals(""))
             throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
-        this.name=name;
     }
 
 	public int getId() {
@@ -63,6 +63,5 @@ public class TaskList {
         Gson gson=new Gson();
         return gson.toJson(this);
     }
-
 
 }

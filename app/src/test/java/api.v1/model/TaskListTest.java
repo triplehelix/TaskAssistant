@@ -1,15 +1,12 @@
 package api.v1.model;
 
 import api.v1.error.BusinessException;
-import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
 import org.junit.Test;
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.fail;
 import java.util.ArrayList;
-
 
 /**
  * Here we create TaskLists and test their functionality.
@@ -20,6 +17,8 @@ public class TaskListTest {
     private static Logger LOGGER = LoggerFactory.getLogger(TaskListTest.class);
     private static ArrayList<String> validTaskLists;
     private static ArrayList<String> errorTaskLists;
+    private static ArrayList<String> validTaskListUpdates;
+    private static ArrayList<String> errorTaskListUpdates;
 
     static {
         /* Add valid TaskLists.
@@ -31,15 +30,30 @@ public class TaskListTest {
         errorTaskLists=new ArrayList<String>();
         errorTaskLists.add("0``This TaskList has no name.");
         errorTaskLists.add("abc`TaskList 3 created from ErrorTaskUpdates`This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
-        errorTaskLists.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
+
+        validTaskListUpdates=new ArrayList<String>();
+        validTaskListUpdates.add("0`TaskList 0 created from ValidTasks`This is a valid update.");
+        validTaskListUpdates.add("1`TaskList 1 created from ValidTaskUpdates`This is another valid update. ");
+
+        errorTaskListUpdates=new ArrayList<String>();
+        errorTaskListUpdates.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
+        errorTaskListUpdates.add("1` `This is an invalid TaskList because it has an invalid name.");
+
+        // TODO create errorUpdates and validUpdates.
     }
 
     public static ArrayList<JSONObject> getValidTestTaskListsAsJson() {
-        return null;
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : validTaskLists)
+            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
+        return jsonObjectArrayList;
     }
 
     public static ArrayList<JSONObject> getErrorTestTaskListsAsJson() {
-        return null;
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : errorTaskLists)
+            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
+        return jsonObjectArrayList;
     }
 
     public static ArrayList<TaskList> getValidTestTaskListsAsTaskLists() throws Exception{
@@ -83,8 +97,17 @@ public class TaskListTest {
         for(String s: validTaskLists)
             validateValidTaskList(s);
 
+        LOGGER.info("Creating valid TaskList Updates...");
+        for(String s: validTaskListUpdates)
+            validateValidTaskList(s);
+
         LOGGER.info("Creating error TaskLists...");
         for(String s: errorTaskLists)
+            validateErrorTaskList(s);
+        LOGGER.info("Success!");
+
+        LOGGER.info("Creating error TaskList Updates...");
+        for(String s: errorTaskListUpdates)
             validateErrorTaskList(s);
         LOGGER.info("Success!");
     }
@@ -122,6 +145,23 @@ public class TaskListTest {
             LOGGER.error("Invalid TaskList returned error. " + e.getMessage(), e);
             fail("Error returned for valid TaskList. {} " + s);
         }
-
     }
+
+    /**
+     * Returns a string from validTaskLists, errorTaskLists, validUpdates
+     * or errorUpdates as a JSONObject suitable to create HTTP servlet
+     * mock requests from.
+     * @param stringTask
+     * @return
+     */
+    private static JSONObject toJsonObject(String stringTask) {
+        String[] taskElementArray = stringTask.split("`");
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("id", taskElementArray[0]);
+        jsonObj.put("name", taskElementArray[1]);
+        jsonObj.put("description", taskElementArray[2]);
+        LOGGER.info("Created request {}", jsonObj.toJSONString());
+        return jsonObj;
+    }
+
 }
