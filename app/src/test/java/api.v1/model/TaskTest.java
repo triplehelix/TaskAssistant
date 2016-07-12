@@ -128,15 +128,16 @@ public class TaskTest {
     private static Task toTask(String s) throws Exception{
         String[] taskElementArray = s.split("`");
         Task task = new Task();
-            task.setId(Integer.parseInt(taskElementArray[0]));
-            task.setName(taskElementArray[1]);
-            task.setImportant(TaskTest.parseJsonBooleanAsBoolean(taskElementArray[2]));
-            task.setNote(taskElementArray[3]);
-            task.setEstimatedTime(Long.parseLong(taskElementArray[4]));
-            task.setInvestedTime(Long.parseLong(taskElementArray[5]));
-            task.setUrgent(TaskTest.parseJsonBooleanAsBoolean(taskElementArray[6]));
-            task.setDueDate(parseJsonDateAsDate(taskElementArray[7]));
-            task.setStatus(taskElementArray[8]);
+        task.setId(Integer.parseInt(taskElementArray[0]));
+        task.setTaskListId(Integer.parseInt(taskElementArray[1]));
+        task.setName(taskElementArray[2]);
+        task.setImportant(TaskTest.parseJsonBooleanAsBoolean(taskElementArray[3]));
+        task.setNote(taskElementArray[4]);
+        task.setEstimatedTime(Long.parseLong(taskElementArray[5]));
+        task.setInvestedTime(Long.parseLong(taskElementArray[6]));
+        task.setUrgent(TaskTest.parseJsonBooleanAsBoolean(taskElementArray[7]));
+        task.setDueDate(parseJsonDateAsDate(taskElementArray[8]));
+        task.setStatus(taskElementArray[9]);
         return task;
     }
 
