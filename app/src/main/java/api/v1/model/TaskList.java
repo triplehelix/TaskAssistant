@@ -42,6 +42,7 @@ public class TaskList {
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) throws BusinessException{
         if(id<0)
             throw new BusinessException("Invalid id: " + id + ". A non-negative TaskList id is required", Error.valueOf("INVALID_ID_ERROR"));

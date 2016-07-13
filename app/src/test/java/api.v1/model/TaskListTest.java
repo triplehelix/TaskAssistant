@@ -28,8 +28,8 @@ public class TaskListTest {
         validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 
         errorTaskLists=new ArrayList<String>();
-        errorTaskLists.add("0``This TaskList has no name.");
-        errorTaskLists.add("abc`TaskList 3 created from ErrorTaskUpdates`This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        errorTaskLists.add("0`  `This TaskList has no name.");
+        errorTaskLists.add("1``This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 
         validTaskListUpdates=new ArrayList<String>();
         validTaskListUpdates.add("0`TaskList 0 created from ValidTasks`This is a valid update.");
@@ -81,12 +81,12 @@ public class TaskListTest {
     private static TaskList toTaskList(String s) throws BusinessException{
         String[] taskListElementArray = s.split("`");
         TaskList taskList = new TaskList();
+        LOGGER.debug("******************************************************" + s);
         taskList.setId(Integer.parseInt(taskListElementArray[0]));
         taskList.setName(taskListElementArray[1]);
         taskList.setDescription(taskListElementArray[2]);
         return taskList;
     }
-
 
     /**
      * @throws Exception
@@ -163,5 +163,4 @@ public class TaskListTest {
         LOGGER.info("Created request {}", jsonObj.toJSONString());
         return jsonObj;
     }
-
 }
