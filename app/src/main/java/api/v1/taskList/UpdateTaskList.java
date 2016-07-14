@@ -39,14 +39,24 @@ public class UpdateTaskList extends TaskRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
+            taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
+            taskList.setName((String)jsonRequest.get("name"));
+            taskList.setDescription((String)jsonRequest.get("description"));
+            log.debug("Here is the internal TaskList id: " + taskList.getId());
+            log.debug("Here is the internal TaskList name: " + taskList.getName());
+            log.debug("Here is the internal TaskList description: " + taskList.getDescription());
+
+			taskListRepository.update(taskList);
+            log.debug("Here is the purported TaskList id: " + taskList.getId());
+            log.debug("Here is the purported TaskList name: " + taskList.getName());
+            log.debug("Here is the purported TaskList description: " + taskList.getDescription());
+
 			/**
 			 * TODO: Update this taskList.
 			 * First, we have to read the taskList id from the jsonRequest. Then, an instance of taskList must
 			 * be sent to repository containing the id and all member fields that need to be modified.
 			 * Finally, the client should be notified of success/failure.
 			 */
-
-		taskListRepository.update(taskList);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an PutTaskList  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

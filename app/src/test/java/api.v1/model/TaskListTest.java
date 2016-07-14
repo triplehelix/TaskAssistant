@@ -38,12 +38,18 @@ public class TaskListTest {
         errorTaskListUpdates=new ArrayList<String>();
         errorTaskListUpdates.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
         errorTaskListUpdates.add("10` `This is an invalid TaskList because it has an invalid name.");
-
     }
 
     public static ArrayList<JSONObject> getValidTestTaskListsAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : validTaskLists)
+            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
+        return jsonObjectArrayList;
+    }
+
+    public static ArrayList<JSONObject> getValidTestTaskListUpdatesAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : validTaskListUpdates)
             jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
         return jsonObjectArrayList;
     }
@@ -61,7 +67,6 @@ public class TaskListTest {
             jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
         return jsonObjectArrayList;
     }
-
 
     public static ArrayList<TaskList> getValidTestTaskListsAsTaskLists() throws Exception{
         ArrayList<TaskList> taskListArrayList = new ArrayList<TaskList>(2);
