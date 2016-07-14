@@ -50,7 +50,6 @@ public class AddTaskList extends TaskRequestHandler {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
-
             // private String name;
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));

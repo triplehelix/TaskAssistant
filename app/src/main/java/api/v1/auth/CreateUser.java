@@ -39,8 +39,8 @@ public class CreateUser extends AuthRequestHandler{
      * @throws ServletException
      * @throws IOException
      */
-    public void doPost(HttpServletRequest request, 
-            HttpServletResponse response)throws ServletException, IOException {
+    public void doPost(HttpServletRequest request,
+					   HttpServletResponse response)throws ServletException, IOException {
         //First get the email and password.
         boolean error=false;
         String errorMsg = "no error";

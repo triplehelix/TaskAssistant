@@ -71,7 +71,6 @@ public class AddTaskListTest extends ApiTest {
         }
         int i=0;
         for (MockHttpServletRequest request : errorRequestList) {
-            LOGGER.debug("");
             MockHttpServletResponse response = new MockHttpServletResponse();
             addTaskListInstance.doPost(request, response);
             validateDoPostErrorResponse(response);

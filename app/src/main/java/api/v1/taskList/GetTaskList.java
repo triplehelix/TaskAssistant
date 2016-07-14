@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -30,7 +31,7 @@ public class GetTaskList extends TaskRequestHandler {
      * @throws ServletException
      * @throws IOException
      */
-    public void doGet(HttpServletRequest request, 
+    public void doPost(HttpServletRequest request,
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
@@ -43,11 +44,10 @@ public class GetTaskList extends TaskRequestHandler {
             taskList=taskListRepository.get(taskList);
             /**
              * TODO: Return an instance of this taskList.
-             * To successfully, return an instance of taskList to the client, it is necessary to
-             * first discover the taskList id, then a serialized version of that instance should be
-             * sent back to the client through the HttpServletResponse.
+             * Okay, so do we need to send a success response AND the taskList? How
+             * does the print stream interpret this? I have no fucking idea!
+             *
              */
-
 
         } catch (BusinessException b) {
             log.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
@@ -66,6 +66,7 @@ public class GetTaskList extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("TaskList", taskList.toJson());
         }
         sendMessage(jsonResponse, response);
     }
