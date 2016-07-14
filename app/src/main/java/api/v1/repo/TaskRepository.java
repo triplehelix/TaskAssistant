@@ -40,6 +40,7 @@ public class TaskRepository implements Repository<Task>{
         int taskId=0;
         while(taskMap.containsKey(taskId))
             taskId++;
+        t.setId(taskId);
         taskMap.put(taskId, t);
     }
 

@@ -37,6 +37,7 @@ public class CalendarRepository implements Repository<Calendar>{
         int calendarId=0;
         while(calendarMap.containsKey(calendarId))
             calendarId++;
+        c.setId(calendarId);
         calendarMap.put(calendarId, c);
     }
 

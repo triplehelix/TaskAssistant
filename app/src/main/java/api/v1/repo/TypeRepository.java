@@ -37,6 +37,7 @@ public class TypeRepository implements Repository<Type>{
         int typeId=0;
         while(typeMap.containsKey(typeId))
             typeId++;
+        foobar.setId(typeId);
         typeMap.put(typeId, foobar);
     }
 

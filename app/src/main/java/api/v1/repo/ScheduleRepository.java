@@ -37,6 +37,7 @@ public class ScheduleRepository implements Repository<Schedule>{
         int scheduleId=0;
         while(scheduleMap.containsKey(scheduleId))
             scheduleId++;
+        s.setId(scheduleId);
         scheduleMap.put(scheduleId, s);
     }
 

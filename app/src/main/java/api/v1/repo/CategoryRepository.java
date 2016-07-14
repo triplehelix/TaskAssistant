@@ -37,6 +37,7 @@ public class CategoryRepository implements Repository<Category>{
         int categoryId=0;
         while(categoryMap.containsKey(categoryId))
             categoryId++;
+        c.setId(categoryId);
         categoryMap.put(categoryId, c);
     }
 

@@ -27,59 +27,60 @@ public class UserRepository implements Repository<User>{
     /**
      * First discover a user id that has not been used. Then copy the incoming
      * user fields into the new user.
-     * @param foobar
+     * @param u
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(User foobar) throws BusinessException, SystemException{
-        LOGGER.debug("ADDING: " + foobar.toJson());
+    public void add(User u) throws BusinessException, SystemException{
+        LOGGER.debug("ADDING: " + u.toJson());
 	// First, we make sure that the user DNE. Else throw BusinessException
         int userId=0;
         while(userMap.containsKey(userId))
             userId++;
-        userMap.put(userId, foobar);
+        u.setId(userId);
+        userMap.put(userId, u);
     }
 
     /**
-     * @param foobar
+     * @param u
      * @return
      * @throws BusinessException
      * @throws SystemException
      */
-	public User get(User foobar)throws BusinessException, SystemException{
-        //LOGGER.debug("GETTING: " + foobar.toJson());
-        if(userMap.containsKey(foobar.getId()))
-            return userMap.get(foobar.getId());
+	public User get(User u)throws BusinessException, SystemException{
+        //LOGGER.debug("GETTING: " + u.toJson());
+        if(userMap.containsKey(u.getId()))
+            return userMap.get(u.getId());
         else
-            throw new BusinessException(" User not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(" User not found. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
     /**
      *
-     * @param foobar
+     * @param u
      * @throws BusinessException
      * @throws SystemException
      */
-	public void update(User foobar) throws BusinessException, SystemException{
-        LOGGER.debug(foobar.toJson());
+	public void update(User u) throws BusinessException, SystemException{
+        LOGGER.debug(u.toJson());
         // First, delete the user:
-        this.delete(foobar);
+        this.delete(u);
         // Then add the new user:
-        this.add(foobar);
+        this.add(u);
 	}
 
     /**
      * Deletes the provided user.
      *
-     * @param foobar
+     * @param u
      * @throws BusinessException
      * @throws SystemException
      */
-	public void delete(User foobar) throws BusinessException, SystemException{
-        if(userMap.containsKey(foobar.getId())){
-            userMap.remove(foobar.getId());
+	public void delete(User u) throws BusinessException, SystemException{
+        if(userMap.containsKey(u.getId())){
+            userMap.remove(u.getId());
         }
         else
-            throw new BusinessException(" User not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(" User not found. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 }

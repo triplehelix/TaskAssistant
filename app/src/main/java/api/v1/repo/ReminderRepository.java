@@ -37,6 +37,7 @@ public class ReminderRepository implements Repository<Reminder>{
         int reminderId=0;
         while(reminderMap.containsKey(reminderId))
             reminderId++;
+        r.setId(reminderId);
         reminderMap.put(reminderId, r);
     }
 
