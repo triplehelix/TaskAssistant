@@ -39,7 +39,6 @@ public class TaskListTest {
         errorTaskListUpdates.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
         errorTaskListUpdates.add("1` `This is an invalid TaskList because it has an invalid name.");
 
-        // TODO create errorUpdates and validUpdates.
     }
 
     public static ArrayList<JSONObject> getValidTestTaskListsAsJson() {

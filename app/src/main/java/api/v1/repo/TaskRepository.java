@@ -3,9 +3,12 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 //import java.sql.SQLException;
 import api.v1.error.Error;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import api.v1.model.Task;
 
+import api.v1.model.TaskList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -79,5 +82,13 @@ public class TaskRepository implements Repository<Task>{
         }
         else
             throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+    /**
+     * TODO: Return an arrayList of Tasks that belong to the provided TaskList.
+     * @return
+     */
+    public ArrayList<Task> getListOfTasks(TaskList taskList){
+        return null;
     }
 }

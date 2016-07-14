@@ -1,5 +1,6 @@
 ===========================================================================
 Model:
+=========================================================================== 
 ·  Users
 ·  Taskslist_users
 ·  Tasklist
@@ -11,8 +12,10 @@ Model:
 ·  Category_user
 ·  Users_calendars
 ·  Calendars
- 
+
+=========================================================================== 
 API:
+===========================================================================
 ** /api/v1/auth/validateuser
 o POST
 ·  Request
@@ -119,6 +122,7 @@ o POST
    ·  success
    ·  error
 ** /api/v1/task/updatetask
+
 ** /api/v1/task/updatereminder
 
 ** /api/v1/tasklist/updatetasklist (secondary)
@@ -140,7 +144,6 @@ o POST
    ·  success
    ·  error
 
-
 ** /api/v1/tasklist/gettasklist
 o POST
 ·  Request
@@ -149,3 +152,4 @@ o POST
    ·  TaskList
    ·  success
    ·  error
+
