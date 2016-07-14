@@ -29,7 +29,7 @@ public class GetReminder extends ReminderRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
      */
-	public void doGet(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request,
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";

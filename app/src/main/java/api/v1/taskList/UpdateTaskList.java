@@ -30,7 +30,7 @@ public class UpdateTaskList extends TaskRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
          */
-	public void doPut(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request,
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
