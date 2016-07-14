@@ -37,6 +37,7 @@ public class TaskListRepository implements Repository<TaskList>{
         int taskListId=0;
         while(taskListMap.containsKey(taskListId))
             taskListId++;
+        foobar.setId(taskListId);
         taskListMap.put(taskListId, foobar);
     }
 

@@ -41,7 +41,14 @@ public class GetTaskList extends TaskRequestHandler {
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
             taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
+            //log.debug("Here is the purported TaskList id: " + taskList.getId());
+            //log.debug("Here is the purported TaskList name: " + taskList.getName());
+            //log.debug("Here is the purported TaskList description: " + taskList.getDescription());
             taskList=taskListRepository.get(taskList);
+            //log.debug("Here is the internal TaskList id: " + taskList.getId());
+            //log.debug("Here is the internal TaskList name: " + taskList.getName());
+            //log.debug("Here is the internal TaskList description: " + taskList.getDescription());
+
             /**
              * TODO: Return an instance of this taskList.
              * Okay, so do we need to send a success response AND the taskList? How

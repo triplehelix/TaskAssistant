@@ -37,7 +37,7 @@ public class TaskListTest {
 
         errorTaskListUpdates=new ArrayList<String>();
         errorTaskListUpdates.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
-        errorTaskListUpdates.add("1` `This is an invalid TaskList because it has an invalid name.");
+        errorTaskListUpdates.add("10` `This is an invalid TaskList because it has an invalid name.");
 
     }
 
@@ -55,18 +55,18 @@ public class TaskListTest {
         return jsonObjectArrayList;
     }
 
+    public static ArrayList<JSONObject> getErrorTestTaskListsUpdatesAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : errorTaskListUpdates)
+            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
+        return jsonObjectArrayList;
+    }
+
+
     public static ArrayList<TaskList> getValidTestTaskListsAsTaskLists() throws Exception{
         ArrayList<TaskList> taskListArrayList = new ArrayList<TaskList>(2);
-
-        // First create two new task lists...
-        TaskList tl0=new TaskList();
-        TaskList tl1=new TaskList();
-        // Set their name, id and description fields:
-
-        // Then add them to the ArrayList
-        taskListArrayList.add(tl0);
-        taskListArrayList.add(tl1);
-
+        for(String s:validTaskLists)
+            taskListArrayList.add(toTaskList(s));
         return taskListArrayList;
     }
 
@@ -80,7 +80,6 @@ public class TaskListTest {
     private static TaskList toTaskList(String s) throws BusinessException{
         String[] taskListElementArray = s.split("`");
         TaskList taskList = new TaskList();
-        LOGGER.debug("******************************************************" + s);
         taskList.setId(Integer.parseInt(taskListElementArray[0]));
         taskList.setName(taskListElementArray[1]);
         taskList.setDescription(taskListElementArray[2]);

@@ -1,6 +1,7 @@
 package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.model.TaskList;
 import api.v1.repo.TaskRepository;
 import api.v1.repo.TaskListRepository;
 /**
@@ -16,7 +17,15 @@ public class TaskRequestHandler extends BaseRequestHandler {
         taskListRepository = new TaskListRepository();
     }
 
+    /**
+     * These methods are only used by the unit Tests.
+     * @return
+     */
     public static TaskRepository getTaskRepository(){
         return taskRepository;
+    }
+
+    public static TaskListRepository getTaskListRepository() {
+        return taskListRepository;
     }
 }
