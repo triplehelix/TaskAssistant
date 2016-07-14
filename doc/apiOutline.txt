@@ -130,4 +130,22 @@ o POST
 ·  Response
    ·  success
    ·  error
+
 ** /api/v1/tasklist/gettasks
+o POST
+·  Request
+   ·  tasklistId
+·  Response
+   ·  listOfTasks
+   ·  success
+   ·  error
+
+
+** /api/v1/tasklist/gettasklist
+o POST
+·  Request
+   ·  tasklistId
+·  Response
+   ·  TaskList
+   ·  success
+   ·  error
