@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -55,7 +54,6 @@ public class GetTaskList extends TaskRequestHandler {
              * does the print stream interpret this? I have no fucking idea!
              *
              */
-
         } catch (BusinessException b) {
             log.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();

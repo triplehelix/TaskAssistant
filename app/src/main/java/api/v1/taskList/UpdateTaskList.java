@@ -42,14 +42,14 @@ public class UpdateTaskList extends TaskRequestHandler {
             taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));
-            log.debug("Here is the internal TaskList id: " + taskList.getId());
-            log.debug("Here is the internal TaskList name: " + taskList.getName());
-            log.debug("Here is the internal TaskList description: " + taskList.getDescription());
+			//log.debug("Here is the internal TaskList id: " + taskList.getId());
+            //log.debug("Here is the internal TaskList name: " + taskList.getName());
+            //log.debug("Here is the internal TaskList description: " + taskList.getDescription());
 
 			taskListRepository.update(taskList);
-            log.debug("Here is the purported TaskList id: " + taskList.getId());
-            log.debug("Here is the purported TaskList name: " + taskList.getName());
-            log.debug("Here is the purported TaskList description: " + taskList.getDescription());
+            //log.debug("Here is the purported TaskList id: " + taskList.getId());
+            //log.debug("Here is the purported TaskList name: " + taskList.getName());
+            //log.debug("Here is the purported TaskList description: " + taskList.getDescription());
 
 			/**
 			 * TODO: Update this taskList.
