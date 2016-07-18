@@ -122,8 +122,8 @@ o POST
    ·  success
    ·  error
 ** /api/v1/task/updatetask
-
 ** /api/v1/task/updatereminder
+
 
 ** /api/v1/tasklist/updatetasklist (secondary)
 o POST

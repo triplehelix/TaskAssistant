@@ -39,8 +39,9 @@ public class GetTasks extends TaskRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
+        String listOfTasksAsJson="";
         TaskList taskList = new TaskList();
-        ArrayList<Task> listOfTasks=new ArrayList<Task>();
+        ArrayList<Task> listOfTasks;
         int errorCode = 0;
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -49,17 +50,15 @@ public class GetTasks extends TaskRequestHandler {
             taskList=taskListRepository.get(taskList);
             //TaskRepository takes a valid TaskList and returns an ArrayList of corresponding tasks.
             listOfTasks=taskRepository.getListOfTasks(taskList);
-            Gson gson=new Gson();
-            String listOfTasksAsJson=gson.toJson(listOfTasks);
             /*
              * List<String> foo = new ArrayList<String>();
              * foo.add("A");
              * foo.add("B");
              * foo.add("C");
-             * 
+             *
              * String json = new Gson().toJson(foo );
             */
-            //TODO place listOfTasks into the response object.
+            listOfTasksAsJson=new Gson().toJson(listOfTasks);
 
         } catch (BusinessException b) {
             log.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
@@ -78,6 +77,7 @@ public class GetTasks extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("listOfTaskIdsAsJson", listOfTasksAsJson);
         }
         sendMessage(jsonResponse, response);
     }

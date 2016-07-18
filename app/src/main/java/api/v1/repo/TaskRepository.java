@@ -90,6 +90,11 @@ public class TaskRepository implements Repository<Task>{
      * @return
      */
     public ArrayList<Task> getListOfTasks(TaskList taskList){
-        return null;
+        LOGGER.info("We are now looking for tasks with the TaskList id: " + taskList.getId());
+        ArrayList<Task>listOfTaskIds=new ArrayList<Task>();
+        for(Task task:taskMap.values())
+            if(task.getTaskListId()==taskList.getId())
+                listOfTaskIds.add(task);
+        return listOfTaskIds;
     }
 }
