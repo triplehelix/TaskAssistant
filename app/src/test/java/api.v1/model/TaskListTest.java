@@ -61,7 +61,7 @@ public class TaskListTest {
         return jsonObjectArrayList;
     }
 
-    public static ArrayList<JSONObject> getErrorTestTaskListsUpdatesAsJson() {
+    public static ArrayList<JSONObject> getErrorTestTaskListUpdatesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : errorTaskListUpdates)
             jsonObjectArrayList.add(TaskListTest.toJsonObject(s));

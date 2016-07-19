@@ -39,6 +39,19 @@ public class TaskTest {
         validTasks.add("7`0`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
         validTasks.add("8`0`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
 
+
+        // Add valid mutations to valid tasks.
+        validUpdates = new ArrayList<String>();
+        validUpdates.add("0`1`Feed dog`TRUE`Give food to the fluff.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
+        validUpdates.add("1`1`Create AddTask unit test`false`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
+        validUpdates.add("2`1`Buy beer`TRUE`Bill is getting IPAs for the party.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
+        validUpdates.add("3`1`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`1800000`0`FALSE`2016-06-12_08:00:00`DEFERRED");
+        validUpdates.add("4`1`Shave`FALSE`GF said I need to shave.`180000`90000`TRUE`2016-06-09_19:00:00`DONE");
+        validUpdates.add("5`1`Robert'); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`false`2016-06-09_19:00:00`NEW");
+        validUpdates.add("6`1`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW");
+        validUpdates.add("7`1`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
+        validUpdates.add("8`1`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`DONE");
+
         // Add error causing tasks.
         errorTasks = new ArrayList<String>();
         errorTasks.add("0`1`Call Attorney J.P. Coleostomy`TRUE`Bring photographic proof!`3600000`0`YES`2016-06-14_15:15:00`NEW");
@@ -50,20 +63,6 @@ public class TaskTest {
         errorTasks.add("6`1`Refinish porch`FALSE``210000`0`TRUE`2020-09-31_00:00:00`NEW");
         errorTasks.add("7`1``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
         errorTasks.add("8`-9`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
-
-
-
-        // Add valid mutations to valid tasks.         
-        validUpdates = new ArrayList<String>();
-        validUpdates.add("0`2`Feed dog`TRUE`Give food to the fluff.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
-        validUpdates.add("1`2`Create AddTask unit test`false`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
-        validUpdates.add("2`2`Buy beer`TRUE`Bill is getting IPAs for the party.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
-        validUpdates.add("3`2`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`1800000`0`FALSE`2016-06-12_08:00:00`DEFERRED");
-        validUpdates.add("4`2`Shave`FALSE`GF said I need to shave.`180000`90000`TRUE`2016-06-09_19:00:00`DONE");
-        validUpdates.add("5`2`Robert'); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`false`2016-06-09_19:00:00`NEW");
-        validUpdates.add("6`2`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW");
-        validUpdates.add("7`2`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
-        validUpdates.add("8`2`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`DONE");
 
         // Add invalid mutations to valid tasks.
         errorUpdates = new ArrayList<String>();
@@ -122,7 +121,13 @@ public class TaskTest {
         return taskArrayList;
     }
 
-
+    /**
+     * Create new Task objects from a backtick delimited String such as those in
+     * validTasks, errorTasks, validUpdates and errorUpdates.
+     * @param s
+     * @return
+     * @throws Exception
+     */
     private static Task toTask(String s) throws Exception{
         String[] taskElementArray = s.split("`");
         Task task = new Task();

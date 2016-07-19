@@ -69,7 +69,7 @@ public class GetTaskListTest extends ApiTest {
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Create invalid mock TaskLists.
-        for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListsUpdatesAsJson())
+        for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListUpdatesAsJson())
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
@@ -100,12 +100,11 @@ public class GetTaskListTest extends ApiTest {
             getTaskListInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
-        int i=0;
+
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             getTaskListInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
-            i++;
         }
     }
 

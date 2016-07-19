@@ -67,12 +67,11 @@ public class AddTaskListTest extends ApiTest {
             addTaskListInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
-        int i=0;
+
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             addTaskListInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
-            i++;
         }
     }
 

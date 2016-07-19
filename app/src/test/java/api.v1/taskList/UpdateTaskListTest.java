@@ -53,7 +53,7 @@ public class UpdateTaskListTest extends ApiTest {
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Create invalid mock TaskLists.
-        for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListsUpdatesAsJson())
+        for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListUpdatesAsJson())
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 

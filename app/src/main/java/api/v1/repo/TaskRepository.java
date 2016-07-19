@@ -1,7 +1,6 @@
 package api.v1.repo;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-//import java.sql.SQLException;
 import api.v1.error.Error;
 
 import java.util.ArrayList;
@@ -89,12 +88,16 @@ public class TaskRepository implements Repository<Task>{
      * TODO: Return an arrayList of Tasks that belong to the provided TaskList.
      * @return
      */
-    public ArrayList<Task> getListOfTasks(TaskList taskList){
+    public ArrayList<Task> getListOfTasks(TaskList taskList) throws BusinessException, SystemException{
         LOGGER.info("We are now looking for tasks with the TaskList id: " + taskList.getId());
         ArrayList<Task>listOfTaskIds=new ArrayList<Task>();
         for(Task task:taskMap.values())
             if(task.getTaskListId()==taskList.getId())
                 listOfTaskIds.add(task);
+        if(listOfTaskIds.size()==0)
+            throw new BusinessException("No Tasks found for specified TaskList (id="
+                    + taskList.getId() + ")."
+                    , Error.valueOf("NO_SUCH_OBJECT_ERROR"));
         return listOfTaskIds;
     }
 }
