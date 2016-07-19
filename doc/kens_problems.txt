@@ -1,23 +1,21 @@
-1. The Schedule object sucks. At present it is just a block that optionally
-   repeats every day, week, month or year. Methinks something better might 
-   exist?
-2. Should all model ids be changed to long and throw exceptions for negative 
-   numbers? Methinks so.
-3. What is the "invested time" Task field for? How is it calculated?
-4. What constitutes urgency? And where is it set?
-5. Database sanitization. When someone creates a "note" or names a task,
-   how do we make sure the database is not corrupted?
-6. How do we handle imcomplete objects? A task w/o a due date for example. 
-   Should I have to check for null parameters or should Mike always send a 
-   default.
-7. What are abstract classes. Have Mike expain that shit.
-8. It is not clear how TaskLists are going to be used. The API specifies an
-   "UpdateTaskList" api field.
-9. I would like to see a UI where TaskLists are generated on the fly. This way
-   a person can create a task list by selecting and de-selecting categories.
-   At present, this api does not really support that.
-
-
+01. The Schedule object sucks. At present it is just a block that optionally
+    repeats every day, week, month or year. Methinks something better might 
+    exist?
+02. Should all model ids be changed to long and throw exceptions for negative 
+    numbers? Methinks so.
+03. What is the "invested time" Task field for? How is it calculated?
+04. What constitutes urgency? And where is it set?
+05. Database sanitization. When someone creates a "note" or names a task,
+    how do we make sure the database is not corrupted?
+06. How do we handle imcomplete objects? A task w/o a due date for example. 
+    Should I have to check for null parameters or should Mike always send a 
+    default.
+07. What are abstract classes. Have Mike expain that shit.
+08. It is not clear how TaskLists are going to be used. The API specifies an
+    "UpdateTaskList" api field.
+09. I would like to see a UI where TaskLists are generated on the fly. This way
+    a person can create a task list by selecting and de-selecting categories.
+    At present, this api does not really support that.
 
 edge case - some word mike says alot.
 

@@ -4,10 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.ReminderRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.Reminder;
@@ -20,7 +21,7 @@ import api.v1.model.Reminder;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/reminder/PutReminder")
-public class PutReminder extends ReminderRequestHandler {
+public class UpdateReminder extends TaskRequestHandler {
 
 	/**
 	 *

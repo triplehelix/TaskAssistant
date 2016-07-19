@@ -4,23 +4,24 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.ReminderRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.Reminder;
 
 /**
  * This api is used to retrieve a given reminder. Use the class member
- * doGet(HttpServletRequest, HttpServletResponse) to retrieve this
+ * doGet(HttpServletRequest, HttpServletResp`onse) to retrieve this
  * reminder.
  *
  *  @author Ken Lyon
  */
 @WebServlet("/api/v1/reminder/GetReminder")
-public class GetReminder extends ReminderRequestHandler {
+public class GetReminder extends TaskRequestHandler {
 
 	/**
 	 *

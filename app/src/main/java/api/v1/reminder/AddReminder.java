@@ -7,12 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import api.v1.TaskRequestHandler;
 import org.json.simple.JSONObject;
 
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
-import api.v1.ReminderRequestHandler;
 import api.v1.model.Reminder;
 
 /**
@@ -29,7 +30,7 @@ import api.v1.model.Reminder;
  */
 @SuppressWarnings("serial")
 @WebServlet("/api/v1/reminder/AddReminder")
-public class AddReminder extends ReminderRequestHandler{
+public class AddReminder extends TaskRequestHandler {
 
 	/**
 	 * Post a new Reminder object. Request must provide task_id and reminder_time. 

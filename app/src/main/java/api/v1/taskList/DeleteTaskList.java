@@ -15,8 +15,8 @@ import api.v1.model.TaskList;
 
 /**
  * This api is used to delete a given taskList. Use the class member
- * doDelete(HttpServletRequest, HttpServletResponse) to delete
- * this taskList.
+ * doDelete(HttpServletRequest, HttpServletResponse) to delete task
+ * taskList.
  *
  * @author Ken Lyon
  */

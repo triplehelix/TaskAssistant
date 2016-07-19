@@ -1,7 +1,5 @@
 package api.v1;
-import api.v1.error.BusinessException;
-import api.v1.error.SystemException;
-import api.v1.model.TaskList;
+import api.v1.repo.ReminderRepository;
 import api.v1.repo.TaskRepository;
 import api.v1.repo.TaskListRepository;
 /**
@@ -12,9 +10,12 @@ public class TaskRequestHandler extends BaseRequestHandler {
 
     protected static TaskRepository taskRepository;
     protected static TaskListRepository taskListRepository;
+    protected static ReminderRepository reminderRepository;
+
     static {
         taskRepository = new TaskRepository();
         taskListRepository = new TaskListRepository();
+        reminderRepository = new ReminderRepository();
     }
 
     /**
@@ -24,8 +25,11 @@ public class TaskRequestHandler extends BaseRequestHandler {
     public static TaskRepository getTaskRepository(){
         return taskRepository;
     }
-
     public static TaskListRepository getTaskListRepository() {
         return taskListRepository;
     }
+    public static ReminderRepository getReminderRepository() {
+        return reminderRepository;
+    }
+
 }
