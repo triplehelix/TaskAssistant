@@ -1,6 +1,5 @@
 package api.v1;
 
-import api.v1.task.UpdateTaskTest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -14,7 +13,7 @@ import java.io.UnsupportedEncodingException;
  * Created by kennethlyon on 7/11/16.
  */
 public class ApiTest {
-    private Logger LOGGER = LoggerFactory.getLogger(UpdateTaskTest.class);
+    private Logger LOGGER = LoggerFactory.getLogger(ApiTest.class);
 
     /**
      * Check to verify that valid object doPost responses are indeed
