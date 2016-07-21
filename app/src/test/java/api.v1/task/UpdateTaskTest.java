@@ -1,7 +1,12 @@
 package api.v1.task;
 
 import api.v1.ApiTest;
+import api.v1.model.Task;
+import api.v1.model.TaskList;
+import api.v1.model.TaskListTest;
 import api.v1.model.TaskTest;
+import api.v1.repo.TaskListRepository;
+import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -18,8 +23,9 @@ import java.util.ArrayList;
  */
 public class UpdateTaskTest extends ApiTest{
     private Logger LOGGER = LoggerFactory.getLogger(UpdateTaskTest.class);
-    private static AddTask addTaskInstance;
     private static UpdateTask updateTaskInstance;
+    private static TaskRepository taskRepository;
+    private static TaskListRepository taskListRepository;
     private static ArrayList<MockHttpServletRequest> validUpdateTaskRequestList = new ArrayList<MockHttpServletRequest>();
     private static ArrayList<MockHttpServletRequest> errorUpdateTaskRequestList = new ArrayList<MockHttpServletRequest>();
 
@@ -32,16 +38,18 @@ public class UpdateTaskTest extends ApiTest{
     public void setUp() throws Exception {
         LOGGER.debug("");
         LOGGER.debug("*********** Starting @Before ***********");
-        LOGGER.debug("// 1. Start by creating AddTask and UpdateTask Objects.");
-        addTaskInstance = new AddTask();
+        LOGGER.debug("// 1. Start by creating UpdateTask and fetching the TaskRepository and TaskListRepository.");
         updateTaskInstance = new UpdateTask();
-        validUpdateTaskRequestList=new ArrayList<MockHttpServletRequest>();
-        errorUpdateTaskRequestList=new ArrayList<MockHttpServletRequest>();
+        taskRepository=updateTaskInstance.getTaskRepository();
+        taskListRepository=updateTaskInstance.getTaskListRepository();
 
-        LOGGER.debug("// 2. Next, use AddTask to populate the TaskRepository with Valid Tasks.");
-        populateTaskRepositoryWithValidTasks();
+        LOGGER.debug("// 2. Next, use AddTask to populate the TaskRepository and TaskListRepository with Valid Tasks and TaskLists.");
+        // Get the TaskListRepository and place valid TaskLists within it.
+        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+            taskListRepository.add(taskList);
 
-
+        for(Task task: TaskTest.getValidTestTasksAsTasks())
+            taskRepository.add(task);
 
         /* Use the TaskTest.validUpdates ArrayList to populate the
         * validUpdateTaskRequestList.
@@ -55,7 +63,7 @@ public class UpdateTaskTest extends ApiTest{
         * errorUpdateTaskRequestList.
         */
         LOGGER.debug("// 4. Create invalid mock requests.");
-        for(JSONObject jsonObj: TaskTest.getErrorTestTasksAsJson())
+        for(JSONObject jsonObj: TaskTest.getErrorTestTaskUpdatesAsJson())
             errorUpdateTaskRequestList.add(createDoPostMockRequest(jsonObj));
 
 
@@ -92,24 +100,12 @@ public class UpdateTaskTest extends ApiTest{
     @After
     public void tearDown() throws Exception {
         LOGGER.debug("@After: " + validUpdateTaskRequestList.size() + " " + errorUpdateTaskRequestList.size() + " ");
-        addTaskInstance=null;
         updateTaskInstance=null;
+        taskRepository=null;
+        taskListRepository=null;
         validUpdateTaskRequestList=null;
         errorUpdateTaskRequestList=null;
-    }
 
-
-    /**
-     * This method populates the task repository with valid tasks.
-     * @throws Exception
-     */
-    private void populateTaskRepositoryWithValidTasks() throws Exception{
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        for(JSONObject jsonTask: TaskTest.getValidTestTasksAsJson()){
-            request=createDoPostMockRequest(jsonTask);
-            addTaskInstance.doPost(request, response);
-        }
     }
 
     /**

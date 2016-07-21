@@ -1,7 +1,10 @@
 package api.v1.task;
 
 import api.v1.ApiTest;
+import api.v1.model.TaskList;
+import api.v1.model.TaskListTest;
 import api.v1.model.TaskTest;
+import api.v1.repo.TaskListRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 public class AddTaskTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);
     private static AddTask addTaskInstance;
+    private static TaskListRepository taskListRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
@@ -31,6 +35,12 @@ public class AddTaskTest extends ApiTest {
     @Before
     public void setUp() throws Exception {
         addTaskInstance = new AddTask();
+        taskListRepository=addTaskInstance.getTaskListRepository();
+
+        // Get the TaskListRepository and place valid TaskLists within it.
+        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+            taskListRepository.add(taskList);
+
         // Create valid mock tasks.
         for(JSONObject jsonObj: TaskTest.getValidTestTasksAsJson())
             validRequestList.add(createDoPostMockRequest(jsonObj));

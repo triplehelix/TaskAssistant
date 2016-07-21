@@ -53,6 +53,7 @@ public class UpdateTask extends TaskRequestHandler {
 
 			// private String taskListId
 			task.setTaskListId(parseJsonIntAsInt((String)jsonRequest.get("taskListId")));
+			verifyTaskListExists(task.getTaskListId());
 
 			// private String name;
             task.setName((String)jsonRequest.get("name"));
