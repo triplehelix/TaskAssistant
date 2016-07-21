@@ -70,9 +70,10 @@ public class AddCategoryTest extends ApiTest {
             validateDoPostValidResponse(response);
         }
         Category category=new Category();
-        LOGGER.info("Verifying categories were placed in the repository.");
+        LOGGER.info("Verifying categories were placed in the repository...");
         for(int i=0;i<validRequestList.size();i++) {
             category.setId(i);
+            LOGGER.info(categoryRepository.get(category).toJson());
         }
 
         for (MockHttpServletRequest request : errorRequestList) {
