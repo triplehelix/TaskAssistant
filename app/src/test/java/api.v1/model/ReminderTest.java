@@ -21,6 +21,7 @@ public class ReminderTest {
     private static Logger LOGGER = LoggerFactory.getLogger(ReminderTest.class);
     private static ArrayList<String> validReminders;
     private static ArrayList<String> errorReminders;
+    private static ArrayList<String> modelOnlyErrorReminders;
     static {
         /* Add valid Reminders. Reminders fields are arranged in the order:
          *    id, taskId, reminderTime
@@ -28,12 +29,21 @@ public class ReminderTest {
          */
         validReminders=new ArrayList<String>();
         errorReminders=new ArrayList<String>();
+        modelOnlyErrorReminders=new ArrayList<String>();
+
         validReminders.add("0`1`2020-05-28_08:31:01");
         validReminders.add("1`1`2020-05-31_00:00:00");
         validReminders.add("2`2`2016-06-09_18:30:00");
         validReminders.add("3`2`2016-06-12_08:00:00");
         validReminders.add("4`3`2016-06-09_19:00:00");
         validReminders.add("5`4`2020-05-31_00:00:00");
+
+        modelOnlyErrorReminders.add("2`2`yyyy-MM-dd_HH:mm:ss");
+        modelOnlyErrorReminders.add("3`2`2020-18-31_00:00:00");
+        modelOnlyErrorReminders.add("4`-3`2016-06-09_19:00:00");
+        modelOnlyErrorReminders.add("5`-40`2020-05-31_00:00:00");
+        modelOnlyErrorReminders.add("0`1`0");
+        modelOnlyErrorReminders.add("1`1` ");
 
         errorReminders.add("2`2`yyyy-MM-dd_HH:mm:ss");
         errorReminders.add("3`2`2020-18-31_00:00:00");
@@ -71,7 +81,6 @@ public class ReminderTest {
         reminder.setId(Integer.parseInt(reminderElementArray[0]));
         reminder.setTaskId(Integer.parseInt(reminderElementArray[1]));
         reminder.setReminderTime(parseJsonDateAsDate(reminderElementArray[2]));
-            reminder.setId(Integer.parseInt(reminderElementArray[0]));
         return reminder;
     }
 
@@ -131,7 +140,7 @@ public class ReminderTest {
             LOGGER.info("Valid Reminder {}", toJson(s));
         }
 
-        for(String s: errorReminders){
+        for(String s: modelOnlyErrorReminders){
             validateErrorReminder(s);
             LOGGER.info("Error Reminder {}", toJson(s));
         }
