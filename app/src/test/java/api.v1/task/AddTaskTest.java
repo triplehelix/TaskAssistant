@@ -13,8 +13,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
 /**
- * Created by mikeh on 4/17/2016.
- * This class will test the AddTask Class
+ * This class tests the AddTask Class
+ * @author kennethlyon
  */
 public class AddTaskTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);

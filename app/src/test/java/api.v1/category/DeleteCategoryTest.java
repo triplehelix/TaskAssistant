@@ -15,8 +15,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
 /**
- * Created by mikeh on 4/17/2016.
- * This class will test the DeleteCategory Class
+ * This class tests the DeleteCategory Class
+ * @author kennethlyon
  */
 public class DeleteCategoryTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(DeleteCategoryTest.class);

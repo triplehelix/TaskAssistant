@@ -1,9 +1,9 @@
-package api.v1.category;
+package api.v1.reminder;
 
 import api.v1.ApiTest;
-import api.v1.model.Category;
-import api.v1.model.CategoryTest;
-import api.v1.repo.CategoryRepository;
+import api.v1.model.Reminder;
+import api.v1.model.ReminderTest;
+import api.v1.repo.ReminderRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -15,37 +15,32 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
 /**
- * This class tests the GetCategory Class
+ * This class tests the AddReminder Class
  * @author kennethlyon
  */
-public class GetCategoryTest extends ApiTest {
-    private Logger LOGGER = LoggerFactory.getLogger(GetCategoryTest.class);
-    private static GetCategory getCategoryInstance;
-    private static CategoryRepository categoryRepository;
+public class AddReminderTest extends ApiTest {
+    private Logger LOGGER = LoggerFactory.getLogger(AddReminderTest.class);
+    private static AddReminder addReminderInstance;
+    private static ReminderRepository reminderRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
     /**
-     * First create a new Instance of GetCategory() object, then add new
-     * category test cases to validRequestList and errorRequestList.
+     * First create a new Instance of AddReminder() object, then add new
+     * reminder test cases to validRequestList and errorRequestList.
      *
      * @throws Exception
      */
     @Before
     public void setUp() throws Exception {
-        getCategoryInstance = new GetCategory();
-        categoryRepository=getCategoryInstance.getCategoryRepository();
-
-        // Populate the Category repository with valid Categories.
-        for(Category category: CategoryTest.getValidTestCategoriesAsCategories())
-            categoryRepository.add(category);
-
-        // Create valid mock categories.
-        for(JSONObject jsonObj: CategoryTest.getValidTestCategoriesAsJson())
+        addReminderInstance = new AddReminder();
+        reminderRepository=addReminderInstance.getReminderRepository();
+        // Create valid mock reminders.
+        for(JSONObject jsonObj: ReminderTest.getValidTestRemindersAsJson())
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
-        // Create error mock categories.
-        for(JSONObject jsonObj: CategoryTest.getErrorTestCategoryUpdatesAsJson())
+        // Create invalid mock reminders.
+        for(JSONObject jsonObj: ReminderTest.getErrorTestRemindersAsJson())
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
@@ -55,29 +50,35 @@ public class GetCategoryTest extends ApiTest {
      */
     @After
     public void tearDown() throws Exception {
-        getCategoryInstance = null;
+        addReminderInstance = null;
         validRequestList = null;
+        errorRequestList = null;
     }
 
     /**
      * Loop though validRequestList and errorRequestList sending each
-     * MockHttpServletRequest to GetCategory then forward responses to
+     * MockHttpServletRequest to AddReminder then forward responses to
      * validateDoPostValidResponse and validateDoPostErrorResponse
      * respectfully.
      * @throws Exception
      */
     @Test
     public void doPost() throws Exception {
-
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            getCategoryInstance.doPost(request, response);
+            addReminderInstance.doPost(request, response);
             validateDoPostValidResponse(response);
+        }
+        Reminder reminder=new Reminder();
+        LOGGER.info("Verifying reminders were placed in the repository...");
+        for(int i=0;i<validRequestList.size();i++) {
+            reminder.setId(i);
+            LOGGER.info(reminderRepository.get(reminder).toJson());
         }
 
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            getCategoryInstance.doPost(request, response);
+            addReminderInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
     }

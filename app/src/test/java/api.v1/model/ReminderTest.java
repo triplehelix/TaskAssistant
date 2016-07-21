@@ -37,8 +37,8 @@ public class ReminderTest {
 
         errorReminders.add("2`2`yyyy-MM-dd_HH:mm:ss");
         errorReminders.add("3`2`2020-18-31_00:00:00");
-        errorReminders.add("4`3`2020-05-31_22:99:00");
-        errorReminders.add("5`3`2020-05-31_44:00:00");
+        errorReminders.add("4`-3`2016-06-09_19:00:00");
+        errorReminders.add("5`40`2020-05-31_00:00:00");
         errorReminders.add("0`1`0");
         errorReminders.add("1`1` ");
     }

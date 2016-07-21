@@ -15,8 +15,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
 /**
- * Created by mikeh on 4/17/2016.
- * This class will test the AddCategory Class
+ * This class tests the AddCategory Class.
+ * @author kennethlyon
  */
 public class AddCategoryTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(AddCategoryTest.class);
