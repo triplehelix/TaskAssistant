@@ -20,8 +20,8 @@ import api.v1.model.Category;
  *
  * @author Ken Lyon
  */
-@WebServlet("/api/v1/category/PutCategory")
-public class PutCategory extends TaskRequestHandler {
+@WebServlet("/api/v1/category/UpdateCategory")
+public class UpdateCategory extends TaskRequestHandler {
 
 	/**
 	 *
