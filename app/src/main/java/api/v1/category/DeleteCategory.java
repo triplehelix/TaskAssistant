@@ -46,7 +46,7 @@ public class DeleteCategory extends TaskRequestHandler {
 		    categoryRepository.delete(category);
 
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an DeleteCategory  Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling an DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;

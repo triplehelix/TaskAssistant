@@ -24,6 +24,8 @@ public class CategoryTest {
     private static Logger LOGGER = LoggerFactory.getLogger(CategoryTest.class);
     private static ArrayList<String> validCategories;
     private static ArrayList<String> errorCategories;
+    private static ArrayList<String> validUpdates;
+    private static ArrayList<String> errorUpdates;
 
     static {
         /* Add valid Categories. Categories fields are arranged in the order:
@@ -31,6 +33,8 @@ public class CategoryTest {
          */
         validCategories = new ArrayList<String>();
         errorCategories = new ArrayList<String>();
+        validUpdates = new ArrayList<String>();
+        errorUpdates = new ArrayList<String>();
 
         validCategories.add("0`Physics`Homework, study groups, lab reports, etc, for physics II");
         validCategories.add("1`chores`Any kind of household chores.");
@@ -38,7 +42,7 @@ public class CategoryTest {
         validCategories.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
         validCategories.add("4`Journal club`Tasks related to journal club");
         validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
-        validCategories.add("6`Social`Tasks related to semi-important social activities, not related to a higher priority category.");
+
 
         errorCategories.add("0``Homework, study groups, lab reports, etc, for physics II");
         errorCategories.add("1``Any kind of household chores.");
@@ -46,15 +50,36 @@ public class CategoryTest {
         errorCategories.add("3``Anything related to money. Taxes, budgeting, student loans, etc.");
         errorCategories.add("4``Tasks related to journal club");
         errorCategories.add("5``Study groups, lab reports, etc, for organic chemistry.");
-        errorCategories.add("6``Tasks related to semi-important social activities, not related to a higher priority category.");
+
+
+        validUpdates.add("0`Physics 181`Homework, study groups, lab reports, etc, for physics II");
+        validUpdates.add("1`chores`Any kind of household chores.");
+        validUpdates.add("2`work`work work work work work work");
+        validUpdates.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
+        validUpdates.add("4`Journal club`Bioinfromatics journal articles that I need to read.");
+        validUpdates.add("5`O-Chem`Homework, study groups, lab reports, etc, for organic chemistry.");
+
+
+        errorUpdates.add("0``Homework, study groups, lab reports, etc, for physics II");
+        errorUpdates.add("1``Any kind of household chores.");
+        errorUpdates.add("2``work related stuff only!");
+        errorUpdates.add("3``Anything related to money. Taxes, budgeting, student loans, etc.");
+        errorUpdates.add("10`Journal Club`Tasks related to journal club");
+        errorUpdates.add("-5`O-chem`Study groups, lab reports, etc, for organic chemistry.");
+
 
     }
 
 
     public static ArrayList<JSONObject> getValidTestCategoriesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-
         for (String s : validCategories)
+            jsonObjectArrayList.add(CategoryTest.toJson(s));
+        return jsonObjectArrayList;
+    }
+    public static ArrayList<JSONObject> getValidTestCategoryUpdatesAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : validUpdates)
             jsonObjectArrayList.add(CategoryTest.toJson(s));
         return jsonObjectArrayList;
     }
@@ -64,7 +89,13 @@ public class CategoryTest {
         for (String s : errorCategories)
             jsonObjectArrayList.add(CategoryTest.toJson(s));
         return jsonObjectArrayList;
+    }
 
+    public static ArrayList<JSONObject> getErrorTestCategoryUpdatesAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : errorUpdates)
+            jsonObjectArrayList.add(CategoryTest.toJson(s));
+        return jsonObjectArrayList;
     }
 
     public static ArrayList<Category> getValidTestCategoriesAsCategories() throws Exception{
