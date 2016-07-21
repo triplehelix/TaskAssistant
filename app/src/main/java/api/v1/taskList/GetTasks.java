@@ -25,7 +25,7 @@ import api.v1.model.TaskList;
  *
  *  @author Ken Lyon
  */
-@WebServlet("/api/v1/taskList/GetTaskList")
+@WebServlet("/api/v1/taskList/GetTasks")
 public class GetTasks extends TaskRequestHandler {
 
     /**

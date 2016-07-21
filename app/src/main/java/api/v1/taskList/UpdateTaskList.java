@@ -20,7 +20,7 @@ import api.v1.model.TaskList;
  *
  * @author Ken Lyon
  */
-@WebServlet("/api/v1/taskList/PutTaskList")
+@WebServlet("/api/v1/taskList/UpdateTaskList")
 public class UpdateTaskList extends TaskRequestHandler {
 
 	/**
