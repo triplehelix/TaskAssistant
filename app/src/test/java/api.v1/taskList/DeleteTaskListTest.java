@@ -3,7 +3,6 @@ package api.v1.taskList;
 import api.v1.ApiTest;
 import api.v1.model.TaskList;
 import api.v1.model.TaskListTest;
-import api.v1.model.TaskTest;
 import api.v1.repo.TaskListRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -35,15 +34,17 @@ public class DeleteTaskListTest extends ApiTest {
      */
     @Before
     public void setUp() throws Exception {
+        LOGGER.debug("//First instantiate DeleteTaskList, then fetch TaskListRepository.************************************************************************************************************************************************************************************************************");
         //First instantiate DeleteTaskList, then fetch TaskListRepository.
         deleteTaskListInstance=new DeleteTaskList();
         taskListRepository=DeleteTaskList.getTaskListRepository();
-
+        LOGGER.debug("// Populate the TaskListRepository with valid TaskLists.************************************************************************************************************************************************************************************************************");
         // Populate the TaskListRepository with valid TaskLists.
         for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
             taskListRepository.add(taskList);
 
         //Finally, create Mock HTTP Servlet Requests.
+        LOGGER.debug("//Finally, create Mock HTTP Servlet Requests.************************************************************************************************************************************************************************************************************");
         for(JSONObject jsonObj: TaskListTest.getValidTestTaskListsAsJson())
             validRequestList.add(createDoPostMockRequest(jsonObj));
         for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListUpdatesAsJson())
@@ -73,6 +74,7 @@ public class DeleteTaskListTest extends ApiTest {
     @Test
     public void doPost() throws Exception {
         // First delete TaskLists that have been added to the repository.
+        LOGGER.debug("// First delete TaskLists that have been added to the repository.************************************************************************************************************************************************************************************************************");
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
@@ -80,6 +82,7 @@ public class DeleteTaskListTest extends ApiTest {
         }
 
         // Next, try to delete them again, this time we should get errors.
+        LOGGER.debug("// Next, try to delete them again, this time we should get errors.************************************************************************************************************************************************************************************************************");
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
@@ -87,6 +90,7 @@ public class DeleteTaskListTest extends ApiTest {
         }
 
         //Finally, we try to delete TaskLists that belong to the error updates list.
+        LOGGER.debug("// Finally, we try to delete TaskLists that belong to the error updates list.************************************************************************************************************************************************************************************************************");
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
