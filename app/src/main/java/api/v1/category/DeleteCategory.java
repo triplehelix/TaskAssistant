@@ -4,10 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
-import api.v1.CategoryRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.Category;
@@ -20,7 +21,7 @@ import api.v1.model.Category;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/category/DeleteCategory")
-public class DeleteCategory extends CategoryRequestHandler {
+public class DeleteCategory extends TaskRequestHandler {
 
 	/**
 	 * Delete a particular category. A category "id" is required to specify the 

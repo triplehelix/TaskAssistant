@@ -1,4 +1,5 @@
 package api.v1;
+import api.v1.repo.CategoryRepository;
 import api.v1.repo.ReminderRepository;
 import api.v1.repo.TaskRepository;
 import api.v1.repo.TaskListRepository;
@@ -11,17 +12,15 @@ public class TaskRequestHandler extends BaseRequestHandler {
     protected static TaskRepository taskRepository;
     protected static TaskListRepository taskListRepository;
     protected static ReminderRepository reminderRepository;
+    protected static CategoryRepository categoryRepository;
 
     static {
         taskRepository = new TaskRepository();
         taskListRepository = new TaskListRepository();
         reminderRepository = new ReminderRepository();
+        categoryRepository = new CategoryRepository();
     }
 
-    /**
-     * These methods are only used by the unit Tests.
-     * @return
-     */
     public static TaskRepository getTaskRepository(){
         return taskRepository;
     }
@@ -31,5 +30,7 @@ public class TaskRequestHandler extends BaseRequestHandler {
     public static ReminderRepository getReminderRepository() {
         return reminderRepository;
     }
-
+    public static CategoryRepository getCategoryRepository(){
+        return categoryRepository;
+    }
 }

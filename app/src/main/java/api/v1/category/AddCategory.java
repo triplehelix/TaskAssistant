@@ -4,10 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.CategoryRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.Category;
@@ -20,7 +21,7 @@ import api.v1.model.Category;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/category/AddCategory")
-public class AddCategory extends CategoryRequestHandler {
+public class AddCategory extends TaskRequestHandler {
 
 	/**
 	 *
@@ -38,11 +39,11 @@ public class AddCategory extends CategoryRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-         /**
-          * TODO: populate category object.
-          * Ensure that all of the methods needed to parse for this category's
-          * fields are present in the super class of this requestHandler.
-          */
+            // private String name;
+            category.setName((String)jsonRequest.get("name"));
+
+            // private boolean important;
+            category.setDescription((String)jsonRequest.get("description"));
 
 		categoryRepository.add(category);
 		} catch (BusinessException b) {
