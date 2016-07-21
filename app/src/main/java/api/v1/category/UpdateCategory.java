@@ -39,14 +39,16 @@ public class UpdateCategory extends TaskRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Update this category.
-			 * First, we have to read the category id from the jsonRequest. Then, an instance of category must
-			 * be sent to repository containing the id and all member fields that need to be modified.
-			 * Finally, the client should be notified of success/failure.
-			 */
+            // private int id
+            category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
 
-		categoryRepository.update(category);
+            // private String name;
+            category.setName((String)jsonRequest.get("name"));
+
+            // private boolean important;
+            category.setDescription((String)jsonRequest.get("description"));
+
+            categoryRepository.update(category);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an PutCategory  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
