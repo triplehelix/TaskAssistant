@@ -43,14 +43,12 @@ public class CategoryTest {
         validCategories.add("4`Journal club`Tasks related to journal club");
         validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
 
-
         errorCategories.add("0``Homework, study groups, lab reports, etc, for physics II");
         errorCategories.add("1``Any kind of household chores.");
         errorCategories.add("2``work related stuff only!");
         errorCategories.add("3``Anything related to money. Taxes, budgeting, student loans, etc.");
         errorCategories.add("4``Tasks related to journal club");
         errorCategories.add("5``Study groups, lab reports, etc, for organic chemistry.");
-
 
         validUpdates.add("0`Physics 181`Homework, study groups, lab reports, etc, for physics II");
         validUpdates.add("1`chores`Any kind of household chores.");
@@ -59,14 +57,12 @@ public class CategoryTest {
         validUpdates.add("4`Journal club`Bioinfromatics journal articles that I need to read.");
         validUpdates.add("5`O-Chem`Homework, study groups, lab reports, etc, for organic chemistry.");
 
-
-        errorUpdates.add("0``Homework, study groups, lab reports, etc, for physics II");
-        errorUpdates.add("1``Any kind of household chores.");
-        errorUpdates.add("2``work related stuff only!");
-        errorUpdates.add("3``Anything related to money. Taxes, budgeting, student loans, etc.");
+        errorUpdates.add("99``Homework, study groups, lab reports, etc, for physics II");
+        errorUpdates.add("-1``Any kind of household chores.");
+        errorUpdates.add("-2``work related stuff only!");
+        errorUpdates.add("300``Anything related to money. Taxes, budgeting, student loans, etc.");
         errorUpdates.add("10`Journal Club`Tasks related to journal club");
         errorUpdates.add("-5`O-chem`Study groups, lab reports, etc, for organic chemistry.");
-
 
     }
 

@@ -39,12 +39,8 @@ public class GetCategory extends TaskRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Return an instance of this category.
-			 * To successfully, return an instance of category to the client, it is necessary to
-			 * first discover the category id, then a serialized version of that instance should be
-			 * sent back to the client through the HttpServletResponse.
-			 */
+			// private int id
+			category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
 
 		categoryRepository.get(category);
 		} catch (BusinessException b) {
