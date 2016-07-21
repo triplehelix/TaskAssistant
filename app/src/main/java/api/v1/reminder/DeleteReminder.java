@@ -23,46 +23,46 @@ import api.v1.model.Reminder;
 @WebServlet("/api/v1/reminder/DeleteReminder")
 public class DeleteReminder extends TaskRequestHandler {
 
-	/**
-	 * Delete a particular reminder. A reminder "id" is required to specify the 
-	 * reminder to be removed.
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	public void doPost(HttpServletRequest request,
-				HttpServletResponse response)throws ServletException, IOException {
-		boolean error = false;
-		String errorMsg = "no error";
-		int errorCode = 0;
-		JSONObject jsonRequest = new JSONObject();
-		try {
-		    jsonRequest = parseRequest(request.getParameter("params"));
-		    int reminderId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-			Reminder reminder=new Reminder();
-			reminder.setId(reminderId);
-		    reminderRepository.delete(reminder);
+    /**
+     * Delete a particular reminder. A reminder "id" is required to specify the 
+     * reminder to be removed.
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void doPost(HttpServletRequest request,
+                HttpServletResponse response)throws ServletException, IOException {
+        boolean error = false;
+        String errorMsg = "no error";
+        int errorCode = 0;
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest = parseRequest(request.getParameter("params"));
+            int reminderId=parseJsonIntAsInt((String)jsonRequest.get("id"));
+            Reminder reminder=new Reminder();
+            reminder.setId(reminderId);
+            reminderRepository.delete(reminder);
 
-		} catch (BusinessException b) {
-			log.error("An error occurred while handling an DeleteReminder  Request: {}.", jsonRequest.toJSONString(), b);
-			errorMsg = "Error. " + b.getMessage();
-			errorCode = b.getError().getCode();
-			error = true;
-		} catch (SystemException s) {
-			log.error("An error occurred while handling an DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
-			errorMsg = "Error. " + s.getMessage();
-			errorCode = s.getError().getCode();
-			error = true;
-		}
+        } catch (BusinessException b) {
+            log.error("An error occurred while handling an DeleteReminder  Request: {}.", jsonRequest.toJSONString(), b);
+            errorMsg = "Error. " + b.getMessage();
+            errorCode = b.getError().getCode();
+            error = true;
+        } catch (SystemException s) {
+            log.error("An error occurred while handling an DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
+            errorMsg = "Error. " + s.getMessage();
+            errorCode = s.getError().getCode();
+            error = true;
+        }
 
-		JSONObject jsonResponse = new JSONObject();
-		if (error) {
-			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		} else {
-			jsonResponse.put("success", true);
-		}
-		sendMessage(jsonResponse, response);
-	}
+        JSONObject jsonResponse = new JSONObject();
+        if (error) {
+            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+        } else {
+            jsonResponse.put("success", true);
+        }
+        sendMessage(jsonResponse, response);
+    }
 }
