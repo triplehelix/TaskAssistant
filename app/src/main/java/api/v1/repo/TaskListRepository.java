@@ -74,11 +74,15 @@ public class TaskListRepository implements Repository<TaskList>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public void delete(TaskList foobar) throws BusinessException, SystemException{
-        if(taskListMap.containsKey(foobar.getId())){
+	public void delete(TaskList foobar) throws BusinessException, SystemException {
+        LOGGER.debug("This is the taskList we are trying to delete: " + foobar.toJson());
+        LOGGER.debug("And here is it's id: " + foobar.getId());
+        if (taskListMap.containsKey(foobar.getId())) {
             taskListMap.remove(foobar.getId());
-        }
-        else
+            LOGGER.debug("As it happens to be the case, this id does exist and will be removed.");
+        } else {
+            LOGGER.debug("As it happens to be the case, this id does not exist and we are going to throw an exception...");
             throw new BusinessException(" TaskList not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+        }
     }
 }
