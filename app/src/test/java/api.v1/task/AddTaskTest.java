@@ -1,10 +1,12 @@
 package api.v1.task;
 
 import api.v1.ApiTest;
+import api.v1.model.Task;
 import api.v1.model.TaskList;
 import api.v1.model.TaskListTest;
 import api.v1.model.TaskTest;
 import api.v1.repo.TaskListRepository;
+import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -51,11 +53,17 @@ public class AddTaskTest extends ApiTest {
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, remove Tasks and TaskLists from the TaskRepository and
+     * TaskListRepository. Set pertinent objects to null.
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
+        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+            taskListRepository.delete(taskList);
+        TaskRepository taskRepository = addTaskInstance.getTaskRepository();
+        for(Task task: TaskTest.getValidTestTasksAsTasks())
+            taskRepository.delete(task);
         addTaskInstance = null;
         validRequestList = null;
         errorRequestList = null;

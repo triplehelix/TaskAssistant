@@ -70,12 +70,19 @@ public class GetTasksTest extends ApiTest {
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, remove Tasks and TaskLists from their respective
+     * repositories. Then set pertinent objects to null.
      *
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
+        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+            taskListRepository.delete(taskList);
+
+        for(Task task: TaskTest.getValidTestTasksAsTasks())
+            taskRepository.delete(task);
+
         getTasksInstance=null;
         taskRepository=null;
         validRequestList=null;

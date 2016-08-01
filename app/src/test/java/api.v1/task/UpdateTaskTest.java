@@ -94,12 +94,19 @@ public class UpdateTaskTest extends ApiTest{
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, remove Tasks and TaskLists from the TaskRepository and
+     * TaskListRepository. Set pertinent objects to null.
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
         LOGGER.debug("@After: " + validUpdateTaskRequestList.size() + " " + errorUpdateTaskRequestList.size() + " ");
+        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+            taskListRepository.delete(taskList);
+
+        for(Task task: TaskTest.getValidTestTasksAsTasks())
+            taskRepository.delete(task);
+
         updateTaskInstance=null;
         taskRepository=null;
         taskListRepository=null;

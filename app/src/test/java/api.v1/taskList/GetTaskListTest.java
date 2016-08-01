@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class GetTaskListTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(GetTaskListTest.class);
     private static GetTaskList getTaskListInstance;
+    private static TaskListRepository taskListRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
@@ -61,7 +62,7 @@ public class GetTaskListTest extends ApiTest {
         getTaskListInstance=new GetTaskList();
 
         //get the TaskListRepository and place valid TaskLists within it.
-        TaskListRepository taskListRepository=getTaskListInstance.getTaskListRepository();
+        taskListRepository=getTaskListInstance.getTaskListRepository();
         for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
             taskListRepository.add(taskList);
 
@@ -74,12 +75,15 @@ public class GetTaskListTest extends ApiTest {
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, remove test TaskLists from the repository. Set pertinent
+     * objects to null.
      *
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
+        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+            taskListRepository.delete(taskList);
         getTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;
