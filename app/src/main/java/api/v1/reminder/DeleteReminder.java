@@ -46,12 +46,12 @@ public class DeleteReminder extends TaskRequestHandler {
             reminderRepository.delete(reminder);
 
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an DeleteReminder  Request: {}.", jsonRequest.toJSONString(), b);
+            log.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
+            log.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
