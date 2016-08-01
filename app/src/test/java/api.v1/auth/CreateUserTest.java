@@ -1,6 +1,8 @@
 package api.v1.auth;
 
 import api.v1.ApiTest;
+import api.v1.model.User;
+import api.v1.model.UserTest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -22,7 +24,7 @@ import static org.junit.Assert.fail;
   */
 public class CreateUserTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(CreateUserTest.class);
-    private static CreateUser instance;
+    private static CreateUser createUserInstance;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
@@ -34,7 +36,7 @@ public class CreateUserTest extends ApiTest {
      */
     @Before
     public void setUp() throws Exception {
-        instance = new CreateUser();
+        createUserInstance = new CreateUser();
         // Creating Valid requests
         validRequestList.add(createDoPostMockRequest("mikehedden@gmail.com", "a681wo$dKo"));
         validRequestList.add(createDoPostMockRequest("kenlyon@gmail.com","Mouwkl87%qo"));
@@ -54,12 +56,15 @@ public class CreateUserTest extends ApiTest {
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, remove Users from the repository, then set
+     * pertinent objects to null.
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
-        instance = null;
+        for(User user: UserTest.getValidTestUsersAsUsers())
+            createUserInstance.getUserRepository().delete(user);
+        createUserInstance = null;
         validRequestList = null;
         errorRequestList = null;
     }
@@ -75,12 +80,12 @@ public class CreateUserTest extends ApiTest {
     public void doPost() throws Exception {
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            instance.doPost(request, response);
+            createUserInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            instance.doPost(request, response);
+            createUserInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
     }

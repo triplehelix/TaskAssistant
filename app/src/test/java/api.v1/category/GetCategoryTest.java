@@ -50,11 +50,13 @@ public class GetCategoryTest extends ApiTest {
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, empty the repository and set pertinent objects to null.
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
+        for(Category category: CategoryTest.getValidTestCategoriesAsCategories())
+            categoryRepository.delete(category);
         getCategoryInstance = null;
         validRequestList = null;
     }

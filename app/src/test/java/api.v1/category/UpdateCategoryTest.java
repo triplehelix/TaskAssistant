@@ -50,11 +50,14 @@ public class UpdateCategoryTest extends ApiTest {
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, remove Categories from the CategoryRepository
+     * then set pertinent objects to null.
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
+        for(Category category: CategoryTest.getValidTestCategoriesAsCategories())
+            categoryRepository.delete(category);
         updateCategoryInstance = null;
         validRequestList = null;
     }

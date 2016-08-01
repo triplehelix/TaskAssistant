@@ -22,6 +22,10 @@ public class AuthRequestHandler extends BaseRequestHandler{
 		userRepository=new UserRepository();
 	}
 
+	public UserRepository getUserRepository(){
+	    return userRepository;
+    }
+
 	/**
 	 * Validates that an email is well formed. Throws Exception 
 	 * if it is not well formed.
