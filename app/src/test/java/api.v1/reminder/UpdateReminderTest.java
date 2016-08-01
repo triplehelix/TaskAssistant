@@ -21,9 +21,9 @@ import java.util.ArrayList;
  * This class tests the AddReminder Class
  * @author kennethlyon
  */
-public class AddReminderTest extends ApiTest {
-    private Logger LOGGER = LoggerFactory.getLogger(AddReminderTest.class);
-    private static AddReminder addReminderInstance;
+public class UpdateReminderTest extends ApiTest {
+    private Logger LOGGER = LoggerFactory.getLogger(UpdateReminderTest.class);
+    private static UpdateReminder updateReminderInstance;
     private static ReminderRepository reminderRepository;
     private static TaskRepository taskRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
@@ -40,13 +40,16 @@ public class AddReminderTest extends ApiTest {
     @Before
     public void setUp() throws Exception {
         //1. Instantiate static members.
-        addReminderInstance = new AddReminder();
-        reminderRepository=addReminderInstance.getReminderRepository();
-        taskRepository=addReminderInstance.getTaskRepository();
+        updateReminderInstance = new UpdateReminder();
+        reminderRepository=updateReminderInstance.getReminderRepository();
+        taskRepository=updateReminderInstance.getTaskRepository();
 
-        //2. populate the TaskRepository with valid Tasks.
+        //2. populate the TaskRepository and ReminderRepository.
         for(Task task: TaskTest.getValidTestTasksAsTasks())
                 taskRepository.add(task);
+
+        for(Reminder reminder: ReminderTest.getValidTestRemindersAsReminders())
+                reminderRepository.add(reminder);
 
         //3. Create valid mock reminders.
         for(JSONObject jsonObj: ReminderTest.getValidTestRemindersAsJson())
@@ -69,7 +72,7 @@ public class AddReminderTest extends ApiTest {
         for(Task task: TaskTest.getValidTestTasksAsTasks())
             taskRepository.delete(task);
 
-        addReminderInstance = null;
+        updateReminderInstance = null;
         validRequestList = null;
         errorRequestList = null;
     }
@@ -85,7 +88,7 @@ public class AddReminderTest extends ApiTest {
     public void doPost() throws Exception {
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            addReminderInstance.doPost(request, response);
+            updateReminderInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
 
@@ -98,7 +101,7 @@ public class AddReminderTest extends ApiTest {
 
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            addReminderInstance.doPost(request, response);
+            updateReminderInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
     }

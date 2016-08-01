@@ -11,6 +11,8 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
+import java.util.Date;
+
 import api.v1.model.Reminder;
 
 /**
@@ -39,14 +41,15 @@ public class UpdateReminder extends TaskRequestHandler {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
-            /**
-             * TODO: Update this reminder.
-             * First, we have to read the reminder id from the jsonRequest. Then, an instance of reminder must
-             * be sent to repository containing the id and all member fields that need to be modified.
-             * Finally, the client should be notified of success/failure.
-             */
+            Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminderTime"));
+            Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("taskId"));
+            Integer reminderId =  parseJsonIntAsInt((String)jsonRequest.get("id"));
+            reminder.setId(reminderId);
+            reminder.setTaskId(taskId);
+            verifyTaskExists(reminder.getTaskId());
+            reminder.setReminderTime(reminderDate);
+            reminderRepository.update(reminder);
 
-        reminderRepository.update(reminder);
         } catch (BusinessException b) {
             log.error("An error occurred while handling an PutReminder  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
