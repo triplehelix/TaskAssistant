@@ -3,7 +3,6 @@ package api.v1.reminder;
 import api.v1.ApiTest;
 import api.v1.model.Reminder;
 import api.v1.model.ReminderTest;
-import api.v1.model.Task;
 import api.v1.repo.ReminderRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -16,26 +15,26 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
 /**
- * This class tests the DeleteReminder Class
+ * This class tests the GetReminder Class
  * @author kennethlyon
  */
-public class DeleteReminderTest extends ApiTest {
-    private Logger LOGGER = LoggerFactory.getLogger(DeleteReminderTest.class);
-    private static DeleteReminder deleteReminderInstance;
+public class GetReminderTest extends ApiTest {
+    private Logger LOGGER = LoggerFactory.getLogger(GetReminderTest.class);
+    private static GetReminder getReminderInstance;
     private static ReminderRepository reminderRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
     /**
-     * First create a new Instance of DeleteReminder() object, then add new
+     * First create a new Instance of GetReminder() object, then add new
      * reminder test cases to validRequestList and errorRequestList.
      *
      * @throws Exception
      */
     @Before
     public void setUp() throws Exception {
-        deleteReminderInstance = new DeleteReminder();
-        reminderRepository=deleteReminderInstance.getReminderRepository();
+        getReminderInstance = new GetReminder();
+        reminderRepository=getReminderInstance.getReminderRepository();
 
         // Populate the Reminder repository with valid Reminders.
         for(Reminder reminder: ReminderTest.getValidTestRemindersAsReminders())
@@ -46,24 +45,25 @@ public class DeleteReminderTest extends ApiTest {
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Create error mock reminders.
-        for(JSONObject jsonObj: ReminderTest.getErrorTestRemindersAsJson())
+        for(JSONObject jsonObj: ReminderTest.getErrorTestReminderUpdatesAsJson())
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, empty the repository and set pertinent objects to null.
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
-        deleteReminderInstance = null;
+        for(Reminder reminder: ReminderTest.getValidTestRemindersAsReminders())
+            reminderRepository.delete(reminder);
+        getReminderInstance = null;
         validRequestList = null;
-        errorRequestList = null;
     }
 
     /**
      * Loop though validRequestList and errorRequestList sending each
-     * MockHttpServletRequest to DeleteReminder then forward responses to
+     * MockHttpServletRequest to GetReminder then forward responses to
      * validateDoPostValidResponse and validateDoPostErrorResponse
      * respectfully.
      * @throws Exception
@@ -72,13 +72,13 @@ public class DeleteReminderTest extends ApiTest {
     public void doPost() throws Exception {
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            deleteReminderInstance.doPost(request, response);
+            getReminderInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
 
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            deleteReminderInstance.doPost(request, response);
+            getReminderInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
     }

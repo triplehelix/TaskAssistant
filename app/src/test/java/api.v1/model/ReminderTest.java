@@ -21,6 +21,7 @@ public class ReminderTest {
     private static Logger LOGGER = LoggerFactory.getLogger(ReminderTest.class);
     private static ArrayList<String> validReminders;
     private static ArrayList<String> errorReminders;
+    private static ArrayList<String> errorUpdates;
     private static ArrayList<String> modelOnlyErrorReminders;
     static {
         /* Add valid Reminders. Reminders fields are arranged in the order:
@@ -29,6 +30,7 @@ public class ReminderTest {
          */
         validReminders=new ArrayList<String>();
         errorReminders=new ArrayList<String>();
+        errorUpdates=new ArrayList<String>();
         modelOnlyErrorReminders=new ArrayList<String>();
 
         validReminders.add("0`1`2020-05-28_08:31:01");
@@ -51,6 +53,13 @@ public class ReminderTest {
         errorReminders.add("5`40`2020-05-31_00:00:00");
         errorReminders.add("0`1`0");
         errorReminders.add("1`1` ");
+
+        errorUpdates.add("10`1`2020-05-28_08:31:01");
+        errorUpdates.add("11`1`2020-05-31_00:00:00");
+        errorUpdates.add("12`2`2016-06-09_18:30:00");
+        errorUpdates.add("13`2`2016-06-12_08:00:00");
+        errorUpdates.add("14`3`2016-06-09_19:00:00");
+        errorUpdates.add("-15`4`2020-05-31_00:00:00");
     }
 
     public static ArrayList<JSONObject> getValidTestRemindersAsJson() {
@@ -74,6 +83,16 @@ public class ReminderTest {
         }
         return reminderArrayList;
     }
+
+    public static ArrayList<JSONObject> getErrorTestReminderUpdatesAsJson() {
+        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+        for (String s : errorUpdates)
+            jsonObjectArrayList.add(ReminderTest.toJson(s));
+        return jsonObjectArrayList;
+    }
+
+
+
 
     private static Reminder toReminder(String s) throws Exception{
         String[] reminderElementArray = s.split("`");
@@ -103,7 +122,6 @@ public class ReminderTest {
         }
         return result;
     }
-
 
     /**
      * Parse string as boolean.

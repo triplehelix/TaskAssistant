@@ -39,12 +39,8 @@ public class GetReminder extends TaskRequestHandler {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
-            /**
-             * TODO: Return an instance of this reminder.
-             * To successfully, return an instance of reminder to the client, it is necessary to
-             * first discover the reminder id, then a serialized version of that instance should be
-             * sent back to the client through the HttpServletResponse.
-             */
+            Integer reminderId =  parseJsonIntAsInt((String)jsonRequest.get("id"));
+            reminder.setId(reminderId);
 
         reminderRepository.get(reminder);
         } catch (BusinessException b) {
