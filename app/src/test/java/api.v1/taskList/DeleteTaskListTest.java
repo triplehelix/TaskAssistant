@@ -34,17 +34,14 @@ public class DeleteTaskListTest extends ApiTest {
      */
     @Before
     public void setUp() throws Exception {
-        LOGGER.debug("//First instantiate DeleteTaskList, then fetch TaskListRepository.************************************************************************************************************************************************************************************************************");
         //First instantiate DeleteTaskList, then fetch TaskListRepository.
         deleteTaskListInstance=new DeleteTaskList();
         taskListRepository=DeleteTaskList.getTaskListRepository();
-        LOGGER.debug("// Populate the TaskListRepository with valid TaskLists.************************************************************************************************************************************************************************************************************");
         // Populate the TaskListRepository with valid TaskLists.
         for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
             taskListRepository.add(taskList);
 
         //Finally, create Mock HTTP Servlet Requests.
-        LOGGER.debug("//Finally, create Mock HTTP Servlet Requests.************************************************************************************************************************************************************************************************************");
         for(JSONObject jsonObj: TaskListTest.getValidTestTaskListsAsJson())
             validRequestList.add(createDoPostMockRequest(jsonObj));
         for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListUpdatesAsJson())
