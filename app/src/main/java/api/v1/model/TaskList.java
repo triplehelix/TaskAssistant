@@ -48,9 +48,11 @@ public class TaskList {
             throw new BusinessException("Invalid id: " + id + ". A non-negative TaskList id is required", Error.valueOf("INVALID_ID_ERROR"));
 		this.id=id;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}

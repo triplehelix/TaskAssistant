@@ -38,6 +38,7 @@ public class TaskListRepository implements Repository<TaskList>{
         while(taskListMap.containsKey(taskListId))
             taskListId++;
         foobar.setId(taskListId);
+        LOGGER.debug("@ADDING TaskList id: " + taskListId + ".\tTaskList hashCode(): " + foobar.hashCode() + "\tTaskList toJson(): " + foobar.toJson());
         taskListMap.put(taskListId, foobar);
     }
 
@@ -75,11 +76,10 @@ public class TaskListRepository implements Repository<TaskList>{
      * @throws SystemException
      */
 	public void delete(TaskList foobar) throws BusinessException, SystemException {
-        LOGGER.debug("This is the taskList we are trying to delete: " + foobar.toJson());
-        LOGGER.debug("And here is it's id: " + foobar.getId());
+        LOGGER.debug("@REMOVING TaskList id: " + foobar.getId() + ".\tTaskList hashCode(): " + foobar.hashCode() + "\tTaskList toJson(): " + foobar.toJson());
         if (taskListMap.containsKey(foobar.getId())) {
             taskListMap.remove(foobar.getId());
-            LOGGER.debug("As it happens to be the case, this id does exist and will be removed.");
+            LOGGER.debug("TaskList " + foobar.getId() + " removed successfully." );
         } else {
             LOGGER.debug("As it happens to be the case, this id does not exist and we are going to throw an exception...");
             throw new BusinessException(" TaskList not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));

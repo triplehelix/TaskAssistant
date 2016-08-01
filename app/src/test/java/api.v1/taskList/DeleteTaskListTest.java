@@ -74,7 +74,7 @@ public class DeleteTaskListTest extends ApiTest {
     @Test
     public void doPost() throws Exception {
         // First delete TaskLists that have been added to the repository.
-        LOGGER.debug("// First delete TaskLists that have been added to the repository.************************************************************************************************************************************************************************************************************");
+        LOGGER.info("First delete TaskLists that have been added to the repository.");
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
@@ -82,7 +82,7 @@ public class DeleteTaskListTest extends ApiTest {
         }
 
         // Next, try to delete them again, this time we should get errors.
-        LOGGER.debug("// Next, try to delete them again, this time we should get errors.************************************************************************************************************************************************************************************************************");
+        LOGGER.info("Next, try to delete them again, this time we should get errors.");
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
@@ -90,7 +90,7 @@ public class DeleteTaskListTest extends ApiTest {
         }
 
         //Finally, we try to delete TaskLists that belong to the error updates list.
-        LOGGER.debug("// Finally, we try to delete TaskLists that belong to the error updates list.************************************************************************************************************************************************************************************************************");
+        LOGGER.debug("// Finally, we try to delete TaskLists that belong to the error updates list.");
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
