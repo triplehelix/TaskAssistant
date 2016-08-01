@@ -4,8 +4,6 @@ import api.v1.ApiTest;
 import api.v1.model.User;
 import api.v1.model.UserTest;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,10 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.fail;
 
  /**
   * This class will test the CreateUser Class
