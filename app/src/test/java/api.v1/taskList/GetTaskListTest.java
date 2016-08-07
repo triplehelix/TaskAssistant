@@ -2,7 +2,6 @@ package api.v1.taskList;
 
 import api.v1.ApiTest;
 import api.v1.model.TaskList;
-import api.v1.model.TaskListTest;
 import api.v1.repo.TaskListRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -26,7 +25,8 @@ public class GetTaskListTest extends ApiTest {
     private static TaskListRepository taskListRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-
+    private static ArrayList<String> validTaskLists;
+    private static ArrayList<String> errorTaskLists;
     /********************************************************************************
      * 20160713
      * Okay, so concerning the GetTaskList response does the current configuration
@@ -61,16 +61,25 @@ public class GetTaskListTest extends ApiTest {
         // Create a GetTaskList object.
         getTaskListInstance=new GetTaskList();
 
+        validTaskLists=new ArrayList<String>();
+        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+
+        errorTaskLists=new ArrayList<String>();
+        errorTaskLists.add("-9`Invalid Id TaskList`This has an invalid id.");
+        errorTaskLists.add("2`non existent id`This is an invalid TaskList because the ID should not exist in the repository.");
+
         //get the TaskListRepository and place valid TaskLists within it.
         taskListRepository=getTaskListInstance.getTaskListRepository();
-        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+        for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
 
-        for(JSONObject jsonObj: TaskListTest.getValidTestTaskListsAsJson())
+
+        for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Create invalid mock TaskLists.
-        for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListUpdatesAsJson())
+        for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(errorTaskLists))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
@@ -82,7 +91,7 @@ public class GetTaskListTest extends ApiTest {
      */
     @After
     public void tearDown() throws Exception {
-        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+        for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.delete(taskList);
         getTaskListInstance = null;
         validRequestList = null;

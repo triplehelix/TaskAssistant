@@ -2,7 +2,6 @@ package api.v1.taskList;
 
 import api.v1.ApiTest;
 import api.v1.model.TaskList;
-import api.v1.model.TaskListTest;
 import api.v1.repo.TaskListRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -25,6 +24,8 @@ public class DeleteTaskListTest extends ApiTest {
     private static TaskListRepository taskListRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
+    private static ArrayList<String> validTaskLists;
+    private static ArrayList<String> errorTaskLists;
 
     /**
      * First create a new Instance of DeleteTaskList() object, then add new
@@ -37,14 +38,24 @@ public class DeleteTaskListTest extends ApiTest {
         //First instantiate DeleteTaskList, then fetch TaskListRepository.
         deleteTaskListInstance=new DeleteTaskList();
         taskListRepository=DeleteTaskList.getTaskListRepository();
+        validTaskLists=new ArrayList<String>();
+        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        errorTaskLists=new ArrayList<String>();
+        errorTaskLists.add("0`  `This TaskList has no name.");
+        errorTaskLists.add("1``This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+
+
         // Populate the TaskListRepository with valid TaskLists.
-        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+        for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
 
+
         //Finally, create Mock HTTP Servlet Requests.
-        for(JSONObject jsonObj: TaskListTest.getValidTestTaskListsAsJson())
+        for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
             validRequestList.add(createDoPostMockRequest(jsonObj));
-        for(JSONObject jsonObj: TaskListTest.getErrorTestTaskListUpdatesAsJson())
+
+        for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(errorTaskLists))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
