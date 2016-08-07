@@ -3,10 +3,10 @@ package api.v1.task;
 import api.v1.ApiTest;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
-import api.v1.model.TaskListTest;
 import api.v1.model.TaskTest;
 import api.v1.repo.TaskListRepository;
 import api.v1.repo.TaskRepository;
+import api.v1.taskList.TaskListApiHelper;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -27,7 +27,9 @@ public class AddTaskTest extends ApiTest {
     private static TaskListRepository taskListRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-
+    private static ArrayList<String> validTaskLists;
+    private static ArrayList<String> validTasks;
+    private static ArrayList<String> errorTasks;
     /**
      * First create a new Instance of AddTask() object, then add new
      * task test cases to validRequestList and errorRequestList.
@@ -38,9 +40,39 @@ public class AddTaskTest extends ApiTest {
     public void setUp() throws Exception {
         addTaskInstance = new AddTask();
         taskListRepository=addTaskInstance.getTaskListRepository();
+        validTaskLists=new ArrayList<String>();
+        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 
-        // Get the TaskListRepository and place valid TaskLists within it.
-        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+        /* Add valid tasks. Tasks fields are arranged in the order:
+         * validTasks.add("int id` String name` boolean important` String note` long estimatedTime` long investedTime` boolean urgent` Date dueDate` State status");
+         */
+        validTasks = new ArrayList<String>();
+        validTasks.add("0`0`Feed dog`TRUE`Dog eats kibble.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
+        validTasks.add("1`0`Create AddTask unit test`TRUE`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
+        validTasks.add("2`0`Buy beer`TRUE`Pick up some IPAs on the way home from work. Edit: Bill said he would pick up beers instead.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
+        validTasks.add("3`0`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`3600000`0`FALSE`2016-06-12_08:00:00`DEFERRED");
+        validTasks.add("4`0`Shave`FALSE`GF said I need to shave.`180000`0`TRUE`2016-06-09_19:00:00`DONE");
+        validTasks.add("5`0`Robert'); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`TRUE`2016-06-09_19:00:00`NEW");
+        validTasks.add("6`0`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW");
+        validTasks.add("7`0`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
+        validTasks.add("8`0`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
+
+        // Add error causing tasks.
+        errorTasks = new ArrayList<String>();
+        errorTasks.add("0`1`Call Attorney J.P. Coleostomy`TRUE`Bring photographic proof!`3600000`0`YES`2016-06-14_15:15:00`NEW");
+        errorTasks.add("1`1`Fix mom's computer.`TRUE`Again!?!`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
+        errorTasks.add("2`1`Prepare for apocalyptic zombie-cat-hoard.`TRUE`Need cat nip and shotguns.`4200000`0`TRUE`yyyy-MM-dd_HH:mm:ss`NEW");
+        errorTasks.add("3`1`Vaccinate cat against zombie cat syndrome.`TRUE`Don't forget that Mr Bigglesworth doesn't like shots.`1 hour`0`TRUE`2020-08-31_00:00:00`NEW");
+        errorTasks.add("4`1`Change motor oil`BLUE`Use quicky-lube coupon.`1600000`0`FALSE`2020-05-31_22:00:00`NEW");
+        errorTasks.add("5`1`merge git conflicts`TRUE`I really need to learn how to use git.`180000`0`TRUE`2020-05-31_03:00:00`incomplete");
+        errorTasks.add("6`1`Refinish porch`FALSE``210000`0`TRUE`2020-09-31_00:00:00`NEW");
+        errorTasks.add("7`1``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
+        errorTasks.add("8`-9`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
+
+
+        //get the TaskListRepository and place valid TaskLists within it.
+        for(TaskList taskList: TaskApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
 
         // Create valid mock tasks.
@@ -59,7 +91,7 @@ public class AddTaskTest extends ApiTest {
      */
     @After
     public void tearDown() throws Exception {
-        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+        for(TaskList taskList: TaskApiHelper.toTaskLists(validTaskLists))
             taskListRepository.delete(taskList);
         TaskRepository taskRepository = addTaskInstance.getTaskRepository();
         for(Task task: TaskTest.getValidTestTasksAsTasks())

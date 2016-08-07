@@ -40,41 +40,6 @@ public class TaskListTest {
         errorTaskListUpdates.add("10` `This is an invalid TaskList because it has an invalid name.");
     }
 
-    public static ArrayList<JSONObject> getValidTestTaskListsAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validTaskLists)
-            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getValidTestTaskListUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validTaskListUpdates)
-            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestTaskListsAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorTaskLists)
-            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestTaskListUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorTaskListUpdates)
-            jsonObjectArrayList.add(TaskListTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<TaskList> getValidTestTaskListsAsTaskLists() throws Exception{
-        ArrayList<TaskList> taskListArrayList = new ArrayList<TaskList>(2);
-        for(String s:validTaskLists)
-            taskListArrayList.add(toTaskList(s));
-        return taskListArrayList;
-    }
-
     /**
      * Use the backtick delimited Strings in errorTaskLists, or
      * validTaskLists to create a TaskList.
