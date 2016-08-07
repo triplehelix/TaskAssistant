@@ -1,46 +1,60 @@
 package api.v1.repo;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-//import java.sql.SQLException;
 import api.v1.error.Error;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import api.v1.model.Task;
 
+import api.v1.model.TaskList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * This is the ProtoTaskRepository. This class does not yet
  * interact with a database.
  */
 public class TaskRepository implements Repository<Task>{
+    private static Logger LOGGER = LoggerFactory.getLogger(TaskRepository.class);
+    private HashMap<Integer, Task> taskMap;
 
-     private HashMap<Integer, Task> taskMap;
 
     /**
-     *
+     * Create a new instance of a repository.
+     */
+    public TaskRepository(){
+        taskMap=new HashMap<Integer, Task>();
+    }
+
+    /**
+     * First discover a task id that has not been used. Then copy the incoming
+     * task fields into the new task.
      * @param t
      * @throws BusinessException
      * @throws SystemException
      */
-
     public void add(Task t) throws BusinessException, SystemException{
 	// First, we make sure that the task DNE. Else throw BusinessException
-        if(taskDNE(t))
-            taskMap.put(taskMap.size(), t);
+        int taskId=0;
+        while(taskMap.containsKey(taskId))
+            taskId++;
+        t.setId(taskId);
+        taskMap.put(taskId, t);
     }
 
-/**
+    /**
      * @param t
      * @return
      * @throws BusinessException
      * @throws SystemException
      */
 	public Task get(Task t)throws BusinessException, SystemException{
-        if(taskMap.containsKey(t))
-            return taskMap.get(t);
+        if(taskMap.containsKey(t.getId()))
+            return taskMap.get(t.getId());
         else
-            throw new BusinessException(" Task not found. ", Error.valueOf("")); //TODO specifty error.
+            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
-
 
     /**
      *
@@ -51,7 +65,7 @@ public class TaskRepository implements Repository<Task>{
 	public void update(Task t) throws BusinessException, SystemException{
         // First, delete the task:
         this.delete(t);
-        // Then add the new u:
+        // Then add the new task:
         this.add(t);
 	}
 
@@ -63,18 +77,27 @@ public class TaskRepository implements Repository<Task>{
      * @throws SystemException
      */
 	public void delete(Task t) throws BusinessException, SystemException{
-	    taskMap.remove(taskMap.get(t.getId()));
-    }
-
-
-    public TaskRepository(){
-        taskMap=new HashMap<Integer, Task>();
-    }
-
-    private boolean taskDNE(Task t){
-        if(taskMap.containsKey(t))
-            return false;
+        if(taskMap.containsKey(t.getId())){
+            taskMap.remove(t.getId());
+        }
         else
-            return true;
+            throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+    /**
+     * TODO: Return an arrayList of Tasks that belong to the provided TaskList.
+     * @return
+     */
+    public ArrayList<Task> getListOfTasks(TaskList taskList) throws BusinessException, SystemException{
+        LOGGER.info("We are now looking for tasks with the TaskList id: " + taskList.getId());
+        ArrayList<Task>listOfTaskIds=new ArrayList<Task>();
+        for(Task task:taskMap.values())
+            if(task.getTaskListId()==taskList.getId())
+                listOfTaskIds.add(task);
+        if(listOfTaskIds.size()==0)
+            throw new BusinessException("No Tasks found for specified TaskList (id="
+                    + taskList.getId() + ")."
+                    , Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+        return listOfTaskIds;
     }
 }

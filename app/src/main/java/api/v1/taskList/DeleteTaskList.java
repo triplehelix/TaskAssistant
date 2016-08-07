@@ -4,23 +4,24 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
-import api.v1.TaskListRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.TaskList;
 
 /**
  * This api is used to delete a given taskList. Use the class member
- * doDelete(HttpServletRequest, HttpServletResponse) to delete
- * this taskList.
+ * doDelete(HttpServletRequest, HttpServletResponse) to delete task
+ * taskList.
  *
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/DeleteTaskList")
-public class DeleteTaskList extends TaskListRequestHandler {
+public class DeleteTaskList extends TaskRequestHandler {
 
 	/**
 	 * Delete a particular taskList. A taskList "id" is required to specify the 
@@ -31,7 +32,7 @@ public class DeleteTaskList extends TaskListRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void doDelete(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request,
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
@@ -40,7 +41,9 @@ public class DeleteTaskList extends TaskListRequestHandler {
 		try {
 		    jsonRequest = parseRequest(request.getParameter("params"));
 		    int taskListId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-		    taskListRepository.delete(new TaskList(taskListId));
+			TaskList taskList=new TaskList();
+			taskList.setId(taskListId);
+		    taskListRepository.delete(taskList);
 
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), b);

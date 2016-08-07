@@ -70,13 +70,4 @@ public class ValidateUser extends AuthRequestHandler{
 		}
 		sendResponse(error, errorMsg, response);
 	}
-
-	/**
-	 *
-	 * @return
-     */
-	private static String makeResponse(User u){
-		return null;
-	}
-
 }

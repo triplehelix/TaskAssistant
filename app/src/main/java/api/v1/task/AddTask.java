@@ -39,37 +39,41 @@ public class AddTask extends TaskRequestHandler {
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
 
-            // do not attempt to set task id. If a task id is provided, ignore it.
-            Task task = new Task();
+			// do not attempt to set task id. If a task id is provided, ignore it.
+			Task task = new Task();
 
-            // private String name;
-            task.setName((String)jsonRequest.get("name"));
+			// Set the taskListId and verify it exists.
+			task.setTaskListId(parseJsonIntAsInt((String)jsonRequest.get("taskListId")));
+            verifyTaskListExists(task.getTaskListId());
 
-            // private boolean important;
-            task.setImportant(parseJsonBooleanAsBoolean((String)jsonRequest.get("important")));
+			// private String name;
+			task.setName((String)jsonRequest.get("name"));
 
-	        // private String note;
-            task.setNote((String)jsonRequest.get("note"));
+			// private boolean important;
+			task.setImportant(parseJsonBooleanAsBoolean((String)jsonRequest.get("important")));
 
-	        // private long estimatedTime;
-            task.setEstimatedTime(parseJsonLongAsLong((String)jsonRequest.get("estimatedTime")));
+			// private String note;
+			task.setNote((String)jsonRequest.get("note"));
 
-            // private long investedTime;
-            //TODO does it make sense to set InvestedTime here? Methinks the answer is yes.
-            task.setInvestedTime(parseJsonLongAsLong((String)jsonRequest.get("investedTime")));
+			// private long estimatedTime;
+			task.setEstimatedTime(parseJsonLongAsLong((String)jsonRequest.get("estimatedTime")));
 
-            // private boolean urgent;
-            //TODO does it make sense to set urgent?
-            task.setUrgent(parseJsonBooleanAsBoolean((String)jsonRequest.get("urgent")));
+			// private long investedTime;
+			//TODO does it make sense to set InvestedTime here? Methinks the answer is yes.
+			task.setInvestedTime(parseJsonLongAsLong((String)jsonRequest.get("investedTime")));
 
-	        // private Date dueDate;
-            task.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
+			// private boolean urgent;
+			//TODO does it make sense to set urgent?
+			task.setUrgent(parseJsonBooleanAsBoolean((String)jsonRequest.get("urgent")));
 
-	        // private enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
-	        // private Status status;
-            task.setStatus((String)jsonRequest.get("status"));
+			// private Date dueDate;
+			task.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
 
-		taskRepository.add(task);
+			// private enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
+			// private Status status;
+			task.setStatus((String)jsonRequest.get("status"));
+
+			taskRepository.add(task);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

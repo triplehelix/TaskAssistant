@@ -4,10 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
-import api.v1.TaskListRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.TaskList;
@@ -19,8 +20,8 @@ import api.v1.model.TaskList;
  *
  * @author Ken Lyon
  */
-@WebServlet("/api/v1/taskList/PutTaskList")
-public class PutTaskList extends TaskListRequestHandler {
+@WebServlet("/api/v1/taskList/UpdateTaskList")
+public class UpdateTaskList extends TaskRequestHandler {
 
 	/**
 	 *
@@ -29,7 +30,7 @@ public class PutTaskList extends TaskListRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
          */
-	public void doPut(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request,
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
@@ -38,14 +39,24 @@ public class PutTaskList extends TaskListRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
+            taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
+            taskList.setName((String)jsonRequest.get("name"));
+            taskList.setDescription((String)jsonRequest.get("description"));
+			//log.debug("Here is the internal TaskList id: " + taskList.getId());
+            //log.debug("Here is the internal TaskList name: " + taskList.getName());
+            //log.debug("Here is the internal TaskList description: " + taskList.getDescription());
+
+			taskListRepository.update(taskList);
+            //log.debug("Here is the purported TaskList id: " + taskList.getId());
+            //log.debug("Here is the purported TaskList name: " + taskList.getName());
+            //log.debug("Here is the purported TaskList description: " + taskList.getDescription());
+
 			/**
 			 * TODO: Update this taskList.
 			 * First, we have to read the taskList id from the jsonRequest. Then, an instance of taskList must
 			 * be sent to repository containing the id and all member fields that need to be modified.
 			 * Finally, the client should be notified of success/failure.
 			 */
-
-		taskListRepository.update(taskList);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an PutTaskList  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

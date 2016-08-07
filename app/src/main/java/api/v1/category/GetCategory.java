@@ -4,10 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.TaskRequestHandler;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.CategoryRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.Category;
@@ -20,7 +21,7 @@ import api.v1.model.Category;
  *  @author Ken Lyon
  */
 @WebServlet("/api/v1/category/GetCategory")
-public class GetCategory extends CategoryRequestHandler {
+public class GetCategory extends TaskRequestHandler {
 
 	/**
 	 *
@@ -29,7 +30,7 @@ public class GetCategory extends CategoryRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
      */
-	public void doGet(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request,
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
@@ -38,12 +39,8 @@ public class GetCategory extends CategoryRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Return an instance of this category.
-			 * To successfully, return an instance of category to the client, it is necessary to
-			 * first discover the category id, then a serialized version of that instance should be
-			 * sent back to the client through the HttpServletResponse.
-			 */
+			// private int id
+			category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
 
 		categoryRepository.get(category);
 		} catch (BusinessException b) {

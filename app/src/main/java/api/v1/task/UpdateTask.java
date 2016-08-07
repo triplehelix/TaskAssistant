@@ -29,23 +29,59 @@ public class UpdateTask extends TaskRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
          */
-	public void doPut(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request,
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Task task = new Task();
+		Task task = null;
 		int errorCode = 0;
 		JSONObject jsonRequest = new JSONObject();
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
 			/**
 			 * TODO: Update this task.
-			 * First, we have to read the task id from the jsonRequest. Then, an instance of task must
-			 * be sent to repository containing the id and all member fields that need to be modified.
-			 * Finally, the client should be notified of success/failure.
+			 * First, we have to read the task id from the jsonRequest. Then, an instance
+			 * of the new task must be sent to repository containing the id and all member
+			 * fields that need to be modified. Finally, the client should be notified of
+			 * success/failure.
 			 */
+            jsonRequest = parseRequest(request.getParameter("params"));
 
-		taskRepository.update(task);
+            // DO attempt to set task id. If a task id is not present an exception should be thrown.
+			task = new Task();
+
+			task.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+
+			// private String taskListId
+			task.setTaskListId(parseJsonIntAsInt((String)jsonRequest.get("taskListId")));
+			verifyTaskListExists(task.getTaskListId());
+
+			// private String name;
+            task.setName((String)jsonRequest.get("name"));
+
+            // private boolean important;
+            task.setImportant(parseJsonBooleanAsBoolean((String)jsonRequest.get("important")));
+
+            // private String note;
+            task.setNote((String)jsonRequest.get("note"));
+
+            // private long estimatedTime;
+            task.setEstimatedTime(parseJsonLongAsLong((String)jsonRequest.get("estimatedTime")));
+
+            // private long investedTime;
+            task.setInvestedTime(parseJsonLongAsLong((String)jsonRequest.get("investedTime")));
+
+            // private boolean urgent;
+            //TODO does it make sense to set urgent?
+            task.setUrgent(parseJsonBooleanAsBoolean((String)jsonRequest.get("urgent")));
+
+            // private Date dueDate;
+            task.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
+
+            // private enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
+            // private Status status;
+            task.setStatus((String)jsonRequest.get("status"));
+
+            taskRepository.update(task);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an PutTask  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();

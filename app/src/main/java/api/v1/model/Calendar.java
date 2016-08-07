@@ -1,5 +1,7 @@
 package api.v1.model;
 
+import com.google.appengine.repackaged.com.google.gson.Gson;
+
 /**
  * Note that this is a dummy class. At the moment I am not sure how
  * to handle the google calendar objects so  a substantial revision
@@ -11,7 +13,6 @@ package api.v1.model;
  *
  * @author kennethlyon
  *
- *
  */
 public class Calendar {
 	private int id;
@@ -22,25 +23,21 @@ public class Calendar {
 	private String remoteToken;
 
 	/**
-	 * Create a Calendar that already has an assigned id.
-	 * @param id
-	 */
-	public Calendar(int id){
-		this.id=id;
-	}
-	
-	/**
 	 * Create a new calendar w/o a calendar id. Calendars without an id are
-     * assigned an id of -9.
+     * assigned an id of -1.
 	 */
 	public Calendar(){
-        this.id = -9;
+        this.id = -1;
     }
 
-	
+    public void setId(int id){
+        this.id=id;
+    }
+
 	public int getId() {
 		return id;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -65,4 +62,13 @@ public class Calendar {
 	public void setRemoteToken(String remoteToken) {
 		this.remoteToken = remoteToken;
 	}
+    /**
+     * Create a serialized JSON String of this instance
+     * using GSON.
+     * @return
+     */
+    public String toJson(){
+        Gson gson=new Gson();
+        return gson.toJson(this);
+    }
 }

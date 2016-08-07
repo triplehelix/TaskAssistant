@@ -11,10 +11,9 @@ public class BusinessException extends Exception{
      * @param message
      * @param error
      */
-    public BusinessException(String message, Error error)
-    {
+    public BusinessException(String message, Error error) {
         super(message);
-        this.error=error;
+        this.error = error;
     }
 
     /**

@@ -31,7 +31,7 @@ public class DeleteSchedule extends ScheduleRequestHandler {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void doDelete(HttpServletRequest request, 
+	public void doPost(HttpServletRequest request,
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
@@ -40,7 +40,9 @@ public class DeleteSchedule extends ScheduleRequestHandler {
 		try {
 		    jsonRequest = parseRequest(request.getParameter("params"));
 		    int scheduleId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-		    scheduleRepository.delete(new Schedule(scheduleId));
+			Schedule schedule=new Schedule();
+			schedule.setId(scheduleId);
+		    scheduleRepository.delete(schedule);
 
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an DeleteSchedule Request: {}.", jsonRequest.toJSONString(), b);

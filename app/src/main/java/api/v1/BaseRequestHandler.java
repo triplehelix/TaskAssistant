@@ -1,4 +1,5 @@
 package api.v1;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -26,7 +27,7 @@ import org.slf4j.Logger;
  */
 public class BaseRequestHandler extends HttpServlet{
 
-    protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
+	protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
     private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
 
 	/**
@@ -36,15 +37,16 @@ public class BaseRequestHandler extends HttpServlet{
 	 * @throws BusinessException
      */
     protected JSONObject parseRequest(String requestString)  throws BusinessException {
-	JSONObject param = null;
-	try{
-	    JSONParser parser = new JSONParser();
-	    param =  (JSONObject) parser.parse(requestString);
-	}catch(ParseException e){
-	    log.error("Exception while parsing request: " + requestString);
-	    throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_EXCEPTION"));
-	}
-	return param;
+	    JSONObject param = null;
+        log.debug("This is the JSON reqest: " + requestString);
+	    try{
+	        JSONParser parser = new JSONParser();
+	        param =  (JSONObject) parser.parse(requestString);
+	    }catch(ParseException e){
+    	    log.error("Exception while parsing request: " + requestString);
+    	    throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_ERROR"));
+    	}
+    	return param;
     }
 	
 	/**
@@ -64,15 +66,16 @@ public class BaseRequestHandler extends HttpServlet{
 	 * @return
 	 */
 	protected Date parseJsonDateAsDate(String stringDate) throws  BusinessException{
-		DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
-		Date result = null;
-		try{
-			result = df.parse(stringDate);
-		} catch (java.text.ParseException e) {
-			log.error("Exception while parsing date token: " + stringDate);
-			throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
-		}
-			return result;
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
+        df.setLenient(false);
+        Date result = null;
+        try{
+            result = df.parse(stringDate);
+        } catch (java.text.ParseException e) {
+            log.error("Exception while parsing date token: " + stringDate);
+            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
+        }
+        return result;
 	}
 	
 	/**
@@ -89,7 +92,7 @@ public class BaseRequestHandler extends HttpServlet{
 			myInt = Integer.parseInt(i);
 		}catch(NumberFormatException e){
             log.error(nfeError);
-            throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_EXCEPTION"));
+            throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_ERROR"));
         }
 		return myInt;
 	}
@@ -146,7 +149,6 @@ public class BaseRequestHandler extends HttpServlet{
      * @return
      */
     protected boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
-        log.debug("The passed to BaseRequestHandler.parseJsonBooleanAsBoolean is " + b + ".");
         b = b.trim().toUpperCase();
         if (b.equals("TRUE"))
             return true;

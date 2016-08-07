@@ -1,5 +1,6 @@
 ===========================================================================
 Model:
+=========================================================================== 
 ·  Users
 ·  Taskslist_users
 ·  Tasklist
@@ -11,8 +12,11 @@ Model:
 ·  Category_user
 ·  Users_calendars
 ·  Calendars
- 
+
+=========================================================================== 
 API:
+===========================================================================
+***** Auth
 ** /api/v1/auth/validateuser
 o POST
 ·  Request
@@ -46,18 +50,7 @@ o POST
    .  success
    ·  error
 
-** /api/v1/user/addtasklist
-o POST
-·  Request
-   ·  user_id
-   ·  tasklistid (can be null)
-   ·  name (can be null)
-   ·  description (can be null)
-   ·  permission
-·  Response
-   ·  Success
-   ·  Tasklistid
-   ·  error
+***** Calendar
 ** /api/v1/user/addcalendar
 o POST
 ·  Request
@@ -80,6 +73,8 @@ o POST
 ·  Response
    ·  Success
    ·  error
+
+***** Category
 ** /api/v1/user/addcategory
 o POST
 ·  Request
@@ -91,10 +86,15 @@ o POST
    ·  error
 ** /api/v1/user/updatecategory
 ** /api/v1/user/getcategories
+
+***** Reminder
 ** /api/v1/user/getreminders
 ** /api/v1/user/getrecommendation
+
+***** Schedule
 ** /api/v1/user/getschedule
 
+***** Task
 ** /api/v1/task/addtask
 o POST
 ·  Request
@@ -121,6 +121,20 @@ o POST
 ** /api/v1/task/updatetask
 ** /api/v1/task/updatereminder
 
+***** TaskList
+** /api/v1/tasklist/addtasklist
+o POST
+·  Request
+   ·  user_id
+   ·  tasklistid (can be null)
+   ·  name (can be null)
+   ·  description (can be null)
+   ·  permission
+·  Response
+   ·  Success
+   ·  Tasklistid
+   ·  error
+
 ** /api/v1/tasklist/updatetasklist (secondary)
 o POST
 ·  Request
@@ -131,3 +145,25 @@ o POST
    ·  success
    ·  error
 ** /api/v1/tasklist/gettasks
+o POST
+·  Request
+   ·  tasklistId
+·  Response
+   ·  listOfTasks
+   ·  success
+   ·  error
+** /api/v1/tasklist/deletetasklist
+o POST
+·  Request
+   ·  tasklistId
+·  Response
+   ·  success
+   ·  error
+** /api/v1/tasklist/gettasklist
+o POST
+·  Request
+   ·  tasklistId
+·  Response
+   ·  TaskList
+   ·  success
+   ·  error

@@ -22,6 +22,10 @@ public class AuthRequestHandler extends BaseRequestHandler{
 		userRepository=new UserRepository();
 	}
 
+	public UserRepository getUserRepository(){
+	    return userRepository;
+    }
+
 	/**
 	 * Validates that an email is well formed. Throws Exception 
 	 * if it is not well formed.
@@ -31,8 +35,8 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	protected String parseJsonAsEmail(String email) throws BusinessException{
 		email=email.trim();
 		if(!isValidEmail(email)){
-			log.error("Supplied email address: {} is not well formed.", email);
-			throw new BusinessException("Email address: " + email + " is not well formed.", Error.valueOf("BAD_EMAIL_ERROR"));
+            log.error("Supplied email address: {} is not valid.", email);
+            throw new BusinessException("Email address: " + email + " is invalid.", Error.valueOf("INVALID_EMAIL_ERROR"));
 		}
 		return email;
 	}
@@ -43,14 +47,14 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	 * @return
      */
 	private boolean isValidEmail(String email){
-		boolean result = true;
-		try {
-			InternetAddress emailAddr = new InternetAddress(email);
-			emailAddr.validate();
-		} catch (AddressException ex) {
-			result = false;
-		}
-		return result;
+        boolean result = true;
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+        return result;
 	}
 
 	/**
@@ -60,8 +64,8 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	 * @throws Exception
 	 */
 	protected String parseJsonAsPassword(String password) throws BusinessException{
-		if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
-			throw new BusinessException("Try another password. ", Error.valueOf("BAD_PASSWORD_ERROR"));
+        if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
+            throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
 		return password;
 	}
 }

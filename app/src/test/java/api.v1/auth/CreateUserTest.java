@@ -1,8 +1,9 @@
 package api.v1.auth;
 
+import api.v1.ApiTest;
+import api.v1.model.User;
+import api.v1.model.UserTest;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,18 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.fail;
 
-/**
- * Created by mikeh on 4/17/2016.
- * This class will test the CreateUser Class
- */
-public class CreateUserTest {
+ /**
+  * This class will test the CreateUser Class
+  */
+public class CreateUserTest extends ApiTest {
     private Logger LOGGER = LoggerFactory.getLogger(CreateUserTest.class);
-    private static CreateUser instance;
+    private static CreateUser createUserInstance;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
 
@@ -34,7 +32,7 @@ public class CreateUserTest {
      */
     @Before
     public void setUp() throws Exception {
-        instance = new CreateUser();
+        createUserInstance = new CreateUser();
         // Creating Valid requests
         validRequestList.add(createDoPostMockRequest("mikehedden@gmail.com", "a681wo$dKo"));
         validRequestList.add(createDoPostMockRequest("kenlyon@gmail.com","Mouwkl87%qo"));
@@ -54,12 +52,15 @@ public class CreateUserTest {
     }
 
     /**
-     * After doPost runs, set pertinent objects to null.
+     * After doPost runs, remove Users from the repository, then set
+     * pertinent objects to null.
      * @throws Exception
      */
     @After
     public void tearDown() throws Exception {
-        instance = null;
+        for(User user: UserTest.getValidTestUsersAsUsers())
+            createUserInstance.getUserRepository().delete(user);
+        createUserInstance = null;
         validRequestList = null;
         errorRequestList = null;
     }
@@ -75,96 +76,13 @@ public class CreateUserTest {
     public void doPost() throws Exception {
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            instance.doPost(request, response);
+            createUserInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            instance.doPost(request, response);
+            createUserInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
-        }
-    }
-
-    /**
-     * Check to verify that valid CreateUser doPost responses are indeed
-     * valid and log results.
-     *
-     * @param response
-     */
-    private void validateDoPostValidResponse(MockHttpServletResponse response) {
-        // Valid cases are: success or error if error then error
-        String responseString;
-        try{
-            responseString = response.getContentAsString();
-        } catch (UnsupportedEncodingException e) {
-            LOGGER.error("Error recorded while reading response", e);
-            return;
-        }
-        LOGGER.info("response={}", responseString);
-        JSONObject responseObj;
-        try {
-            responseObj = (JSONObject) new JSONParser().parse(responseString);
-        } catch (ParseException e) {
-            LOGGER.error("Parse Exception while parsing the response string", e);
-            return;
-        }
-        if (null != responseObj){
-            JSONObject error;
-            if (null != (error=(JSONObject) responseObj.get("error"))){
-                LOGGER.info("Response contained the error: code={}, msg={}", error.get("code"), error.get("msg"));
-                fail("Received an error response on a valid input");
-            }else{
-                boolean success = (Boolean) responseObj.get("success");
-                if (success){
-                    LOGGER.info("Success value returned to the caller as: true ");
-                }else{
-                    fail("success value false in response and error value was not found");
-                }
-            }
-        }else{
-            fail("Response Object is empty");
-        }
-
-
-    }
-
-    /**
-     * Check to verify that invalid CreateUser requests are caught
-     * by CreateUser().doPost and are received as error messages.
-     * @param response
-     */
-    private void validateDoPostErrorResponse(MockHttpServletResponse response) {
-        // Valid cases are: success or error if error then error
-        String responseString;
-        try{
-            responseString = response.getContentAsString();
-        } catch (UnsupportedEncodingException e) {
-            LOGGER.error("Error recorded while reading response", e);
-            return;
-        }
-        LOGGER.info("response={}", responseString);
-        JSONObject responseObj;
-        try {
-            responseObj = (JSONObject) new JSONParser().parse(responseString);
-        } catch (ParseException e) {
-            LOGGER.error("Parse Exception while parsing the response string", e);
-            return;
-        }
-        if (null != responseObj){
-            JSONObject error;
-            if (null != (error=(JSONObject) responseObj.get("error"))){
-                LOGGER.info("Response contained the error: code={}, msg={}", error.get("code"), error.get("msg"));
-            }else{
-                boolean success = (Boolean) responseObj.get("success");
-                if (success){
-                    LOGGER.info("Success value returned to the caller as: true ");
-                    fail("Success value should not be present in case of invalid inputs.");
-                }else{
-                    fail("success value false in response and error value was not found");
-                }
-            }
-        }else{
-            fail("Response Object is empty");
         }
     }
 
