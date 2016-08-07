@@ -4,19 +4,23 @@
 <div class="modal-body">
     <form name="form" role="form">
         <div class="form-group">
+            <label for="taskList">Task List id:</label>
+            <select id="taskList" name="UsersTasklists" ng-model="taskListId">
+                <option ng-repeat="taskList in taskLists" value="{{ taskList.id }}"> {{ taskList.name }}</option>
+            </select>
             <label for="taskName">Task Name:</label>
-            <input type="text" class="form-control" id="taskName" ng-model="TaskModal.name" placeholder="Task Name" required>
+            <input type="text" class="form-control" id="taskName" ng-model="name" placeholder="Task Name" required>
         </div>
         <div class="form-group">
             <strong>Importance / Urgency:</strong><br />
             <div class="col-md-1">
-                <input type="checkbox" class="check-box" id="importance" ng-model="TaskModal.important" value="important">
+                <input type="checkbox" class="check-box" id="importance" ng-model="important" value="important">
             </div>
             <div class="col-md-11">
                 <label for="importance">Important</label>
             </div>
             <div class="col-md-1">
-                <input type="checkbox" class="check-box" id="urgency" ng-model="TaskModal.urgent" value="urgent">
+                <input type="checkbox" class="check-box" id="urgency" ng-model="urgent" value="urgent">
             </div>
             <div class="col-md-11">
                <label for="urgency"> Urgent</label>
@@ -24,22 +28,22 @@
         </div>
         <div class="form-group">
             <label for="estimatedTime">Estimated Time to complete:</label>
-            <input type="text" class="form-control" id="estimatedTime" ng-model="TaskModal.estimatedTime" placeholder="time in hours" >
+            <input type="text" class="form-control" id="estimatedTime" ng-model="estimatedTime" placeholder="time in hours" >
             <label for="investedTime">Time Invested in task:</label>
-            <input type="text" class="form-control" id="investedTime" ng-model="TaskModal.investedTime" placeholder="time in hours" >
+            <input type="text" class="form-control" id="investedTime" ng-model="investedTime" placeholder="time in hours" >
         </div>
         <div class="form-group">
             <label for="status">Status:</label>
-            <input type="text" class="form-control" id="status" ng-model="TaskModal.status" placeholder="New" >
+            <input type="text" class="form-control" id="status" ng-model="status" placeholder="New" >
             <label>Deadline:</label>
-            <uib-datepicker id="deadline" ng-model="TaskModal.deadline" class="well well-sm" datepicker-options="dateOptions"></uib-datepicker>
+            <uib-datepicker id="deadline" ng-model="deadline" class="well well-sm" datepicker-options="dateOptions"></uib-datepicker>
         </div>
         <div class="form-group">
             <label for="notes">Task Notes:</label>
-            <textarea ng-model="TaskModal.notes" placeholder="Type your notes here..." id="notes"></textarea>
+            <textarea ng-model="notes" placeholder="Type your notes here..." id="notes"></textarea>
         </div>
         <button type="submit" ng-disabled="form.$invalid" ng-click="submitTask()" class="btn btn-primary btn-md">Submit</button><br />
-        <span ng-show="TaskModal.fetchingData">Loading... Please wait</span>
+        <span ng-show="fetchingData">Loading... Please wait</span>
     </form>
 </div>
 <div class="modal-footer">

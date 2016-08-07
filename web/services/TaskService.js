@@ -1,6 +1,6 @@
 (function() {
 	angular.module('taskAssistant').
-	factory('TaskService', ['$http',  function($http){
+	factory('TaskService', ['$http', '$cookies', '$rootScope', function($http, $cookies, $rootScope){
 		var service = {};
 		var mock = true;
 
@@ -26,20 +26,25 @@
 			}
 		};
 
-		service.addTasklist = function(email, tasklist, callbackFunction) {
+		service.setTaskLists = function (taskLists) {
+			$rootScope.globals.currentUser.taskLists = taskLists;
+			$cookies.put('globals', $rootScope.globals);
+		};
+
+		service.addTasklist = function(email, taskList, callbackFunction) {
 			if (mock == false) {
 				// Make backend call to add tasklist for user
 				$http.post('/api/v1/user/addtasklist', {
 					params: {
-						userid: email, name: tasklist.name,
-						description: tasklist.description, permission: owner
+						userid: email, name: taskList.name,
+						description: taskList.description, permission: owner
 					}
 				}).success(function (response) {
 					callbackFunction(response);
 				});
 			} else {
 				var response = {};
-                if (tasklist.id != 1) {
+                if (taskList.id != 1) {
                     response = {success: true};
                 } else {
                     response = {
@@ -53,20 +58,20 @@
 			}
 		};
 
-		service.updateTasklist = function(tasklist, callbackFunction) {
+		service.updateTasklist = function(taskList, callbackFunction) {
 			if (mock == false) {
 				// Make backend call to add tasklist for user
 				$http.post('/api/v1/user/updatetasklist', {
 					params: {
-						tasklistid: tasklist.id, name: tasklist.name,
-						description: tasklist.description, permission: owner
+						tasklistid: taskList.id, name: taskList.name,
+						description: taskList.description, permission: owner
 					}
 				}).success(function (response) {
 					callbackFunction(response);
 				});
 			} else {
                 var response = {};
-                if (tasklist.id == 1) {
+                if (taskList.id == 1) {
                     response = {success: true};
                 } else {
                     response = {
@@ -80,12 +85,12 @@
 			}
 		};
 		
-		service.getTasks = function(tasklist, filter, callbackFunction) {
+		service.getTasks = function(taskListId, filter, callbackFunction) {
 			if (mock == false) {
 				// Make backend call to get tasks in given tasklist
 				$http.get('/api/v1/tasklist/gettasks', {
 					params: {
-						tasklistid: tasklist.id,
+						tasklistid: taskListId,
 						filter: null
 					}
 				}).success(function (response) {
@@ -111,12 +116,12 @@
 			}
 		};
 
-		service.addTask = function(tasklist, task, callbackFunction) {
+		service.addTask = function(taskListId, task, callbackFunction) {
 			if (mock == false) {
 				// Make backend call to add task to tasklist
 				$http.post('/api/v1/task/addtask', {
 					params: {
-						tasklistid: tasklist.id, categoryid: task.categoryid,
+						tasklistid: taskListId, categoryid: task.categoryid,
 						name: task.name, estimated_time: task.estimated_time, invested_time: task.invested_time,
 						scheduled_time: task.scheduled_time, importance: task.importance, urgency: task.urgency,
 						deadline: task.deadline, status: task.status
@@ -126,7 +131,7 @@
 				});
 			} else {
 				var response = {};
-                if (tasklist.id == 1) {
+                if (taskListId == 1) {
                     response = {success: true};
                 } else {
                     response = {
