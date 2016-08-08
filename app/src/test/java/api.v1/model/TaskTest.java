@@ -39,7 +39,6 @@ public class TaskTest {
         validTasks.add("7`0`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
         validTasks.add("8`0`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
 
-
         // Add valid mutations to valid tasks.
         validUpdates = new ArrayList<String>();
         validUpdates.add("0`1`Feed dog`TRUE`Give food to the fluff.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
@@ -77,41 +76,13 @@ public class TaskTest {
         errorUpdates.add("8`100`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`DONE");
     }
 
-    public static ArrayList<JSONObject> getValidTestTasksAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validTasks)
-            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestTasksAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorTasks)
-            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getValidTestTaskUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validUpdates)
-            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestTaskUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorUpdates)
-            jsonObjectArrayList.add(TaskTest.toJsonObject(s));
-        return jsonObjectArrayList;
-    }
-
     public static ArrayList<Task> getValidTestTasksAsTasks() throws Exception{
         ArrayList<Task> taskArrayList = new ArrayList<Task>();
         for (String s : validTasks) {
             taskArrayList.add(TaskTest.toTask(s));
         }
         return taskArrayList;
-    }
+    }//
 
     public static ArrayList<Task> getValidTestTasksUpdatesAsTasks() throws Exception{
         ArrayList<Task> taskArrayList = new ArrayList<Task>();
@@ -119,7 +90,7 @@ public class TaskTest {
             taskArrayList.add(TaskTest.toTask(s));
         }
         return taskArrayList;
-    }
+    }//*/
 
     /**
      * Create new Task objects from a backtick delimited String such as those in

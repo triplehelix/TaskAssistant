@@ -62,38 +62,6 @@ public class ReminderTest {
         errorUpdates.add("-15`4`2020-05-31_00:00:00");
     }
 
-    public static ArrayList<JSONObject> getValidTestRemindersAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validReminders)
-            jsonObjectArrayList.add(ReminderTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestRemindersAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorReminders)
-            jsonObjectArrayList.add(ReminderTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<Reminder> getValidTestRemindersAsReminders() throws Exception{
-        ArrayList<Reminder> reminderArrayList = new ArrayList<Reminder>();
-        for (String s : validReminders) {
-            reminderArrayList.add(ReminderTest.toReminder(s));
-        }
-        return reminderArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestReminderUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorUpdates)
-            jsonObjectArrayList.add(ReminderTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-
-
-
     private static Reminder toReminder(String s) throws Exception{
         String[] reminderElementArray = s.split("`");
         Reminder reminder = new Reminder();

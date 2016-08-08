@@ -6,7 +6,6 @@ import api.v1.model.TaskList;
 import api.v1.model.TaskTest;
 import api.v1.repo.TaskListRepository;
 import api.v1.repo.TaskRepository;
-import api.v1.taskList.TaskListApiHelper;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -76,11 +75,11 @@ public class AddTaskTest extends ApiTest {
             taskListRepository.add(taskList);
 
         // Create valid mock tasks.
-        for(JSONObject jsonObj: TaskTest.getValidTestTasksAsJson())
+        for(JSONObject jsonObj: TaskApiHelper.toJSONObjects(validTasks))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Create invalid mock tasks.
-        for(JSONObject jsonObj: TaskTest.getErrorTestTasksAsJson())
+        for(JSONObject jsonObj: TaskApiHelper.toJSONObjects(errorTasks))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
@@ -94,7 +93,7 @@ public class AddTaskTest extends ApiTest {
         for(TaskList taskList: TaskApiHelper.toTaskLists(validTaskLists))
             taskListRepository.delete(taskList);
         TaskRepository taskRepository = addTaskInstance.getTaskRepository();
-        for(Task task: TaskTest.getValidTestTasksAsTasks())
+        for(Task task: TaskApiHelper.toTasks(validTasks))
             taskRepository.delete(task);
         addTaskInstance = null;
         validRequestList = null;
