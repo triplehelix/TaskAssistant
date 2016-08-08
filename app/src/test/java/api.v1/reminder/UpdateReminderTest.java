@@ -7,6 +7,7 @@ import api.v1.model.Task;
 import api.v1.model.TaskTest;
 import api.v1.repo.ReminderRepository;
 import api.v1.repo.TaskRepository;
+import api.v1.task.TaskApiHelper;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -84,7 +85,7 @@ public class UpdateReminderTest extends ApiTest {
 
 
         //2. populate the TaskRepository and ReminderRepository.
-        for(Task task: TaskTest.getValidTestTasksAsTasks())
+        for(Task task: ReminderApiHelper.toTasks(validTasks))
                 taskRepository.add(task);
 
         for(Reminder reminder: ReminderApiHelper.toReminders(validReminders))
@@ -108,7 +109,7 @@ public class UpdateReminderTest extends ApiTest {
     public void tearDown() throws Exception {
         for(Reminder reminder: ReminderApiHelper.toReminders(validReminders))
             reminderRepository.delete(reminder);
-        for(Task task: TaskTest.getValidTestTasksAsTasks())
+        for(Task task: ReminderApiHelper.toTasks(validTasks))
             taskRepository.delete(task);
 
         updateReminderInstance = null;

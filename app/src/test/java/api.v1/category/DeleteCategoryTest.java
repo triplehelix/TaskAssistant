@@ -24,6 +24,8 @@ public class DeleteCategoryTest extends ApiTest {
     private static CategoryRepository categoryRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
+    private static ArrayList<String> validCategories;
+    private static ArrayList<String> errorCategories;
 
     /**
      * First create a new Instance of DeleteCategory() object, then add new
@@ -36,17 +38,35 @@ public class DeleteCategoryTest extends ApiTest {
         deleteCategoryInstance = new DeleteCategory();
         categoryRepository=deleteCategoryInstance.getCategoryRepository();
 
+        validCategories=new ArrayList<String>();
+        validCategories.add("0`Physics`Homework, study groups, lab reports, etc, for physics II");
+        validCategories.add("1`chores`Any kind of household chores.");
+        validCategories.add("2`work`work related stuff only!");
+        validCategories.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
+        validCategories.add("4`Journal club`Tasks related to journal club");
+        validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
+
+        errorCategories=new ArrayList<String>();
+        errorCategories.add("99``Homework, study groups, lab reports, etc, for physics II");
+        errorCategories.add("-1``Any kind of household chores.");
+        errorCategories.add("-2``work related stuff only!");
+        errorCategories.add("300``Anything related to money. Taxes, budgeting, student loans, etc.");
+        errorCategories.add("10`Journal Club`Tasks related to journal club");
+        errorCategories.add("-5`O-chem`Study groups, lab reports, etc, for organic chemistry.");
+
+
         // Populate the Category repository with valid Categories.
-        for(Category category: CategoryTest.getValidTestCategoriesAsCategories())
+        for(Category category: CategoryApiHelper.toCategories(validCategories))
             categoryRepository.add(category);
 
         // Create valid mock categories.
-        for(JSONObject jsonObj: CategoryTest.getValidTestCategoriesAsJson())
+        for(JSONObject jsonObj: CategoryApiHelper.toJSONObject(validCategories))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
-        // Create error mock categories.
-        for(JSONObject jsonObj: CategoryTest.getErrorTestCategoryUpdatesAsJson())
+        // Create invalid mock categories.
+        for(JSONObject jsonObj: CategoryApiHelper.toJSONObject(errorCategories))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
+
     }
 
     /**

@@ -75,7 +75,7 @@ public class TaskTest {
         errorUpdates.add("7`3``TRUE`THIS TASK HAS NO NAME`3600000`not started`TRUE`2016-06-12_08:00:00`NEW");
         errorUpdates.add("8`100`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`DONE");
     }
-
+   /*
     public static ArrayList<Task> getValidTestTasksAsTasks() throws Exception{
         ArrayList<Task> taskArrayList = new ArrayList<Task>();
         for (String s : validTasks) {

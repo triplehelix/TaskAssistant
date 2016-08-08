@@ -66,7 +66,7 @@ public class CategoryTest {
 
     }
 
-
+/**
     public static ArrayList<JSONObject> getValidTestCategoriesAsJson() {
         ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
         for (String s : validCategories)
@@ -100,7 +100,7 @@ public class CategoryTest {
             CategoryArrayList.add(CategoryTest.toCategory(s));
         }
         return CategoryArrayList;
-    }
+    }//*/
 
     private static Category toCategory(String s) throws Exception{
         String[] CategoryElementArray = s.split("`");
