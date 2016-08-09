@@ -1,6 +1,5 @@
 package api.v1.auth;
 
-import api.v1.ApiTest;
 import api.v1.model.User;
 import api.v1.model.UserTest;
 import org.json.simple.JSONObject;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
  /**
   * This class will test the CreateUser Class
   */
-public class CreateUserTest extends ApiTest {
+public class CreateUserTest extends AuthApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(CreateUserTest.class);
     private static CreateUser createUserInstance;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();

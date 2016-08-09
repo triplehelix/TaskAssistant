@@ -1,8 +1,6 @@
 package api.v1.category;
 
-import api.v1.ApiTest;
 import api.v1.model.Category;
-import api.v1.model.CategoryTest;
 import api.v1.repo.CategoryRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -18,7 +16,7 @@ import java.util.ArrayList;
  * This class tests the DeleteCategory Class
  * @author kennethlyon
  */
-public class DeleteCategoryTest extends ApiTest {
+public class DeleteCategoryTest extends CategoryApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(DeleteCategoryTest.class);
     private static DeleteCategory deleteCategoryInstance;
     private static CategoryRepository categoryRepository;

@@ -1,9 +1,7 @@
 package api.v1.task;
 
-import api.v1.ApiTest;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
-import api.v1.model.TaskTest;
 import api.v1.repo.TaskListRepository;
 import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
  * This class tests the AddTask Class
  * @author kennethlyon
  */
-public class AddTaskTest extends ApiTest {
+public class AddTaskTest extends TaskApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);
     private static AddTask addTaskInstance;
     private static TaskListRepository taskListRepository;

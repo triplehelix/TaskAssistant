@@ -1,6 +1,5 @@
 package api.v1.reminder;
 
-import api.v1.ApiTest;
 import api.v1.model.Reminder;
 import api.v1.repo.ReminderRepository;
 import org.json.simple.JSONObject;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  * This class tests the DeleteReminder Class
  * @author kennethlyon
  */
-public class DeleteReminderTest extends ApiTest {
+public class DeleteReminderTest extends ReminderApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(DeleteReminderTest.class);
     private static DeleteReminder deleteReminderInstance;
     private static ReminderRepository reminderRepository;

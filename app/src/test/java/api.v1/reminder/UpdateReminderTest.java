@@ -1,13 +1,9 @@
 package api.v1.reminder;
 
-import api.v1.ApiTest;
 import api.v1.model.Reminder;
-import api.v1.model.ReminderTest;
 import api.v1.model.Task;
-import api.v1.model.TaskTest;
 import api.v1.repo.ReminderRepository;
 import api.v1.repo.TaskRepository;
-import api.v1.task.TaskApiHelper;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +18,7 @@ import java.util.ArrayList;
  * This class tests the AddReminder Class
  * @author kennethlyon
  */
-public class UpdateReminderTest extends ApiTest {
+public class UpdateReminderTest extends ReminderApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(UpdateReminderTest.class);
     private static UpdateReminder updateReminderInstance;
     private static ReminderRepository reminderRepository;

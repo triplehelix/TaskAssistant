@@ -1,8 +1,6 @@
 package api.v1.reminder;
 
-import api.v1.ApiTest;
 import api.v1.model.Reminder;
-import api.v1.model.ReminderTest;
 import api.v1.repo.ReminderRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -18,7 +16,7 @@ import java.util.ArrayList;
  * This class tests the GetReminder Class
  * @author kennethlyon
  */
-public class GetReminderTest extends ApiTest {
+public class GetReminderTest extends ReminderApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(GetReminderTest.class);
     private static GetReminder getReminderInstance;
     private static ReminderRepository reminderRepository;

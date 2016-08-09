@@ -1,6 +1,5 @@
 package api.v1.task;
 
-import api.v1.ApiTest;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
 import api.v1.repo.TaskListRepository;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * This class tests the output of the UpdateTask api.
  * Created by kennethlyon on 6/15/16.
  */
-public class UpdateTaskTest extends ApiTest{
+public class UpdateTaskTest extends TaskApiHelper{
     private Logger LOGGER = LoggerFactory.getLogger(UpdateTaskTest.class);
     private static UpdateTask updateTaskInstance;
     private static TaskRepository taskRepository;

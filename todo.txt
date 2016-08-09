@@ -1,0 +1,35 @@
+** Model Corrections.
+*** Users
+****** ArrayList<Schedules>
+****** ArrayList<TaskLists>
+****** ArrayList<Calendars>
+****** ArrayList<Categories>
+
+*** Category
+****** User
+****** TaskList ArrayList<Tasks>
+
+*** Tasks
+****** TaskList
+****** Task ArrayList<Reminders>
+****** Task ArrayList<Categories>
+
+*** Schedules
+****** User (not present)
+****** ArrayList<Categories>
+****** ArrayList<Tasks> (is this needed?)
+
+*** Calendars
+****** ArrayList<Users> (is an ArrayList really important)
+
+** API corrections
+*** Task
+****** DeleteTask
+****** GetTask(?)
+
+*** User (separate from auth?)
+*** Calendar
+****** AddCalendar
+****** UpdateCalendar
+****** DeleteCalendar
+****** GetCalendar

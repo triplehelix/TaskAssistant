@@ -1,6 +1,5 @@
 package api.v1.taskList;
 
-import api.v1.ApiTest;
 import api.v1.model.TaskList;
 import api.v1.repo.TaskListRepository;
 import org.json.simple.JSONObject;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author kennethlyon on 20160711.
  */
-public class GetTaskListTest extends ApiTest {
+public class GetTaskListTest extends TaskListApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(GetTaskListTest.class);
     private static GetTaskList getTaskListInstance;
     private static TaskListRepository taskListRepository;
