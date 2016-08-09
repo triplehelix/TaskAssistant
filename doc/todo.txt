@@ -25,7 +25,7 @@
 ** API corrections
 *** Task
 ****** DeleteTask
-****** GetTask(?)
+****** GetTask(?)(Mike thinks so)
 
 *** User (separate from auth?)
 *** Calendar
@@ -33,3 +33,7 @@
 ****** UpdateCalendar
 ****** DeleteCalendar
 ****** GetCalendar
+==========================================================================================
+Regression testing. Testing modified code for new errors.
+
+Some items may only 
