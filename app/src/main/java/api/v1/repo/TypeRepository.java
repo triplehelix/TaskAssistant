@@ -33,7 +33,6 @@ public class TypeRepository implements Repository<Type>{
      * @throws SystemException
      */
     public void add(Type foobar) throws BusinessException, SystemException{
-	// First, we make sure that the type DNE. Else throw BusinessException
         int typeId=0;
         while(typeMap.containsKey(typeId))
             typeId++;

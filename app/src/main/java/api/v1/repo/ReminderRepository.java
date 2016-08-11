@@ -33,7 +33,6 @@ public class ReminderRepository implements Repository<Reminder>{
      * @throws SystemException
      */
     public void add(Reminder r) throws BusinessException, SystemException{
-	// First, we make sure that the reminder DNE. Else throw BusinessException
         int reminderId=0;
         while(reminderMap.containsKey(reminderId))
             reminderId++;

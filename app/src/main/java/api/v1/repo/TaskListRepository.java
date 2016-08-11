@@ -33,7 +33,6 @@ public class TaskListRepository implements Repository<TaskList>{
      * @throws SystemException
      */
     public void add(TaskList foobar) throws BusinessException, SystemException{
-	// First, we make sure that the taskList DNE. Else throw BusinessException
         int taskListId=0;
         while(taskListMap.containsKey(taskListId))
             taskListId++;

@@ -33,7 +33,6 @@ public class CalendarRepository implements Repository<Calendar>{
      * @throws SystemException
      */
     public void add(Calendar c) throws BusinessException, SystemException{
-	// First, we make sure that the calendar DNE. Else throw BusinessException
         int calendarId=0;
         while(calendarMap.containsKey(calendarId))
             calendarId++;

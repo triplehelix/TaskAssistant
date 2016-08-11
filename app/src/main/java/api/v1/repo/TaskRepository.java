@@ -35,7 +35,6 @@ public class TaskRepository implements Repository<Task>{
      * @throws SystemException
      */
     public void add(Task t) throws BusinessException, SystemException{
-	// First, we make sure that the task DNE. Else throw BusinessException
         int taskId=0;
         while(taskMap.containsKey(taskId))
             taskId++;

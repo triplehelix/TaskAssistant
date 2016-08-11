@@ -33,7 +33,6 @@ public class CategoryRepository implements Repository<Category>{
      * @throws SystemException
      */
     public void add(Category c) throws BusinessException, SystemException{
-	// First, we make sure that the category DNE. Else throw BusinessException
         int categoryId=0;
         while(categoryMap.containsKey(categoryId))
             categoryId++;

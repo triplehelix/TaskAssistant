@@ -33,7 +33,6 @@ public class ScheduleRepository implements Repository<Schedule>{
      * @throws SystemException
      */
     public void add(Schedule s) throws BusinessException, SystemException{
-	// First, we make sure that the schedule DNE. Else throw BusinessException
         int scheduleId=0;
         while(scheduleMap.containsKey(scheduleId))
             scheduleId++;
