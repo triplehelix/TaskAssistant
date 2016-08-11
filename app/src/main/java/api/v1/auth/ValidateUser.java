@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
 
 import api.v1.AuthRequestHandler;
@@ -52,10 +53,9 @@ public class ValidateUser extends AuthRequestHandler{
 			user.setPassword(password);
 			
 			/**
-			 * TODO verify that there is a User with this email and password.
+			 * TODO use email and passwords to validate a User.
 			 */
 			userRepository.get(user);
-
 		}catch(BusinessException e){
 			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
 			log.error(e.getMessage());
@@ -68,6 +68,14 @@ public class ValidateUser extends AuthRequestHandler{
 			errorCode = s.getError().getCode();
 			error = true;
 		}
-		sendResponse(error, errorMsg, response);
+
+		JSONObject jsonResponse = new JSONObject();
+		if (error){
+			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+		}else {
+			jsonResponse.put("success", true);
+			jsonResponse.put("User", user.toJson());
+		}
+		sendMessage(jsonResponse, response);
 	}
 }

@@ -2,10 +2,7 @@ package api.v1;
 
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
-import api.v1.model.Category;
-import api.v1.model.Reminder;
-import api.v1.model.Task;
-import api.v1.model.TaskList;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -219,5 +216,48 @@ public class UnitTestHelper {
             myCategories.add(category);
         }
         return myCategories;
+    }
+
+
+
+    /**
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of Users.
+     *
+     * @param backtickUsers
+     * @return
+     * @throws Exception
+     */
+    protected static ArrayList<User> toUsers(ArrayList<String> backtickUsers) throws Exception{
+        ArrayList<User> myUsers = new ArrayList<User>();
+        for(String s: backtickUsers) {
+            String[] elements = s.split("`");
+            User user = new User();
+            user.setId(Integer.parseInt(elements[0].trim()));
+            user.setEmail(elements[1].trim());
+            user.setPassword(elements[2].trim());
+            if (elements.length > 3) {
+                user.setCalendarIds(toIntegerArrayList(elements[3]));
+                user.setCategoryIds(toIntegerArrayList(elements[4]));
+                user.setScheduleIds(toIntegerArrayList(elements[5]));
+                user.setTaskListIds(toIntegerArrayList(elements[6]));
+            }
+            myUsers.add(user);
+        }
+        return myUsers;
+    }
+
+    /**
+     * Parse a JSON derived array and return an ArrayList of integers.
+     * @param s
+     * @return
+     */
+    protected static ArrayList<Integer> toIntegerArrayList(String s) {
+        ArrayList<Integer> myIntegers = new ArrayList<Integer>();
+        s=s.trim();
+        s=s.substring(1,s.length()-1);
+        String[] elements = s.split(",");
+        for(String i: elements)
+            myIntegers.add(Integer.parseInt(i));
+        return myIntegers;
     }
 }

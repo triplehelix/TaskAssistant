@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * This class tests the AddUser Class.
  * @author kennethlyon
  */
-public class CreateUserTest extends AuthApiHelper {
-    private Logger LOGGER = LoggerFactory.getLogger(CreateUserTest.class);
-    private static CreateUser createUserInstance;
+public class ValidateUserTest extends AuthApiHelper {
+    private Logger LOGGER = LoggerFactory.getLogger(ValidateUserTest.class);
+    private static ValidateUser validateUserInstance;
     private static UserRepository userRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
@@ -26,41 +26,47 @@ public class CreateUserTest extends AuthApiHelper {
     private static ArrayList<String> errorUsers;
 
     /**
-     * First create a new Instance of AddUser() object, then add new
+     * First validate a new Instance of AddUser() object, then add new
      * user test cases to validRequestList and errorRequestList.
      *
      * @throws Exception
      */
     @Before
     public void setUp() throws Exception {
-        createUserInstance = new CreateUser();
-        userRepository=createUserInstance.getUserRepository();
+        validateUserInstance = new ValidateUser();
+        userRepository=validateUserInstance.getUserRepository();
+
         validUsers=new ArrayList<String>();
-        validUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
-        validUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
-        validUsers.add("2`kenlyon@test.com`e-W^2VmQ");
-        validUsers.add("3`fatsteaks@gmail.com`+%D5|x%b");
-        validUsers.add("4`yannisgreek@gmail.com`sy@UCL0_");
-        validUsers.add("5`rustypuppy@gmail.com`3Z^Vxk45ffr6bE");
-        validUsers.add("6`yo.momma.so.fat@gmail.com`6PnCK/?8");
-        validUsers.add("7`under_scores_rule@gmail.com`6~Zas2R*");
-        validUsers.add("8`test@mikehedden.gmail.com`i2@<uMtJ");
+        validUsers.add(     "0`mikehedden@gmail.com`a681wo$dKo` [1,2,3,5,8]` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(       "1`kenlyon@gmail.com`Mouwkl87%qo` [2,1,3,4,7]` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(           "2`kenlyon@test.com`e-W^2VmQ` [0,1,2,3,5]` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(        "3`fatsteaks@gmail.com`+%D5|x%b` [0,2,1,3,4]` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(      "4`yannisgreek@gmail.com`sy@UCL0_` [1,2,3,5,8]` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(       "5`rustypuppy@gmail.com`3Z^V$xkE` [2,1,3,4,7]` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(  "6`yo.momma.so.fat@gmail.com`6PnCK/?8` [0,1,2,3,5]` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add("7`under_scores_rule@gmail.com`6~Zas2R*` [0,2,1,3,4]` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(  "8`test@mikehedden.gmail.com`i2@<uMtJ` [1,2,3,5,8]` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+
+        // Add valid Users to the user repository.
+	    for(User user: toUsers(validUsers))
+	        userRepository.add(user);
 
         errorUsers=new ArrayList<String>();
-        errorUsers.add("0`mike`password1");
-        errorUsers.add("1`mike@test.co^m`a");
-        errorUsers.add("2`mike@test@test.com`aHouw8789");
-        errorUsers.add("3`houston@wehaveaproblem.com`11111111111111111111");
-        errorUsers.add("4`toosimple@password.com`ab1");
-        errorUsers.add("5`@com`ab1");
+        errorUsers.add("0`mikehedden@gmail.com`wrong password");
+        errorUsers.add(   "1`kenlyon@gmail.com`wrong password");
+        errorUsers.add( "2`kenlyon@test.com`wrong_passwrd-VmQ");
+        errorUsers.add(                     "3`mike`password1");
+        errorUsers.add(                    "4`mike@test.com`a");
+        errorUsers.add(       "5`mike@test@test.com`aHouw8789");
 
-        // Create valid mock categories.
+
+        // Validate valid mock categories.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(validUsers))
-            validRequestList.add(createDoPostMockRequest(jsonObj));
+            validRequestList.add(validateDoPostMockRequest(jsonObj));
 
-        // Create invalid mock categories.
+        // Validate invalid mock categories.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(errorUsers))
-            errorRequestList.add(createDoPostMockRequest(jsonObj));
+            errorRequestList.add(validateDoPostMockRequest(jsonObj));
     }
 
     /**
@@ -73,7 +79,7 @@ public class CreateUserTest extends AuthApiHelper {
     public void tearDown() throws Exception {
         for(User user: AuthApiHelper.toUsers(validUsers))
             userRepository.delete(user);
-        createUserInstance = null;
+        validateUserInstance = null;
         validRequestList = null;
         errorRequestList = null;
     }
@@ -89,7 +95,7 @@ public class CreateUserTest extends AuthApiHelper {
     public void doPost() throws Exception {
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            createUserInstance.doPost(request, response);
+            validateUserInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
         User user=new User();
@@ -101,7 +107,7 @@ public class CreateUserTest extends AuthApiHelper {
 
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
-            createUserInstance.doPost(request, response);
+            validateUserInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
     }
@@ -111,7 +117,7 @@ public class CreateUserTest extends AuthApiHelper {
      * @param jsonObj
      * @return
      */
-    private MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj){
+    private MockHttpServletRequest validateDoPostMockRequest(JSONObject jsonObj){
         MockHttpServletRequest request = new MockHttpServletRequest();
         LOGGER.info("Created request {}",jsonObj.toJSONString());
         request.addParameter("params", jsonObj.toJSONString());

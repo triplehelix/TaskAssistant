@@ -71,6 +71,7 @@ public class CreateUser extends AuthRequestHandler{
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         }else {
             jsonResponse.put("success", true);
+            jsonResponse.put("User", user.toJson());
         }
         sendMessage(jsonResponse, response);
     }

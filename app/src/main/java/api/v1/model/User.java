@@ -8,11 +8,17 @@ import org.slf4j.LoggerFactory;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.util.ArrayList;
 
 public class User {
 	private int id;
 	private String email;
 	private String password;
+    private ArrayList<Integer> calendarIds;
+    private ArrayList<Integer> categoryIds;
+    private ArrayList<Integer> scheduleIds;
+    private ArrayList<Integer> taskListIds;
+
     protected static final Logger log = LoggerFactory.getLogger(User.class);
 
 	/**
@@ -21,6 +27,7 @@ public class User {
 	 */
 	public User(){
         this.id=-1;
+
 	}
 	public int getId() {return id;}
 	public void setId(int id){
@@ -56,6 +63,38 @@ public class User {
         else
 	        this.password=password;
 	}
+
+    public ArrayList<Integer> getTaskListIds() {
+        return taskListIds;
+    }
+
+    public void setTaskListIds(ArrayList<Integer> taskListIds) {
+        this.taskListIds = taskListIds;
+    }
+
+    public ArrayList<Integer> getScheduleIds() {
+        return scheduleIds;
+    }
+
+    public void setScheduleIds(ArrayList<Integer> scheduleIds) {
+        this.scheduleIds = scheduleIds;
+    }
+
+    public ArrayList<Integer> getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(ArrayList<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    public ArrayList<Integer> getCalendarIds() {
+        return calendarIds;
+    }
+
+    public void setCalendarIds(ArrayList<Integer> calendarIds) {
+        this.calendarIds = calendarIds;
+    }
 
     public String getPassword(){
         return this.password;
