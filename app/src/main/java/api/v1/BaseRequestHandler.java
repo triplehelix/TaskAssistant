@@ -48,17 +48,7 @@ public class BaseRequestHandler extends HttpServlet{
     	}
     	return param;
     }
-	
-	/**
-	 * Incomplete. Always returns true.
-	 * @param credential
-	 * @return
-	 */
-	protected boolean validateCredentials(Subject credential){
-		//TODO return false sometimes.
-		return true;
-	}
-	
+
 	/**
 	 * Parse a String representing a given date and return a Date object.
 	 * String must be in the format: yyyy-MM-dd_HH:mm:ss

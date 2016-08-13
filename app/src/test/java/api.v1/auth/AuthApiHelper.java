@@ -24,6 +24,7 @@ public class AuthApiHelper extends UnitTestHelper {
         for(String s: backtickCategories) {
             String[] categoryElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
+
             jsonObj.put("id", categoryElementArray[0]);
             jsonObj.put("email", categoryElementArray[1]);
             jsonObj.put("password", categoryElementArray[2]);

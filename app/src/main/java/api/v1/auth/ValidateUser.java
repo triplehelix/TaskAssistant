@@ -49,7 +49,7 @@ public class ValidateUser extends AuthRequestHandler{
 		try{
 			jsonRequest=parseRequest(request.getParameter("params"));
 			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
-			String password= parseJsonAsEmail((String)jsonRequest.get("password"));
+			String password = parseJsonAsPassword((String)jsonRequest.get("password"));
 			clientUser.setEmail(email);
 			clientUser.setPassword(password);
 			

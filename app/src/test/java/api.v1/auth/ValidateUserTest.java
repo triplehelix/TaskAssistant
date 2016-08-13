@@ -110,6 +110,7 @@ public class ValidateUserTest extends AuthApiHelper {
      */
     @Test
     public void doPost() throws Exception {
+
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             validateUserInstance.doPost(request, response);

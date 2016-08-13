@@ -61,7 +61,7 @@ public class User {
             throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
         }
         else
-	        this.password=password;
+            this.password=password;
 	}
 
     public ArrayList<Integer> getTaskListIds() {
