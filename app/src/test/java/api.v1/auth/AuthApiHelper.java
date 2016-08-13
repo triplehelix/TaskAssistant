@@ -26,7 +26,6 @@ public class AuthApiHelper extends UnitTestHelper {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("id", categoryElementArray[0]);
             jsonObj.put("email", categoryElementArray[1]);
-            LOGGER.debug("Here is the error causing String: " + s);
             jsonObj.put("password", categoryElementArray[2]);
             if(categoryElementArray.length>3){
                 jsonObj.put("calendarIds",categoryElementArray[3]);
@@ -37,6 +36,5 @@ public class AuthApiHelper extends UnitTestHelper {
             myJSONObjects.add(jsonObj);
         }
         return myJSONObjects;
-
     }
 }

@@ -48,11 +48,12 @@ public class CreateUserTest extends AuthApiHelper {
 
         errorUsers=new ArrayList<String>();
         errorUsers.add("0`mike`password1");
-        errorUsers.add("1`mike@test.co^m`a");
+        errorUsers.add("1`kenlyon@gmail.com`user-exists-19@38!5");
         errorUsers.add("2`mike@test@test.com`aHouw8789");
         errorUsers.add("3`houston@wehaveaproblem.com`11111111111111111111");
         errorUsers.add("4`toosimple@password.com`ab1");
         errorUsers.add("5`@com`ab1");
+
 
         // Create valid mock categories.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(validUsers))

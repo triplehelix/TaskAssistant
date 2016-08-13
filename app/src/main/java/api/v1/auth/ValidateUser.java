@@ -52,9 +52,6 @@ public class ValidateUser extends AuthRequestHandler{
 			user.setEmail(email);
 			user.setPassword(password);
 			
-			/**
-			 * TODO use email and passwords to validate a User.
-			 */
 			userRepository.get(user);
 		}catch(BusinessException e){
 			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);

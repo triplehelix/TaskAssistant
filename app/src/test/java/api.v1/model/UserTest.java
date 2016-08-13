@@ -63,58 +63,7 @@ public class UserTest {
         validUpdates.add("6`yo.momma.so.tall@gmail.com`6PnCK/?8");
         validUpdates.add("7`under_scores_rule@gmail.com`6~Zas2R*");
         validUpdates.add("8`test@mikehedden.gmail.com`i2@<uMtJ");
-
-
-
     }
-        // Creating invalid requests 
-
-    public static ArrayList<JSONObject> getValidTestUsersAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-
-        for (String s : validUsers)
-            jsonObjectArrayList.add(UserTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestUsersAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorUsers)
-            jsonObjectArrayList.add(UserTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getValidTestUserUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validUpdates)
-            jsonObjectArrayList.add(UserTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestUserUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorUpdates)
-            jsonObjectArrayList.add(UserTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-
-    public static ArrayList<User> getValidTestUsersAsUsers() throws Exception{
-        ArrayList<User> UserArrayList = new ArrayList<User>();
-        for (String s : validUsers) {
-            UserArrayList.add(UserTest.toUser(s));
-        }
-        return UserArrayList;
-    }
-
-    public static ArrayList<User> getValidTestUsersUpdatesAsUsers() throws Exception{
-        ArrayList<User> UserArrayList = new ArrayList<User>();
-        for (String s : validUpdates) {
-            UserArrayList.add(UserTest.toUser(s));
-        }
-        return UserArrayList;
-    }
-
 
     private static User toUser(String s) throws Exception{
         String[] UserElementArray = s.split("`");

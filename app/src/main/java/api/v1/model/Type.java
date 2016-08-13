@@ -18,11 +18,8 @@ public class Type {
         return id;
     }
 
-    public void setId(int id) throws BusinessException{
-        if(id<0)
-            throw new BusinessException("The Type id cannot be greater than 2,147,483,647.", Error.valueOf("INVALID_ID_ERROR"));
-        else
-            this.id=id;
+    public void setId(int id){
+        this.id=id;
     }
 
     /**

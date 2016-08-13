@@ -37,15 +37,15 @@ public class ValidateUserTest extends AuthApiHelper {
         userRepository=validateUserInstance.getUserRepository();
 
         validUsers=new ArrayList<String>();
-        validUsers.add(     "0`mikehedden@gmail.com`a681wo$dKo` [1,2,3,5,8]` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add(       "1`kenlyon@gmail.com`Mouwkl87%qo` [2,1,3,4,7]` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add(           "2`kenlyon@test.com`e-W^2VmQ` [0,1,2,3,5]` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add(        "3`fatsteaks@gmail.com`+%D5|x%b` [0,2,1,3,4]` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add(      "4`yannisgreek@gmail.com`sy@UCL0_` [1,2,3,5,8]` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add(       "5`rustypuppy@gmail.com`3Z^V$xkE` [2,1,3,4,7]` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add(  "6`yo.momma.so.fat@gmail.com`6PnCK/?8` [0,1,2,3,5]` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add("7`under_scores_rule@gmail.com`6~Zas2R*` [0,2,1,3,4]` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
-        validUsers.add(  "8`test@mikehedden.gmail.com`i2@<uMtJ` [1,2,3,5,8]` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(     "0`mikehedden@gmail.com`a681wo$dKo` [1,2,3,5,8] ` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(       "1`kenlyon@gmail.com`Mouwkl87%qo` [2,1,3,4,7] ` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(           "2`kenlyon@test.com`e-W^2VmQ` [0,1,2,3,5] ` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(        "3`fatsteaks@gmail.com`+%D5|x%b` [0,2,1,3,4] ` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(      "4`yannisgreek@gmail.com`sy@UCL0_` [1,2,3,5,8] ` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(       "5`rustypuppy@gmail.com`3Z^V$xkE` [2,1,3,4,7] ` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(  "6`yo.momma.so.fat@gmail.com`6PnCK/?8` [0,1,2,3,5] ` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add("7`under_scores_rule@gmail.com`6~Zas2R*` [0,2,1,3,4] ` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]");
+        validUsers.add(  "8`test@mikehedden.gmail.com`i2@<uMtJ` [1,2,3,5,8] ` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]");
 
         // Add valid Users to the user repository.
 	    for(User user: toUsers(validUsers))
