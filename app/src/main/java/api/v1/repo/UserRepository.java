@@ -22,6 +22,7 @@ public class UserRepository implements Repository<User>{
      */
     public UserRepository(){
         userMap=new HashMap<Integer, User>();
+        emailMap=new HashMap<String, User>();
     }
 
     /**
@@ -34,6 +35,8 @@ public class UserRepository implements Repository<User>{
     public void add(User u) throws BusinessException, SystemException{
         LOGGER.debug("ADDING: " + u.toJson());
 	    // First, we make sure that the user DNE. Else throw BusinessException
+        if(emailMap.containsKey(u.getEmail()))
+            throw new BusinessException("Error. This User email already exits! {" + u.getEmail()+"}", Error.valueOf("CREATE_USER_ERROR_USER_EXISTS"));
         int userId=0;
         while(userMap.containsKey(userId))
             userId++;
@@ -66,7 +69,7 @@ public class UserRepository implements Repository<User>{
      */
     private User getUserById(User u)throws BusinessException, SystemException{
         if(userMap.containsKey(u.getId()))
-            return userMap.get(u.getId());
+            return validatePassword(u, userMap.get(u.getId()));
         else
             throw new BusinessException(" User id not found. Id=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
@@ -78,10 +81,27 @@ public class UserRepository implements Repository<User>{
      * @throws SystemException
      */
     private User getUserByEmail(User u)throws BusinessException, SystemException{
-        if(userMap.containsKey(u.getId()))
-            return userMap.get(u.getId());
+        if(emailMap.containsKey(u.getEmail()))
+            return emailMap.get(u.getEmail());
         else
             throw new BusinessException(" User email not found {}" + u.getEmail(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+    /**
+     * Use to validate the supplied password from a GetUser request.
+     * @param fromClient
+     * @param fromRepository
+     * @return
+     */
+    private User validatePassword(User fromClient, User fromRepository) throws BusinessException, SystemException{
+        if(fromClient.getPassword().equals(fromRepository.getPassword()))
+            return fromRepository;
+        else{
+            LOGGER.error("Oh fuck!");
+            LOGGER.error(fromClient.toJson());
+            LOGGER.error(fromRepository.toJson());
+            throw new BusinessException("Incorrect password.", Error.valueOf("INCORRECT_PASSWORD_ERROR"));
+        }
     }
 
     /**
@@ -108,6 +128,7 @@ public class UserRepository implements Repository<User>{
 	public void delete(User u) throws BusinessException, SystemException{
         if(userMap.containsKey(u.getId())){
             userMap.remove(u.getId());
+            emailMap.remove(u.getEmail());
         }
         else
             throw new BusinessException(" User not found. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
