@@ -1,5 +1,6 @@
 package api.v1.auth;
 
+import api.v1.UnitTestHelper;
 import api.v1.model.User;
 import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
@@ -13,7 +14,10 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
 /**
- * This class tests the AddUser Class.
+ * This class tests the ValidateUser Class. To operate successfully,
+ * it must use a User email and password to verify that a User exists.
+ * Then it must return a user with arraylists of TaskIds.
+ *
  * @author kennethlyon
  */
 public class ValidateUserTest extends AuthApiHelper {
@@ -51,6 +55,19 @@ public class ValidateUserTest extends AuthApiHelper {
 	    for(User user: toUsers(validUsers))
 	        userRepository.add(user);
 
+        validUsers=null;
+        validUsers=new ArrayList<String>();
+        validUsers.add(     "0`mikehedden@gmail.com`a681wo$dKo");
+        validUsers.add(       "1`kenlyon@gmail.com`Mouwkl87%qo");
+        validUsers.add(           "2`kenlyon@test.com`e-W^2VmQ");
+        validUsers.add(        "3`fatsteaks@gmail.com`+%D5|x%b");
+        validUsers.add(      "4`yannisgreek@gmail.com`sy@UCL0_");
+        validUsers.add(       "5`rustypuppy@gmail.com`3Z^V$xkE");
+        validUsers.add(  "6`yo.momma.so.fat@gmail.com`6PnCK/?8");
+        validUsers.add("7`under_scores_rule@gmail.com`6~Zas2R*");
+        validUsers.add(  "8`test@mikehedden.gmail.com`i2@<uMtJ");
+
+
         errorUsers=new ArrayList<String>();
         errorUsers.add("0`mikehedden@gmail.com`wrong password");
         errorUsers.add(   "1`kenlyon@gmail.com`wrong password");
@@ -60,17 +77,17 @@ public class ValidateUserTest extends AuthApiHelper {
         errorUsers.add(       "5`mike@test@test.com`aHouw8789");
 
 
-        // Validate valid mock categories.
+        // Validate valid mock users.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(validUsers))
             validRequestList.add(validateDoPostMockRequest(jsonObj));
 
-        // Validate invalid mock categories.
+        // Validate invalid mock users.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(errorUsers))
             errorRequestList.add(validateDoPostMockRequest(jsonObj));
     }
 
     /**
-     * After doPost runs, remove categories from the repository and set
+     * After doPost runs, remove users from the repository and set
      * pertinent objects to null.
      *
      * @throws Exception
@@ -97,12 +114,6 @@ public class ValidateUserTest extends AuthApiHelper {
             MockHttpServletResponse response = new MockHttpServletResponse();
             validateUserInstance.doPost(request, response);
             validateDoPostValidResponse(response);
-        }
-        User user=new User();
-        LOGGER.info("Verifying categories were placed in the repository...");
-        for(int i=0;i<validRequestList.size();i++) {
-            user.setId(i);
-            LOGGER.info(userRepository.get(user).toJson());
         }
 
         for (MockHttpServletRequest request : errorRequestList) {

@@ -1,5 +1,6 @@
 package api.v1.auth;
 
+import api.v1.UnitTestHelper;
 import api.v1.model.User;
 import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
@@ -55,17 +56,17 @@ public class CreateUserTest extends AuthApiHelper {
         errorUsers.add("5`@com`ab1");
 
 
-        // Create valid mock categories.
+        // Create valid mock users.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(validUsers))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
-        // Create invalid mock categories.
+        // Create invalid mock users.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(errorUsers))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
     /**
-     * After doPost runs, remove categories from the repository and set
+     * After doPost runs, remove users from the repository and set
      * pertinent objects to null.
      *
      * @throws Exception
@@ -93,10 +94,9 @@ public class CreateUserTest extends AuthApiHelper {
             createUserInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
-        User user=new User();
-        LOGGER.info("Verifying categories were placed in the repository...");
-        for(int i=0;i<validRequestList.size();i++) {
-            user.setId(i);
+
+        LOGGER.info("Verifying users were placed in the repository...");
+        for(User user: UnitTestHelper.toUsers(validUsers)){
             LOGGER.info(userRepository.get(user).toJson());
         }
 

@@ -43,16 +43,17 @@ public class ValidateUser extends AuthRequestHandler{
 		boolean error=false;
 		int errorCode=1;
 		String errorMsg = "no error";
-		User user=new User();
+		User clientUser=new User();
+		User serverUser=null;
 		JSONObject jsonRequest = new JSONObject();
 		try{
 			jsonRequest=parseRequest(request.getParameter("params"));
 			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
 			String password= parseJsonAsEmail((String)jsonRequest.get("password"));
-			user.setEmail(email);
-			user.setPassword(password);
+			clientUser.setEmail(email);
+			clientUser.setPassword(password);
 			
-			userRepository.get(user);
+			serverUser=userRepository.get(clientUser);
 		}catch(BusinessException e){
 			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
 			log.error(e.getMessage());
@@ -71,7 +72,7 @@ public class ValidateUser extends AuthRequestHandler{
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
 		}else {
 			jsonResponse.put("success", true);
-			jsonResponse.put("User", user.toJson());
+			jsonResponse.put("User", serverUser.toJson());
 		}
 		sendMessage(jsonResponse, response);
 	}
