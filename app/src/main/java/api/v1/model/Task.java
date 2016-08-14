@@ -23,6 +23,7 @@ public class Task {
     private Date dueDate;
     private Status status;
     public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
+    private ArrayList<Integer> categoryIds;
 
     public ArrayList<Integer> getCategoryIds() {
         return categoryIds;
@@ -31,8 +32,6 @@ public class Task {
     public void setCategoryIds(ArrayList<Integer> categoryIds) {
         this.categoryIds = categoryIds;
     }
-
-    private ArrayList<Integer> categoryIds;
 
 	/**
 	 * Create a new task w/o an id. Tasks created without an id are assigned
@@ -47,6 +46,7 @@ public class Task {
 		this.urgent=false;
 		this.dueDate=null;
         this.status=Status.valueOf("NEW");
+        this.categoryIds=new ArrayList<Integer>();
 	}
 
     public void setId(int id) throws BusinessException{
@@ -143,5 +143,9 @@ public class Task {
     public String toJson(){
         Gson gson=new Gson();
         return gson.toJson(this);
+    }
+
+    public void addCategory(Category category){
+        categoryIds.add(category.getId());
     }
 }

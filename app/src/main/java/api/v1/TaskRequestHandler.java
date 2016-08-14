@@ -63,14 +63,13 @@ public class TaskRequestHandler extends BaseRequestHandler {
         task.setId(taskId);
         taskRepository.get(task);
     }
-
-
     /**
      * Verify that each taskId supplied can be modified by the TaskListId.
      * @param userId
      * @param taskIds
      */
-    protected void verifyTaskPrivileges(int userId, ArrayList<Integer> taskIds)  throws BusinessException, SystemException {
+    protected void verifyTaskPrivileges(int userId, ArrayList<Integer> taskIds)
+            throws BusinessException, SystemException {
         for(Integer i: taskIds){
             // First fetch the Task specified in the taskIds list.
             Task task=new Task();
@@ -89,6 +88,5 @@ public class TaskRequestHandler extends BaseRequestHandler {
                 throw new BusinessException("The user " + userId + " does not have permission to access this task. "
                         , Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
         }
-
     }
 }

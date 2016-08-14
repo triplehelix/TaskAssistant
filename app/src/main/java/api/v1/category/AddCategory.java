@@ -6,11 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
+import api.v1.model.Task;
+import api.v1.model.TaskList;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.error.Error;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import api.v1.model.Category;
 
 /**
@@ -49,9 +54,17 @@ public class AddCategory extends TaskRequestHandler {
 
             //TODO verify privileges.
             verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
-            //TODO Update Tasks.
+            //Place completed category in the repository.
+            categoryRepository.add(category);
 
-		categoryRepository.add(category);
+            //TODO Update Tasks.
+            for(int i: category.getTaskIds()) {
+                Task task=new Task();
+                task.setId(i);
+                task=taskRepository.get(task);
+                task.addCategory(category);
+            }
+
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an AddCategory  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
