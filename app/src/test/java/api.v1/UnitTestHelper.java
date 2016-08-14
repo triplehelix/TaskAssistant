@@ -125,7 +125,7 @@ public class UnitTestHelper {
      * String must be in the format: yyyy-MM-dd_HH:mm:ss
      *
      * @param stringDate
-     * @return
+     * @return Date
      */
     protected static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -142,7 +142,7 @@ public class UnitTestHelper {
     /**
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of Tasks.
      * @param bactickTasks
-     * @return
+     * @return  ArrayList<Task>
      * @throws Exception
      */
     protected static ArrayList<Task> toTasks(ArrayList<String> bactickTasks) throws Exception{
@@ -167,7 +167,7 @@ public class UnitTestHelper {
     /**
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of TaskLists.
      * @param backtickTaskLists
-     * @return
+     * @return  ArrayList<TaskList>
      * @throws Exception
      */
     protected static ArrayList<TaskList> toTaskLists(ArrayList<String> backtickTaskLists)throws Exception{
@@ -185,7 +185,7 @@ public class UnitTestHelper {
     /**
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of Reminders.
      * @param backtickReminders
-     * @return
+     * @return  ArrayList<Reminder>
      * @throws Exception
      */
     protected static ArrayList<Reminder> toReminders(ArrayList<String> backtickReminders) throws Exception {
@@ -203,7 +203,7 @@ public class UnitTestHelper {
     /**
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of Categories.
      * @param backtickCategories
-     * @return
+     * @return ArrayList<Category>
      * @throws Exception
      */
     protected static ArrayList<Category> toCategories(ArrayList<String> backtickCategories) throws Exception{
@@ -225,7 +225,7 @@ public class UnitTestHelper {
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of Users.
      *
      * @param backtickUsers
-     * @return
+     * @return ArrayList<User>
      * @throws Exception
      */
     protected static ArrayList<User> toUsers(ArrayList<String> backtickUsers) throws Exception{
@@ -265,7 +265,7 @@ public class UnitTestHelper {
     /**
      * Pass this method a json object to return a MockHttpServletRequest.
      * @param jsonObj
-     * @return
+     * @return MockHttpServletRequest
      */
     protected MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj){
         MockHttpServletRequest request = new MockHttpServletRequest();

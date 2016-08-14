@@ -4,6 +4,7 @@ import api.v1.error.BusinessException;
 import api.v1.error.Error;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -22,6 +23,8 @@ public class Task {
     private Date dueDate;
     private Status status;
     public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
+
+    private ArrayList<Integer> categories;
 
 	/**
 	 * Create a new task w/o an id. Tasks created without an id are assigned

@@ -13,7 +13,7 @@ public class TaskList {
 	private int id;
     private String name;
 	private String description;
-	
+	private ArrayList<Integer> tasks;
     /**
      * Create a new TaskList w/o a taskList id. TasksLists created without
      * an id are assigned an id of -1.

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.security.auth.Subject;
@@ -146,5 +147,20 @@ public class BaseRequestHandler extends HttpServlet{
             return false;
         else
             throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
+    }
+
+    /**
+     * Parse a JSON derived array and return an ArrayList of integers.
+     * @param s
+     * @return
+     */
+    protected static ArrayList<Integer> toIntegerArrayList(String s) {
+        ArrayList<Integer> myIntegers = new ArrayList<Integer>();
+        s=s.trim();
+        s=s.substring(1,s.length()-1);
+        String[] elements = s.split(",");
+        for(String i: elements)
+            myIntegers.add(Integer.parseInt(i));
+        return myIntegers;
     }
 }
