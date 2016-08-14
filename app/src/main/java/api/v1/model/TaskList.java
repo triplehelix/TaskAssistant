@@ -29,7 +29,6 @@ public class TaskList {
      * This method sets the name of a task list. Null and empty
      * strings throw an exception.
      *
-     * TODO should TaskLists with identical names be allowed?
      * @param name
      * @throws BusinessException
      */

@@ -79,11 +79,11 @@ public class ValidateUserTest extends AuthApiHelper {
 
         // Validate valid mock users.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(validUsers))
-            validRequestList.add(validateDoPostMockRequest(jsonObj));
+            validRequestList.add(createDoPostMockRequest(jsonObj));
 
         // Validate invalid mock users.
         for(JSONObject jsonObj: AuthApiHelper.toJSONObject(errorUsers))
-            errorRequestList.add(validateDoPostMockRequest(jsonObj));
+            errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
 
     /**
@@ -122,17 +122,5 @@ public class ValidateUserTest extends AuthApiHelper {
             validateUserInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
-    }
-
-    /**
-     * Pass this method a json object to return a MockHttpServletRequest.
-     * @param jsonObj
-     * @return
-     */
-    private MockHttpServletRequest validateDoPostMockRequest(JSONObject jsonObj){
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        LOGGER.info("Created request {}",jsonObj.toJSONString());
-        request.addParameter("params", jsonObj.toJSONString());
-        return request;
     }
 }

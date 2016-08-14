@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import static org.junit.Assert.fail;
 import java.io.UnsupportedEncodingException;
@@ -259,5 +260,17 @@ public class UnitTestHelper {
         for(String i: elements)
             myIntegers.add(Integer.parseInt(i));
         return myIntegers;
+    }
+
+    /**
+     * Pass this method a json object to return a MockHttpServletRequest.
+     * @param jsonObj
+     * @return
+     */
+    protected MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj){
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        LOGGER.info("Created request {}",jsonObj.toJSONString());
+        request.addParameter("params", jsonObj.toJSONString());
+        return request;
     }
 }

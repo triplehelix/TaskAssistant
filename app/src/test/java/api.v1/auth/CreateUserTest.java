@@ -106,16 +106,4 @@ public class CreateUserTest extends AuthApiHelper {
             validateDoPostErrorResponse(response);
         }
     }
-
-    /**
-     * Pass this method a json object to return a MockHttpServletRequest.
-     * @param jsonObj
-     * @return
-     */
-    private MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj){
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        LOGGER.info("Created request {}",jsonObj.toJSONString());
-        request.addParameter("params", jsonObj.toJSONString());
-        return request;
-    }
 }

@@ -152,17 +152,4 @@ public class UpdateTaskTest extends TaskApiHelper{
         errorUpdateTaskRequestList=null;
 
     }
-
-    /**
-     * This class creates a mock http servlet request from a string
-     * task object such as those found in TaskTest.errorTasks.
-     * @param jsonObj
-     * @return
-     */
-    private MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj) {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        LOGGER.info("Created request {}",jsonObj.toJSONString());
-        request.addParameter("params",   jsonObj.toJSONString());
-        return request;
-    }
 }
