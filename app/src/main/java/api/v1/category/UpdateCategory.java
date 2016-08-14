@@ -40,7 +40,7 @@ public class UpdateCategory extends TaskRequestHandler {
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
             // private int id
-            category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+			category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
 
             // private String name;
             category.setName((String)jsonRequest.get("name"));

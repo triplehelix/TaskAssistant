@@ -39,11 +39,17 @@ public class AddCategory extends TaskRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-            // private String name;
-            category.setName((String)jsonRequest.get("name"));
 
-            // private boolean important;
+            category.setName((String)jsonRequest.get("name"));
             category.setDescription((String)jsonRequest.get("description"));
+            category.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
+
+            //TODO Parse an ArrayList of taskIds to add to a category.
+            category.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
+
+            //TODO verify privileges.
+            verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
+            //TODO Update Tasks.
 
 		categoryRepository.add(category);
 		} catch (BusinessException b) {

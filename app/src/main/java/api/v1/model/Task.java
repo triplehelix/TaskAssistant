@@ -24,7 +24,15 @@ public class Task {
     private Status status;
     public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
 
-    private ArrayList<Integer> categories;
+    public ArrayList<Integer> getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(ArrayList<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    private ArrayList<Integer> categoryIds;
 
 	/**
 	 * Create a new task w/o an id. Tasks created without an id are assigned
