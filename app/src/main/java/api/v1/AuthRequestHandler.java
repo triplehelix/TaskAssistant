@@ -1,5 +1,7 @@
 package api.v1;
 import api.v1.error.BusinessException;
+import api.v1.error.SystemException;
+import api.v1.model.User;
 import api.v1.repo.UserRepository;
 import api.v1.error.Error;
 import javax.mail.internet.AddressException;
@@ -57,4 +59,20 @@ public class AuthRequestHandler extends BaseRequestHandler{
             throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
 		return password;
 	}
+
+    /**
+     * Use to validate the supplied password from a GetUser request.
+     * @param fromClient
+     * @param fromRepository
+     * @return
+     */
+    protected void validatePassword(User fromClient, User fromRepository) throws BusinessException, SystemException {
+        if(fromClient.getPassword().equals(fromRepository.getPassword()))
+            return;
+        else{
+            log.error(fromClient.toJson());
+            log.error(fromRepository.toJson());
+            throw new BusinessException("Incorrect password.", Error.valueOf("INCORRECT_PASSWORD_ERROR"));
+        }
+    }
 }

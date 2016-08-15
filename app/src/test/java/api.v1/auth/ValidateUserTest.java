@@ -69,8 +69,8 @@ public class ValidateUserTest extends AuthApiHelper {
 
 
         errorUsers=new ArrayList<String>();
-        errorUsers.add("0`mikehedden@gmail.com`wrong password");
-        errorUsers.add(   "1`kenlyon@gmail.com`wrong password");
+        errorUsers.add("0`mikehedden@gmail.com`Mouwkl87%qo");// wrong password
+        errorUsers.add(   "1`kenlyon@gmail.com`a681wo$dKo");
         errorUsers.add( "2`kenlyon@test.com`wrong_passwrd-VmQ");
         errorUsers.add(                     "3`mike`password1");
         errorUsers.add(                    "4`mike@test.com`a");

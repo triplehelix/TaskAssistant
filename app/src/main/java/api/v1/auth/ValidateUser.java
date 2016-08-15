@@ -52,8 +52,8 @@ public class ValidateUser extends AuthRequestHandler{
 			String password = parseJsonAsPassword((String)jsonRequest.get("password"));
 			clientUser.setEmail(email);
 			clientUser.setPassword(password);
-			
 			serverUser=userRepository.get(clientUser);
+			validatePassword(clientUser, serverUser);
 		}catch(BusinessException e){
 			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
 			log.error(e.getMessage());
