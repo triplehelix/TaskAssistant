@@ -14,17 +14,6 @@ import javax.mail.internet.InternetAddress;
  */
 public class AuthRequestHandler extends BaseRequestHandler{
 
-	/* Instantiate the user repository here. Only Auth classes need
-	 * to access to the userRepository.
-	 */
-	protected static UserRepository userRepository;
-	static{
-		userRepository=new UserRepository();
-	}
-
-	public UserRepository getUserRepository(){
-	    return userRepository;
-    }
 
 	/**
 	 * Validates that an email is well formed. Throws Exception 

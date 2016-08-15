@@ -11,9 +11,11 @@ import java.util.ArrayList;
  */
 public class TaskList {
 	private int id;
+    private int userId;
     private String name;
 	private String description;
-	private ArrayList<Integer> tasks;
+
+    private ArrayList<Integer> tasks;
     /**
      * Create a new TaskList w/o a taskList id. TasksLists created without
      * an id are assigned an id of -1.
@@ -55,6 +57,20 @@ public class TaskList {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+    public int getUserId() {
+        return userId;
+    }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public ArrayList<Integer> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Integer> tasks) {
+        this.tasks = tasks;
+    }
 
     /**
      * Create a serialized JSON String of this instance
@@ -65,5 +81,4 @@ public class TaskList {
         Gson gson=new Gson();
         return gson.toJson(this);
     }
-
 }

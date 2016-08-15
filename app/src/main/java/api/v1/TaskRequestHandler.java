@@ -82,7 +82,7 @@ public class TaskRequestHandler extends BaseRequestHandler {
             taskList=taskListRepository.get(taskList);
 
             //Finally, verify that ownership of the TaskList.
-            if(taskList.getId()==userId)
+            if(taskList.getUserId()==userId)
                 return;
             else
                 throw new BusinessException("The user " + userId + " does not have permission to access this task. "

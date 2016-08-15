@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
 import api.v1.error.SystemException;
+import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,7 +30,19 @@ import org.slf4j.Logger;
 public class BaseRequestHandler extends HttpServlet{
 
 	protected static final Logger log = LoggerFactory.getLogger(BaseRequestHandler.class);
+
     private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
+    /* Instantiate the user repository here. Only Auth classes need
+     * to access to the userRepository.
+     */
+    protected static UserRepository userRepository;
+    static{
+        userRepository=new UserRepository();
+    }
+
+    public UserRepository getUserRepository(){
+        return userRepository;
+    }
 
 	/**
 	 *
