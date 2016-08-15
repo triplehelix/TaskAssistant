@@ -28,10 +28,11 @@ public class CategoryApiHelper extends UnitTestHelper {
             String[] categoryElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("id", categoryElementArray[0]);
-            jsonObj.put("name", categoryElementArray[1]);
-            jsonObj.put("description", categoryElementArray[2]);
-            jsonObj.put("taskIds", categoryElementArray[2]);
-            LOGGER.info("Created request {}", jsonObj.toJSONString());
+            jsonObj.put("userId", categoryElementArray[0]);
+            jsonObj.put("name", categoryElementArray[2]);
+            jsonObj.put("description", categoryElementArray[3]);
+            jsonObj.put("taskIds", categoryElementArray[4]);
+            LOGGER.info("Created JSONObject {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
         return myJSONObjects;

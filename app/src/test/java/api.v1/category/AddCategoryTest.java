@@ -53,12 +53,12 @@ public class AddCategoryTest extends CategoryApiHelper {
 
         sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
         sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
-        for(User user: toUsers(sampleUsers))
+        for(User user: CategoryApiHelper.toUsers(sampleUsers))
             userRepository.add(user);
 
         sampleTaskLists.add("0`0`Mike's TaskList.`This is Mike's  TaskList.");
         sampleTaskLists.add("1`1`Ken's  TaskList.`This is Kenny's TaskList.");
-        for(TaskList taskList: toTaskLists(sampleTaskLists))
+        for(TaskList taskList: CategoryApiHelper.toTaskLists(sampleTaskLists))
             taskListRepository.add(taskList);
 
         sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
@@ -69,7 +69,7 @@ public class AddCategoryTest extends CategoryApiHelper {
         sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
         sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
         sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        for(Task task: toTasks(sampleTasks))
+        for(Task task: CategoryApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
         validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]");

@@ -4,6 +4,7 @@ import api.v1.error.Error;
 import api.v1.error.SystemException;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
+import api.v1.model.User;
 import api.v1.repo.CategoryRepository;
 import api.v1.repo.ReminderRepository;
 import api.v1.repo.TaskRepository;
@@ -85,7 +86,7 @@ public class TaskRequestHandler extends BaseRequestHandler {
             if(taskList.getUserId()==userId)
                 return;
             else
-                throw new BusinessException("The user " + userId + " does not have permission to access this task. "
+                throw new BusinessException("The user " + userId + " does not have permission to access this task. " + task.toJson()
                         , Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
         }
     }
