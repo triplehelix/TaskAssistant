@@ -1,9 +1,6 @@
 package api.v1.category;
 
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.TaskList;
-import api.v1.model.User;
+import api.v1.model.*;
 import api.v1.repo.CategoryRepository;
 import api.v1.repo.TaskListRepository;
 import api.v1.repo.TaskRepository;
@@ -77,10 +74,10 @@ public class AddCategoryTest extends CategoryApiHelper {
         validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]");
         validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]");
         validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]");
-        validCategories.add("5`1`Ken's play`This is for my recreational stuff Ken does.   `[6,7]");
+        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]");
 
         errorCategories.add("0`0`Mikes work`This category points to tasks that do not belong to Mike.`[4,5]");
-        errorCategories.add("1`0`Mikes home`This category has no name.`[2,3]");
+        errorCategories.add("1`0`          `This category has no name.`[2,3]");
         errorCategories.add("2`0`MH recreation`This Category points to tasks that do not exist.`[2000,-3]");
         errorCategories.add("2`0`MH recreation`This Category points to tasks that do not exist.`[-3,2000]");
 
@@ -131,12 +128,18 @@ public class AddCategoryTest extends CategoryApiHelper {
             addCategoryInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
+
         Category category=new Category();
         LOGGER.info("Verifying categories were placed in the repository...");
         for(int i=0;i<validRequestList.size();i++) {
             category.setId(i);
             LOGGER.info(categoryRepository.get(category).toJson());
         }
+
+        LOGGER.info("Verifying tasks have been updated...");
+        for(Task task: toTasks(sampleTasks))
+            LOGGER.info(taskRepository.get(task).toJson());
+
 
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();

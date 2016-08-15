@@ -46,7 +46,6 @@ public class Task {
 		this.urgent=false;
 		this.dueDate=null;
         this.status=Status.valueOf("NEW");
-        this.categoryIds=new ArrayList<Integer>();
 	}
 
     public void setId(int id) throws BusinessException{
@@ -146,6 +145,8 @@ public class Task {
     }
 
     public void addCategory(Category category){
+        if(null==categoryIds)
+            categoryIds=new ArrayList<Integer>();
         categoryIds.add(category.getId());
     }
 }

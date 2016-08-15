@@ -9,7 +9,6 @@ import api.v1.repo.CategoryRepository;
 import api.v1.repo.ReminderRepository;
 import api.v1.repo.TaskRepository;
 import api.v1.repo.TaskListRepository;
-
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,6 @@ import java.util.ArrayList;
  * task APIs. All task APIs inherit TaskRequestHandler. 
  */
 public class TaskRequestHandler extends BaseRequestHandler {
-
     protected static TaskRepository taskRepository;
     protected static TaskListRepository taskListRepository;
     protected static ReminderRepository reminderRepository;
@@ -82,12 +80,19 @@ public class TaskRequestHandler extends BaseRequestHandler {
             taskList.setId(task.getTaskListId());
             taskList=taskListRepository.get(taskList);
 
+            log.debug("TaskList owner id: " + taskList.getUserId());
+            log.debug("User id: " + userId);
             //Finally, verify that ownership of the TaskList.
             if(taskList.getUserId()==userId)
                 return;
-            else
-                throw new BusinessException("The user " + userId + " does not have permission to access this task. " + task.toJson()
-                        , Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
+            else{
+                User user = new User();
+                user.setId(userId);
+                user=userRepository.get(user);
+                String message= "The user {\"email\": " + user.getEmail() + ", \"id\":" + user.getId()
+                       + "} does not have permission to access the Task " + task.toJson() + "\n or the TaskList " + taskList.toJson() + ".";
+                throw new BusinessException(message, Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
+            }
         }
     }
 }

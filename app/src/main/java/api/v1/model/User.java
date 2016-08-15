@@ -27,7 +27,6 @@ public class User {
 	 */
 	public User(){
         this.id=-1;
-
 	}
 	public int getId() {return id;}
 	public void setId(int id){
@@ -108,5 +107,11 @@ public class User {
     public String toJson(){
         Gson gson=new Gson();
         return gson.toJson(this);
+    }
+
+    public void addCategory(Category category){
+        if(categoryIds==null)
+            categoryIds=new ArrayList<Integer>();
+        categoryIds.add(category.getId());
     }
 }

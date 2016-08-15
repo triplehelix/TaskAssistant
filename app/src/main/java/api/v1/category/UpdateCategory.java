@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
+import api.v1.model.Task;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -23,50 +24,60 @@ import api.v1.model.Category;
 @WebServlet("/api/v1/category/UpdateCategory")
 public class UpdateCategory extends TaskRequestHandler {
 
-	/**
-	 *
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
          */
-	public void doPost(HttpServletRequest request,
-				HttpServletResponse response)throws ServletException, IOException {
-		boolean error = false;
-		String errorMsg = "no error";
-		Category category = new Category();
-		int errorCode = 0;
-		JSONObject jsonRequest = new JSONObject();
-		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-            // private int id
-			category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+    public void doPost(HttpServletRequest request,
+                HttpServletResponse response)throws ServletException, IOException {
+        boolean error = false;
+        String errorMsg = "no error";
+        Category category = new Category();
+        int errorCode = 0;
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest = parseRequest(request.getParameter("params"));
+            //Create a Category object.
+            category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+            category.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
+            category.setName(((String)jsonRequest.get("name")).trim());
+            category.setDescription(((String)jsonRequest.get("description")).trim());
+            category.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
 
-            // private String name;
-            category.setName((String)jsonRequest.get("name"));
+            //Validate privleges.
+            verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
 
-            // private boolean important;
-            category.setDescription((String)jsonRequest.get("description"));
-
+            //Update the CategoryRepository:
             categoryRepository.update(category);
-		} catch (BusinessException b) {
-			log.error("An error occurred while handling an PutCategory  Request: {}.", jsonRequest.toJSONString(), b);
-			errorMsg = "Error. " + b.getMessage();
-			errorCode = b.getError().getCode();
-			error = true;
-		} catch (SystemException s) {
-			log.error("An error occurred while handling an PutCategory Request: {}.", jsonRequest.toJSONString(), s);
-			errorMsg = "Error. " + s.getMessage();
-			errorCode = s.getError().getCode();
-			error = true;
-		}
 
-		JSONObject jsonResponse = new JSONObject();
-		if (error) {
-			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		} else {
-			jsonResponse.put("success", true);
-		}
-		sendMessage(jsonResponse, response);
-	}
+            //Update Tasks.
+            for(int i: category.getTaskIds()) {
+                Task task=new Task();
+                task.setId(i);
+                task=taskRepository.get(task);
+                task.addCategory(category);
+            }
+        } catch (BusinessException b) {
+            log.error("An error occurred while handling an PutCategory  Request: {}.", jsonRequest.toJSONString(), b);
+            errorMsg = "Error. " + b.getMessage();
+            errorCode = b.getError().getCode();
+            error = true;
+        } catch (SystemException s) {
+            log.error("An error occurred while handling an PutCategory Request: {}.", jsonRequest.toJSONString(), s);
+            errorMsg = "Error. " + s.getMessage();
+            errorCode = s.getError().getCode();
+            error = true;
+        }
+
+        JSONObject jsonResponse = new JSONObject();
+        if (error) {
+            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+        } else {
+            jsonResponse.put("success", true);
+        }
+        sendMessage(jsonResponse, response);
+    }
 }

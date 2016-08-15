@@ -1,7 +1,13 @@
 package api.v1.category;
 
 import api.v1.model.Category;
+import api.v1.model.Task;
+import api.v1.model.TaskList;
+import api.v1.model.User;
 import api.v1.repo.CategoryRepository;
+import api.v1.repo.TaskListRepository;
+import api.v1.repo.TaskRepository;
+import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -20,11 +26,19 @@ public class UpdateCategoryTest extends CategoryApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(UpdateCategoryTest.class);
     private static UpdateCategory updateCategoryInstance;
     private static CategoryRepository categoryRepository;
+    private static TaskListRepository taskListRepository;
+    private static TaskRepository taskRepository;
+    private static UserRepository userRepository;
+
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-    private static ArrayList<String> validCategories;
-    private static ArrayList<String> validUpdates;
-    private static ArrayList<String> errorUpdates;
+    private static ArrayList<String> validCategories=new ArrayList<String>();
+    private static ArrayList<String> validUpdates=new ArrayList<String>();
+    private static ArrayList<String> errorUpdates=new ArrayList<String>();
+    private static ArrayList<String> sampleTasks=new ArrayList<String>();
+    private static ArrayList<String> sampleUsers=new ArrayList<String>();
+    private static ArrayList<String> sampleTaskLists=new ArrayList<String>();
+
     /**
      * First create a new Instance of UpdateCategory() object, then add new
      * category test cases to validRequestList and errorRequestList.
@@ -35,30 +49,49 @@ public class UpdateCategoryTest extends CategoryApiHelper {
     public void setUp() throws Exception {
         updateCategoryInstance = new UpdateCategory();
         categoryRepository=updateCategoryInstance.getCategoryRepository();
+        taskListRepository=updateCategoryInstance.getTaskListRepository();
+        taskRepository=updateCategoryInstance.getTaskRepository();
+        userRepository=updateCategoryInstance.getUserRepository();
 
-        validCategories=new ArrayList<String>();
-        validCategories.add("0`Physics`Homework, study groups, lab reports, etc, for physics II");
-        validCategories.add("1`chores`Any kind of household chores.");
-        validCategories.add("2`work`work related stuff only!");
-        validCategories.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
-        validCategories.add("4`Journal club`Tasks related to journal club");
-        validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
+        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
+        for(User user: CategoryApiHelper.toUsers(sampleUsers))
+            userRepository.add(user);
 
-        validUpdates=new ArrayList<String>();
-        validUpdates.add("0`Physics 181`Homework, study groups, lab reports, etc, for physics II");
-        validUpdates.add("1`chores`Any kind of household chores.");
-        validUpdates.add("2`work`work work work work work work");
-        validUpdates.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
-        validUpdates.add("4`Journal club`Bioinfromatics journal articles that I need to read.");
-        validUpdates.add("5`O-Chem`Homework, study groups, lab reports, etc, for organic chemistry.");
+        sampleTaskLists.add("0`0`Mike's TaskList.`This is Mike's  TaskList.");
+        sampleTaskLists.add("1`1`Ken's  TaskList.`This is Kenny's TaskList.");
+        for(TaskList taskList: CategoryApiHelper.toTaskLists(sampleTaskLists))
+            taskListRepository.add(taskList);
 
-        errorUpdates=new ArrayList<String>();
-        errorUpdates.add("99``Homework, study groups, lab reports, etc, for physics II");
-        errorUpdates.add("-1``Any kind of household chores.");
-        errorUpdates.add("-2``work related stuff only!");
-        errorUpdates.add("300``Anything related to money. Taxes, budgeting, student loans, etc.");
-        errorUpdates.add("10`Journal Club`Tasks related to journal club");
-        errorUpdates.add("-5`O-chem`Study groups, lab reports, etc, for organic chemistry.");
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        for(Task task: CategoryApiHelper.toTasks(sampleTasks))
+            taskRepository.add(task);
+
+        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]");
+        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]");
+        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]");
+        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]");
+        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]");
+        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]");
+
+        validUpdates.add("0`0`Mikes work`Work related tasks.`[0,1]");
+        validUpdates.add("1`0`Mikes home`Thinks like walking the dog, TaskAssistant, cheese patters etc. `[2,3]");
+        validUpdates.add("2`0`Mikes play`This is for all the video games and media Mike's into.`[2,3]");
+        validUpdates.add("3`1`Ken's work?`This is for all of the work Ken never does.`[4,5]");
+        validUpdates.add("4`1`ken's home`Cleaning, bills, side projects etc.`[6,7]");
+        validUpdates.add("5`1`Ken's play`Basketball, Gym time, bars, etc.`[6,7]");
+
+        errorUpdates.add("0`0`Mikes work`This category points to tasks that do not belong to Mike.`[4,5]");
+        errorUpdates.add("1`0`          `This category has no name.`[2,3]");
+        errorUpdates.add("2`0`MH recreation`This Category points to tasks that do not exist.`[2000,-3]");
+        errorUpdates.add("2`0`MH recreation`This Category points to tasks that do not exist.`[-3,2000]");
 
 
         // Populate the Category repository with valid Categories.

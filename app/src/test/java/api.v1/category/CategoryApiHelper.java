@@ -28,7 +28,7 @@ public class CategoryApiHelper extends UnitTestHelper {
             String[] categoryElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("id", categoryElementArray[0]);
-            jsonObj.put("userId", categoryElementArray[0]);
+            jsonObj.put("userId", categoryElementArray[1]);
             jsonObj.put("name", categoryElementArray[2]);
             jsonObj.put("description", categoryElementArray[3]);
             jsonObj.put("taskIds", categoryElementArray[4]);
