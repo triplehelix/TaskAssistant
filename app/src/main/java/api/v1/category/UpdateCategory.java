@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
 import api.v1.model.Task;
+import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -60,6 +61,13 @@ public class UpdateCategory extends TaskRequestHandler {
                 task=taskRepository.get(task);
                 task.addCategory(category);
             }
+
+            // Update User:
+             User user=new User();
+            user.setId(category.getUserId());
+            user=userRepository.get(user);
+            user.addCategory(category);
+
         } catch (BusinessException b) {
             log.error("An error occurred while handling an PutCategory  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();

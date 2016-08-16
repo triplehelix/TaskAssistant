@@ -136,10 +136,13 @@ public class AddCategoryTest extends CategoryApiHelper {
             LOGGER.info(categoryRepository.get(category).toJson());
         }
 
-        LOGGER.info("Verifying tasks have been updated...");
+        LOGGER.info("Verifying Tasks have been updated...");
         for(Task task: toTasks(sampleTasks))
             LOGGER.info(taskRepository.get(task).toJson());
 
+        LOGGER.info("Verifying Users have been updated...");
+        for(User user: toUsers(sampleUsers))
+            LOGGER.info(userRepository.get(user).toJson());
 
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();

@@ -1,7 +1,13 @@
 package api.v1.category;
 
 import api.v1.model.Category;
+import api.v1.model.Task;
+import api.v1.model.TaskList;
+import api.v1.model.User;
 import api.v1.repo.CategoryRepository;
+import api.v1.repo.TaskListRepository;
+import api.v1.repo.TaskRepository;
+import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -20,10 +26,18 @@ public class DeleteCategoryTest extends CategoryApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(DeleteCategoryTest.class);
     private static DeleteCategory deleteCategoryInstance;
     private static CategoryRepository categoryRepository;
+    private static TaskListRepository taskListRepository;
+    private static TaskRepository taskRepository;
+    private static UserRepository userRepository;
+
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-    private static ArrayList<String> validCategories;
-    private static ArrayList<String> errorCategories;
+    private static ArrayList<String> validCategories=new ArrayList<String>();
+    private static ArrayList<String> errorCategories=new ArrayList<String>();
+    private static ArrayList<String> sampleTasks=new ArrayList<String>();
+    private static ArrayList<String> sampleUsers=new ArrayList<String>();
+    private static ArrayList<String> sampleTaskLists=new ArrayList<String>();
+
 
     /**
      * First create a new Instance of DeleteCategory() object, then add new
@@ -35,28 +49,48 @@ public class DeleteCategoryTest extends CategoryApiHelper {
     public void setUp() throws Exception {
         deleteCategoryInstance = new DeleteCategory();
         categoryRepository=deleteCategoryInstance.getCategoryRepository();
+        taskListRepository=deleteCategoryInstance.getTaskListRepository();
+        taskRepository=deleteCategoryInstance.getTaskRepository();
+        userRepository=deleteCategoryInstance.getUserRepository();
 
-        validCategories=new ArrayList<String>();
-        validCategories.add("0`Physics`Homework, study groups, lab reports, etc, for physics II");
-        validCategories.add("1`chores`Any kind of household chores.");
-        validCategories.add("2`work`work related stuff only!");
-        validCategories.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
-        validCategories.add("4`Journal club`Tasks related to journal club");
-        validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[0,1,2]");
+        sampleUsers.add("1`kenlyon@gmail.com`Mou11wkl87%qo`[3,4,5]");
+        for(User user: CategoryApiHelper.toUsers(sampleUsers))
+            userRepository.add(user);
 
-        errorCategories=new ArrayList<String>();
-        errorCategories.add("99``Homework, study groups, lab reports, etc, for physics II");
-        errorCategories.add("-1``Any kind of household chores.");
-        errorCategories.add("-2``work related stuff only!");
-        errorCategories.add("300``Anything related to money. Taxes, budgeting, student loans, etc.");
-        errorCategories.add("10`Journal Club`Tasks related to journal club");
-        errorCategories.add("-5`O-chem`Study groups, lab reports, etc, for organic chemistry.");
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3] 
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3] 
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
+        for(Task task: CategoryApiHelper.toTasks(sampleTasks))
+            taskRepository.add(task);
 
-
-        // Populate the Category repository with valid Categories.
-        for(Category category: CategoryApiHelper.toCategories(validCategories))
+        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]");
+        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]");
+        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]");
+        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]");
+        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]");
+        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]");
+        for(Category category: toCategories(validCategories))
             categoryRepository.add(category);
 
+        errorCategories.add( "-1`0`Mikes play`This is for Mike's recreational stuff         `[]");
+        errorCategories.add(  "6`1`Ken's work`This is for all of the work Ken never does.   `[]");
+        errorCategories.add( "20`1`ken's home`This is for all of the chores Ken does.       `[]");
+
+        /* Do not challenge the DeleteCategory API with pointers to Tasks,
+         * Users, Schedules, that it does not have permission to edit. It
+         * will not look at them anyway since it retrieves these references
+         * from the repository.
+         *
+         * errorCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[0,1]");
+         * errorCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[-6,-1]");
+         * errorCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[1,0]");
+         */
         // Create valid mock categories.
         for(JSONObject jsonObj: CategoryApiHelper.toJSONObject(validCategories))
             validRequestList.add(createDoPostMockRequest(jsonObj));
@@ -64,7 +98,6 @@ public class DeleteCategoryTest extends CategoryApiHelper {
         // Create invalid mock categories.
         for(JSONObject jsonObj: CategoryApiHelper.toJSONObject(errorCategories))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
-
     }
 
     /**
@@ -73,6 +106,12 @@ public class DeleteCategoryTest extends CategoryApiHelper {
      */
     @After
     public void tearDown() throws Exception {
+        for(User user: CategoryApiHelper.toUsers(sampleUsers))
+            userRepository.delete(user);
+
+        for(Task task: CategoryApiHelper.toTasks(sampleTasks))
+            taskRepository.delete(task);
+
         deleteCategoryInstance = null;
         validRequestList = null;
     }
@@ -86,17 +125,23 @@ public class DeleteCategoryTest extends CategoryApiHelper {
      */
     @Test
     public void doPost() throws Exception {
+        for (MockHttpServletRequest request : errorRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            deleteCategoryInstance.doPost(request, response);
+            validateDoPostErrorResponse(response);
+        }
 
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteCategoryInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
+        LOGGER.info("Verify Users have been cleaned appropriately:");
+        for(User user: CategoryApiHelper.toUsers(sampleUsers))
+            LOGGER.info(userRepository.get(user).toJson());
 
-        for (MockHttpServletRequest request : errorRequestList) {
-            MockHttpServletResponse response = new MockHttpServletResponse();
-            deleteCategoryInstance.doPost(request, response);
-            validateDoPostErrorResponse(response);
-        }
+        LOGGER.info("Verify Tasks have been cleaned appropriately:");
+        for(Task task: CategoryApiHelper.toTasks(sampleTasks))
+            LOGGER.info(taskRepository.get(task).toJson());
     }
 }

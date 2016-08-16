@@ -4,6 +4,7 @@ import api.v1.UnitTestHelper;
 import api.v1.model.Category;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
+import api.v1.model.User;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,18 +66,22 @@ public class CategoryApiHelper extends UnitTestHelper {
     protected static ArrayList<Task> toTasks(ArrayList<String> bactickTasks) throws Exception{
         ArrayList <Task> myTasks = new ArrayList<Task>();
         for(String s: bactickTasks) {
-            String[] taskElementArray = s.split("`");
+            String[] elements = s.split("`");
             Task task = new Task();
-            task.setId(Integer.parseInt(taskElementArray[0]));
-            task.setTaskListId(Integer.parseInt(taskElementArray[1]));
-            task.setName(taskElementArray[2]);
-            task.setImportant(CategoryApiHelper.parseJsonBooleanAsBoolean(taskElementArray[3]));
-            task.setNote(taskElementArray[4]);
-            task.setEstimatedTime(Long.parseLong(taskElementArray[5]));
-            task.setInvestedTime(Long.parseLong(taskElementArray[6]));
-            task.setUrgent(CategoryApiHelper.parseJsonBooleanAsBoolean(taskElementArray[7]));
-            task.setDueDate(CategoryApiHelper.parseJsonDateAsDate(taskElementArray[8]));
-            task.setStatus(taskElementArray[9]);
+            task.setId(Integer.parseInt(elements[0]));
+            task.setTaskListId(Integer.parseInt(elements[1]));
+            task.setName(elements[2]);
+            task.setImportant(CategoryApiHelper.parseJsonBooleanAsBoolean(elements[3]));
+            task.setNote(elements[4]);
+            task.setEstimatedTime(Long.parseLong(elements[5]));
+            task.setInvestedTime(Long.parseLong(elements[6]));
+            task.setUrgent(CategoryApiHelper.parseJsonBooleanAsBoolean(elements[7]));
+            task.setDueDate(CategoryApiHelper.parseJsonDateAsDate(elements[8]));
+            task.setStatus(elements[9]);
+            if (elements.length > 10) {
+                task.setCategoryIds(toIntegerArrayList(elements[10]));
+            }
+
             myTasks.add(task);
         }
         return myTasks;
@@ -100,6 +105,28 @@ public class CategoryApiHelper extends UnitTestHelper {
             myCategories.add(category);
         }
         return myCategories;
+    }
+    /**
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of Users.
+     *
+     * @param backtickUsers
+     * @return ArrayList<User>
+     * @throws Exception
+     */
+    protected static ArrayList<User> toUsers(ArrayList<String> backtickUsers) throws Exception{
+        ArrayList<User> myUsers = new ArrayList<User>();
+        for(String s: backtickUsers) {
+            String[] elements = s.split("`");
+            User user = new User();
+            user.setId(Integer.parseInt(elements[0].trim()));
+            user.setEmail(elements[1].trim());
+            user.setPassword(elements[2].trim());
+            if (elements.length > 3) {
+                user.setCategoryIds(toIntegerArrayList(elements[3]));
+            }
+            myUsers.add(user);
+        }
+        return myUsers;
     }
 
 }

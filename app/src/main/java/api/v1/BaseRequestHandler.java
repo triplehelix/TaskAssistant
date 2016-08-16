@@ -52,7 +52,7 @@ public class BaseRequestHandler extends HttpServlet{
      */
     protected JSONObject parseRequest(String requestString)  throws BusinessException {
 	    JSONObject param = null;
-        log.debug("This is the JSON reqest: " + requestString);
+        log.info("This is the JSON reqest: " + requestString);
 	    try{
 	        JSONParser parser = new JSONParser();
 	        param =  (JSONObject) parser.parse(requestString);

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.TaskRequestHandler;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
+import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -49,21 +50,27 @@ public class AddCategory extends TaskRequestHandler {
             category.setDescription(((String)jsonRequest.get("description")).trim());
             category.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
 
-            //TODO Parse an ArrayList of taskIds to add to a category.
+            // Parse an ArrayList of taskIds to add to a category.
             category.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
 
-            //TODO verify privileges.
+            // Verify privileges.
             verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
             //Place completed category in the repository.
             categoryRepository.add(category);
 
-            //TODO Update Tasks.
+            // Update Tasks.
             for(int i: category.getTaskIds()) {
                 Task task=new Task();
                 task.setId(i);
                 task=taskRepository.get(task);
                 task.addCategory(category);
             }
+
+            // Update User:
+            User user=new User();
+            user.setId(category.getUserId());
+            user=userRepository.get(user);
+            user.addCategory(category);
 
         } catch (BusinessException b) {
             log.error("An error occurred while handling an AddCategory  Request: {}.", jsonRequest.toJSONString(), b);

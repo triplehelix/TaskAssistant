@@ -27,17 +27,27 @@ public enum Error{
     INVALID_ENUM_TYPE(1008),
     INCORRECT_PASSWORD_ERROR(1009),
     OBJECT_OWNERSHIP_ERROR(1010),
-    /** model errors */
+
+    /* model errors */
     INVALID_NAME_ERROR(1160),
     INVALID_ID_ERROR(1161),
     INVALID_TASK_STATUS_ERROR(1162),
 
-    /** Repo errors */
+    /* Repo errors */
     NO_SUCH_OBJECT_ERROR(1200),
 
     /*** System Errors ***/
-    CREATE_USER_SQL_ERROR(2001);
+    CREATE_USER_SQL_ERROR(2001),
+
+
+    /*** Critical Errors ***/
+    API_DELETE_OBJECT_FAILURE(3001);
+
+
     private int code;
+
+
+
 
     /**
      *
