@@ -22,6 +22,7 @@ public class TaskList {
      */
 	public TaskList(){
 		this.id=-1;
+        this.userId=-1;
 	}
     public String getName() {
         return name;
@@ -45,8 +46,6 @@ public class TaskList {
 	}
 
 	public void setId(int id) throws BusinessException{
-        if(id<0)
-            throw new BusinessException("Invalid id: " + id + ". A non-negative TaskList id is required", Error.valueOf("INVALID_ID_ERROR"));
 		this.id=id;
 	}
 

@@ -22,6 +22,7 @@ public class Reminder {
      */
     public Reminder(){
         this.id=-1;
+        this.taskId=-1;
     }
 
     public int getId() {
@@ -29,8 +30,6 @@ public class Reminder {
     }
 
     public void setId(int id) throws BusinessException{
-        if(id<0)
-            throw new BusinessException("Invalid id: " + id + ". A non-negative Task id is required", Error.valueOf("INVALID_ID_ERROR"));
         this.id=id;
     }
 
