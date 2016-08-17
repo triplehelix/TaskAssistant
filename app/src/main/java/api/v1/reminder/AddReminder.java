@@ -49,9 +49,13 @@ public class AddReminder extends TaskRequestHandler {
             Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminderTime"));
             Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("taskId"));
             reminder.setTaskId(taskId);
+            //Verify the existence of the tasks prior to updating anything.
             verifyTaskExists(reminder.getTaskId());
-            reminder.setReminderTime(reminderDate);
             reminderRepository.add(reminder);
+
+            addReminderToTask(reminder);
+            reminder.setReminderTime(reminderDate);
+
         } catch (BusinessException b) {
             log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();

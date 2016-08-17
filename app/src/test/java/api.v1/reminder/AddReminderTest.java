@@ -2,8 +2,10 @@ package api.v1.reminder;
 
 import api.v1.model.Reminder;
 import api.v1.model.Task;
+import api.v1.model.User;
 import api.v1.repo.ReminderRepository;
 import api.v1.repo.TaskRepository;
+import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -25,9 +27,9 @@ public class AddReminderTest extends ReminderApiHelper {
     private static TaskRepository taskRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-    private static ArrayList<String> validTasks;
-    private static ArrayList<String> validReminders;
-    private static ArrayList<String> errorReminders;
+    private static ArrayList<String> sampleTasks = new ArrayList<String>();
+    private static ArrayList<String> validReminders=new ArrayList<String>();
+    private static ArrayList<String> errorReminders=new ArrayList<String>();
     /**
      * First create a new Instance of AddReminder() object, then add new
      * reminder test cases to validRequestList and errorRequestList.
@@ -43,37 +45,31 @@ public class AddReminderTest extends ReminderApiHelper {
         reminderRepository=addReminderInstance.getReminderRepository();
         taskRepository=addReminderInstance.getTaskRepository();
 
-        validTasks = new ArrayList<String>();
-        validTasks.add("0`0`Feed dog`TRUE`Dog eats kibble.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
-        validTasks.add("1`0`Create AddTask unit test`TRUE`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
-        validTasks.add("2`0`Buy beer`TRUE`Pick up some IPAs on the way home from work. Edit: Bill said he would pick up beers instead.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
-        validTasks.add("3`0`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`3600000`0`FALSE`2016-06-12_08:00:00`DEFERRED");
-        validTasks.add("4`0`Shave`FALSE`GF said I need to shave.`180000`0`TRUE`2016-06-09_19:00:00`DONE");
-        validTasks.add("5`0`Robert'); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`TRUE`2016-06-09_19:00:00`NEW");
-        validTasks.add("6`0`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW");
-        validTasks.add("7`0`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
-        validTasks.add("8`0`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
+        //2. populate the TaskRepository with valid Tasks.
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [0,1]
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [2,3]
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [4]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [5]
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
+        for(Task task: ReminderApiHelper.toTasks(sampleTasks))
+            taskRepository.add(task);
 
-        validReminders=new ArrayList<String>();
-        validReminders.add("0`1`2020-05-28_08:31:01");
-        validReminders.add("1`1`2020-05-31_00:00:00");
-        validReminders.add("2`2`2016-06-09_18:30:00");
-        validReminders.add("3`2`2016-06-12_08:00:00");
-        validReminders.add("4`3`2016-06-09_19:00:00");
-        validReminders.add("5`4`2020-05-31_00:00:00");
+        validReminders.add("0`1`2020-05-28_08:31:01"); //
+        validReminders.add("1`1`2020-05-31_00:00:00"); //
+        validReminders.add("2`2`2016-06-09_18:30:00"); //
+        validReminders.add("3`2`2016-06-12_08:00:00"); //
+        validReminders.add("4`3`2016-06-09_19:00:00"); //
+        validReminders.add("5`4`2020-05-31_00:00:00"); //
 
-        errorReminders=new ArrayList<String>();
         errorReminders.add("2`2`yyyy-MM-dd_HH:mm:ss");
         errorReminders.add("3`2`2020-18-31_00:00:00");
         errorReminders.add("4`-3`2016-06-09_19:00:00");
         errorReminders.add("5`40`2020-05-31_00:00:00");
         errorReminders.add("0`1`0");
         errorReminders.add("1`1` ");
-
-
-        //2. populate the TaskRepository with valid Tasks.
-        for(Task task: ReminderApiHelper.toTasks(validTasks))
-                taskRepository.add(task);
 
         //3. Create valid mock reminders.
         for(JSONObject jsonObj: ReminderApiHelper.toJSONObject(validReminders))
@@ -93,12 +89,12 @@ public class AddReminderTest extends ReminderApiHelper {
     public void tearDown() throws Exception {
         for(Reminder reminder: ReminderApiHelper.toReminders(validReminders))
             reminderRepository.delete(reminder);
-        for(Task task: ReminderApiHelper.toTasks(validTasks))
+        for(Task task: ReminderApiHelper.toTasks(sampleTasks))
             taskRepository.delete(task);
-
         addReminderInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        sampleTasks=null;
     }
 
     /**
@@ -116,6 +112,11 @@ public class AddReminderTest extends ReminderApiHelper {
             validateDoPostValidResponse(response);
         }
 
+        for (MockHttpServletRequest request : errorRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            addReminderInstance.doPost(request, response);
+            validateDoPostErrorResponse(response);
+        }
         Reminder reminder=new Reminder();
         LOGGER.info("Verifying reminders were placed in the repository...");
         for(int i=0;i<validRequestList.size();i++) {
@@ -123,10 +124,10 @@ public class AddReminderTest extends ReminderApiHelper {
             LOGGER.info(reminderRepository.get(reminder).toJson());
         }
 
-        for (MockHttpServletRequest request : errorRequestList) {
-            MockHttpServletResponse response = new MockHttpServletResponse();
-            addReminderInstance.doPost(request, response);
-            validateDoPostErrorResponse(response);
+        LOGGER.info("Verifying Tasks were updated in the repository...");
+        for(Task task: toTasks(sampleTasks)){
+            LOGGER.info(taskRepository.get(task).toJson());
         }
+
     }
 }

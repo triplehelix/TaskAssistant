@@ -2,6 +2,7 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
+import api.v1.model.Reminder;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
 import api.v1.model.User;
@@ -94,5 +95,18 @@ public class TaskRequestHandler extends BaseRequestHandler {
                 throw new BusinessException(message, Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
             }
         }
+    }
+
+    /**
+     * Adds a new Reminder to a Task.
+     * @param reminder
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected void addReminderToTask(Reminder reminder) throws BusinessException, SystemException {
+        Task task=new Task();
+        task.setId(reminder.getTaskId());
+        task=taskRepository.get(task);
+        task.addReminder(reminder);
     }
 }
