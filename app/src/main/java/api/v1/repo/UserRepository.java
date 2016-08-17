@@ -32,7 +32,7 @@ public class UserRepository implements Repository<User>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(User u) throws BusinessException, SystemException{
+    public User add(User u) throws BusinessException, SystemException{
         LOGGER.debug("ADDING: " + u.toJson());
 	    // First, we make sure that the user DNE. Else throw BusinessException
         if(emailMap.containsKey(u.getEmail()))
@@ -43,6 +43,7 @@ public class UserRepository implements Repository<User>{
         u.setId(userId);
         userMap.put(userId, u);
         emailMap.put(u.getEmail(), u);
+        return u;
     }
 
     /**

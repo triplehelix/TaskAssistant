@@ -34,12 +34,13 @@ public class TaskRepository implements Repository<Task>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Task t) throws BusinessException, SystemException{
+    public Task add(Task t) throws BusinessException, SystemException{
         int taskId=0;
         while(taskMap.containsKey(taskId))
             taskId++;
         t.setId(taskId);
         taskMap.put(taskId, t);
+        return t;
     }
 
     /**

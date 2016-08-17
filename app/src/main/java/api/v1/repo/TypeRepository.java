@@ -32,12 +32,13 @@ public class TypeRepository implements Repository<Type>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Type foobar) throws BusinessException, SystemException{
+    public Type add(Type foobar) throws BusinessException, SystemException{
         int typeId=0;
         while(typeMap.containsKey(typeId))
             typeId++;
         foobar.setId(typeId);
         typeMap.put(typeId, foobar);
+        return foobar;
     }
 
     /**

@@ -32,12 +32,13 @@ public class ScheduleRepository implements Repository<Schedule>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Schedule s) throws BusinessException, SystemException{
+    public Schedule add(Schedule s) throws BusinessException, SystemException{
         int scheduleId=0;
         while(scheduleMap.containsKey(scheduleId))
             scheduleId++;
         s.setId(scheduleId);
         scheduleMap.put(scheduleId, s);
+        return s;
     }
 
     /**
