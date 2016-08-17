@@ -24,6 +24,7 @@ public class Task {
     private Status status;
     public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
     private ArrayList<Integer> categoryIds;
+    private ArrayList<Integer> reminderIds;
 
     public ArrayList<Integer> getCategoryIds() {
         return categoryIds;
@@ -40,11 +41,7 @@ public class Task {
 	public Task(){
         this.id=-1;
         this.taskListId=-1;
-		this.note="";
-		this.estimatedTime=0;
-		this.investedTime=0;
 		this.urgent=false;
-		this.dueDate=null;
         this.status=Status.valueOf("NEW");
 	}
 
@@ -149,4 +146,19 @@ public class Task {
             categoryIds=new ArrayList<Integer>();
         categoryIds.add(category.getId());
     }
+
+    public ArrayList<Integer> getReminderIds() {
+        return reminderIds;
+    }
+
+    public void setReminderIds(ArrayList<Integer> reminderIds) {
+        this.reminderIds = reminderIds;
+    }
+
+    public void addReminder(Reminder reminder){
+        if(reminderIds==null)
+            reminderIds=new ArrayList<Integer>();
+        reminderIds.add(reminder.getId());
+    }
+
 }
