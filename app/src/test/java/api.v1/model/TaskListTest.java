@@ -36,7 +36,6 @@ public class TaskListTest {
         validTaskListUpdates.add("1`TaskList 1 created from ValidTaskUpdates`This is another valid update. ");
 
         errorTaskListUpdates=new ArrayList<String>();
-        errorTaskListUpdates.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
         errorTaskListUpdates.add("10` `This is an invalid TaskList because it has an invalid name.");
     }
 

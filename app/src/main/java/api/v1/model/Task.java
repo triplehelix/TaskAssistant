@@ -46,8 +46,6 @@ public class Task {
 	}
 
     public void setId(int id) throws BusinessException{
-        if(id<0)
-            throw new BusinessException("Invalid id: " + id + ". A non-negative Task id is required", Error.valueOf("INVALID_ID_ERROR"));
         this.id=id;
     }
 
