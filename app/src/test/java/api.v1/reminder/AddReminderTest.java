@@ -57,19 +57,19 @@ public class AddReminderTest extends ReminderApiHelper {
         for(Task task: ReminderApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
-        validReminders.add("0`1`2020-05-28_08:31:01"); //
-        validReminders.add("1`1`2020-05-31_00:00:00"); //
-        validReminders.add("2`2`2016-06-09_18:30:00"); //
-        validReminders.add("3`2`2016-06-12_08:00:00"); //
-        validReminders.add("4`3`2016-06-09_19:00:00"); //
-        validReminders.add("5`4`2020-05-31_00:00:00"); //
+        validReminders.add("-1`1`2020-05-28_08:31:01"); //
+        validReminders.add("-1`1`2020-05-31_00:00:00"); //
+        validReminders.add("-1`2`2016-06-09_18:30:00"); //
+        validReminders.add("-1`2`2016-06-12_08:00:00"); //
+        validReminders.add("-1`3`2016-06-09_19:00:00"); //
+        validReminders.add("-1`4`2020-05-31_00:00:00"); //
 
+        errorReminders.add("0`1`0");
+        errorReminders.add("1`1` ");
         errorReminders.add("2`2`yyyy-MM-dd_HH:mm:ss");
         errorReminders.add("3`2`2020-18-31_00:00:00");
         errorReminders.add("4`-3`2016-06-09_19:00:00");
         errorReminders.add("5`40`2020-05-31_00:00:00");
-        errorReminders.add("0`1`0");
-        errorReminders.add("1`1` ");
 
         //3. Create valid mock reminders.
         for(JSONObject jsonObj: ReminderApiHelper.toJSONObject(validReminders))

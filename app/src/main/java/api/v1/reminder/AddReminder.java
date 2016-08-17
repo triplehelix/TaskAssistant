@@ -51,11 +51,9 @@ public class AddReminder extends TaskRequestHandler {
             reminder.setTaskId(taskId);
             //Verify the existence of the tasks prior to updating anything.
             verifyTaskExists(reminder.getTaskId());
-            reminderRepository.add(reminder);
-
+            reminder=reminderRepository.add(reminder);
             addReminderToTask(reminder);
             reminder.setReminderTime(reminderDate);
-
         } catch (BusinessException b) {
             log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
