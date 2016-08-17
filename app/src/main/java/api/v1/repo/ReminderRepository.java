@@ -32,12 +32,13 @@ public class ReminderRepository implements Repository<Reminder>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Reminder r) throws BusinessException, SystemException{
+    public Reminder add(Reminder r) throws BusinessException, SystemException{
         int reminderId=0;
         while(reminderMap.containsKey(reminderId))
             reminderId++;
         r.setId(reminderId);
         reminderMap.put(reminderId, r);
+        return r;
     }
 
     /**

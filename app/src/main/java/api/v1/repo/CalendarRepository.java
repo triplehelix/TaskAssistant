@@ -32,12 +32,13 @@ public class CalendarRepository implements Repository<Calendar>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Calendar c) throws BusinessException, SystemException{
+    public Calendar add(Calendar c) throws BusinessException, SystemException{
         int calendarId=0;
         while(calendarMap.containsKey(calendarId))
             calendarId++;
         c.setId(calendarId);
         calendarMap.put(calendarId, c);
+        return c;
     }
 
     /**

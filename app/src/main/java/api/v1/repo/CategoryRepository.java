@@ -32,12 +32,13 @@ public class CategoryRepository implements Repository<Category>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Category c) throws BusinessException, SystemException{
+    public Category add(Category c) throws BusinessException, SystemException{
         int categoryId=0;
         while(categoryMap.containsKey(categoryId))
             categoryId++;
         c.setId(categoryId);
         categoryMap.put(categoryId, c);
+        return c;
     }
 
     /**
