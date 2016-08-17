@@ -37,20 +37,16 @@ public class GetCategoryTest extends CategoryApiHelper {
 
 
         validCategories=new ArrayList<String>();
-        validCategories.add("0`Physics`Homework, study groups, lab reports, etc, for physics II");
-        validCategories.add("1`chores`Any kind of household chores.");
-        validCategories.add("2`work`work related stuff only!");
-        validCategories.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
-        validCategories.add("4`Journal club`Tasks related to journal club");
-        validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
+        validCategories.add("0`0`Physics`Homework, study groups, lab reports, etc, for physics II`[]");
+        validCategories.add("1`0`chores`Any kind of household chores.`[]");
+        validCategories.add("2`0`work`work related stuff only!`[]");
+        validCategories.add("3`0`money`Anything related to money. Taxes, budgeting, student loans, etc.`[]");
+        validCategories.add("4`0`Journal club`Tasks related to journal club`[]");
+        validCategories.add("5`0`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.`[]");
 
         errorCategories=new ArrayList<String>();
-        errorCategories.add("99``Homework, study groups, lab reports, etc, for physics II");
-        errorCategories.add("-1``Any kind of household chores.");
-        errorCategories.add("-2``work related stuff only!");
-        errorCategories.add("300``Anything related to money. Taxes, budgeting, student loans, etc.");
-        errorCategories.add("10`Journal Club`Tasks related to journal club");
-        errorCategories.add("-5`O-chem`Study groups, lab reports, etc, for organic chemistry.");
+        errorCategories.add("06`0`Mikes work`This is for all of the work Mike does         `[0,1]");
+        errorCategories.add("-1`0`Mikes home`This is for all of the chores Mike never does `[2,3]");
 
         // Populate the Category repository with valid Categories.
         for(Category category: CategoryApiHelper.toCategories(validCategories))
