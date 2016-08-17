@@ -47,7 +47,8 @@ public class UpdateCategory extends TaskRequestHandler {
             category.setName(((String)jsonRequest.get("name")).trim());
             category.setDescription(((String)jsonRequest.get("description")).trim());
             category.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
-
+            //TODO UPDATES MUST CLEAN CATEGORIES PRIOR TO MAKING ADDITIONAL CHANGES
+            //TODO BETTER YET, VERIFY THE NEW STATE BEFORE CLEANING
             //Validate privleges.
             verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
 
