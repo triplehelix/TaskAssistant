@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
+import api.v1.error.CriticalException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
 import api.v1.model.Task;
@@ -60,9 +61,15 @@ public class DeleteCategory extends TaskRequestHandler {
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
-		}
+		} catch (CriticalException c) {
+            log.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
+            error = true;
+        }
 
-		JSONObject jsonResponse = new JSONObject();
+
+        JSONObject jsonResponse = new JSONObject();
 		if (error) {
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
 		} else {
@@ -79,7 +86,7 @@ public class DeleteCategory extends TaskRequestHandler {
      * @throws BusinessException
      * @throws SystemException
      */
-	private void removeReferences(Category category) throws BusinessException, SystemException{
+	private void removeReferences(Category category) throws BusinessException, SystemException, CriticalException{
         User user=new User();
         user.setId(category.getUserId());
         user=userRepository.get(user);
@@ -94,7 +101,7 @@ public class DeleteCategory extends TaskRequestHandler {
             user.getCategoryIds().remove((Object)category.getId());
         }
         else
-            throw new BusinessException("Critical error! Cannot clean this Category. User {email="
+            throw new CriticalException("Critical error! Cannot clean this Category. User {email="
                     + user.getEmail() + ", id=" + user.getId()
                     + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
 
@@ -105,7 +112,7 @@ public class DeleteCategory extends TaskRequestHandler {
             task.setId(taskId);
             task = taskRepository.get(task);
             if (!task.getCategoryIds().contains(category.getId()))
-                throw new BusinessException("Critical error! Cannot clean this Category. Task {name="
+                throw new CriticalException("Critical error! Cannot clean this Category. Task {name="
                         + task.getName() + ", id=" + task.getId()
                         + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
         }
