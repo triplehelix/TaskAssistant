@@ -30,6 +30,7 @@ public class AddReminderTest extends ReminderApiHelper {
     private static ArrayList<String> sampleTasks = new ArrayList<String>();
     private static ArrayList<String> validReminders=new ArrayList<String>();
     private static ArrayList<String> errorReminders=new ArrayList<String>();
+
     /**
      * First create a new Instance of AddReminder() object, then add new
      * reminder test cases to validRequestList and errorRequestList.
@@ -87,8 +88,11 @@ public class AddReminderTest extends ReminderApiHelper {
      */
     @After
     public void tearDown() throws Exception {
-        for(Reminder reminder: ReminderApiHelper.toReminders(validReminders))
+        Reminder reminder=new Reminder();
+        for(int i=0;i<validRequestList.size();i++) {
+            reminder.setId(i);
             reminderRepository.delete(reminder);
+        }
         for(Task task: ReminderApiHelper.toTasks(sampleTasks))
             taskRepository.delete(task);
         addReminderInstance = null;
