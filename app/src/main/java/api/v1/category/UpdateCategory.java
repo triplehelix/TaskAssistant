@@ -68,7 +68,7 @@ public class UpdateCategory extends TaskRequestHandler {
             user.setId(category.getUserId());
             user=userRepository.get(user);
             user.addCategory(category);
-
+            throw new IOException("This API's unit test needs to be updated.");
         } catch (BusinessException b) {
             log.error("An error occurred while handling an PutCategory  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
