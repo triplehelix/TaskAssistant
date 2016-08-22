@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
+import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
@@ -43,8 +44,9 @@ public class DeleteReminder extends TaskRequestHandler {
             int reminderId=parseJsonIntAsInt((String)jsonRequest.get("id"));
             Reminder reminder=new Reminder();
             reminder.setId(reminderId);
+            reminder=reminderRepository.get(reminder);
+            removeReferences(reminder);
             reminderRepository.delete(reminder);
-
         } catch (BusinessException b) {
             log.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
@@ -54,6 +56,11 @@ public class DeleteReminder extends TaskRequestHandler {
             log.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
+            error = true;
+        } catch (CriticalException c) {
+            log.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
             error = true;
         }
 

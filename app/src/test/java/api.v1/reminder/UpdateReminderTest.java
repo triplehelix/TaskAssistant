@@ -86,7 +86,6 @@ public class UpdateReminderTest extends ReminderApiHelper {
         validUpdates.add("5`7`2020-05-31_00:00:00");
         for(JSONObject jsonObj: ReminderApiHelper.toJSONObject(validUpdates))
             validRequestList.add(createDoPostMockRequest(jsonObj));
-
     }
 
     /**

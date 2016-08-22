@@ -88,26 +88,4 @@ public class UpdateReminder extends TaskRequestHandler {
         }
         sendMessage(jsonResponse, response);
     }
-
-    private void removeReferences(Reminder reminder) throws BusinessException, SystemException, CriticalException{
-        log.debug("So we have made it to 'removeReferences' and here is the reminder id and it's task id respectfully: " + reminder.getId() + ", " + reminder.getTaskId() + ".");
-
-        Task task=new Task();
-        task.setId(reminder.getTaskId());
-        task=taskRepository.get(task);
-        log.debug("And just so we are clear, this is the Reminder as a JSON: " + reminder.toJson());
-        log.debug("And here is the Task as a JSON: " + task.toJson());
-        log.debug("When we fetch the task, we find it's id and reminder id(s) are: " + task.getId() + ", " + new Gson().toJson(task.getReminderIds()) + ".");
-        log.debug("So, now we ask the question: does the Reminder array belonging to the task " + task.getId() + " Contain the Reminder id " + reminder.getId() + "?");
-        if(task.getReminderIds().contains(reminder.getId())){
-            log.debug("Yes. The answer is yes.");
-            task.getReminderIds().remove((Object)reminder.getId());
-        }
-        else {
-            log.debug("Nope. I guess not.");
-            throw new CriticalException("Critical error! Cannot clean this Category. Task {name="
-                    + task.getName() + ", id=" + task.getId()
-                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-        }
-    }
 }

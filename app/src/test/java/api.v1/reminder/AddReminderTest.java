@@ -132,6 +132,5 @@ public class AddReminderTest extends ReminderApiHelper {
         for(Task task: toTasks(sampleTasks)){
             LOGGER.info(taskRepository.get(task).toJson());
         }
-
     }
 }
