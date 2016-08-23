@@ -1,4 +1,5 @@
 package api.v1;
+import api.v1.model.Schedule;
 import api.v1.repo.ScheduleRepository;
 
 /**
@@ -8,9 +9,4 @@ import api.v1.repo.ScheduleRepository;
  */
 public class ScheduleRequestHandler extends TaskRequestHandler {
 
-    protected static ScheduleRepository scheduleRepository;
-
-    static {
-        scheduleRepository = new ScheduleRepository();
-    }
 }

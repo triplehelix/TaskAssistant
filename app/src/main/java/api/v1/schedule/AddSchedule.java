@@ -22,47 +22,47 @@ import api.v1.model.Schedule;
 @WebServlet("/api/v1/schedule/AddSchedule")
 public class AddSchedule extends ScheduleRequestHandler {
 
-	/**
-	 *
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
      */
-	public void doPost(HttpServletRequest request, 
-				HttpServletResponse response)throws ServletException, IOException {
-		boolean error = false;
-		String errorMsg = "no error";
-		Schedule schedule = new Schedule();
-		int errorCode = 0;
-		JSONObject jsonRequest = new JSONObject();
-		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
+    public void doPost(HttpServletRequest request, 
+                HttpServletResponse response)throws ServletException, IOException {
+        boolean error = false;
+        String errorMsg = "no error";
+        Schedule schedule = new Schedule();
+        int errorCode = 0;
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest = parseRequest(request.getParameter("params"));
          /**
           * TODO: populate schedule object.
           * Ensure that all of the methods needed to parse for this schedule's
           * fields are present in the super class of this requestHandler.
           */
 
-		scheduleRepository.add(schedule);
-		} catch (BusinessException b) {
-			log.error("An error occurred while handling an AddSchedule  Request: {}.", jsonRequest.toJSONString(), b);
-			errorMsg = "Error. " + b.getMessage();
-			errorCode = b.getError().getCode();
-			error = true;
-		} catch (SystemException s) {
-			log.error("An error occurred while handling an AddSchedule Request: {}.", jsonRequest.toJSONString(), s);
-			errorMsg = "Error. " + s.getMessage();
-			errorCode = s.getError().getCode();
-			error = true;
-		}
+        scheduleRepository.add(schedule);
+        } catch (BusinessException b) {
+            log.error("An error occurred while handling an AddSchedule  Request: {}.", jsonRequest.toJSONString(), b);
+            errorMsg = "Error. " + b.getMessage();
+            errorCode = b.getError().getCode();
+            error = true;
+        } catch (SystemException s) {
+            log.error("An error occurred while handling an AddSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            errorMsg = "Error. " + s.getMessage();
+            errorCode = s.getError().getCode();
+            error = true;
+        }
 
-		JSONObject jsonResponse = new JSONObject();
-		if (error) {
-			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		} else {
-			jsonResponse.put("success", true);
-		}
-		sendMessage(jsonResponse, response);
-	}
+        JSONObject jsonResponse = new JSONObject();
+        if (error) {
+            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+        } else {
+            jsonResponse.put("success", true);
+        }
+        sendMessage(jsonResponse, response);
+    }
 }
