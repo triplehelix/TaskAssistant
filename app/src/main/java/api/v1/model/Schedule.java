@@ -4,14 +4,18 @@ import api.v1.error.BusinessException;
 import api.v1.error.Error;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Schedule {
     private int id;
+    private int user;
     private Date startDate;
     private Date endDate;
     public static enum RepeatTypes {NONE, DAILY, WEEKLY, MONTHLY, YEARLY};
-    private RepeatTypes repeatType;    
+    private RepeatTypes repeatType;
+    ArrayList<Integer> taskIds;
+    ArrayList<Integer> categoryIds;
     
     /**
      * Create a new schedule w/o an id. Schedules without an id are
@@ -19,6 +23,7 @@ public class Schedule {
      */
     public Schedule(){
         this.id=-1;
+        this.user=-1;
     }
     
     public int getId() {
@@ -49,14 +54,36 @@ public class Schedule {
         return repeatType;
     }
 
-    public void setRepeatType(String repeatType) throws BusinessException{
-        try {
-            this.repeatType = RepeatTypes.valueOf(repeatType);
-        }
-        catch(java.lang.IllegalArgumentException e){
-            throw new BusinessException(repeatType +" is not a valid schedule repeat type.", Error.valueOf("INVALID_TASK_STATUS_ERROR"));
-        }
+    public int getUser() {
+        return user;
     }
+
+    public void setUser(int user) {
+        this.user = user;
+    }
+
+    public void setRepeatType(RepeatTypes repeatType) {
+        this.repeatType = repeatType;
+    }
+
+    public ArrayList<Integer> getTaskIds() {
+
+        return taskIds;
+    }
+
+    public void setTaskIds(ArrayList<Integer> taskIds) {
+        this.taskIds = taskIds;
+    }
+
+    public ArrayList<Integer> getCategoryIds() {
+
+        return categoryIds;
+    }
+
+    public void setCategoryIds(ArrayList<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
     /**
      * Create a serialized JSON String of this instance
      * using GSON.
