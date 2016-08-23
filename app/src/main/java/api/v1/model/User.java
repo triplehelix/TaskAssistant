@@ -47,19 +47,10 @@ public class User {
 	}
 
     /**
-     * TODO revisit authentication & security.
-     * Currently, setPassword just duplicates the code used in AuthRequestHandler to
-     * validate the password. It is reused here for unit testing purposes.
-     *
      * @param password
      * @throws BusinessException
      */
-	public void setPassword(String password) throws BusinessException {
-        if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$")) {
-            log.error("Supplied password: {} is not valid.", password);
-            throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
-        }
-        else
+	public void setPassword(String password) {
             this.password=password;
 	}
 
