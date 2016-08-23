@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class Schedule {
     private int id;
-    private int user;
+    private int userId;
     private Date startDate;
     private Date endDate;
     public static enum RepeatTypes {NONE, DAILY, WEEKLY, MONTHLY, YEARLY};
@@ -23,7 +23,7 @@ public class Schedule {
      */
     public Schedule(){
         this.id=-1;
-        this.user=-1;
+        this.userId=-1;
     }
     
     public int getId() {
@@ -54,12 +54,12 @@ public class Schedule {
         return repeatType;
     }
 
-    public int getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setRepeatType(RepeatTypes repeatType) {

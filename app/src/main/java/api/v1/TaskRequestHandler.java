@@ -4,10 +4,7 @@ import api.v1.error.CriticalException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
 import api.v1.model.*;
-import api.v1.repo.CategoryRepository;
-import api.v1.repo.ReminderRepository;
-import api.v1.repo.TaskRepository;
-import api.v1.repo.TaskListRepository;
+import api.v1.repo.*;
 
 import java.util.ArrayList;
 
@@ -20,12 +17,14 @@ public class TaskRequestHandler extends BaseRequestHandler {
     protected static TaskListRepository taskListRepository;
     protected static ReminderRepository reminderRepository;
     protected static CategoryRepository categoryRepository;
+    protected static ScheduleRepository scheduleRepository;
 
     static {
         taskRepository = new TaskRepository();
         taskListRepository = new TaskListRepository();
         reminderRepository = new ReminderRepository();
         categoryRepository = new CategoryRepository();
+        scheduleRepository = new ScheduleRepository();
     }
 
     public static TaskRepository getTaskRepository(){
@@ -40,6 +39,7 @@ public class TaskRequestHandler extends BaseRequestHandler {
     public static CategoryRepository getCategoryRepository(){
         return categoryRepository;
     }
+    public static ScheduleRepository getScheduleRepository() { return scheduleRepository; }
 
     /**
      * Verify that a specified TaskList actually exists. This
