@@ -20,6 +20,7 @@ public class Category {
 	 */
 	public Category(){
 		this.id=-1;
+        this.userId=-1;
         this.description=null;
         this.name=null;
     }
