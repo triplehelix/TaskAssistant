@@ -79,7 +79,7 @@ public class ScheduleTest {
         schedule.setId(Integer.parseInt(scheduleElementArray[0]));
         schedule.setStartDate(parseJsonDateAsDate(scheduleElementArray[1]));
         schedule.setEndDate(parseJsonDateAsDate(scheduleElementArray[2]));
-        schedule.setRepeatType(scheduleElementArray[3]);
+        schedule.setRepeatType(Schedule.RepeatTypes.valueOf(scheduleElementArray[3]));
         return schedule;
     }
 
