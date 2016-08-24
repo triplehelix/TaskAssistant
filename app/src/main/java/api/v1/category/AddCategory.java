@@ -5,17 +5,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.CategoryRequestHandler;
 import api.v1.model.Task;
-import api.v1.model.TaskList;
 import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.error.Error;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import api.v1.model.Category;
 
@@ -27,7 +24,7 @@ import api.v1.model.Category;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/category/AddCategory")
-public class AddCategory extends TaskRequestHandler {
+public class AddCategory extends CategoryRequestHandler {
 
     /**
      *

@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.CategoryRequestHandler;
 import api.v1.model.Task;
 import api.v1.model.User;
 import org.json.simple.JSONObject;
@@ -23,7 +23,7 @@ import api.v1.model.Category;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/category/UpdateCategory")
-public class UpdateCategory extends TaskRequestHandler {
+public class UpdateCategory extends CategoryRequestHandler {
 
     /**
      *
