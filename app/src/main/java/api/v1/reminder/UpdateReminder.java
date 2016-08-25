@@ -39,7 +39,7 @@ public class UpdateReminder extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         Reminder clientReminder = new Reminder();
-        Reminder serverReminder = new Reminder();
+        Reminder serverReminder;
         int errorCode = 0;
         JSONObject jsonRequest = new JSONObject();
         try {
