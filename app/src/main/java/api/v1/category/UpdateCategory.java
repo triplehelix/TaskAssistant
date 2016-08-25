@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.CategoryRequestHandler;
+import api.v1.error.CriticalException;
 import api.v1.model.Task;
 import api.v1.model.User;
 import org.json.simple.JSONObject;
@@ -36,39 +37,40 @@ public class UpdateCategory extends CategoryRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        Category category = new Category();
+        Category clientCategory = new Category();
+        Category serverCategory;
         int errorCode = 0;
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
             //Create a Category object.
-            category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-            category.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
-            category.setName(((String)jsonRequest.get("name")).trim());
-            category.setDescription(((String)jsonRequest.get("description")).trim());
-            category.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
-            //TODO UPDATES MUST CLEAN CATEGORIES PRIOR TO MAKING ADDITIONAL CHANGES
-            //TODO BETTER YET, VERIFY THE NEW STATE BEFORE CLEANING
+            clientCategory.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+            clientCategory.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
+            clientCategory.setName(((String)jsonRequest.get("name")).trim());
+            clientCategory.setDescription(((String)jsonRequest.get("description")).trim());
+            clientCategory.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
+
             //Validate privleges.
-            verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
+            verifyTaskPrivileges(clientCategory.getUserId(), clientCategory.getTaskIds());
+            serverCategory=categoryRepository.get(clientCategory);
+            removeReferences(serverCategory);
 
             //Update the CategoryRepository:
-            categoryRepository.update(category);
+            categoryRepository.update(clientCategory);
 
             //Update Tasks.
-            for(int i: category.getTaskIds()) {
+            for(int i: clientCategory.getTaskIds()) {
                 Task task=new Task();
                 task.setId(i);
                 task=taskRepository.get(task);
-                task.addCategory(category);
+                task.addCategory(clientCategory);
             }
 
             // Update User:
              User user=new User();
-            user.setId(category.getUserId());
+            user.setId(clientCategory.getUserId());
             user=userRepository.get(user);
-            user.addCategory(category);
-            throw new IOException("This API's unit test needs to be updated.");
+            user.addCategory(clientCategory);
         } catch (BusinessException b) {
             log.error("An error occurred while handling an PutCategory  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
@@ -78,6 +80,11 @@ public class UpdateCategory extends CategoryRequestHandler {
             log.error("An error occurred while handling an PutCategory Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
+            error = true;
+        } catch (CriticalException c) {
+            log.error("An error occurred while handling an PutCategory Request: {}.", jsonRequest.toJSONString(), c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
             error = true;
         }
 
