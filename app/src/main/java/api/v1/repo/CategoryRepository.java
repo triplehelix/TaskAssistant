@@ -38,7 +38,7 @@ public class CategoryRepository implements Repository<Category>{
             categoryId++;
         c.setId(categoryId);
         categoryMap.put(categoryId, c);
-        return c;
+        return new Category(c);
     }
 
     /**
@@ -50,7 +50,7 @@ public class CategoryRepository implements Repository<Category>{
      */
 	public Category get(Category c)throws BusinessException, SystemException{
         if(categoryMap.containsKey(c.getId()))
-            return categoryMap.get(c.getId());
+            return new Category(categoryMap.get(c.getId()));
         else
             throw new BusinessException(" Category not found. ID=" + c.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
