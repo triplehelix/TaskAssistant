@@ -5,16 +5,16 @@ all of the APIs.
 
 2. Handling Update calls to the API:
 
-*** (Option 1) Updates to any object must:
+*** Option 1. Updates to any object must:
  1. Verify that the new state is valid. 
     a. Verify objects being referenced exist.
     b. Verify privleges when necessary.
  2. Make changes to the existing state.
 
 
-*** (Option 2) Updates to any object must:
- 1. Start with a deep copy of each object in question.
- 2. Verify that the new state is valid by creating this new state.
- 3. Commit changes to the new state.
-
- 
+*** Option 2. Updates to any object must:
+ 1. Start with a deep copy of each object in qustion.
+    a. Implement return a deep copy ObjectRepository.get(Object)
+    b. 
+ 3. Verify that the new state is valid by creating this new state.
+ 4. Commit changes to the new state.
