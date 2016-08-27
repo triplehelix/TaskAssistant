@@ -1,124 +1,62 @@
 package api.v1.model;
 
-import api.v1.error.BusinessException;
-import api.v1.error.Error;
-import org.json.simple.JSONObject;
+import api.v1.UnitTestHelper;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static org.junit.Assert.fail;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
+import static org.springframework.test.util.AssertionErrors.fail;
 
 /**
- * What can go wrong with categories? This class is intended to test Category class 
- * and also serves as a container for sample category objects. 
- * At present, the only error a category should throw is an exception for a null or
- * empty String provided as it's name.
  * Created by kennethlyon on 6/9/16.
  */
-public class CategoryTest {
+public class CategoryTest extends UnitTestHelper{
     private static Logger LOGGER = LoggerFactory.getLogger(CategoryTest.class);
     private static ArrayList<String> validCategories;
-    private static ArrayList<String> errorCategories;
     private static ArrayList<String> validUpdates;
-    private static ArrayList<String> errorUpdates;
 
     static {
         /* Add valid Categories. Categories fields are arranged in the order:
          * id, name, description.
          */
         validCategories = new ArrayList<String>();
-        errorCategories = new ArrayList<String>();
         validUpdates = new ArrayList<String>();
-        errorUpdates = new ArrayList<String>();
+        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]`[1,5]");
+        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]`[1,2]");
+        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]`[3,4]");
+        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]`[1,4]");
+        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]`[1,2]");
+        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]`[4,5]");
 
-        validCategories.add("0`Physics`Homework, study groups, lab reports, etc, for physics II");
-        validCategories.add("1`chores`Any kind of household chores.");
-        validCategories.add("2`work`work related stuff only!");
-        validCategories.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
-        validCategories.add("4`Journal club`Tasks related to journal club");
-        validCategories.add("5`Organic Chemistry`Homework, study groups, lab reports, etc, for organic chemistry.");
-
-        errorCategories.add("0``Homework, study groups, lab reports, etc, for physics II");
-        errorCategories.add("1``Any kind of household chores.");
-        errorCategories.add("2``work related stuff only!");
-        errorCategories.add("3``Anything related to money. Taxes, budgeting, student loans, etc.");
-        errorCategories.add("4``Tasks related to journal club");
-        errorCategories.add("5``Study groups, lab reports, etc, for organic chemistry.");
-
-        validUpdates.add("0`Physics 181`Homework, study groups, lab reports, etc, for physics II");
-        validUpdates.add("1`chores`Any kind of household chores.");
-        validUpdates.add("2`work`work work work work work work");
-        validUpdates.add("3`money`Anything related to money. Taxes, budgeting, student loans, etc.");
-        validUpdates.add("4`Journal club`Bioinfromatics journal articles that I need to read.");
-        validUpdates.add("5`O-Chem`Homework, study groups, lab reports, etc, for organic chemistry.");
-
-        errorUpdates.add("99``Homework, study groups, lab reports, etc, for physics II");
-        errorUpdates.add("-1``Any kind of household chores.");
-        errorUpdates.add("-2``work related stuff only!");
-        errorUpdates.add("300``Anything related to money. Taxes, budgeting, student loans, etc.");
-        errorUpdates.add("10`Journal Club`Tasks related to journal club");
-        errorUpdates.add("-5`O-chem`Study groups, lab reports, etc, for organic chemistry.");
-
+        validUpdates.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]`[]");
+        validUpdates.add("1`0`Mikes home`This is for all of the chores Mike never does `[]`[1,2]");
+        validUpdates.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]`[4,3]");
+        validUpdates.add("0`1`Ken's work`This is for all of the work Ken never does.   `[4,5]`[1,4]");
+        validUpdates.add("4`1`ken&amp;s home`This is for all of the chores Ken does.   `[6,7]`[1,2]");
+        validUpdates.add("5`0`Ken's play`This is for the recreational stuff Ken does.  `[6,7]`[4,5]");
     }
 
-/**
-    public static ArrayList<JSONObject> getValidTestCategoriesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validCategories)
-            jsonObjectArrayList.add(CategoryTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-    public static ArrayList<JSONObject> getValidTestCategoryUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : validUpdates)
-            jsonObjectArrayList.add(CategoryTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestCategoriesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorCategories)
-            jsonObjectArrayList.add(CategoryTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestCategoryUpdatesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorUpdates)
-            jsonObjectArrayList.add(CategoryTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<Category> getValidTestCategoriesAsCategories() throws Exception{
-        ArrayList<Category> CategoryArrayList = new ArrayList<Category>();
-        for (String s : validCategories) {
-            CategoryArrayList.add(CategoryTest.toCategory(s));
+    /**
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of Categories.
+     * @param backtickCategories
+     * @return ArrayList<Category>
+     * @throws Exception
+     */
+    protected static ArrayList<Category> toCategories(ArrayList<String> backtickCategories) throws Exception{
+        ArrayList<Category> myCategories = new ArrayList<Category>();
+        for(String s:backtickCategories){
+            String[] element = s.split("`");
+            Category category = new Category();
+            category.setId(Integer.parseInt(element[0]));
+            category.setUserId(Integer.parseInt(element[1]));
+            category.setName(element[2]);
+            category.setDescription(element[3]);
+            category.setTaskIds(toIntegerArrayList(element[4]));
+            category.setScheduleIds(toIntegerArrayList(element[5]));
+            myCategories.add(category);
         }
-        return CategoryArrayList;
-    }//*/
-
-    private static Category toCategory(String s) throws Exception{
-        String[] CategoryElementArray = s.split("`");
-        Category Category = new Category();
-        Category.setId(Integer.parseInt(CategoryElementArray[0]));
-        Category.setName(CategoryElementArray[1]);
-        Category.setDescription(CategoryElementArray[2]);
-        return Category;
-    }
-
-    private static JSONObject toJson(String stringCategory) {
-        String[] CategoryElementArray = stringCategory.split("`");
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",          CategoryElementArray[0]);
-        jsonObj.put("name",        CategoryElementArray[1]);
-        jsonObj.put("description", CategoryElementArray[2]);
-        LOGGER.info("Created request {}", jsonObj.toJSONString());
-        return jsonObj;
+        return myCategories;
     }
 
     /**
@@ -126,27 +64,35 @@ public class CategoryTest {
      */
     @Test
     public void setUp() throws Exception {
-        for(String s: validCategories){
-            CategoryTest.toCategory(s);
-            LOGGER.info("Valid Category {}", toJson(s));
+        // Verify that clones generated from "validCategories" are identical to themselves:
+        ArrayList<Category> myValidCategories1=toCategories(validCategories);
+        ArrayList<Category> myValidCategories2=toCategories(validCategories);
+        ArrayList<Category> myValidUpdates=toCategories(validUpdates);
+        LOGGER.info("Verifying object equivalence.");
+        for(int i=0; i<myValidCategories1.size(); i++){
+            LOGGER.info("Evaluating {} {}",
+                    myValidCategories1.get(i),
+                    myValidCategories2.get(i));
+            if(!myValidCategories1.get(i).equals(myValidCategories2.get(i))){
+                LOGGER.error("These objects were evaluated as not equal when they should be: {} {}",
+                        myValidCategories1.get(i).toJson(),
+                        myValidCategories2.get(i).toJson());
+                fail("Error! These objects should be equal!");
+            }
         }
 
-        for(String s: errorCategories){
-            validateErrorCategory(s);
-            LOGGER.info("Error Category {}", toJson(s));
-        }
-    }
-
-    public void validateErrorCategory(String s){
-        boolean error=false;
-        try{
-            CategoryTest.toCategory(s);
-        }catch(Exception e){
-            error=true;
-            LOGGER.info("Invalid Category returned error. " + e.getMessage(), e);
-        }
-        if(!error){
-            fail("Success returned for invalid Category: " + s);
+        // Verify that instances made from "validCategories" and validUpdates are not equal to eachother.
+        LOGGER.info("Verifying object non-equivalence.");
+        for(int i=0; i<myValidCategories1.size(); i++){
+            LOGGER.info("Evaluating {} {}",
+                    myValidCategories1.get(i),
+                    myValidUpdates.get(i));
+            if(myValidCategories1.get(i).equals(myValidUpdates.get(i))){
+                LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                        myValidCategories1.get(i).toJson(),
+                        myValidUpdates.get(i).toJson());
+                fail("Error! These objects should not be equal!");
+            }
         }
     }
 }
