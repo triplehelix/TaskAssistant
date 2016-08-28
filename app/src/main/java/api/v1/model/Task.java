@@ -24,6 +24,7 @@ public class Task {
     private Status status;
     public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
     private ArrayList<Integer> categoryIds;
+    private ArrayList<Integer> scheduleIds;
     private ArrayList<Integer> reminderIds;
 
     public ArrayList<Integer> getCategoryIds() {
@@ -50,8 +51,6 @@ public class Task {
     }
 
     public void setTaskListId(int taskListId) throws BusinessException{
-        if(taskListId<0)
-            throw new BusinessException("Invalid id: " + taskListId + ". A non-negative TaskList id is required", Error.valueOf("INVALID_ID_ERROR"));
         this.taskListId = taskListId;
     }
 
@@ -73,6 +72,7 @@ public class Task {
     public void setEstimatedTime(long estimatedTime){
 	this.estimatedTime = estimatedTime;
     }
+
     /**
      * The amount of time invested in this task so far.
      * @param investedTime
@@ -97,7 +97,6 @@ public class Task {
             throw new BusinessException(status +" is not a valid task status.", Error.valueOf("INVALID_TASK_STATUS_ERROR"));
         }
     }
-
     public int getId(){
         return this.id;
     }
@@ -159,4 +158,58 @@ public class Task {
         reminderIds.add(reminder.getId());
     }
 
+    public ArrayList<Integer> getScheduleIds() {
+        return scheduleIds;
+    }
+
+    public void setScheduleIds(ArrayList<Integer> scheduleIds) {
+        this.scheduleIds = scheduleIds;
+    }
+
+    public void addSchedule(Schedule schedule){
+        if(scheduleIds==null)
+            scheduleIds=new ArrayList<Integer>();
+        scheduleIds.add(schedule.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task = (Task) o;
+
+        if (id != task.id) return false;
+        if (taskListId != task.taskListId) return false;
+        if (estimatedTime != task.estimatedTime) return false;
+        if (investedTime != task.investedTime) return false;
+        if (important != task.important) return false;
+        if (urgent != task.urgent) return false;
+        if (!name.equals(task.name)) return false;
+        if (note != null ? !note.equals(task.note) : task.note != null) return false;
+        if (dueDate != null ? !dueDate.equals(task.dueDate) : task.dueDate != null) return false;
+        if (status != task.status) return false;
+        if (categoryIds != null ? !categoryIds.equals(task.categoryIds) : task.categoryIds != null) return false;
+        if (scheduleIds != null ? !scheduleIds.equals(task.scheduleIds) : task.scheduleIds != null) return false;
+        return reminderIds != null ? reminderIds.equals(task.reminderIds) : task.reminderIds == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + taskListId;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (note != null ? note.hashCode() : 0);
+        result = 31 * result + (int) (estimatedTime ^ (estimatedTime >>> 32));
+        result = 31 * result + (int) (investedTime ^ (investedTime >>> 32));
+        result = 31 * result + (important ? 1 : 0);
+        result = 31 * result + (urgent ? 1 : 0);
+        result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (categoryIds != null ? categoryIds.hashCode() : 0);
+        result = 31 * result + (scheduleIds != null ? scheduleIds.hashCode() : 0);
+        result = 31 * result + (reminderIds != null ? reminderIds.hashCode() : 0);
+        return result;
+    }
 }
