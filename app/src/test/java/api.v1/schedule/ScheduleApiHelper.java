@@ -127,7 +127,7 @@ public class ScheduleApiHelper extends UnitTestHelper {
      * @return ArrayList<Schedule>
      * @throws Exception
      */
-    protected static ArrayList<Schedule> toSchedule(ArrayList<String> backtickCategories) throws Exception{
+    protected static ArrayList<Schedule> toSchedules(ArrayList<String> backtickCategories) throws Exception{
         ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
         for(String s:backtickCategories){
             String[] elements = s.split("`");
@@ -135,8 +135,8 @@ public class ScheduleApiHelper extends UnitTestHelper {
             schedule.setId(Integer.parseInt(elements[0]));
             schedule.setUserId(Integer.parseInt(elements[1]));
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
-            schedule.setEndDate(parseJsonDateAsDate(elements[2]));
-	        //schedule.setTaskIds(toIntegerArrayList(elements[4]));
+            schedule.setEndDate(parseJsonDateAsDate(elements[3]));
+     	        //schedule.setTaskIds(toIntegerArrayList(elements[4]));
             mySchedules.add(schedule);
         }
         return mySchedules;

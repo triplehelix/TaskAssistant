@@ -65,32 +65,33 @@ public class CategoryTest extends UnitTestHelper{
     @Test
     public void test() throws Exception {
         // Verify that clones generated from "validCategories" are identical to themselves:
-        ArrayList<Category> myValidCategories1=toCategories(validCategories);
-        ArrayList<Category> myValidCategories2=toCategories(validCategories);
-        ArrayList<Category> myValidUpdates=toCategories(validUpdates);
+        ArrayList<Category> myCategories=toCategories(validCategories);
+        ArrayList<Category> myUpdates=toCategories(validUpdates);
+        Category tempCategory=null;
         LOGGER.info("Verifying object equivalence.");
-        for(int i=0; i<myValidCategories1.size(); i++){
+        for(int i=0; i<myCategories.size(); i++){
+            tempCategory=new Category(myCategories.get(i));
             LOGGER.info("Evaluating {} {}",
-                    myValidCategories1.get(i),
-                    myValidCategories2.get(i));
-            if(!myValidCategories1.get(i).equals(myValidCategories2.get(i))){
+                    myCategories.get(i),
+                    tempCategory);
+            if(!myCategories.get(i).equals(tempCategory)){
                 LOGGER.error("These objects were evaluated as not equal when they should be: {} {}",
-                        myValidCategories1.get(i).toJson(),
-                        myValidCategories2.get(i).toJson());
+                        myCategories.get(i).toJson(),
+                        tempCategory.toJson());
                 fail("Error! These objects should be equal!");
             }
         }
 
         // Verify that instances made from "validCategories" and validUpdates are not equal to eachother.
         LOGGER.info("Verifying object non-equivalence.");
-        for(int i=0; i<myValidCategories1.size(); i++){
+        for(int i=0; i<myCategories.size(); i++){
             LOGGER.info("Evaluating {} {}",
-                    myValidCategories1.get(i),
-                    myValidUpdates.get(i));
-            if(myValidCategories1.get(i).equals(myValidUpdates.get(i))){
+                    myCategories.get(i),
+                    myUpdates.get(i));
+            if(myCategories.get(i).equals(myUpdates.get(i))){
                 LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
-                        myValidCategories1.get(i).toJson(),
-                        myValidUpdates.get(i).toJson());
+                        myCategories.get(i).toJson(),
+                        myUpdates.get(i).toJson());
                 fail("Error! These objects should not be equal!");
             }
         }

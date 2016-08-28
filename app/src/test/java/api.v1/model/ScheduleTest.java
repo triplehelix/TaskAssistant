@@ -1,161 +1,101 @@
 package api.v1.model;
 
-import api.v1.error.BusinessException;
-import api.v1.error.Error;
-import org.json.simple.JSONObject;
+import api.v1.UnitTestHelper;
 import org.junit.Test;
+import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.junit.Assert.fail;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * This class serves a a container for test case proto-Schedules.
  * Created by kennethlyon on 6/9/16.
  */
-public class ScheduleTest {
+public class ScheduleTest extends UnitTestHelper{
     private static Logger LOGGER = LoggerFactory.getLogger(ScheduleTest.class);
-    private static ArrayList<String> validSchedules;
-    private static ArrayList<String> errorSchedules;
+    private static ArrayList<String> validSchedules=new ArrayList<String>();
+    private static ArrayList<String> validUpdates=new ArrayList<String>();
 
-    static {
+    
+    @Before
+    public void setUp() throws Exception {
 
-        /* Add valid Schedules. Schedules fields are arranged in the order:
-         * validSchedules.add("int id`);
-         * private int id;
-         * private Date startDate;
-         * private Date endDate;
-         * public static enum RepeatTypes {NONE, DAILY, WEEKLY, MONTHLY, YEARLY};
-         * private RepeatTypes repeatType;
-         */
-        validSchedules = new ArrayList<String>();
-        errorSchedules = new ArrayList<String>();
+        validSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[0]");  //exercize
+        validSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0]");  //church
+        validSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[0]");  //workdays
+        validSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[5]");  //date night.
+        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[5]");  //Tacos!
+        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[5]");  //Wings!
 
-        validSchedules.add("0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY");   //exercize    
-        validSchedules.add("1`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY");	 //church      
-        validSchedules.add("2`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY");	 //workdays    
-        validSchedules.add("3`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY");	 //date night. 
-        validSchedules.add("4`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY");	 //Tacos!      
-
-        errorSchedules.add("0`2016-02-31_18:00:00`2016-02-31_19:00:00`DAILY");   //exercize
-        errorSchedules.add("1`2016-07-03_09:00:00`2016-06-28_10:00:00`SUNDAYS"); //church
-        errorSchedules.add("2`2016-06-28_09:00:00`2016-06-28_17:00:00`WEEKDAYS");//workdays
-        errorSchedules.add("3`2016-06-30_18:00:00`_`NEVER");                     //date night.
-        errorSchedules.add("4`2016-07-03_16:00:00`2016-07-03`WEEKLY");           //Tacos!
+        validUpdates.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[]`[0]");     //exercize
+        validUpdates.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[1]");  //church
+        validUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[3,2]`[0]");  //workdays
+        validUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`NONE`[4,5]`[5]");    //date night.
+        validUpdates.add("4`1`2016-07-03_16:00:00`2016-07-05_15:00:00`WEEKLY`[6,7]`[5]");  //Tacos!
+        validUpdates.add("4`1`2016-07-02_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[5]");  //Wings!
     }
 
-
-
-    public static ArrayList<JSONObject> getValidTestSchedulesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-
-        for (String s : validSchedules)
-            jsonObjectArrayList.add(ScheduleTest.toJson(s));
-        return jsonObjectArrayList;
-    }
-
-    public static ArrayList<JSONObject> getErrorTestSchedulesAsJson() {
-        ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
-        for (String s : errorSchedules)
-            jsonObjectArrayList.add(ScheduleTest.toJson(s));
-        return jsonObjectArrayList;
-
-    }
-    public static ArrayList<Schedule> getValidTestSchedulesAsSchedules() throws Exception{
-        ArrayList<Schedule> ScheduleArrayList = new ArrayList<Schedule>();
-        for (String s : validSchedules) {
-            ScheduleArrayList.add(ScheduleTest.toSchedule(s));
+  /**
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of Categories.
+     * @param backtickCategories
+     * @return ArrayList<Schedule>
+     * @throws Exception
+     */
+    protected static ArrayList<Schedule> toSchedules(ArrayList<String> backtickCategories) throws Exception{
+        ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
+        for(String s:backtickCategories){
+            String[] elements = s.split("`");
+            Schedule schedule = new Schedule();
+            schedule.setId(Integer.parseInt(elements[0]));
+            schedule.setUserId(Integer.parseInt(elements[1]));
+            schedule.setStartDate(parseJsonDateAsDate(elements[2]));
+            schedule.setEndDate(parseJsonDateAsDate(elements[3]));
+            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
+            schedule.setCategoryIds(toIntegerArrayList(elements[5]));
+            schedule.setTaskIds(toIntegerArrayList(elements[6]));
+            mySchedules.add(schedule);
         }
-        return ScheduleArrayList;
-    }
-
-    private static Schedule toSchedule(String s) throws Exception{
-        String[] scheduleElementArray = s.split("`");
-        Schedule schedule = new Schedule();
-        schedule.setId(Integer.parseInt(scheduleElementArray[0]));
-        schedule.setStartDate(parseJsonDateAsDate(scheduleElementArray[1]));
-        schedule.setEndDate(parseJsonDateAsDate(scheduleElementArray[2]));
-        schedule.setRepeatType(Schedule.RepeatTypes.valueOf(scheduleElementArray[3]));
-        return schedule;
+        return mySchedules;
     }
 
     /**
-     * Parse a String representing a given date and return a Date object.
-     * String must be in the format: yyyy-MM-dd_HH:mm:ss
      *
-     * @param stringDate
-     * @return
-     */
-    private static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        df.setLenient(false);
-        Date result = null;
-        try {
-            result = df.parse(stringDate);
-        } catch (java.text.ParseException e) {
-            LOGGER.error("Exception while parsing date token: " + stringDate);
-            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
-        }
-        return result;
-    }
-
-
-    /**
-     * Parse string as boolean.
-     * @param b
-     * @return
-     */
-    private static boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
-        b = b.trim().toUpperCase();
-        if (b.equals("TRUE"))
-            return true;
-        else if(b.equals("FALSE"))
-            return false;
-        else
-            throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
-    }
-
-    private static JSONObject toJson(String stringSchedule) {
-        String[] scheduleElementArray = stringSchedule.split("`");
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id",         scheduleElementArray[0]);
-        jsonObj.put("startDate",  scheduleElementArray[1]);
-        jsonObj.put("endDate",    scheduleElementArray[2]);
-        jsonObj.put("repeatType", scheduleElementArray[3]);
-        LOGGER.info("Created request {}", jsonObj.toJSONString());
-        return jsonObj;
-    }
-
-    /**
      * @throws Exception
      */
     @Test
-    public void setUp() throws Exception {
-        for(String s: validSchedules){
-            ScheduleTest.toSchedule(s);
-            LOGGER.info("Valid Schedule {}", toJson(s));
+    public void test() throws Exception {
+        // Verify that clones generated from "validSchedules" are identical to themselves:
+        ArrayList<Schedule> mySchedules=toSchedules(validSchedules);
+        ArrayList<Schedule> myUpdates=toSchedules(validUpdates);
+        LOGGER.info("Verifying object equivalence.");
+        Schedule tempSchedule=null;
+        for(int i=0; i<mySchedules.size(); i++){
+            tempSchedule=new Schedule(mySchedules.get(i));
+            LOGGER.info("Evaluating {} {}",
+                    mySchedules.get(i),
+                    tempSchedule);
+            if(!mySchedules.get(i).equals(tempSchedule)){
+                LOGGER.error("These objects were evaluated as not equal when they should be: {} {}",
+                        mySchedules.get(i).toJson(),
+                        tempSchedule.toJson());
+                fail("Error! These objects should be equal!");
+            }
         }
 
-        for(String s: errorSchedules){
-            validateErrorSchedule(s);
-            LOGGER.info("Error Schedule {}", toJson(s));
-        }
-    }
-
-    public void validateErrorSchedule(String s){
-        boolean error=false;
-        try{
-            ScheduleTest.toSchedule(s);
-        }catch(Exception e){
-            error=true;
-            LOGGER.info("Invalid Schedule returned error. " + e.getMessage(), e);
-        }
-        if(!error){
-            fail("Success returned for invalid Schedule: " + s);
+        // Verify that instances made from "validSchedules" and validUpdates are not equal to eachother.
+        LOGGER.info("Verifying object non-equivalence.");
+        for(int i=0; i<mySchedules.size(); i++){
+            LOGGER.info("Evaluating {} {}",
+                    mySchedules.get(i),
+                    myUpdates.get(i));
+            if(mySchedules.get(i).equals(myUpdates.get(i))){
+                LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                        mySchedules.get(i).toJson(),
+                        myUpdates.get(i).toJson());
+                fail("Error! These objects should not be equal!");
+            }
         }
     }
 }

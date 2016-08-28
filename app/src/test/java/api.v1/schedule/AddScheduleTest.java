@@ -45,7 +45,7 @@ public class AddScheduleTest extends ScheduleApiHelper {
      */
     @Before
     public void setUp() throws Exception {
-        addScheduleInstance=new AddSchedule();    
+        addScheduleInstance=new AddSchedule();
         categoryRepository=addScheduleInstance.getCategoryRepository();
         scheduleRepository=addScheduleInstance.getScheduleRepository();
         taskListRepository=addScheduleInstance.getTaskListRepository();
@@ -94,10 +94,10 @@ public class AddScheduleTest extends ScheduleApiHelper {
         errorSchedules.add("0`1`2016-02-31_18:00:00`2016-02-31_19:00:00`DAILY   `[]`[]"); //Invalid date.
         errorSchedules.add("1`1`2016-07-03_09:00:00`2016-06-28_10:00:00`SUNDAYS `[]`[]"); //Invalid repeat type. 
         errorSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03`WEEKLY           `[]`[]"); //Date is not well formed.
-        validSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[0]`[1]");  //Not permitted to access this Category.
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6]`[0]");  //Not permitted to access this Task.
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[67]`[]");  //Task DNE.
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[]`[99]");  //Category DNE.
+        errorSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[0]`[1]");  //Not permitted to access this Category.
+        errorSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6]`[0]");  //Not permitted to access this Task.
+        errorSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[67]`[]");  //Task DNE.
+        errorSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[]`[99]");  //Category DNE.
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(errorSchedules))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
@@ -112,7 +112,7 @@ public class AddScheduleTest extends ScheduleApiHelper {
     public void tearDown() throws Exception {
 	    for(Category category: toCategories(sampleCategories))
             categoryRepository.delete(category);
-        for(Schedule schedule: toSchedule(validSchedules))
+        for(Schedule schedule: toSchedules(validSchedules))
             scheduleRepository.delete(schedule);
         for(TaskList taskList: toTaskLists(sampleTaskLists))
             taskListRepository.delete(taskList);
@@ -145,7 +145,7 @@ public class AddScheduleTest extends ScheduleApiHelper {
         }
 
         //Verify the Schedules have been added correctly:
-        for(Schedule schedule: toSchedule(validSchedules))
+        for(Schedule schedule: toSchedules(validSchedules))
             LOGGER.info(scheduleRepository.get(schedule).toJson());
 
         //Verify the Tasks have been updated correctly:
