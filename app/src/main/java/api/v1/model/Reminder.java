@@ -21,7 +21,16 @@ public class Reminder {
     public Reminder(){
         this.id=-1;
         this.taskId=-1;
+    }
 
+    /**
+     * Create a copy of the given Reminder.
+     * @param reminder
+     */
+    public Reminder(Reminder reminder){
+        this.id=reminder.getId();
+        this.taskId=reminder.getTaskId();
+        this.reminderTime=new Date(reminder.getReminderTime().getTime());
     }
 
     public int getId() {
