@@ -63,7 +63,7 @@ public class CategoryTest extends UnitTestHelper{
      * @throws Exception
      */
     @Test
-    public void setUp() throws Exception {
+    public void test() throws Exception {
         // Verify that clones generated from "validCategories" are identical to themselves:
         ArrayList<Category> myValidCategories1=toCategories(validCategories);
         ArrayList<Category> myValidCategories2=toCategories(validCategories);

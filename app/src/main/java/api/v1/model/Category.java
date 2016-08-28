@@ -15,7 +15,6 @@ public class Category {
     private ArrayList<Integer> taskIds;
     private ArrayList<Integer> scheduleIds;
 
-
 	/**
 	 * Create an new Category w/o a category id. Categories without an
      * id are assigned an id of -1.
@@ -85,6 +84,7 @@ public class Category {
         this.taskIds= ModelHelper.copyIntegerArrayList(originalCategory.getTaskIds());
         this.scheduleIds= ModelHelper.copyIntegerArrayList(originalCategory.getScheduleIds());
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
