@@ -2,6 +2,7 @@ package api.v1.model;
 
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
+import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -27,25 +28,37 @@ public class Task {
     private ArrayList<Integer> scheduleIds;
     private ArrayList<Integer> reminderIds;
 
-    public ArrayList<Integer> getCategoryIds() {
-        return categoryIds;
-    }
 
-    public void setCategoryIds(ArrayList<Integer> categoryIds) {
-        this.categoryIds = categoryIds;
-    }
-
-	/**
-	 * Create a new task w/o an id. Tasks created without an id are assigned
+    /**
+     * Create a new task w/o an id. Tasks created without an id are assigned
      * an id of -1.
-	 */
-	public Task(){
+     */
+    public Task(){
         this.id=-1;
         this.taskListId=-1;
-		this.urgent=false;
+        this.urgent=false;
         this.status=Status.valueOf("NEW");
-	}
+    }
 
+    /**
+     * Return an deep copy of a given task.
+     * @param task
+     */
+    public Task(Task task){
+	    this.id=task.getId();
+	    this.taskListId=task.getTaskListId();
+	    this.name=new String(task.getName());
+	    this.note=new String(task.getNote());
+	    this.estimatedTime=task.getEstimatedTime();
+	    this.investedTime=task.getInvestedTime();
+    	this.important=task.getImportant();
+	    this.urgent=task.getUrgent();
+	    this.dueDate=new Date(task.getDueDate().getTime());
+	    this.status=Status.valueOf(task.getStatus().toString());
+	    this.categoryIds = ModelHelper.copyIntegerArrayList(task.getCategoryIds());
+	    this.scheduleIds = ModelHelper.copyIntegerArrayList(task.getScheduleIds());
+	    this.reminderIds = ModelHelper.copyIntegerArrayList(task.getReminderIds());
+    }
     public void setId(int id) throws BusinessException{
         this.id=id;
     }
@@ -61,8 +74,8 @@ public class Task {
     }
 
     public void setNote(String note){
-	this.note = note;
-	}
+    this.note = note;
+    }
 
     /**
      * The amount of continuous time a expected for a task to
@@ -70,7 +83,7 @@ public class Task {
      * @param estimatedTime
      */
     public void setEstimatedTime(long estimatedTime){
-	this.estimatedTime = estimatedTime;
+        this.estimatedTime = estimatedTime;
     }
 
     /**
@@ -78,7 +91,7 @@ public class Task {
      * @param investedTime
      */
     public void setInvestedTime(long investedTime){
-	this.investedTime = investedTime;
+        this.investedTime = investedTime;
     }
     public void setImportant(boolean important){
         this.important=important;
@@ -170,6 +183,14 @@ public class Task {
         if(scheduleIds==null)
             scheduleIds=new ArrayList<Integer>();
         scheduleIds.add(schedule.getId());
+    }
+    public ArrayList<Integer> getCategoryIds() {
+        return categoryIds;
+    }
+
+    
+    public void setCategoryIds(ArrayList<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
     @Override

@@ -90,34 +90,36 @@ public class TaskTest extends UnitTestHelper{
      * @throws Exception
      */
     @Test
-    public void test() throws Exception {        
-    // Verify that clones generated from "validTasks" are identical to themselves:
-        ArrayList<Task> myValidTasks1=toTasks(validTasks);
-        ArrayList<Task> myValidTasks2=toTasks(validTasks);
-        ArrayList<Task> myValidUpdates=toTasks(validUpdates);
+    public void test() throws Exception {
+        // Verify that clones generated from "validTasks" are identical to themselves:
+        ArrayList<Task> myTasks=toTasks(validTasks);
+        ArrayList<Task> myUpdates=toTasks(validUpdates);
         LOGGER.info("Verifying object equivalence.");
-        for(int i=0; i<myValidTasks1.size(); i++) {
+        Task tempTask=null;
+        for(int i=0; i<myTasks.size(); i++){
+            tempTask=new Task(myTasks.get(i));
             LOGGER.info("Evaluating {} {}",
-                    myValidTasks1.get(i),
-                    myValidTasks2.get(i));
-            if (!myValidTasks1.get(i).equals(myValidTasks2.get(i))) {
+                    myTasks.get(i),
+                    tempTask);
+            if(!myTasks.get(i).equals(tempTask)){
                 LOGGER.error("These objects were evaluated as not equal when they should be: {} {}",
-                        myValidTasks1.get(i).toJson(),
-                        myValidTasks2.get(i).toJson());
+                        myTasks.get(i).toJson(),
+                        tempTask.toJson());
                 fail("Error! These objects should be equal!");
             }
         }
 
+
     // Verify that instances made from "validTasks" and validUpdates are not equal to eachother.
         LOGGER.info("Verifying object non-equivalence.");
-        for(int i=0; i<myValidTasks1.size(); i++){
+        for(int i=0; i<myTasks.size(); i++){
             LOGGER.info("Evaluating {} {}",
-                    myValidTasks1.get(i),
-                    myValidUpdates.get(i));
-            if(myValidTasks1.get(i).equals(myValidUpdates.get(i))){
+                    myTasks.get(i),
+                    myUpdates.get(i));
+            if(myTasks.get(i).equals(myUpdates.get(i))){
                 LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
-                        myValidTasks1.get(i).toJson(),
-                        myValidUpdates.get(i).toJson());
+                        myTasks.get(i).toJson(),
+                        myUpdates.get(i).toJson());
                 fail("Error! These objects should not be equal!");
             }
         }

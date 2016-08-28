@@ -130,7 +130,7 @@ public class Schedule {
         this.startDate=new Date(schedule.getStartDate().getTime());
         this.endDate=new Date(schedule.getEndDate().getTime());
         this.repeatType=RepeatTypes.valueOf(schedule.getRepeatType().toString());
-        this.categoryIds= ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
+        this.categoryIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
         this.taskIds= ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
     }
 }
