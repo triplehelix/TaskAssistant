@@ -43,7 +43,7 @@ public class UserRepository implements Repository<User>{
         u.setId(userId);
         userMap.put(userId, u);
         emailMap.put(u.getEmail(), u);
-        return u;
+        return new User(u);
     }
 
     /**
@@ -55,9 +55,9 @@ public class UserRepository implements Repository<User>{
      */
     public User get(User u)throws BusinessException, SystemException{
         if(u.getId()==-1)
-            return getUserByEmail(u);
+            return new User(getUserByEmail(u));
         else
-            return getUserById(u);
+            return new User(getUserById(u));
     }
 
 
