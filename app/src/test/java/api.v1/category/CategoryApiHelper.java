@@ -30,7 +30,7 @@ public class CategoryApiHelper extends UnitTestHelper {
             jsonObj.put("name", categoryElementArray[2]);
             jsonObj.put("description", categoryElementArray[3]);
             jsonObj.put("taskIds", categoryElementArray[4]);
-            jsonObj.put("scheduleIds", categoryElementArray[5]);
+            //jsonObj.put("scheduleIds", categoryElementArray[5]);
             LOGGER.info("Created JSONObject {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
