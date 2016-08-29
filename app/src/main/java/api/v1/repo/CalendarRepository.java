@@ -62,10 +62,11 @@ public class CalendarRepository implements Repository<Calendar>{
      * @throws SystemException
      */
 	public void update(Calendar c) throws BusinessException, SystemException{
-        // First, delete the calendar:
-        this.delete(c);
-        // Then add the new calendar:
-        this.add(c);
+        if (calendarMap.containsKey(c.getId())) {
+            calendarMap.remove(c.getId());
+            calendarMap.put(c.getId(), c);
+        } else
+            throw new BusinessException(" Calendar not found. ID=" + c.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 	}
 
     /**

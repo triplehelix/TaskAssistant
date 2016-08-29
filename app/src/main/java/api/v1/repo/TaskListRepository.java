@@ -16,7 +16,6 @@ public class TaskListRepository implements Repository<TaskList>{
     private static Logger LOGGER = LoggerFactory.getLogger(TaskListRepository.class);
     private HashMap<Integer, TaskList> taskListMap;
 
-
     /**
      * Create a new instance of a repository.
      */
@@ -37,7 +36,6 @@ public class TaskListRepository implements Repository<TaskList>{
         while(taskListMap.containsKey(taskListId))
             taskListId++;
         tl.setId(taskListId);
-    //  LOGGER.debug("@ADDING TaskList id: " + taskListId + ".\tTaskList hashCode(): " + tl.hashCode() + "\tTaskList toJson(): " + tl.toJson());
         taskListMap.put(taskListId, tl);
         return tl;
     }
@@ -49,8 +47,8 @@ public class TaskListRepository implements Repository<TaskList>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public TaskList get(TaskList tl)throws BusinessException, SystemException{
-        if(taskListMap.containsKey(tl.getId()))
+    public TaskList get(TaskList tl)throws BusinessException, SystemException{ 
+       if(taskListMap.containsKey(tl.getId()))
             return taskListMap.get(tl.getId());
         else
             throw new BusinessException(" TaskList not found. ID=" + tl.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
@@ -62,12 +60,13 @@ public class TaskListRepository implements Repository<TaskList>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public void update(TaskList tl) throws BusinessException, SystemException{
-        // First, delete the taskList:
-        this.delete(tl);
-        // Then add the new taskList:
-        this.add(tl);
-	}
+    public void update(TaskList tl) throws BusinessException, SystemException{
+        if (taskListMap.containsKey(tl.getId())) {
+            taskListMap.remove(tl.getId());
+            taskListMap.put(tl.getId(), tl);
+        } else
+            throw new BusinessException(" TaskList not found. ID=" + tl.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
 
     /**
      * Deletes the provided taskList.
@@ -75,7 +74,7 @@ public class TaskListRepository implements Repository<TaskList>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public void delete(TaskList tl) throws BusinessException, SystemException {
+    public void delete(TaskList tl) throws BusinessException, SystemException {
         //LOGGER.debug("@REMOVING TaskList id: " + tl.getId() + ".\tTaskList hashCode(): " + tl.hashCode() + "\tTaskList toJson(): " + tl.toJson());
         if (taskListMap.containsKey(tl.getId())) {
             taskListMap.remove(tl.getId());

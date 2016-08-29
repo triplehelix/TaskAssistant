@@ -48,7 +48,7 @@ public class TypeRepository implements Repository<Type>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public Type get(Type foobar)throws BusinessException, SystemException{
+    public Type get(Type foobar)throws BusinessException, SystemException{
         if(typeMap.containsKey(foobar.getId()))
             return typeMap.get(foobar.getId());
         else
@@ -61,12 +61,13 @@ public class TypeRepository implements Repository<Type>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public void update(Type foobar) throws BusinessException, SystemException{
-        // First, delete the type:
-        this.delete(foobar);
-        // Then add the new type:
-        this.add(foobar);
-	}
+    public void update(Type foobar) throws BusinessException, SystemException {
+        if (typeMap.containsKey(foobar.getId())) {
+            typeMap.remove(foobar.getId());
+            typeMap.put(foobar.getId(), foobar);
+        } else
+            throw new BusinessException(" Type not found. ID=" + foobar.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
 
     /**
      * Deletes the provided type.
@@ -74,7 +75,7 @@ public class TypeRepository implements Repository<Type>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public void delete(Type foobar) throws BusinessException, SystemException{
+    public void delete(Type foobar) throws BusinessException, SystemException{
         if(typeMap.containsKey(foobar.getId())){
             typeMap.remove(foobar.getId());
         }

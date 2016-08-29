@@ -40,7 +40,7 @@ public class TaskRepository implements Repository<Task>{
             taskId++;
         t.setId(taskId);
         taskMap.put(taskId, t);
-        return t;
+        return new Task(t);
     }
 
     /**
@@ -51,7 +51,7 @@ public class TaskRepository implements Repository<Task>{
      */
 	public Task get(Task t)throws BusinessException, SystemException{
         if(taskMap.containsKey(t.getId()))
-            return taskMap.get(t.getId());
+            return new Task(taskMap.get(t.getId()));
         else
             throw new BusinessException(" Task not found. ", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
@@ -63,10 +63,11 @@ public class TaskRepository implements Repository<Task>{
      * @throws SystemException
      */
 	public void update(Task t) throws BusinessException, SystemException{
-        // First, delete the task:
-        this.delete(t);
-        // Then add the new task:
-        this.add(t);
+        if (taskMap.containsKey(t.getId())) {
+            taskMap.remove(t.getId());
+            taskMap.put(t.getId(), t);
+        } else
+            throw new BusinessException(" Task not found. ID=" + t.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 	}
 
     /**

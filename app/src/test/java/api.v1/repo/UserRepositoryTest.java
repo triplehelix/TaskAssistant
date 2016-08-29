@@ -196,10 +196,11 @@ public class UserRepositoryTest {
     }
 
     private void testAdd() throws Exception {
-        LOGGER.info("Test add: ");
+        LOGGER.info("Test add for valid users: ");
         for(User u: validAddUsers)
             userRepository.add(u);
 
+        LOGGER.info("Test add for error users: ");
         for(User u: errorAddUsers) {
             boolean error = false;
             try {
@@ -214,12 +215,13 @@ public class UserRepositoryTest {
         }
         LOGGER.info("\"testAdd\" finished. \n\n");
     }
+
     private void testGet() throws Exception {
         LOGGER.info("Test get: ");
         for(User u: validGetUsers){
             LOGGER.info("Received User: {}", userRepository.get(u).toJson());
         }
-        LOGGER.info("\"testAdd\" finished.\n\n");
+        LOGGER.info("\"testGet\" finished.\n\n");
     }
 
 }

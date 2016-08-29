@@ -33,7 +33,6 @@ public class UserRepository implements Repository<User>{
      * @throws SystemException
      */
     public User add(User u) throws BusinessException, SystemException{
-        LOGGER.debug("ADDING: " + u.toJson());
 	    // First, we make sure that the user DNE. Else throw BusinessException
         if(emailMap.containsKey(u.getEmail()))
             throw new BusinessException("Error. This User email already exits! {" + u.getEmail()+"}", Error.valueOf("CREATE_USER_ERROR_USER_EXISTS"));
@@ -60,7 +59,6 @@ public class UserRepository implements Repository<User>{
             return new User(getUserById(u));
     }
 
-
     /**
      * Use the id field to fetch the specified User.
      * @param u
@@ -74,8 +72,9 @@ public class UserRepository implements Repository<User>{
         else
             throw new BusinessException(" User id not found. Id=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
+
     /**
-     * * Use a user email to fetch the specified User.
+     * Use a user email to fetch the specified User.
      * @param u
      * @return
      * @throws BusinessException
@@ -94,12 +93,19 @@ public class UserRepository implements Repository<User>{
      * @throws BusinessException
      * @throws SystemException
      */
-	public void update(User u) throws BusinessException, SystemException{
-        LOGGER.debug(u.toJson());
-        // First, delete the user:
-        this.delete(u);
-        // Then add the new user:
-        this.add(u);
+	public void update(User u) throws BusinessException, SystemException {
+        String oldEmail="";
+        if(userMap.containsKey(u.getId()))
+            oldEmail=userMap.get(u.getId()).getEmail();
+        else
+            throw new BusinessException(" User not found. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+
+        if(!oldEmail.equals(u.getEmail()) && emailMap.containsKey(u.getEmail()))
+                throw new BusinessException(" Updated email already taken. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+        userMap.remove(u.getId());
+        emailMap.remove(oldEmail);
+        userMap.put(u.getId(),u);
+        emailMap.put(u.getEmail(),u);
 	}
 
     /**

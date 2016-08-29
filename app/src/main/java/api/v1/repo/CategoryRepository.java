@@ -62,10 +62,11 @@ public class CategoryRepository implements Repository<Category>{
      * @throws SystemException
      */
 	public void update(Category c) throws BusinessException, SystemException{
-        // First, delete the category:
-        this.delete(c);
-        // Then add the new category:
-        this.add(c);
+        if (categoryMap.containsKey(c.getId())) {
+            categoryMap.remove(c.getId());
+            categoryMap.put(c.getId(), c);
+        } else
+            throw new BusinessException(" Category not found. ID=" + c.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 	}
 
     /**
