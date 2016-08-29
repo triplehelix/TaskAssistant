@@ -38,7 +38,7 @@ public class ScheduleRepository implements Repository<Schedule>{
             scheduleId++;
         s.setId(scheduleId);
         scheduleMap.put(scheduleId, s);
-        return s;
+        return new Schedule(s);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ScheduleRepository implements Repository<Schedule>{
      */
 	public Schedule get(Schedule s)throws BusinessException, SystemException{
         if(scheduleMap.containsKey(s.getId()))
-            return scheduleMap.get(s.getId());
+            return new Schedule(scheduleMap.get(s.getId()));
         else
             throw new BusinessException(" Schedule not found. ID=" + s.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
