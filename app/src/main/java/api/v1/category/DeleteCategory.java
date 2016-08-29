@@ -51,11 +51,11 @@ public class DeleteCategory extends CategoryRequestHandler {
 		    jsonRequest = parseRequest(request.getParameter("params"));
             category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
             category=categoryRepository.get(category);
-            //removeReferences(category);
 
-            ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(category);
-            ArrayList<Task> updatedTasks=getUpdatedTasks(category);
-            User updatedUser=getUpdatedUser(category);
+            ArrayList<Schedule> updatedSchedules=getCleanedSchedules(category);
+            ArrayList<Task> updatedTasks=getCleanedTasks(category);
+            User updatedUser=getCleanedUser(category);
+
             //Commit changes to Tasks, Schedules and User:
             for(Task task: updatedTasks)
                taskRepository.update(task);
@@ -64,17 +64,17 @@ public class DeleteCategory extends CategoryRequestHandler {
             userRepository.update(updatedUser);
 		    categoryRepository.delete(category);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
+			log.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			log.error("An error occurred while handling an DeleteCategory Request: {}.", jsonRequest.toJSONString(), s);
+			log.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
 		} catch (CriticalException c) {
-            log.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), c);
+            log.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;
@@ -99,19 +99,11 @@ public class DeleteCategory extends CategoryRequestHandler {
      * @throws BusinessException
      * @throws SystemException
      */
-    private User getUpdatedUser(Category category) throws BusinessException, SystemException, CriticalException{
+    private User getCleanedUser(Category category) throws BusinessException, SystemException, CriticalException{
         User user=new User();
         user.setId(category.getUserId());
         user=userRepository.get(user);
-        if(user.getCategoryIds().contains(category.getId())) {
-            //  log.debug("Here is the category id: " + category.getId());
-            //  log.debug("Here are the category ids that belong to the user: " + new Gson().toJson(user.getCategoryIds()));
-            user.getCategoryIds().remove((Object)category.getId());
-        }
-        else
-            throw new CriticalException("Critical error! Cannot clean this Category. User {email="
-                    + user.getEmail() + ", id=" + user.getId()
-                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+        cleanUser(category.getId(), user);
         return user;
     }
 
@@ -123,54 +115,40 @@ public class DeleteCategory extends CategoryRequestHandler {
      * @throws BusinessException
      * @throws SystemException
      */
-    private ArrayList<Task> getUpdatedTasks(Category category) throws BusinessException, SystemException, CriticalException{
+    private ArrayList<Task> getCleanedTasks(Category category) throws BusinessException, SystemException, CriticalException{
         ArrayList<Task> myTasks = new ArrayList<Task>();
         if(category.getTaskIds()==null)
             return myTasks;
         for(int i: category.getTaskIds()) {
             Task task=new Task();
             task.setId(i);
-            task=taskRepository.get(task);
-            if (task.getCategoryIds().contains(category.getId()))
-                task.getCategoryIds().remove((Object)category.getId());
-            else
-                throw new CriticalException("Critical error! Cannot clean this Category. Task {name="
-                        + task.getName() + ", id=" + task.getId()
-                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-            myTasks.add(task);
+            myTasks.add(taskRepository.get(task));
         }
+        cleanTasks(category.getId(), myTasks);
         return myTasks;
     }
 
     /**
-     * Fetch an ArrayList of Schedules that have had their Category ids updated.
-     * Note that these Schedules are deep copies, and the Tasks in the repository
-     * have not yet been updated.
+     * Fetch an ArrayList of Schedules that have had their Category ids
+     * updated. Note that these Schedules are deep copies, and the
+     * Schedules in the repository have not yet been updated.
+     *
      * @param category
      * @throws BusinessException
      * @throws SystemException
      */
-    private ArrayList<Schedule> getUpdatedSchedules(Category category) throws BusinessException, SystemException, CriticalException{
-        ArrayList<Schedule> mySchedule = new ArrayList<Schedule>();
+    private ArrayList<Schedule> getCleanedSchedules(Category category) throws BusinessException, SystemException, CriticalException{
+        ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
         if(category.getScheduleIds()==null)
-            return mySchedule;
+            return mySchedules;
+
         for(int i: category.getScheduleIds()) {
             Schedule schedule=new Schedule();
             schedule.setId(i);
-            schedule=scheduleRepository.get(schedule);
-            log.debug("Here is the category id: " + category.getId());
-            log.debug("Here are the category ids that belong to the schedule: " + new Gson().toJson(schedule.getCategoryIds()));
-            if (schedule.getCategoryIds().contains(category.getId())) {
-                schedule.getCategoryIds().remove((Object) category.getId());
-            }else
-                throw new CriticalException("Critical error! Cannot clean this Category. Task {id=" + schedule.getId()
-                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-            mySchedule.add(schedule);
-            log.debug("Has anything changed?");
-            log.debug("Original Schedule: " + scheduleRepository.get(schedule).toJson());
-            log.debug("Updated Schedule: " + schedule.toJson());
+            mySchedules.add(scheduleRepository.get(schedule));
         }
-
-        return mySchedule;
+        cleanSchedules(category.getId(), mySchedules);
+        return mySchedules;
     }
+
 }

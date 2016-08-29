@@ -4,8 +4,12 @@ import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
 import api.v1.error.Error;
 import api.v1.model.Category;
+import api.v1.model.Schedule;
 import api.v1.model.Task;
 import api.v1.model.User;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -57,5 +61,67 @@ public class CategoryRequestHandler extends TaskRequestHandler {
             if (task.getCategoryIds().contains(category.getId()))
                 task.getCategoryIds().remove((Object)category.getId());
         }
+    }
+
+    /**
+     * Remove references to the supplied category id from an ArrayList of Schedules.
+     * @param categoryId
+     * @param schedules
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    protected void cleanSchedules(int categoryId, ArrayList<Schedule> schedules) throws BusinessException, SystemException, CriticalException {
+        if(schedules==null)
+            return;
+        for(Schedule schedule: schedules) {
+            if (schedule.getCategoryIds().contains(categoryId)) {
+                schedule.getCategoryIds().remove((Object) categoryId);
+            }else {
+                log.error("The category id {" + categoryId +"} is not referenced by the Schedule: " + schedule.toJson());
+                throw new CriticalException("Critical error! Cannot clean this Category. Task {id=" + schedule.getId()
+                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+            }
+        }
+    }
+
+    /**
+     * * Remove references to the supplied category id from an ArrayList of Tasks.
+     * @param categoryId
+     * @param tasks
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    protected void cleanTasks(int categoryId, ArrayList<Task> tasks) throws BusinessException, SystemException, CriticalException {
+        if(tasks==null)
+            return;
+        for(Task task: tasks) {
+            if (task.getCategoryIds().contains(categoryId)) {
+                task.getCategoryIds().remove((Object) categoryId);
+            }else {
+                log.error("The category id {" + categoryId +"} is not referenced by the Task: " + task.toJson());
+                throw new CriticalException("Critical error! Cannot clean this Category. Task {id=" + task.getId()
+                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+            }
+        }
+    }
+
+    /**
+     * Remove the reference to the category id from the provided User.
+     * @param categoryId
+     * @param user
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    protected void cleanUser(int categoryId, User user) throws BusinessException, SystemException, CriticalException {
+        if(user.getCategoryIds().contains(categoryId)) {
+            user.getCategoryIds().remove((Object)categoryId);
+        }
+        else
+            throw new CriticalException("Critical error! Cannot clean this Category. User {email="
+                    + user.getEmail() + ", id=" + user.getId()
+                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
     }
 }

@@ -1,13 +1,7 @@
 package api.v1.category;
 
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.TaskList;
-import api.v1.model.User;
-import api.v1.repo.CategoryRepository;
-import api.v1.repo.TaskListRepository;
-import api.v1.repo.TaskRepository;
-import api.v1.repo.UserRepository;
+import api.v1.model.*;
+import api.v1.repo.*;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +21,7 @@ public class UpdateCategoryTest extends CategoryApiHelper {
     private static UpdateCategory updateCategoryInstance;
     private static CategoryRepository categoryRepository;
     private static TaskListRepository taskListRepository;
+    private static ScheduleRepository scheduleRepository;
     private static TaskRepository taskRepository;
     private static UserRepository userRepository;
 
@@ -37,6 +32,7 @@ public class UpdateCategoryTest extends CategoryApiHelper {
     private static ArrayList<String> errorUpdates=new ArrayList<String>();
     private static ArrayList<String> sampleTasks=new ArrayList<String>();
     private static ArrayList<String> sampleUsers=new ArrayList<String>();
+    private static ArrayList<String> sampleSchedules=new ArrayList<String>();
     private static ArrayList<String> sampleTaskLists=new ArrayList<String>();
 
     /**
@@ -50,6 +46,7 @@ public class UpdateCategoryTest extends CategoryApiHelper {
         updateCategoryInstance = new UpdateCategory();
         categoryRepository=updateCategoryInstance.getCategoryRepository();
         taskListRepository=updateCategoryInstance.getTaskListRepository();
+        scheduleRepository=updateCategoryInstance.getScheduleRepository();
         taskRepository=updateCategoryInstance.getTaskRepository();
         userRepository=updateCategoryInstance.getUserRepository();
 
@@ -63,23 +60,34 @@ public class UpdateCategoryTest extends CategoryApiHelper {
         for(TaskList taskList: CategoryApiHelper.toTaskLists(sampleTaskLists))
             taskListRepository.add(taskList);
 
-        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
-        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3]
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3]
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
         for(Task task: CategoryApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
-        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]");
-        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]");
-        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]");
-        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]");
-        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]");
-        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]");
+        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]`[0,1,2]");
+        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]`[]");
+        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]`[]");
+        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]`[3,4,5]");
+        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]`[]");
+        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]`[]");
+        for(Category category: toCategories(validCategories))
+            categoryRepository.add(category);
+
+        sampleSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0]");
+        sampleSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[0]");
+        sampleSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[0]");
+        sampleSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[3]");
+        sampleSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[3]");
+        sampleSchedules.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[3]");
+        for(Schedule schedule: CategoryApiHelper.toSchedules(sampleSchedules))
+            scheduleRepository.add(schedule);
 
         validUpdates.add("0`0`Mikes work`Work related tasks.`[0,1]");
         validUpdates.add("1`0`Mikes home`Thinks like walking the dog, TaskAssistant, cheese platters etc. `[2,3]");
