@@ -1,7 +1,6 @@
 package api.v1.model;
 
 import api.v1.error.BusinessException;
-import api.v1.error.Error;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
 import java.util.Date;
