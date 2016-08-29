@@ -178,7 +178,7 @@ public class AddCategoryTest extends CategoryApiHelper {
             if(task.equals(taskRepository.get(task))){
                 LOGGER.error("This task failed to update {}", task);
                 fail("This task was not updated!");
-        }
+            }
 
         for(Schedule schedule: toSchedules(sampleSchedules))
             if(schedule.equals(scheduleRepository.get(schedule))) {

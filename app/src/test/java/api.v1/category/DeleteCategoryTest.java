@@ -1,13 +1,7 @@
 package api.v1.category;
 
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.TaskList;
-import api.v1.model.User;
-import api.v1.repo.CategoryRepository;
-import api.v1.repo.TaskListRepository;
-import api.v1.repo.TaskRepository;
-import api.v1.repo.UserRepository;
+import api.v1.model.*;
+import api.v1.repo.*;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +12,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
+import static org.springframework.test.util.AssertionErrors.fail;
+
 /**
  * This class tests the DeleteCategory Class
  * @author kennethlyon
@@ -26,7 +22,7 @@ public class DeleteCategoryTest extends CategoryApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(DeleteCategoryTest.class);
     private static DeleteCategory deleteCategoryInstance;
     private static CategoryRepository categoryRepository;
-    private static TaskListRepository taskListRepository;
+    private static ScheduleRepository scheduleRepository;
     private static TaskRepository taskRepository;
     private static UserRepository userRepository;
 
@@ -36,7 +32,7 @@ public class DeleteCategoryTest extends CategoryApiHelper {
     private static ArrayList<String> errorCategories=new ArrayList<String>();
     private static ArrayList<String> sampleTasks=new ArrayList<String>();
     private static ArrayList<String> sampleUsers=new ArrayList<String>();
-    private static ArrayList<String> sampleTaskLists=new ArrayList<String>();
+    private static ArrayList<String> sampleSchedules=new ArrayList<String>();
 
 
     /**
@@ -49,9 +45,9 @@ public class DeleteCategoryTest extends CategoryApiHelper {
     public void setUp() throws Exception {
         deleteCategoryInstance = new DeleteCategory();
         categoryRepository=deleteCategoryInstance.getCategoryRepository();
-        taskListRepository=deleteCategoryInstance.getTaskListRepository();
         taskRepository=deleteCategoryInstance.getTaskRepository();
         userRepository=deleteCategoryInstance.getUserRepository();
+        scheduleRepository=deleteCategoryInstance.getScheduleRepository();
 
         sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[0,1,2]");
         sampleUsers.add("1`kenlyon@gmail.com`Mou11wkl87%qo`[3,4,5]");
@@ -69,18 +65,29 @@ public class DeleteCategoryTest extends CategoryApiHelper {
         for(Task task: CategoryApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
-        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]");
-        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]");
-        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]");
-        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]");
-        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]");
-        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]");
+
+        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]`[0,1,2]");
+        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]`[]");
+        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]`[]");
+        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]`[3,4,5]");
+        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]`[]");
+        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]`[]");
         for(Category category: toCategories(validCategories))
             categoryRepository.add(category);
 
-        errorCategories.add( "-1`0`Mikes play`This is for Mike's recreational stuff         `[]");
-        errorCategories.add(  "6`1`Ken's work`This is for all of the work Ken never does.   `[]");
-        errorCategories.add( "20`1`ken's home`This is for all of the chores Ken does.       `[]");
+        sampleSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0]");
+        sampleSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[0]");
+        sampleSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[0]");
+        sampleSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[3]");
+        sampleSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[3]");
+        sampleSchedules.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[3]");
+        for(Schedule schedule: CategoryApiHelper.toSchedules(sampleSchedules))
+            scheduleRepository.add(schedule);
+
+
+        errorCategories.add( "-1`0`Mikes play`This is for Mike's recreational stuff         `[]`[]");
+        errorCategories.add(  "6`1`Ken's work`This is for all of the work Ken never does.   `[]`[]");
+        errorCategories.add( "20`1`ken's home`This is for all of the chores Ken does.       `[]`[]");
 
         /* Do not challenge the DeleteCategory API with pointers to Tasks,
          * Users, Schedules, that it does not have permission to edit. It
@@ -112,6 +119,9 @@ public class DeleteCategoryTest extends CategoryApiHelper {
         for(Task task: CategoryApiHelper.toTasks(sampleTasks))
             taskRepository.delete(task);
 
+        for(Schedule schedule: CategoryApiHelper.toSchedules(sampleSchedules))
+            scheduleRepository.delete(schedule);
+
         deleteCategoryInstance = null;
         validRequestList = null;
     }
@@ -136,12 +146,25 @@ public class DeleteCategoryTest extends CategoryApiHelper {
             deleteCategoryInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
-        LOGGER.info("Verify Users have been cleaned appropriately:");
-        for(User user: CategoryApiHelper.toUsers(sampleUsers))
-            LOGGER.info(userRepository.get(user).toJson());
 
-        LOGGER.info("Verify Tasks have been cleaned appropriately:");
-        for(Task task: CategoryApiHelper.toTasks(sampleTasks))
-            LOGGER.info(taskRepository.get(task).toJson());
+        // Verify that the User has been updated.
+        for(User user: toUsers(sampleUsers))
+            if(user.equals(userRepository.get(user))) {
+                LOGGER.error("This user failed to update {}", user);
+                //fail("This user was not updated!");
+            }
+
+        // Verify that the Task has been updated.
+        for(Task task: toTasks(sampleTasks))
+            if(task.equals(taskRepository.get(task))){
+                LOGGER.error("This task failed to update {}", task);
+                //fail("This task was not updated!");
+            }
+
+        for(Schedule schedule: toSchedules(sampleSchedules))
+            if(schedule.equals(scheduleRepository.get(schedule))) {
+                LOGGER.error("This schedule failed to update {}", schedule);
+                //fail("This schedule was not updated!");
+            }
     }
 }

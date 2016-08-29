@@ -30,7 +30,7 @@ public class CategoryApiHelper extends UnitTestHelper {
             jsonObj.put("name", categoryElementArray[2]);
             jsonObj.put("description", categoryElementArray[3]);
             jsonObj.put("taskIds", categoryElementArray[4]);
-            //jsonObj.put("scheduleIds", categoryElementArray[5]);
+            jsonObj.put("scheduleIds", categoryElementArray[5]);
             LOGGER.info("Created JSONObject {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
@@ -100,6 +100,8 @@ public class CategoryApiHelper extends UnitTestHelper {
             category.setName(categoryElementArray[2]);
             category.setDescription(categoryElementArray[3]);
             category.setTaskIds(toIntegerArrayList(categoryElementArray[4]));
+            if(categoryElementArray.length > 5)
+                category.setScheduleIds(toIntegerArrayList(categoryElementArray[5]));
             myCategories.add(category);
         }
         return myCategories;
@@ -142,6 +144,8 @@ public class CategoryApiHelper extends UnitTestHelper {
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
             schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
+            if(elements.length>5)
+                schedule.setCategoryIds(toIntegerArrayList(elements[5].trim()));
             mySchedules.add(schedule);
         }
         return mySchedules;
