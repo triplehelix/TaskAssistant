@@ -1,10 +1,7 @@
 package api.v1.category;
 
 import api.v1.UnitTestHelper;
-import api.v1.model.Category;
-import api.v1.model.Task;
-import api.v1.model.TaskList;
-import api.v1.model.User;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +30,7 @@ public class CategoryApiHelper extends UnitTestHelper {
             jsonObj.put("name", categoryElementArray[2]);
             jsonObj.put("description", categoryElementArray[3]);
             jsonObj.put("taskIds", categoryElementArray[4]);
+            jsonObj.put("scheduleIds", categoryElementArray[5]);
             LOGGER.info("Created JSONObject {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
@@ -128,5 +126,24 @@ public class CategoryApiHelper extends UnitTestHelper {
         }
         return myUsers;
     }
-
+  /**
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of Categories.
+     * @param backtickCategories
+     * @return ArrayList<Schedule>
+     * @throws Exception
+     */
+    protected static ArrayList<Schedule> toSchedules(ArrayList<String> backtickCategories) throws Exception{
+        ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
+        for(String s:backtickCategories){
+            String[] elements = s.split("`");
+            Schedule schedule = new Schedule();
+            schedule.setId(Integer.parseInt(elements[0]));
+            schedule.setUserId(Integer.parseInt(elements[1]));
+            schedule.setStartDate(parseJsonDateAsDate(elements[2]));
+            schedule.setEndDate(parseJsonDateAsDate(elements[3]));
+            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
+            mySchedules.add(schedule);
+        }
+        return mySchedules;
+    }
 }

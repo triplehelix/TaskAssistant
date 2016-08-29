@@ -1,10 +1,7 @@
 package api.v1.category;
 
 import api.v1.model.*;
-import api.v1.repo.CategoryRepository;
-import api.v1.repo.TaskListRepository;
-import api.v1.repo.TaskRepository;
-import api.v1.repo.UserRepository;
+import api.v1.repo.*;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -15,6 +12,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
+import static org.junit.Assert.fail;
+
 /**
  * This class tests the AddCategory Class.
  * @author kennethlyon
@@ -23,6 +22,7 @@ public class AddCategoryTest extends CategoryApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(AddCategoryTest.class);
     private static AddCategory addCategoryInstance;
     private static CategoryRepository categoryRepository;
+    private static ScheduleRepository scheduleRepository;
     private static TaskListRepository taskListRepository;
     private static TaskRepository taskRepository;
     private static UserRepository userRepository;
@@ -32,6 +32,7 @@ public class AddCategoryTest extends CategoryApiHelper {
     private static ArrayList<String> errorCategories=new ArrayList<String>();
     private static ArrayList<String> sampleTasks=new ArrayList<String>();
     private static ArrayList<String> sampleUsers=new ArrayList<String>();
+    private static ArrayList<String> sampleSchedules=new ArrayList<String>();
     private static ArrayList<String> sampleTaskLists=new ArrayList<String>();
 
     /**
@@ -44,6 +45,7 @@ public class AddCategoryTest extends CategoryApiHelper {
     public void setUp() throws Exception {
         addCategoryInstance = new AddCategory();
         categoryRepository=addCategoryInstance.getCategoryRepository();
+        scheduleRepository=addCategoryInstance.getScheduleRepository();
         taskListRepository=addCategoryInstance.getTaskListRepository();
         taskRepository=addCategoryInstance.getTaskRepository();
         userRepository=addCategoryInstance.getUserRepository();
@@ -69,17 +71,27 @@ public class AddCategoryTest extends CategoryApiHelper {
         for(Task task: CategoryApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
-        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]");
-        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]");
-        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]");
-        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]");
-        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]");
-        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]");
+        sampleSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY ");
+        sampleSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY");
+        sampleSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY ");
+        sampleSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY");
+        sampleSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY");
+        sampleSchedules.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY");
+        for(Schedule schedule: CategoryApiHelper.toSchedules(sampleSchedules))
+            scheduleRepository.add(schedule);
 
-        errorCategories.add("0`0`Mikes work`This category points to tasks that do not belong to Mike.`[4,5]");
-        errorCategories.add("1`0`          `This category has no name.`[2,3]");
-        errorCategories.add("2`0`MH recreation`This Category points to tasks that do not exist.`[2000,-3]");
-        errorCategories.add("2`0`MH recreation`This Category points to tasks that do not exist.`[-3,2000]");
+        validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]`[0,1,2]");
+        validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]`[]");
+        validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]`[]");
+        validCategories.add("3`1`Ken's work`This is for all of the work Ken never does.   `[4,5]`[3,4,5]");
+        validCategories.add("4`1`ken's home`This is for all of the chores Ken does.       `[6,7]`[]");
+        validCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]`[]");
+
+        errorCategories.add("0`0`Mikes work`This category points to a Tasks that does not belong to Mike.`[4]`[]");
+        errorCategories.add("0`0`Mikes work`This category points to Schedules that do not belong to Mike.`[]`[4,5]");
+        errorCategories.add("1`0`          `This category has no name.`[2,3]`[]");
+        errorCategories.add("2`0`MH recreation`This Category points to tasks that do not exist.`[2000,-3]`[]");
+        errorCategories.add("2`0`MH recreation`This Category points to tasks that do not exist.`[-3,2000]`[]");
 
         // Create valid mock categories.
         for(JSONObject jsonObj: CategoryApiHelper.toJSONObject(validCategories))
@@ -88,6 +100,7 @@ public class AddCategoryTest extends CategoryApiHelper {
         // Create invalid mock categories.
         for(JSONObject jsonObj: CategoryApiHelper.toJSONObject(errorCategories))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
+
     }
 
     /**
@@ -106,6 +119,9 @@ public class AddCategoryTest extends CategoryApiHelper {
 
         for(TaskList taskList: CategoryApiHelper.toTaskLists(sampleTaskLists))
             taskListRepository.delete(taskList);
+
+        for(Schedule schedule: CategoryApiHelper.toSchedules(sampleSchedules))
+            scheduleRepository.delete(schedule);
 
         for(Category category: CategoryApiHelper.toCategories(validCategories))
             categoryRepository.delete(category);
@@ -149,5 +165,25 @@ public class AddCategoryTest extends CategoryApiHelper {
             addCategoryInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
+
+        // Verify that the User has been updated.
+        for(User user: toUsers(sampleUsers))
+            if(user.equals(userRepository.get(user))) {
+                LOGGER.error("This user failed to update {}", user);
+                fail("This user was not updated!");
+            }
+
+        // Verify that the Task has been updated.
+        for(Task task: toTasks(sampleTasks))
+            if(task.equals(taskRepository.get(task))){
+                LOGGER.error("This task failed to update {}", task);
+                fail("This task was not updated!");
+        }
+
+        for(Schedule schedule: toSchedules(sampleSchedules))
+            if(schedule.equals(scheduleRepository.get(schedule))) {
+                LOGGER.error("This schedule failed to update {}", schedule);
+                fail("This schedule was not updated!");
+            }
     }
 }

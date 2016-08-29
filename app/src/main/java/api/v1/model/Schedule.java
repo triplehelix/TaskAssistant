@@ -83,6 +83,11 @@ public class Schedule {
         this.categoryIds = categoryIds;
     }
 
+    public void addCategory(Category category){
+        if(categoryIds==null)
+            categoryIds=new ArrayList<Integer>();
+        categoryIds.add(category.getId());
+    }
     /**
      * Create a serialized JSON String of this instance
      * using GSON.

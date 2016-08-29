@@ -170,6 +170,8 @@ public class BaseRequestHandler extends HttpServlet{
     protected static ArrayList<Integer> toIntegerArrayList(String s) {
         ArrayList<Integer> myIntegers = new ArrayList<Integer>();
         s=s.trim();
+        if(s.equals("[]"))
+            return null;
         s=s.substring(1,s.length()-1);
         String[] elements = s.split(",");
         for(String i: elements)
