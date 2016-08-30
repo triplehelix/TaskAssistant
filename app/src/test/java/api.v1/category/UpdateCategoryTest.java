@@ -89,17 +89,18 @@ public class UpdateCategoryTest extends CategoryApiHelper {
         for(Schedule schedule: CategoryApiHelper.toSchedules(sampleSchedules))
             scheduleRepository.add(schedule);
 
-        validUpdates.add("0`0`Mikes work`Work related tasks.`[0,1]");
-        validUpdates.add("1`0`Mikes home`Thinks like walking the dog, TaskAssistant, cheese platters etc. `[2,3]");
-        validUpdates.add("2`0`Mikes play`This is for all the video games and media Mike's into.`[2,3]");
-        validUpdates.add("3`1`Ken's work?`This is for all of the work Ken never does.`[4,5]");
-        validUpdates.add("4`1`ken's home`Cleaning, bills, side projects etc.`[6,7]");
-        validUpdates.add("5`1`Ken's play`Basketball, Gym time, bars, etc.`[6,7]");
+        validUpdates.add("0`0`Mikes work`Work related tasks.`[0,1]`[]");
+        validUpdates.add("1`0`Mikes home`Thinks like walking the dog, TaskAssistant, cheese platters etc. `[2,3]`[]");
+        validUpdates.add("2`0`Mikes play`This is for all the video games and media Mike's into.`[2,3]`[]");
+        validUpdates.add("3`1`Ken's work?`This is for all of the work Ken never does.`[4,5]`[]");
+        validUpdates.add("4`1`ken's home`Cleaning, bills, side projects etc.`[6,7]`[]");
+        validUpdates.add("5`1`Ken's play`This is for the recreational stuff Ken does.  `[6,7]`[5]");
 
-        errorUpdates.add("0`0`Mikes work`This category points to tasks that do not belong to Mike.`[4,5]");
-        errorUpdates.add("1`0`          `This category has no name.`[2,3]");
-        errorUpdates.add("2`0`MH recreation`This Category points to tasks that do not exist.`[2000,-3]");
-        errorUpdates.add("2`0`MH recreation`This Category points to tasks that do not exist.`[-3,2000]");
+        errorUpdates.add("0`0`Mikes work`This category points to a Tasks that does not belong to Mike.`[4]`[]");
+        errorUpdates.add("0`0`Mikes work`This category points to Schedules that do not belong to Mike.`[]`[4,5]");
+        errorUpdates.add("1`0`          `This category has no name.`[2,3]`[]");
+        errorUpdates.add("2`0`MH recreation`This Category points to tasks that do not exist.`[2000,-3]`[]");
+        errorUpdates.add("2`0`MH recreation`This Category points to tasks that do not exist.`[-3,2000]`[]");
 
 
         // Populate the Category repository with valid Categories.
