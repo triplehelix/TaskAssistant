@@ -50,13 +50,13 @@ public class AddCategory extends CategoryRequestHandler {
             category.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
             category.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
             category.setScheduleIds(toIntegerArrayList((String)jsonRequest.get("scheduleIds")));
-            category=categoryRepository.add(category);
 
             // Verify privileges.
             verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
             verifySchedulePrivileges(category.getUserId(), category.getScheduleIds());
             //Place completed category in the repository.
-
+            category=categoryRepository.add(category);
+            
             // Create updated Tasks, Schedules and User:
             ArrayList<Task> updatedTasks=getUpdatedTasks(category);
             ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(category);
