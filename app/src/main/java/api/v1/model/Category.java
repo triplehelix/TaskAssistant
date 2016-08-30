@@ -57,6 +57,11 @@ public class Category {
     public void setScheduleIds(ArrayList<Integer> scheduleIds) {
         this.scheduleIds = scheduleIds;
     }
+    public void addSchedule(Schedule schedule){
+        if(this.scheduleIds==null)
+            scheduleIds=new ArrayList<Integer>();
+        scheduleIds.add(schedule.getId());
+    }
     public int getUserId() {
         return userId;
     }
