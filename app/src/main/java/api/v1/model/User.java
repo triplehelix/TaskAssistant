@@ -24,6 +24,10 @@ public class User {
 	 */
 	public User(){
         this.id=-1;
+        calendarIds=new ArrayList<Integer>();
+        categoryIds=new ArrayList<Integer>();
+        scheduleIds=new ArrayList<Integer>();
+        taskListIds=new ArrayList<Integer>();
 	}
     /**
      * Return an deep copy of a given User.
