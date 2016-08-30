@@ -7,62 +7,14 @@ import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.Task;
 import api.v1.model.User;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 /**
- * 
  * CategoryRequestHandler contains, fields and methods that are common to
  * category APIs. All category APIs inherit CategoryRequestHandler. 
  */
 public class CategoryRequestHandler extends TaskRequestHandler {
-
-    /**
-     * Remove references to this Category from the User, and Tasks associated with it.
-     * Here we guarantee that no alterations to internal objects are made unless it can
-     * be done without error.
-     * @param category
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    protected void removeReferences(Category category) throws BusinessException, SystemException, CriticalException {
-        User user=new User();
-        user.setId(category.getUserId());
-        user=userRepository.get(user);
-        for(int i: user.getCategoryIds())
-            log.debug("Concerning the user "+user.getEmail()+ ", here is one category id: " + i);
-        //log.debug("Category as JSON: " + category.toJson());
-        //log.debug("User as JSON: " + user.toJson());
-        if(user.getCategoryIds().contains(category.getId())) {
-            //  log.debug("Here is the category id: " + category.getId());
-            //  log.debug("Here are the category ids that belong to the user: " + new Gson().toJson(user.getCategoryIds()));
-            user.getCategoryIds().remove((Object)category.getId());
-        }
-        else
-            throw new CriticalException("Critical error! Cannot clean this Category. User {email="
-                    + user.getEmail() + ", id=" + user.getId()
-                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-
-        Task task = new Task();
-        // Verify that all tasks expected to reference this Category actually do reference this category.
-        for(int taskId: category.getTaskIds()) {
-            task.setId(taskId);
-            task = taskRepository.get(task);
-            if (!task.getCategoryIds().contains(category.getId()))
-                throw new CriticalException("Critical error! Cannot clean this Category. Task {name="
-                        + task.getName() + ", id=" + task.getId()
-                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-        }
-        // Now we actually remove references to this object.
-        for(int taskId: category.getTaskIds()) {
-            task.setId(taskId);
-            task = taskRepository.get(task);
-            if (task.getCategoryIds().contains(category.getId()))
-                task.getCategoryIds().remove((Object)category.getId());
-        }
-    }
-
     /**
      * Remove references to the supplied category id from an ArrayList of Schedules.
      * @param categoryId
@@ -124,4 +76,126 @@ public class CategoryRequestHandler extends TaskRequestHandler {
                     + user.getEmail() + ", id=" + user.getId()
                     + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
     }
+
+    /**
+     * Fetch a User that now references the Category provided. Note that
+     * this User is a deep copy and that the UserRepository has not yet
+     * been updated.
+     * @param category
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected User getUpdatedUser(Category category) throws BusinessException, SystemException{
+        User user=new User();
+        user.setId(category.getUserId());
+        user=userRepository.get(user);
+        user.addCategory(category);
+        return user;
+    }
+
+    /**
+     * Fetch an ArrayList of Tasks that have had their Category ids updated.
+     * Note that these Tasks are deep copies, and the Tasks in the repository
+     * have not yet been updated.
+     * @param category
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<Task> getUpdatedTasks(Category category) throws BusinessException, SystemException{
+        ArrayList<Task> myTasks = new ArrayList<Task>();
+        if(category.getTaskIds()==null)
+            return myTasks;
+        for(int i: category.getTaskIds()) {
+            Task task=new Task();
+            task.setId(i);
+            task=taskRepository.get(task);
+            task.addCategory(category);
+            myTasks.add(task);
+        }
+        return myTasks;
+    }
+
+    /**
+     * Fetch an ArrayList of Schedules that have had their Category ids updated.
+     * Note that these Schedules are deep copies, and the Tasks in the repository
+     * have not yet been updated.
+     * @param category
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<Schedule> getUpdatedSchedules(Category category) throws BusinessException, SystemException{
+        ArrayList<Schedule> mySchedule = new ArrayList<Schedule>();
+        if(category.getScheduleIds()==null)
+            return mySchedule;
+        for(int i: category.getScheduleIds()) {
+            Schedule schedule=new Schedule();
+            schedule.setId(i);
+            schedule=scheduleRepository.get(schedule);
+            schedule.addCategory(category);
+            mySchedule.add(schedule);
+        }
+        return mySchedule;
+    }
+    /**
+     * Fetch a User that no longer references the Category provided. Note
+     * that this User is a deep copy and that the UserRepository has not
+     * yet been updated.
+     * @param category
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected User getCleanedUser(Category category) throws BusinessException, SystemException, CriticalException{
+        User user=new User();
+        user.setId(category.getUserId());
+        user=userRepository.get(user);
+        cleanUser(category.getId(), user);
+        return user;
+    }
+
+    /**
+     * Fetch an ArrayList of Tasks that no longer reference this Category.
+     * Note that these Tasks are deep copies, and the Tasks in the repository
+     * have not yet been updated.
+     * @param category
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<Task> getCleanedTasks(Category category) throws BusinessException, SystemException, CriticalException{
+        ArrayList<Task> myTasks = new ArrayList<Task>();
+        if(category.getTaskIds()==null)
+            return myTasks;
+        for(int i: category.getTaskIds()) {
+            Task task=new Task();
+            task.setId(i);
+            myTasks.add(taskRepository.get(task));
+        }
+        cleanTasks(category.getId(), myTasks);
+        return myTasks;
+    }
+
+    /**
+     * Fetch an ArrayList of Schedules that no longer reference this Category.
+     * Note that these Schedules are deep copies, and the Schedules in the
+     * repository have not yet been updated.
+     *
+     * @param category
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<Schedule> getCleanedSchedules(Category category) throws BusinessException, SystemException, CriticalException{
+        ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
+        if(category.getScheduleIds()==null)
+            return mySchedules;
+
+        for(int i: category.getScheduleIds()) {
+            Schedule schedule=new Schedule();
+            schedule.setId(i);
+            mySchedules.add(scheduleRepository.get(schedule));
+        }
+        cleanSchedules(category.getId(), mySchedules);
+        return mySchedules;
+    }
+
 }

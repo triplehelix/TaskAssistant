@@ -58,11 +58,11 @@ public class DeleteCategory extends CategoryRequestHandler {
 
             //Commit changes to Tasks, Schedules and User:
             for(Task task: updatedTasks)
-               taskRepository.update(task);
+                taskRepository.update(task);
             for(Schedule schedule: updatedSchedules)
                 scheduleRepository.update(schedule);
             userRepository.update(updatedUser);
-		    categoryRepository.delete(category);
+            categoryRepository.delete(category);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
@@ -89,66 +89,4 @@ public class DeleteCategory extends CategoryRequestHandler {
 		}
 		sendMessage(jsonResponse, response);
 	}
-
-    /**
-     * Fetch a User that now references the Category provided. Note that
-     * this User is a deep copy and that the UserRepository has not yet
-     * been updated.
-     * @param category
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    private User getCleanedUser(Category category) throws BusinessException, SystemException, CriticalException{
-        User user=new User();
-        user.setId(category.getUserId());
-        user=userRepository.get(user);
-        cleanUser(category.getId(), user);
-        return user;
-    }
-
-    /**
-     * Fetch an ArrayList of Tasks that have had their Category ids updated.
-     * Note that these Tasks are deep copies, and the Tasks in the repository
-     * have not yet been updated.
-     * @param category
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    private ArrayList<Task> getCleanedTasks(Category category) throws BusinessException, SystemException, CriticalException{
-        ArrayList<Task> myTasks = new ArrayList<Task>();
-        if(category.getTaskIds()==null)
-            return myTasks;
-        for(int i: category.getTaskIds()) {
-            Task task=new Task();
-            task.setId(i);
-            myTasks.add(taskRepository.get(task));
-        }
-        cleanTasks(category.getId(), myTasks);
-        return myTasks;
-    }
-
-    /**
-     * Fetch an ArrayList of Schedules that have had their Category ids
-     * updated. Note that these Schedules are deep copies, and the
-     * Schedules in the repository have not yet been updated.
-     *
-     * @param category
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    private ArrayList<Schedule> getCleanedSchedules(Category category) throws BusinessException, SystemException, CriticalException{
-        ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
-        if(category.getScheduleIds()==null)
-            return mySchedules;
-
-        for(int i: category.getScheduleIds()) {
-            Schedule schedule=new Schedule();
-            schedule.setId(i);
-            mySchedules.add(scheduleRepository.get(schedule));
-        }
-        cleanSchedules(category.getId(), mySchedules);
-        return mySchedules;
-    }
-
 }

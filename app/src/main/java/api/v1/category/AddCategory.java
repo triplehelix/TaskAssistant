@@ -92,72 +92,11 @@ public class AddCategory extends CategoryRequestHandler {
     }
 
     /**
-     * Fetch a User that now references the Category provided. Note that
-     * this User is a deep copy and that the UserRepository has not yet
-     * been updated.
-     * @param category
-     * @return
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    private User getUpdatedUser(Category category) throws BusinessException, SystemException{
-        User user=new User();
-        user.setId(category.getUserId());
-        user=userRepository.get(user);
-        user.addCategory(category);
-        return user;
-    }
-
-    /**
-     * Fetch an ArrayList of Tasks that have had their Category ids updated.
-     * Note that these Tasks are deep copies, and the Tasks in the repository
-     * have not yet been updated.
-     * @param category
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    private ArrayList<Task> getUpdatedTasks(Category category) throws BusinessException, SystemException{
-        ArrayList<Task> myTasks = new ArrayList<Task>();
-        if(category.getTaskIds()==null)
-            return myTasks;
-        for(int i: category.getTaskIds()) {
-            Task task=new Task();
-            task.setId(i);
-            task=taskRepository.get(task);
-            task.addCategory(category);
-            myTasks.add(task);
-        }
-        return myTasks;
-    }
-
-    /**
-     * Fetch an ArrayList of Schedules that have had their Category ids updated.
-     * Note that these Schedules are deep copies, and the Tasks in the repository
-     * have not yet been updated.
-     * @param category
-     * @throws BusinessException
-     * @throws SystemException
-     */
-    private ArrayList<Schedule> getUpdatedSchedules(Category category) throws BusinessException, SystemException{
-        ArrayList<Schedule> mySchedule = new ArrayList<Schedule>();
-        if(category.getScheduleIds()==null)
-            return mySchedule;
-        for(int i: category.getScheduleIds()) {
-            Schedule schedule=new Schedule();
-            schedule.setId(i);
-            schedule=scheduleRepository.get(schedule);
-            schedule.addCategory(category);
-            mySchedule.add(schedule);
-        }
-        return mySchedule;
-    }
-
-    /**
      * Here we attempt to remove a category from the repository that
      * could not be added fully.
      * @param category
      */
-    protected void cleanUp(Category category){
+    private void cleanUp(Category category){
         try{
             categoryRepository.delete(category);
         } catch (BusinessException b) {

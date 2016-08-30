@@ -50,8 +50,8 @@ public class UpdateCategoryTest extends CategoryApiHelper {
         taskRepository=updateCategoryInstance.getTaskRepository();
         userRepository=updateCategoryInstance.getUserRepository();
 
-        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
-        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[0,1,2]");
+        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo`[3,4,5]");
         for(User user: CategoryApiHelper.toUsers(sampleUsers))
             userRepository.add(user);
 
@@ -146,13 +146,18 @@ public class UpdateCategoryTest extends CategoryApiHelper {
 
         }
 
+        for (MockHttpServletRequest request : errorRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            updateCategoryInstance.doPost(request, response);
+            validateDoPostErrorResponse(response);
+        }
+
         Category category=new Category();
         LOGGER.info("Verifying categories were updated in the repository...");
         for(int i=0;i<validRequestList.size();i++) {
             category.setId(i);
             LOGGER.info(categoryRepository.get(category).toJson());
         }
-
         LOGGER.info("Verifying Tasks have been updated...");
         for(Task task: toTasks(sampleTasks))
             LOGGER.info(taskRepository.get(task).toJson());
@@ -162,10 +167,5 @@ public class UpdateCategoryTest extends CategoryApiHelper {
             LOGGER.info(userRepository.get(user).toJson());
 
 
-        for (MockHttpServletRequest request : errorRequestList) {
-            MockHttpServletResponse response = new MockHttpServletResponse();
-            updateCategoryInstance.doPost(request, response);
-            validateDoPostErrorResponse(response);
-        }
     }
 }
