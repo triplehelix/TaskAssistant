@@ -145,25 +145,16 @@ public class AddCategoryTest extends CategoryApiHelper {
             validateDoPostValidResponse(response);
         }
 
+        for (MockHttpServletRequest request : errorRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            addCategoryInstance.doPost(request, response);
+            validateDoPostErrorResponse(response);
+        }
         Category category=new Category();
         LOGGER.info("Verifying categories were placed in the repository...");
         for(int i=0;i<validRequestList.size();i++) {
             category.setId(i);
             LOGGER.info(categoryRepository.get(category).toJson());
-        }
-
-        LOGGER.info("Verifying Tasks have been updated...");
-        for(Task task: toTasks(sampleTasks))
-            LOGGER.info(taskRepository.get(task).toJson());
-
-        LOGGER.info("Verifying Users have been updated...");
-        for(User user: toUsers(sampleUsers))
-            LOGGER.info(userRepository.get(user).toJson());
-
-        for (MockHttpServletRequest request : errorRequestList) {
-            MockHttpServletResponse response = new MockHttpServletResponse();
-            addCategoryInstance.doPost(request, response);
-            validateDoPostErrorResponse(response);
         }
 
         // Verify that the User has been updated.

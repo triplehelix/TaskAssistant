@@ -152,20 +152,25 @@ public class UpdateCategoryTest extends CategoryApiHelper {
             validateDoPostErrorResponse(response);
         }
 
-        Category category=new Category();
-        LOGGER.info("Verifying categories were updated in the repository...");
-        for(int i=0;i<validRequestList.size();i++) {
-            category.setId(i);
-            LOGGER.info(categoryRepository.get(category).toJson());
-        }
-        LOGGER.info("Verifying Tasks have been updated...");
-        for(Task task: toTasks(sampleTasks))
-            LOGGER.info(taskRepository.get(task).toJson());
 
-        LOGGER.info("Verifying Users have been updated...");
+        // Verify that the User has been updated.
         for(User user: toUsers(sampleUsers))
-            LOGGER.info(userRepository.get(user).toJson());
+            if(user.equals(userRepository.get(user))) {
+                LOGGER.error("This user failed to update {}", user);
+                //fail("This user was not updated!");
+            }
+        // Verify that the Task has been updated.
+        for(Task task: toTasks(sampleTasks))
+            if(task.equals(taskRepository.get(task))){
+                LOGGER.error("This task failed to update {}", task);
+                //fail("This task was not updated!");
+            }
 
+        for(Schedule schedule: toSchedules(sampleSchedules))
+            if(schedule.equals(scheduleRepository.get(schedule))) {
+                LOGGER.error("This schedule failed to update {}", schedule);
+                //fail("This schedule was not updated!");
+            }
 
     }
 }
