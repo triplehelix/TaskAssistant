@@ -49,7 +49,11 @@ public class AddSchedule extends ScheduleRequestHandler {
             schedule.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
             schedule.setStartDate(parseJsonDateAsDate((String)jsonRequest.get("startDate")));
             schedule.setEndDate(parseJsonDateAsDate((String)jsonRequest.get("endDate")));
-            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(((String)jsonRequest.get("repeatType")).trim()));
+            schedule.setRepeatType(((String)jsonRequest.get("repeatType")).trim());
+            // Verify privileges.
+            verifyTaskPrivileges(schedule.getUserId(), schedule.getTaskIds());
+            verifyCategoryPrivileges(schedule.getUserId(), schedule.getCategoryIds());
+            //Place completed category in the repository.
             scheduleRepository.add(schedule);
 
             ArrayList<Task> updatedTasks=getUpdatedTasks(schedule);

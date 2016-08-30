@@ -112,17 +112,42 @@ public class TaskRequestHandler extends BaseRequestHandler {
         Schedule schedule=new Schedule();
         for(int i: scheduleIds)
             schedule.setId(i);
-            schedule=scheduleRepository.get(schedule);
-            if (schedule.getUserId()==userId)
-                return;
-            else{
-                User user=new User();
-                user.setId(userId);
-                user=userRepository.get(user);
-                String message= "The user {email: " + user.getEmail() + ", id:" + user.getId()
-                        + "} does not have permission to access this Schedule {id:" + schedule.getId() + "}";
-                throw new BusinessException(message,Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
-            }
+        schedule=scheduleRepository.get(schedule);
+        if (schedule.getUserId()==userId)
+            return;
+        else{
+            User user=new User();
+            user.setId(userId);
+            user=userRepository.get(user);
+            String message= "The user {email: " + user.getEmail() + ", id:" + user.getId()
+                    + "} does not have permission to access this Schedule {id:" + schedule.getId() + "}";
+            throw new BusinessException(message,Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
+        }
+    }
+
+    /**
+     * Verify that the User with the specified ID has permission to access these
+     * schedules.
+     * @param userId
+     * @param categoryIds
+     */
+    protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException{
+        if(categoryIds==null)
+            return;
+        Category category=new Category();
+        for(int i: categoryIds)
+            category.setId(i);
+        category=categoryRepository.get(category);
+        if (category.getUserId()==userId)
+            return;
+        else{
+            User user=new User();
+            user.setId(userId);
+            user=userRepository.get(user);
+            String message= "The user {email: " + user.getEmail() + ", id:" + user.getId()
+                    + "} does not have permission to access this Schedule {id:" + category.getId() + "}";
+            throw new BusinessException(message,Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
+        }
     }
 
     /**
