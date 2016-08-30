@@ -38,14 +38,8 @@ public class GetSchedule extends ScheduleRequestHandler {
 		JSONObject jsonRequest = new JSONObject();
 		try {
 			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Return an instance of this schedule.
-			 * To successfully, return an instance of schedule to the client, it is necessary to
-			 * first discover the schedule id, then a serialized version of that instance should be
-			 * sent back to the client through the HttpServletResponse.
-			 */
-
-		scheduleRepository.get(schedule);
+            schedule.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+		schedule=scheduleRepository.get(schedule);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling an GetSchedule  Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
@@ -62,7 +56,8 @@ public class GetSchedule extends ScheduleRequestHandler {
 		if (error) {
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
 		} else {
-			jsonResponse.put("success", true);
+            jsonResponse.put("success", true);
+            jsonResponse.put("schedule", schedule.toJson());
 		}
 		sendMessage(jsonResponse, response);
 	}
