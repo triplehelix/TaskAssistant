@@ -52,7 +52,7 @@ public class ScheduleTest extends UnitTestHelper{
             schedule.setUserId(Integer.parseInt(elements[1]));
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
-            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
+            schedule.setRepeatType(elements[4].trim());
             schedule.setCategoryIds(toIntegerArrayList(elements[5]));
             schedule.setTaskIds(toIntegerArrayList(elements[6]));
             mySchedules.add(schedule);
