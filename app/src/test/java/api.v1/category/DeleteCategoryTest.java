@@ -151,20 +151,20 @@ public class DeleteCategoryTest extends CategoryApiHelper {
         for(User user: toUsers(sampleUsers))
             if(user.equals(userRepository.get(user))) {
                 LOGGER.error("This user failed to update {}", user);
-                //fail("This user was not updated!");
+                fail("This user was not updated!");
             }
 
         // Verify that the Task has been updated.
         for(Task task: toTasks(sampleTasks))
             if(task.equals(taskRepository.get(task))){
                 LOGGER.error("This task failed to update {}", task);
-                //fail("This task was not updated!");
+                fail("This task was not updated!");
             }
 
         for(Schedule schedule: toSchedules(sampleSchedules))
             if(schedule.equals(scheduleRepository.get(schedule))) {
                 LOGGER.error("This schedule failed to update {}", schedule);
-                //fail("This schedule was not updated!");
+                fail("This schedule was not updated!");
             }
     }
 }
