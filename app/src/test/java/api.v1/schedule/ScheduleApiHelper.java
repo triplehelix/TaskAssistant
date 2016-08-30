@@ -79,7 +79,7 @@ public class ScheduleApiHelper extends UnitTestHelper {
             task.setDueDate(UnitTestHelper.parseJsonDateAsDate(elements[8]));
             task.setStatus(elements[9]);
             if (elements.length > 10) {
-                task.setCategoryIds(toIntegerArrayList(elements[10]));
+                task.setScheduleIds(toIntegerArrayList(elements[10]));
             }
 
             myTasks.add(task);
@@ -95,12 +95,14 @@ public class ScheduleApiHelper extends UnitTestHelper {
     protected static ArrayList<Category> toCategories(ArrayList<String> backtickCategories) throws Exception{
         ArrayList<Category> myCategories = new ArrayList<Category>();
         for(String s:backtickCategories){
-            String[] categoryElementArray = s.split("`");
+            String[] elements = s.split("`");
             Category category = new Category();
-            category.setId(Integer.parseInt(categoryElementArray[0]));
-            category.setUserId(Integer.parseInt(categoryElementArray[1]));
-            category.setName(categoryElementArray[2]);
-            category.setDescription(categoryElementArray[3]);
+            category.setId(Integer.parseInt(elements[0]));
+            category.setUserId(Integer.parseInt(elements[1]));
+            category.setName(elements[2]);
+            category.setDescription(elements[3]);
+            if(elements.length>4)
+                category.setScheduleIds(toIntegerArrayList(elements[4]));
             myCategories.add(category);
         }
         return myCategories;
@@ -121,13 +123,14 @@ public class ScheduleApiHelper extends UnitTestHelper {
             user.setEmail(elements[1].trim());
             user.setPassword(elements[2].trim());
             if (elements.length > 3) {
-                user.setCategoryIds(toIntegerArrayList(elements[3]));
+                user.setScheduleIds(toIntegerArrayList(elements[3]));
             }
             myUsers.add(user);
         }
         return myUsers;
     }
-  /**
+
+    /**
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of Categories.
      * @param backtickCategories
      * @return ArrayList<Schedule>

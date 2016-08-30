@@ -65,7 +65,6 @@ public class DeleteCategoryTest extends CategoryApiHelper {
         for(Task task: CategoryApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
-
         validCategories.add("0`0`Mikes work`This is for all of the work Mike does         `[0,1]`[0,1,2]");
         validCategories.add("1`0`Mikes home`This is for all of the chores Mike never does `[2,3]`[]");
         validCategories.add("2`0`Mikes play`This is for Mike's recreational stuff         `[2,3]`[]");
@@ -83,7 +82,6 @@ public class DeleteCategoryTest extends CategoryApiHelper {
         sampleSchedules.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[3]");
         for(Schedule schedule: CategoryApiHelper.toSchedules(sampleSchedules))
             scheduleRepository.add(schedule);
-
 
         errorCategories.add( "-1`0`Mikes play`This is for Mike's recreational stuff         `[]`[]");
         errorCategories.add(  "6`1`Ken's work`This is for all of the work Ken never does.   `[]`[]");

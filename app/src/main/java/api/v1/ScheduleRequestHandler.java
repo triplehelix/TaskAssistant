@@ -27,6 +27,7 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
         if(categories==null)
             return;
         for(Category category: categories) {
+            log.debug("Here is the Category we are attempting to clean {} ", category.toJson());
             if (category.getScheduleIds().contains(scheduleId)) {
                 category.getScheduleIds().remove((Object) scheduleId);
             }else {
@@ -49,6 +50,7 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
         if(tasks==null)
             return;
         for(Task task: tasks) {
+            log.debug("Here is the Task we are attempting to clean {} ", task.toJson());
             if (task.getScheduleIds().contains(scheduleId)) {
                 task.getScheduleIds().remove((Object) scheduleId);
             }else {
