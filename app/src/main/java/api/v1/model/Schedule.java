@@ -1,5 +1,7 @@
 package api.v1.model;
 
+import api.v1.error.Error;
+import api.v1.error.BusinessException;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
@@ -61,8 +63,13 @@ public class Schedule {
         this.userId = userId;
     }
 
-    public void setRepeatType(RepeatTypes repeatType) {
-        this.repeatType = repeatType;
+    public void setRepeatType(String repeatType) throws BusinessException{
+        try {
+            this.repeatType = RepeatTypes.valueOf(repeatType);
+        }
+        catch(java.lang.IllegalArgumentException e){
+            throw new BusinessException(repeatType +" is not a valid task status.", Error.valueOf("INVALID_SCHEDULE_REPEAT_TYPE_ERROR"));
+        }
     }
 
     public ArrayList<Integer> getTaskIds() {
