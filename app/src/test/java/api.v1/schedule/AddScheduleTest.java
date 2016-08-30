@@ -16,6 +16,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
 
+import static org.springframework.test.util.AssertionErrors.fail;
+
 /**
  * This class tests the AddSchedule Class.
  * @author kennethlyon
@@ -148,12 +150,19 @@ public class AddScheduleTest extends ScheduleApiHelper {
         for(Schedule schedule: toSchedules(validSchedules))
             LOGGER.info(scheduleRepository.get(schedule).toJson());
 
-        //Verify the Tasks have been updated correctly:
-        for(Task task: toTasks(sampleTasks))
-            LOGGER.info(taskRepository.get(task).toJson());
-
-        //Verify the Users have been updated correctly:
+        // Verify that the User has been updated.
         for(User user: toUsers(sampleUsers))
-            LOGGER.info(userRepository.get(user).toJson());
+            if(user.equals(userRepository.get(user))) {
+                LOGGER.error("This user failed to update {}", user);
+                fail("This user was not updated!");
+            }
+
+        // Verify that the Task has been updated.
+        for(Task task: toTasks(sampleTasks))
+            if(task.equals(taskRepository.get(task))){
+                LOGGER.error("This task failed to update {}", task);
+                fail("This task was not updated!");
+            }
+
     }
 }
