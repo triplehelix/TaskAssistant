@@ -23,10 +23,17 @@ public class ScheduleApiHelper extends UnitTestHelper {
     static ArrayList<JSONObject> toJSONObject(ArrayList<String> backtickCategories) throws Exception{
         ArrayList<JSONObject> myJSONObjects = new ArrayList<JSONObject>();
         for(String s: backtickCategories) {
-            String[] categoryElementArray = s.split("`");
+            String[] elements = s.split("`");
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("id", categoryElementArray[0]);
-            jsonObj.put("userId", categoryElementArray[1]);
+            jsonObj.put("id", elements[0]);
+            jsonObj.put("userId", elements[1]);
+            jsonObj.put("startDate", elements[2]);
+            jsonObj.put("endDate", elements[3]);
+            jsonObj.put("repeatType", elements[4]);
+            if(elements.length>5) {
+                jsonObj.put("taskIds", elements[5]);
+                jsonObj.put("categoryIds", elements[6]);
+            }
             myJSONObjects.add(jsonObj);
         }
         return myJSONObjects;
@@ -94,7 +101,6 @@ public class ScheduleApiHelper extends UnitTestHelper {
             category.setUserId(Integer.parseInt(categoryElementArray[1]));
             category.setName(categoryElementArray[2]);
             category.setDescription(categoryElementArray[3]);
-            category.setTaskIds(toIntegerArrayList(categoryElementArray[4]));
             myCategories.add(category);
         }
         return myCategories;
@@ -136,7 +142,11 @@ public class ScheduleApiHelper extends UnitTestHelper {
             schedule.setUserId(Integer.parseInt(elements[1]));
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
-     	        //schedule.setTaskIds(toIntegerArrayList(elements[4]));
+            schedule.setRepeatType(elements[4].trim());
+            if(elements.length>5) {
+                schedule.setTaskIds(toIntegerArrayList(elements[5]));
+                schedule.setCategoryIds(toIntegerArrayList(elements[6]));
+            }
             mySchedules.add(schedule);
         }
         return mySchedules;
