@@ -54,8 +54,7 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
         taskListRepository=updateScheduleInstance.getTaskListRepository();
         taskRepository=updateScheduleInstance.getTaskRepository();
         userRepository=updateScheduleInstance.getUserRepository();
-
-    /*****************************************************************************************************************/
+        
         sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[0,1,2]");
         sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo`[3,4,5]");
         for(User user: ScheduleApiHelper.toUsers(sampleUsers))
@@ -98,18 +97,18 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
                                                                           // Tasks Categories  
         validUpdates.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[3,2]`[]"); 
         validUpdates.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[1,3]`[]"); 
-        validUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[1,0]`[]"); 
-        validUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[5,6]`[]"); 
+        validUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[1,0]`[]");
+        validUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[5,6]`[]");
         validUpdates.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[5,6]`[]"); 
         validUpdates.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[4,5]`[5]");       
 
                                                                           // Tasks Categories  
-        errorUpdates.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[]");
-        errorUpdates.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0,1,2]");
-        errorUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[]");
-        errorUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[]");
-        errorUpdates.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[3,4,5]");
-        errorUpdates.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[]");
+        errorUpdates.add("-1`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[]");
+        //errorUpdates.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0,1,2]");
+        //errorUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[]");
+        //errorUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[]");
+        //errorUpdates.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[3,4,5]");
+        //errorUpdates.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[]");
 
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(errorUpdates))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
@@ -131,10 +130,13 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
             categoryRepository.delete(category);
         for(TaskList taskList: toTaskLists(sampleTaskLists))
             taskListRepository.delete(taskList);
+        for(Schedule schedule: toSchedules(validSchedules))
+            scheduleRepository.delete(schedule);
         for(Task task: toTasks(sampleTasks))
             taskRepository.delete(task);
         for(User user: toUsers(sampleUsers))
             userRepository.delete(user);
+
     }
 
     /**
@@ -164,13 +166,6 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
             if(schedule.equals(scheduleRepository.get(schedule))) {
                 LOGGER.error("This schedule failed to update {}", schedule);
                 fail("This schedule was not updated!");
-            }
-
-        // Verify that the User has been updated.
-        for(User user: toUsers(sampleUsers))
-            if(user.equals(userRepository.get(user))) {
-                LOGGER.error("This user failed to update {}", user);
-                fail("This user was not updated!");
             }
 
         // Verify that the Tasks have been updated.
