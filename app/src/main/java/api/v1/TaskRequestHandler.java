@@ -45,17 +45,6 @@ public class TaskRequestHandler extends BaseRequestHandler {
     /**
      * Verify that a specified TaskList actually exists. This
      * is used by AddTask and UpdateTask to prevent orphaned
-     * tasks.
-     */
-    protected static void verifyTaskListExists(int taskListId) throws BusinessException, SystemException{
-        TaskList taskList=new TaskList();
-        taskList.setId(taskListId);
-        taskListRepository.get(taskList);
-    }
-
-    /**
-     * Verify that a specified TaskList actually exists. This
-     * is used by AddTask and UpdateTask to prevent orphaned
      * reminders.
      */
     protected static void verifyTaskExists(int taskId) throws BusinessException, SystemException {
@@ -63,6 +52,7 @@ public class TaskRequestHandler extends BaseRequestHandler {
         task.setId(taskId);
         taskRepository.get(task);
     }
+
     /**
      * Verify that each taskId supplied belongs to a TaskList that belongs to the 
      * supplied User id.

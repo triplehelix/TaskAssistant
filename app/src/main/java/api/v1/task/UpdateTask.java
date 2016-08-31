@@ -21,7 +21,6 @@ import api.v1.model.Task;
  */
 @WebServlet("/api/v1/task/PutTask")
 public class UpdateTask extends TaskRequestHandler {
-
 	/**
 	 *
 	 * @param request
@@ -53,7 +52,6 @@ public class UpdateTask extends TaskRequestHandler {
 
 			// private String taskListId
 			task.setTaskListId(parseJsonIntAsInt((String)jsonRequest.get("taskListId")));
-			verifyTaskListExists(task.getTaskListId());
 
 			// private String name;
             task.setName((String)jsonRequest.get("name"));
