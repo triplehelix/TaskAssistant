@@ -1,11 +1,12 @@
 package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.model.User;
+import api.v1.model.*;
 import api.v1.repo.UserRepository;
 import api.v1.error.Error;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.util.ArrayList;
 
 
 /**
@@ -75,4 +76,87 @@ public class AuthRequestHandler extends BaseRequestHandler{
             throw new BusinessException("Incorrect password.", Error.valueOf("INCORRECT_PASSWORD_ERROR"));
         }
     }
+
+	/**
+	 * Verify that each taskId supplied belongs to a TaskList that belongs to the
+	 * supplied User id.
+	 * @param userId
+	 * @param taskIds
+	 */
+	protected void verifyTaskPrivileges(int userId, ArrayList<Integer> taskIds)
+			throws BusinessException, SystemException {
+		if(taskIds==null)
+			return;
+		for(Integer i: taskIds){
+			// First fetch the Task specified in the taskIds list.
+			Task task=new Task();
+			task.setId(i);
+			task=taskRepository.get(task);
+
+			//Next fetch the TaskList that owns this Task.
+			TaskList taskList=new TaskList();
+			taskList.setId(task.getTaskListId());
+			taskList=taskListRepository.get(taskList);
+
+			log.debug("TaskList owner id: " + taskList.getUserId());
+			log.debug("User id: " + userId);
+			//Finally, verify that ownership of the TaskList.
+			if(taskList.getUserId()==userId)
+				return;
+			else{
+				String message= "This task cannot be accessed by the specified user. ";
+				throwObjectOwnershipError(userId, message);
+			}
+		}
+	}
+
+	protected void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
+		User user = new User();
+		user.setId(userId);
+		user=userRepository.get(user);
+		message+=" {id: " + userId +", email: " + user.getEmail() + "}";
+		throw new BusinessException(message, Error.valueOf("OBJECT_OWNERSHIP_ERROR"));
+	}
+
+	/**
+	 * Verify that the User with the specified ID has permission to access these
+	 * schedules.
+	 * @param userId
+	 * @param scheduleIds
+	 */
+	protected void verifySchedulePrivileges(int userId, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException{
+		if(scheduleIds==null)
+			return;
+		Schedule schedule=new Schedule();
+		for(int i: scheduleIds)
+			schedule.setId(i);
+		schedule=scheduleRepository.get(schedule);
+		if (schedule.getUserId()==userId)
+			return;
+		else{
+			String message= "This schedule cannot be accessed by the specified user. ";
+			throwObjectOwnershipError(userId, message);
+		}
+	}
+
+	/**
+	 * Verify that the User with the specified ID has permission to access these
+	 * schedules.
+	 * @param userId
+	 * @param categoryIds
+	 */
+	protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException{
+		if(categoryIds==null)
+			return;
+		Category category=new Category();
+		for(int i: categoryIds)
+			category.setId(i);
+		category=categoryRepository.get(category);
+		if (category.getUserId()==userId)
+			return;
+		else{
+			String message= "This category cannot be accessed by the specified user. ";
+			throwObjectOwnershipError(userId, message);
+		}
+	}
 }
