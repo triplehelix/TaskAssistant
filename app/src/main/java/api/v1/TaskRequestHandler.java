@@ -58,5 +58,39 @@ public class TaskRequestHandler extends AuthRequestHandler {
                     + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
     }
 
+    /**
+     * Fetch and update a TaskList object so that it now points to the specified
+     * task.
+     * @param task
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    protected TaskList getUpdatedTaskList(Task task) throws BusinessException, SystemException {
+        TaskList taskList=new TaskList();
+        taskList.setId(task.getTaskListId());
+        taskList=taskListRepository.get(taskList);
+        taskList.addTask(task);
+        return taskList;
+    }
 
+    protected ArrayList<Schedule> getUpdatedSchedules(Task task) throws BusinessException, SystemException {
+        return null;
+    }
+
+    protected ArrayList<Category> getUpdatedCategories(Task task) throws BusinessException, SystemException{
+        return null;
+    }
+
+    protected TaskList getCleanedTaskList(Task task) throws BusinessException, SystemException, CriticalException{
+        return null;
+    }
+
+    protected ArrayList<Category> getCleanedCategories(Task task) throws BusinessException, SystemException, CriticalException{
+        return null;
+    }
+
+    protected ArrayList<Schedule> getCleanedSchedules(Task task) throws BusinessException, SystemException, CriticalException{
+        return null;
+    }
 }

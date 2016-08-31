@@ -56,13 +56,13 @@ public class DeleteSchedule extends ScheduleRequestHandler {
             ArrayList<Task> updatedTasks=getCleanedTasks(schedule);
             User updatedUser=getCleanedUser(schedule);
 
-            //Commit changes to Tasks, Categories and User:
-            for(Task task: updatedTasks)
-                taskRepository.update(task);
-            for(Category category: updatedCategories)
-                categoryRepository.update(category);
-            userRepository.update(updatedUser);
-            scheduleRepository.delete(schedule);
+			//Commit changes to Tasks, Categories and User:
+			for(Task task: updatedTasks)
+				taskRepository.update(task);
+			for(Category category: updatedCategories)
+				categoryRepository.update(category);
+			userRepository.update(updatedUser);
+			scheduleRepository.delete(schedule);
 		} catch (BusinessException b) {
 			log.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
@@ -74,11 +74,11 @@ public class DeleteSchedule extends ScheduleRequestHandler {
 			errorCode = s.getError().getCode();
 			error = true;
 		} catch (CriticalException c) {
-            log.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), c);
-            errorMsg = "Error. " + c.getMessage();
-            errorCode = c.getError().getCode();
-            error = true;
-        }
+			log.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), c);
+			errorMsg = "Error. " + c.getMessage();
+			errorCode = c.getError().getCode();
+			error = true;
+		}
 
 
         JSONObject jsonResponse = new JSONObject();

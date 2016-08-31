@@ -4,12 +4,18 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import api.v1.model.Category;
+import api.v1.model.Schedule;
+import api.v1.model.TaskList;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.TaskRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import api.v1.model.Task;
 
 /**
@@ -50,14 +56,21 @@ public class AddTask extends TaskRequestHandler {
             task.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
             task.setStatus((String)jsonRequest.get("status"));
 
-            // Add an array of schedule, category and reminder ids.
+            // Add an array of schedule and category ids.
             task.setScheduleIds(toIntegerArrayList((String)jsonRequest.get("scheduleIds")));
             task.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
-            task.setReminderIds(toIntegerArrayList((String)jsonRequest.get("reminderIds")));
 
-            // TODO verify permission to modify schedules, categories, reminders and tasklists.
+            // Fetch an updated TaskList.
+            TaskList taskList=getUpdatedTaskList(task);
+
+            //Verify privileges to modify Schedules and Categories.
+            verifySchedulePrivileges(taskList.getUserId(), task.getScheduleIds());
+            verifyCategoryPrivileges(taskList.getUserId(), task.getCategoryIds());
+
+            ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
+            ArrayList<Category> updatedCategories=getUpdatedCategories(task);
+
             taskRepository.add(task);
-
         } catch (BusinessException b) {
             log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
@@ -73,9 +86,26 @@ public class AddTask extends TaskRequestHandler {
         JSONObject jsonResponse = new JSONObject();
         if (error) {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+            cleanUp(task);
         } else {
             jsonResponse.put("success", true);
         }
         sendMessage(jsonResponse, response);
     }
+
+    /**
+     * Here we attempt to remove a Task from the repository that
+     * could not be added fully.
+     * @param task
+     */
+    private void cleanUp(Task task){
+        try{
+            taskRepository.delete(task);
+        } catch (BusinessException b) {
+            log.error("Could not remove this category from the categoryRepository. ",b);
+        } catch (SystemException s) {
+            log.error("Could not remove this category from the categoryRepository. ",s);
+        }
+    }
+
 }

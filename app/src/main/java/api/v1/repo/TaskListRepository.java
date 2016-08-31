@@ -37,7 +37,7 @@ public class TaskListRepository implements Repository<TaskList>{
             taskListId++;
         tl.setId(taskListId);
         taskListMap.put(taskListId, tl);
-        return tl;
+        return new TaskList(tl);
     }
 
     /**
@@ -49,7 +49,7 @@ public class TaskListRepository implements Repository<TaskList>{
      */
     public TaskList get(TaskList tl)throws BusinessException, SystemException{ 
        if(taskListMap.containsKey(tl.getId()))
-            return taskListMap.get(tl.getId());
+            return new TaskList(taskListMap.get(tl.getId()));
         else
             throw new BusinessException(" TaskList not found. ID=" + tl.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
