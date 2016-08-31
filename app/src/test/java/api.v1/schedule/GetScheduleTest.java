@@ -2,10 +2,6 @@ package api.v1.schedule;
 
 import api.v1.model.*;
 import api.v1.repo.ScheduleRepository;
-import api.v1.repo.TaskListRepository;
-import api.v1.repo.TaskRepository;
-import api.v1.repo.UserRepository;
-import api.v1.repo.CategoryRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -15,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
-
-import static org.springframework.test.util.AssertionErrors.fail;
 
 /**
  * This class tests the GetSchedule Class.

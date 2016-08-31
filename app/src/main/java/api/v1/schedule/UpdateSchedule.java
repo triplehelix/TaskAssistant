@@ -20,7 +20,7 @@ import api.v1.model.Schedule;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/schedule/PutSchedule")
-public class PutSchedule extends ScheduleRequestHandler {
+public class UpdateSchedule extends ScheduleRequestHandler {
 
 	/**
 	 *
