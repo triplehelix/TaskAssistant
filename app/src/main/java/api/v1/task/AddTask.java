@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.TaskList;
+import api.v1.repo.TaskListRepository;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -68,6 +69,12 @@ public class AddTask extends TaskRequestHandler {
 
             ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
             ArrayList<Category> updatedCategories=getUpdatedCategories(task);
+
+            taskListRepository.update(taskList);
+            for(Schedule schedule: updatedSchedules)
+                scheduleRepository.update(schedule);
+            for(Category category: updatedCategories)
+                categoryRepository.update(category);
 
         } catch (BusinessException b) {
             log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);

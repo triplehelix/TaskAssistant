@@ -1,13 +1,7 @@
 package api.v1.task;
 
-import api.v1.model.Category;
-import api.v1.model.Schedule;
-import api.v1.model.Task;
-import api.v1.model.TaskList;
-import api.v1.repo.CategoryRepository;
-import api.v1.repo.ScheduleRepository;
-import api.v1.repo.TaskListRepository;
-import api.v1.repo.TaskRepository;
+import api.v1.model.*;
+import api.v1.repo.*;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -28,6 +22,7 @@ public class AddTaskTest extends TaskApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);
     private static AddTask addTaskInstance;
     private static TaskRepository taskRepository;
+    private static UserRepository userRepository;
     private static CategoryRepository categoryRepository;
     private static ScheduleRepository scheduleRepository;
     private static TaskListRepository taskListRepository;
@@ -36,8 +31,10 @@ public class AddTaskTest extends TaskApiHelper {
     private static ArrayList<String> sampleCategories=new ArrayList<String>();
     private static ArrayList<String> sampleSchedules=new ArrayList<String>();
     private static ArrayList<String> sampleTaskLists=new ArrayList<String>();
+    private static ArrayList<String> sampleUsers=new ArrayList<String>();
     private static ArrayList<String> validTasks=new ArrayList<String>();
     private static ArrayList<String> errorTasks=new ArrayList<String>();
+
     /**
      * First create a new Instance of AddTask() object, then add new
      * task test cases to validRequestList and errorRequestList.
@@ -51,6 +48,12 @@ public class AddTaskTest extends TaskApiHelper {
         scheduleRepository=addTaskInstance.getScheduleRepository();
         categoryRepository=addTaskInstance.getCategoryRepository();
         taskRepository=addTaskInstance.getTaskRepository();
+        userRepository=addTaskInstance.getUserRepository();
+
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
+        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");
+        for(User user: TaskApiHelper.toUsers(sampleUsers))
+            userRepository.add(user);
 
         sampleTaskLists.add("0`0`Mike's TaskList.`This is Mike's  TaskList.");
         sampleTaskLists.add("1`1`Ken's  TaskList.`This is Kenny's TaskList.");
@@ -78,7 +81,7 @@ public class AddTaskTest extends TaskApiHelper {
         validTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[0,1,2]");
         validTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1]`[1,2]");
         validTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[2]`[1,2]");
-        validTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[2,3]");
+        validTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[2,0]");
         validTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[3,4,5]");
         validTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4]`[]");
         validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[5]`[]");
@@ -122,7 +125,6 @@ public class AddTaskTest extends TaskApiHelper {
 
         for(Task task: toTasks(validTasks))
             taskRepository.delete(task);
-
     }
 
     /**
@@ -148,20 +150,27 @@ public class AddTaskTest extends TaskApiHelper {
 
         for(Schedule schedule: toSchedules(sampleSchedules))
             if(schedule.equals(scheduleRepository.get(schedule))) {
-                LOGGER.error("This schedule failed to update {}", schedule);
+                LOGGER.error("This schedule failed to update {}", schedule.toJson());
                 fail("This schedule was not updated!");
             }
+            else
+                LOGGER.info("Updated Schedule: {}", scheduleRepository.get(schedule).toJson());
+
 
         for(Category category: toCategories(sampleCategories))
             if(category.equals(categoryRepository.get(category))) {
-                LOGGER.error("This category failed to update {}", category);
+                LOGGER.error("This category failed to update {}", category.toJson());
                 fail("This category was not updated!");
             }
+            else
+                LOGGER.info("Updated Category: {}", categoryRepository.get(category).toJson());
 
         for(TaskList taskList: toTaskLists(sampleTaskLists))
             if(taskList.equals(taskListRepository.get(taskList))) {
-                LOGGER.error("This taskList failed to update {}", taskList);
+                LOGGER.error("This taskList failed to update {}", taskList.toJson());
                 fail("This taskList was not updated!");
             }
+            else
+                LOGGER.info("Updated TaskList: {}", taskListRepository.get(taskList).toJson());
     }
 }
