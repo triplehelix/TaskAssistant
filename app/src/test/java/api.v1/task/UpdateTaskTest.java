@@ -64,17 +64,16 @@ public class UpdateTaskTest extends TaskApiHelper{
      */
     @Test
     public void doPost() throws Exception {
-        LOGGER.debug("// 5. Post valid mock requests...");
-        for (MockHttpServletRequest request : validUpdateTaskRequestList) {
-            MockHttpServletResponse response = new MockHttpServletResponse();
-            updateTaskInstance.doPost(request, response);
-            validateDoPostValidResponse(response);
-        }
-        LOGGER.debug("// 6. Post error mock requests...");
         for (MockHttpServletRequest request : errorUpdateTaskRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             updateTaskInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
+        }
+
+        for (MockHttpServletRequest request : validUpdateTaskRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            updateTaskInstance.doPost(request, response);
+            validateDoPostValidResponse(response);
         }
     }
 }
