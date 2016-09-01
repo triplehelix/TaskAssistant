@@ -5,16 +5,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.model.Category;
-import api.v1.model.Schedule;
-import api.v1.model.TaskList;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.TaskRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import api.v1.model.Task;
 
@@ -64,7 +60,7 @@ public class GetTask extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
-            jsonResponse.put("task", task);
+            jsonResponse.put("task", task.toJson());
         }
         sendMessage(jsonResponse, response);
     }
