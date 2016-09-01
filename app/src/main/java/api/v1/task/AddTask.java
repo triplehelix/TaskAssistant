@@ -55,11 +55,10 @@ public class AddTask extends TaskRequestHandler {
             task.setUrgent(parseJsonBooleanAsBoolean((String)jsonRequest.get("urgent")));
             task.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
             task.setStatus((String)jsonRequest.get("status"));
-
             // Add an array of schedule and category ids.
             task.setScheduleIds(toIntegerArrayList((String)jsonRequest.get("scheduleIds")));
             task.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
-
+            task=taskRepository.add(task);
             // Fetch an updated TaskList.
             TaskList taskList=getUpdatedTaskList(task);
 
@@ -70,7 +69,6 @@ public class AddTask extends TaskRequestHandler {
             ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
             ArrayList<Category> updatedCategories=getUpdatedCategories(task);
 
-            taskRepository.add(task);
         } catch (BusinessException b) {
             log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
@@ -102,10 +100,9 @@ public class AddTask extends TaskRequestHandler {
         try{
             taskRepository.delete(task);
         } catch (BusinessException b) {
-            log.error("Could not remove this category from the categoryRepository. ",b);
+            log.error("Could not remove this Task from the TaskRepository. ",b);
         } catch (SystemException s) {
-            log.error("Could not remove this category from the categoryRepository. ",s);
+            log.error("Could not remove this Task from the TaskRepository. ",s);
         }
     }
-
 }

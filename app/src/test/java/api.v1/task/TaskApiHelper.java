@@ -84,9 +84,8 @@ public class TaskApiHelper extends UnitTestHelper {
             category.setUserId(Integer.parseInt(categoryElementArray[1]));
             category.setName(categoryElementArray[2]);
             category.setDescription(categoryElementArray[3]);
-            category.setTaskIds(toIntegerArrayList(categoryElementArray[4]));
-            if(categoryElementArray.length > 5)
-                category.setScheduleIds(toIntegerArrayList(categoryElementArray[5]));
+            if(categoryElementArray.length > 4)
+                category.setTaskIds(toIntegerArrayList(categoryElementArray[4]));
             myCategories.add(category);
         }
         return myCategories;

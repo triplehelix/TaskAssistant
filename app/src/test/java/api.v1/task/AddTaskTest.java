@@ -72,20 +72,20 @@ public class AddTaskTest extends TaskApiHelper {
         sampleCategories.add("3`1`Ken's work`This is for all of the work Ken never does.  ");
         sampleCategories.add("4`1`ken's home`This is for all of the chores Ken does.      ");
         sampleCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does. ");
+        for(Category category: TaskApiHelper.toCategories(sampleCategories))
+            categoryRepository.add(category);
 
+        validTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[0,1,2]");
+        validTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1]`[1,2]");
+        validTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[2]`[1,2]");
+        validTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[2,3]");
+        validTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[3,4,5]");
+        validTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4]`[]");
+        validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[5]`[]");
+        validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[]");
 
-        validTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[1,2]"); //   [0]
-        validTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[1,2]"); //   [0]
-        validTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[1,2]"); //   [1,2]
-        validTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[1,2]"); //   [1,2]
-        validTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[4,5]"); //   [3]
-        validTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[4,5]"); //   [3]
-        validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[4,5]"); //   [4,5]
-        validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[4,5]"); //   [4,5]
-
-
-        errorTasks.add("0`1`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[]");  //  Cannot access tasklist
-        errorTasks.add("1`1`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[]");  //  Cannot access tasklist
+        errorTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-02-31_00:00:00`NEW`[]`[]");  //  Invalid Date
+        errorTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`YES `2020-05-31_00:00:00`NEW`[]`[]");  //  Invalid boolean value
         errorTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[5]`[]"); //  Cannot access category
         errorTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[5]"); //  Cannot access schedule
         errorTasks.add("4`9`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[]");  //  TaskList DNE
