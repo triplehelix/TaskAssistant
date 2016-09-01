@@ -38,7 +38,8 @@ public class AddTaskList extends TaskRequestHandler {
         JSONObject jsonRequest = new JSONObject();
         try {
            /* TODO DO NOT look for tasks that belong to TaskList.
-            * TaskLists cannot be created with tasks that already belong to them.
+            * TaskLists cannot be created with tasks that already belong to them
+            * since tasks are created as members of a valid TaskList.
             */
             jsonRequest = parseRequest(request.getParameter("params"));
             taskList.setName((String)jsonRequest.get("name"));

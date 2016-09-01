@@ -24,7 +24,8 @@ import api.v1.model.TaskList;
 public class UpdateTaskList extends TaskRequestHandler {
 
 	/**
-	 *
+	 * Update a TaskList object. Include references to all Tasks that you
+	 * want to keep since dereferenced Tasks will be deleted.
 	 * @param request
 	 * @param response
 	 * @throws ServletException

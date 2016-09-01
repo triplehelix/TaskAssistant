@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
 import api.v1.model.Task;
-import api.v1.repo.TaskRepository;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -59,7 +58,6 @@ public class GetTasks extends TaskRequestHandler {
              * String json = new Gson().toJson(foo );
             */
             listOfTasksAsJson=new Gson().toJson(listOfTasks);
-
         } catch (BusinessException b) {
             log.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
