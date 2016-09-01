@@ -24,8 +24,9 @@ import api.v1.model.TaskList;
 public class DeleteTaskList extends TaskRequestHandler {
 
 	/**
-	 * Delete a particular taskList. A taskList "id" is required to specify the 
-	 * taskList to be removed.
+	 * Delete a TaskList and all of the tasks that belong to it. A
+	 * taskList "id" is required to specify the taskList to be
+     * removed.
 	 * 
 	 * @param request
 	 * @param response

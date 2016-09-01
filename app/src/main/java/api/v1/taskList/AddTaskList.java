@@ -22,19 +22,7 @@ import api.v1.model.TaskList;
  */
 @WebServlet("/api/v1/taskList/AddTaskList")
 public class AddTaskList extends TaskRequestHandler {
-    /** /api/v1/user/addtasklist
-     * o POST
-     * ·  Request
-     *    ·  user_id
-     *    ·  tasklistid (can be null)
-     *    ·  name (can be null)
-     *    ·  description (can be null)
-     *    ·  permission
-     * ·  Response
-     *    ·  Success
-     *    ·  Tasklistid
-     *    ·  error
-     * 
+    /**
      *
      * @param request
      * @param response
@@ -49,8 +37,10 @@ public class AddTaskList extends TaskRequestHandler {
         int errorCode = 0;
         JSONObject jsonRequest = new JSONObject();
         try {
+           /* TODO DO NOT look for tasks that belong to TaskList.
+            * TaskLists cannot be created with tasks that already belong to them.
+            */
             jsonRequest = parseRequest(request.getParameter("params"));
-            // private String name;
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));
             taskListRepository.add(taskList);
