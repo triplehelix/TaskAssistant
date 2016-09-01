@@ -81,6 +81,12 @@ public class Schedule {
         this.taskIds = taskIds;
     }
 
+    public void addTask(Task task){
+        if(this.taskIds==null)
+            taskIds=new ArrayList<Integer>();
+        taskIds.add(task.getId());
+    }
+
     public ArrayList<Integer> getCategoryIds() {
 
         return categoryIds;
@@ -95,6 +101,7 @@ public class Schedule {
             categoryIds=new ArrayList<Integer>();
         categoryIds.add(category.getId());
     }
+
     /**
      * Create a serialized JSON String of this instance
      * using GSON.

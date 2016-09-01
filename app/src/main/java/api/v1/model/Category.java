@@ -51,6 +51,11 @@ public class Category {
     public void setTaskIds(ArrayList<Integer> taskIds) {
         this.taskIds = taskIds;
     }
+    public void addTask(Task task){
+        if(this.taskIds==null)
+            taskIds=new ArrayList<Integer>();
+        taskIds.add(task.getId());
+    }
     public ArrayList<Integer> getScheduleIds() {
         return scheduleIds;
     }
