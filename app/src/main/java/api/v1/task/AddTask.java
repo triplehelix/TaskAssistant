@@ -16,7 +16,8 @@ import api.v1.TaskRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.model.Task;
 
 /**
@@ -28,7 +29,7 @@ import api.v1.model.Task;
  */
 @WebServlet("/api/v1/task/AddTask")
 public class AddTask extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddTask.class);
     /**
      *
      * @param request
@@ -77,12 +78,12 @@ public class AddTask extends TaskRequestHandler {
                 categoryRepository.update(category);
 
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -107,9 +108,9 @@ public class AddTask extends TaskRequestHandler {
         try{
             taskRepository.delete(task);
         } catch (BusinessException b) {
-            log.error("Could not remove this Task from the TaskRepository. ",b);
+            LOGGER.error("Could not remove this Task from the TaskRepository. ",b);
         } catch (SystemException s) {
-            log.error("Could not remove this Task from the TaskRepository. ",s);
+            LOGGER.error("Could not remove this Task from the TaskRepository. ",s);
         }
     }
 }

@@ -7,6 +7,8 @@ import api.v1.error.Error;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.util.ArrayList;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 
 /**
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  *
  */
 public class AuthRequestHandler extends BaseRequestHandler{
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthRequestHandler.class);
 
 	/**
 	 * Validates that an email is well formed. Throws Exception 
@@ -27,7 +29,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	protected String parseJsonAsEmail(String email) throws BusinessException{
 		email=email.trim();
 		if(!isValidEmail(email)){
-            log.error("Supplied email address: {} is not valid.", email);
+            LOGGER.error("Supplied email address: {} is not valid.", email);
             throw new BusinessException("Email address: " + email + " is invalid.", Error.valueOf("INVALID_EMAIL_ERROR"));
 		}
 		return email;
@@ -71,8 +73,8 @@ public class AuthRequestHandler extends BaseRequestHandler{
         if(fromClient.getPassword().equals(fromRepository.getPassword()))
             return;
         else{
-            log.error(fromClient.toJson());
-            log.error(fromRepository.toJson());
+            LOGGER.error(fromClient.toJson());
+            LOGGER.error(fromRepository.toJson());
             throw new BusinessException("Incorrect password.", Error.valueOf("INCORRECT_PASSWORD_ERROR"));
         }
     }
@@ -98,8 +100,8 @@ public class AuthRequestHandler extends BaseRequestHandler{
 			taskList.setId(task.getTaskListId());
 			taskList=taskListRepository.get(taskList);
 
-			log.debug("TaskList owner id: " + taskList.getUserId());
-			log.debug("User id: " + userId);
+			LOGGER.debug("TaskList owner id: " + taskList.getUserId());
+			LOGGER.debug("User id: " + userId);
 			//Finally, verify that ownership of the TaskList.
 			if(taskList.getUserId()==userId)
 				return;

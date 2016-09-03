@@ -15,6 +15,8 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import api.v1.model.Reminder;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  *
@@ -31,7 +33,7 @@ import api.v1.model.Reminder;
 @SuppressWarnings("serial")
 @WebServlet("/api/v1/reminder/AddReminder")
 public class AddReminder extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddReminder.class);
     /**
      * Post a new Reminder object. Request must provide task_id and reminder_time. 
      * Responds with success or error.
@@ -55,12 +57,12 @@ public class AddReminder extends TaskRequestHandler {
             addReminderToTask(reminder);
             reminder.setReminderTime(reminderDate);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

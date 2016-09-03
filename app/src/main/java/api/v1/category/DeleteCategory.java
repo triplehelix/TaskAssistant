@@ -18,7 +18,8 @@ import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.model.Category;
 
 /**
@@ -30,7 +31,7 @@ import api.v1.model.Category;
  */
 @WebServlet("/api/v1/category/DeleteCategory")
 public class DeleteCategory extends CategoryRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteCategory.class);
 	/**
 	 * Delete a particular category. A category "id" is required to specify the 
 	 * category to be removed.
@@ -64,17 +65,17 @@ public class DeleteCategory extends CategoryRequestHandler {
             userRepository.update(updatedUser);
             categoryRepository.delete(category);
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
+			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			log.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
 		} catch (CriticalException c) {
-            log.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

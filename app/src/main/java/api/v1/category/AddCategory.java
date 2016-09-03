@@ -15,7 +15,8 @@ import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.model.Category;
 
 /**
@@ -27,7 +28,7 @@ import api.v1.model.Category;
  */
 @WebServlet("/api/v1/category/AddCategory")
 public class AddCategory extends CategoryRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddCategory.class);
     /**
      *
      * @param request
@@ -69,12 +70,12 @@ public class AddCategory extends CategoryRequestHandler {
                 scheduleRepository.update(schedule);
             userRepository.update(updatedUser);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an AddCategory  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddCategory  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an AddCategory Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddCategory Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -100,9 +101,9 @@ public class AddCategory extends CategoryRequestHandler {
         try{
             categoryRepository.delete(category);
         } catch (BusinessException b) {
-            log.error("Could not remove this category from the categoryRepository. ",b);
+            LOGGER.error("Could not remove this category from the categoryRepository. ",b);
         } catch (SystemException s) {
-            log.error("Could not remove this category from the categoryRepository. ",s);
+            LOGGER.error("Could not remove this category from the categoryRepository. ",s);
         }
     }
 }

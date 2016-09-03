@@ -12,6 +12,8 @@ import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.TaskList;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * This api is used to delete a given taskList. Use the class member
@@ -22,7 +24,7 @@ import api.v1.model.TaskList;
  */
 @WebServlet("/api/v1/taskList/DeleteTaskList")
 public class DeleteTaskList extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteTaskList.class);
 	/**
 	 * Delete a TaskList and all of the tasks that belong to it. A
 	 * taskList "id" is required to specify the taskList to be
@@ -47,12 +49,12 @@ public class DeleteTaskList extends TaskRequestHandler {
 		    taskListRepository.delete(taskList);
 
 		} catch (BusinessException b) {
-			log.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), b);
+			LOGGER.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			log.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;

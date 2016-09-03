@@ -15,6 +15,8 @@ import api.v1.ScheduleRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import api.v1.model.Schedule;
 
@@ -27,7 +29,7 @@ import api.v1.model.Schedule;
  */
 @WebServlet("/api/v1/schedule/AddSchedule")
 public class AddSchedule extends ScheduleRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddSchedule.class);
     /**
      *
      * @param request
@@ -67,12 +69,12 @@ public class AddSchedule extends ScheduleRequestHandler {
             userRepository.update(updatedUser);
 
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an AddSchedule  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddSchedule  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an AddSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddSchedule Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -97,9 +99,9 @@ public class AddSchedule extends ScheduleRequestHandler {
         try{
             scheduleRepository.delete(schedule);
         } catch (BusinessException b) {
-            log.error("Could not remove this schedule from the scheduleRepository. ",b);
+            LOGGER.error("Could not remove this schedule from the scheduleRepository. ",b);
         } catch (SystemException s) {
-            log.error("Could not remove this schedule from the scheduleRepository. ",s);
+            LOGGER.error("Could not remove this schedule from the scheduleRepository. ",s);
         }
     }
 }

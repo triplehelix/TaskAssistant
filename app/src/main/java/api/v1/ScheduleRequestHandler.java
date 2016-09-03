@@ -7,6 +7,8 @@ import api.v1.model.Schedule;
 import api.v1.model.Category;
 import api.v1.model.Task;
 import api.v1.model.User;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ import java.util.ArrayList;
  * schedule APIs. All schedule APIs inherit ScheduleRequestHandler. 
  */
 public class ScheduleRequestHandler extends TaskRequestHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleRequestHandler.class);
     /**
      * Remove references to the supplied schedule id from an ArrayList of Categories.
      * @param scheduleId
@@ -27,11 +30,11 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
         if(categories==null)
             return;
         for(Category category: categories) {
-            log.debug("Here is the Category we are attempting to clean {} ", category.toJson());
+            LOGGER.debug("Here is the Category we are attempting to clean {} ", category.toJson());
             if (category.getScheduleIds().contains(scheduleId)) {
                 category.getScheduleIds().remove((Object) scheduleId);
             }else {
-                log.error("The schedule id {" + scheduleId +"} is not referenced by the Category: " + category.toJson());
+                LOGGER.error("The schedule id {" + scheduleId +"} is not referenced by the Category: " + category.toJson());
                 throw new CriticalException("Critical error! Cannot clean this Schedule. Task {id=" + category.getId()
                         + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
             }
@@ -50,11 +53,11 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
         if(tasks==null)
             return;
         for(Task task: tasks) {
-            log.debug("Here is the Task we are attempting to clean {} ", task.toJson());
+            LOGGER.debug("Here is the Task we are attempting to clean {} ", task.toJson());
             if (task.getScheduleIds().contains(scheduleId)) {
                 task.getScheduleIds().remove((Object) scheduleId);
             }else {
-                log.error("The schedule id {" + scheduleId +"} is not referenced by the Task: " + task.toJson());
+                LOGGER.error("The schedule id {" + scheduleId +"} is not referenced by the Task: " + task.toJson());
                 throw new CriticalException("Critical error! Cannot clean this Schedule. Task {id=" + task.getId()
                         + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
             }

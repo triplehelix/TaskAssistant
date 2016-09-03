@@ -4,8 +4,8 @@ import api.v1.error.CriticalException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
 import api.v1.model.*;
-import api.v1.repo.*;
-import com.google.appengine.repackaged.com.google.gson.Gson;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * task APIs. All task APIs inherit TaskRequestHandler. 
  */
 public class TaskRequestHandler extends AuthRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskRequestHandler.class);
     /**
      * Verify that a specified TaskList actually exists. This
      * is used by AddTask and UpdateTask to prevent orphaned
@@ -130,7 +130,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
         TaskList taskList=new TaskList();
         taskList.setId(task.getTaskListId());
         taskList=taskListRepository.get(taskList);
-        log.debug("Best I can tell, this should be really informative. {}", taskList.toJson());
+        LOGGER.debug("Best I can tell, this should be really informative. {}", taskList.toJson());
         cleanTaskList(task.getId(), taskList);
         return taskList;
     }
@@ -194,7 +194,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
             if (schedule.getTaskIds().contains(taskId)) {
                 schedule.getTaskIds().remove((Object) taskId);
             }else {
-                log.error("The task id {" + taskId +"} is not referenced by the Schedule: " + schedule.toJson());
+                LOGGER.error("The task id {" + taskId +"} is not referenced by the Schedule: " + schedule.toJson());
                 throw new CriticalException("Critical error! Cannot clean this Task. Task {id=" + schedule.getId()
                         + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
             }
@@ -217,7 +217,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
             if (category.getTaskIds().contains(taskId)) {
                 category.getTaskIds().remove((Object) taskId);
             }else {
-                log.error("The task id {" + taskId +"} is not referenced by the Category: " + category.toJson());
+                LOGGER.error("The task id {" + taskId +"} is not referenced by the Category: " + category.toJson());
                 throw new CriticalException("Critical error! Cannot clean this Task. Task {id=" + category.getId()
                         + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
             }
@@ -232,7 +232,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
      * @throws CriticalException
      */
     protected void cleanTaskList(int taskId, TaskList taskList) throws BusinessException, SystemException, CriticalException {
-        log.debug("Debugging NPE. Here in 'cleanTaskList(int, TaskList), we have the values {}, and {}", taskId, taskList.toJson());
+        LOGGER.debug("Debugging NPE. Here in 'cleanTaskList(int, TaskList), we have the values {}, and {}", taskId, taskList.toJson());
         if(taskList.getTaskIds().contains(taskId)) {
             taskList.getTaskIds().remove((Object)taskId);
         }

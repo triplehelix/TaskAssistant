@@ -18,6 +18,8 @@ import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import api.v1.model.Schedule;
 
@@ -30,7 +32,7 @@ import api.v1.model.Schedule;
  */
 @WebServlet("/api/v1/schedule/DeleteSchedule")
 public class DeleteSchedule extends ScheduleRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteSchedule.class);
     /**
      * Delete a particular schedule. A schedule "id" is required to specify the 
      * schedule to be removed.
@@ -64,17 +66,17 @@ public class DeleteSchedule extends ScheduleRequestHandler {
             userRepository.update(updatedUser);
             scheduleRepository.delete(schedule);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            log.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

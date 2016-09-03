@@ -16,6 +16,8 @@ import api.v1.ScheduleRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import api.v1.model.Schedule;
 
@@ -28,7 +30,7 @@ import api.v1.model.Schedule;
  */
 @WebServlet("/api/v1/schedule/PutSchedule")
 public class UpdateSchedule extends ScheduleRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateSchedule.class);
     /**
      *
      * @param request
@@ -63,17 +65,17 @@ public class UpdateSchedule extends ScheduleRequestHandler {
             cleanReferences(serverSchedule);
             updateReferences(clientSchedule);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            log.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

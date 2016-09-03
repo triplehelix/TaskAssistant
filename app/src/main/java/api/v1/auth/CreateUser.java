@@ -11,7 +11,8 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.AuthRequestHandler;
 import api.v1.model.User;
 
@@ -25,6 +26,7 @@ import api.v1.model.User;
  */
 @WebServlet("/api/v1/auth/CreateUser")
 public class CreateUser extends AuthRequestHandler{
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateUser.class);
     /**
      * POST
      * request 
@@ -55,12 +57,12 @@ public class CreateUser extends AuthRequestHandler{
             user.setPassword(password);
             userRepository.add(user);
         }catch(BusinessException b) {
-            log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         }catch(SystemException s){
-            log.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

@@ -7,6 +7,8 @@ import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.Task;
 import api.v1.model.User;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ import java.util.ArrayList;
  * category APIs. All category APIs inherit CategoryRequestHandler. 
  */
 public class CategoryRequestHandler extends TaskRequestHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryRequestHandler.class);
     /**
      * Remove references to the supplied category id from an ArrayList of Schedules.
      * @param categoryId
@@ -30,7 +33,7 @@ public class CategoryRequestHandler extends TaskRequestHandler {
             if (schedule.getCategoryIds().contains(categoryId)) {
                 schedule.getCategoryIds().remove((Object) categoryId);
             }else {
-                log.error("The category id {" + categoryId +"} is not referenced by the Schedule: " + schedule.toJson());
+                LOGGER.error("The category id {" + categoryId +"} is not referenced by the Schedule: " + schedule.toJson());
                 throw new CriticalException("Critical error! Cannot clean this Category. Task {id=" + schedule.getId()
                         + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
             }
@@ -52,7 +55,7 @@ public class CategoryRequestHandler extends TaskRequestHandler {
             if (task.getCategoryIds().contains(categoryId)) {
                 task.getCategoryIds().remove((Object) categoryId);
             }else {
-                log.error("The category id {" + categoryId +"} is not referenced by the Task: " + task.toJson());
+                LOGGER.error("The category id {" + categoryId +"} is not referenced by the Task: " + task.toJson());
                 throw new CriticalException("Critical error! Cannot clean this Category. Task {id=" + task.getId()
                         + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
             }

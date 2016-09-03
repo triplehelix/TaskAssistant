@@ -16,7 +16,8 @@ import api.v1.TaskRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.model.Task;
 
 /**
@@ -28,7 +29,7 @@ import api.v1.model.Task;
  */
 @WebServlet("/api/v1/task/DeleteTask")
 public class DeleteTask extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteTask.class);
     /**
      *
      * @param request
@@ -47,11 +48,11 @@ public class DeleteTask extends TaskRequestHandler {
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
             task.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-            log.debug("Do we have to track this fucking TaskList for it's entire life?");
+            LOGGER.debug("Do we have to track this fucking TaskList for it's entire life?");
             task=taskRepository.get(task);
 
             TaskList taskList=getCleanedTaskList(task);
-            log.debug("Inside doPost. TaskList: {}", taskList.toJson());
+            LOGGER.debug("Inside doPost. TaskList: {}", taskList.toJson());
             ArrayList<Category> updatedCategories=getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(task);
 
@@ -64,17 +65,17 @@ public class DeleteTask extends TaskRequestHandler {
             taskRepository.delete(task);
 
         } catch (BusinessException b) {
-            log.error("An error occurred while handling a DeleteTask Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a DeleteTask Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling a DeleteTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a DeleteTask Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            log.error("An error occurred while handling a DeleteTask Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling a DeleteTask Request: {}.", jsonRequest.toJSONString(), c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

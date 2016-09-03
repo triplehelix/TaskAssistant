@@ -20,6 +20,7 @@ import static org.springframework.test.util.AssertionErrors.fail;
  */
 public class AddTaskTest extends TaskApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);
+
     private static AddTask addTaskInstance;
     private static TaskRepository taskRepository;
     private static UserRepository userRepository;

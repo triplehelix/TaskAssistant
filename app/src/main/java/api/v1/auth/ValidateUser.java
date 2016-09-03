@@ -11,7 +11,8 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.AuthRequestHandler;
 import api.v1.model.User;
 
@@ -23,6 +24,7 @@ import api.v1.model.User;
  */
 @WebServlet("/api/v1/auth/ValidateUser")
 public class ValidateUser extends AuthRequestHandler{
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidateUser.class);
 	/**
 	 * POST
 	 * request 
@@ -55,13 +57,13 @@ public class ValidateUser extends AuthRequestHandler{
 			serverUser=userRepository.get(clientUser);
 			validatePassword(clientUser, serverUser);
 		}catch(BusinessException e){
-			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
-			log.error(e.getMessage());
+			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
+			LOGGER.error(e.getMessage());
 			errorMsg = "Error " + e.getMessage();
 			errorCode = e.getError().getCode();
 			error = true;
 		}catch(SystemException s){
-			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;

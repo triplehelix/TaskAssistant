@@ -16,7 +16,8 @@ import api.v1.TaskRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.model.Task;
 
 /**
@@ -26,7 +27,7 @@ import api.v1.model.Task;
  */
 @WebServlet("/api/v1/task/AddTask")
 public class UpdateTask extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateTask.class);
     /**
      *
      * @param request
@@ -72,17 +73,17 @@ public class UpdateTask extends TaskRequestHandler {
 			cleanReferences(serverTask);
             updateReferences(clientTask);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            log.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;
