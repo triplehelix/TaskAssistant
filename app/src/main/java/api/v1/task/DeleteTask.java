@@ -47,9 +47,11 @@ public class DeleteTask extends TaskRequestHandler {
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
             task.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+            log.debug("Do we have to track this fucking TaskList for it's entire life?");
             task=taskRepository.get(task);
 
             TaskList taskList=getCleanedTaskList(task);
+            log.debug("Inside doPost. TaskList: {}", taskList.toJson());
             ArrayList<Category> updatedCategories=getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(task);
 

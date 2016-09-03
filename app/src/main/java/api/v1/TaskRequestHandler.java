@@ -130,6 +130,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
         TaskList taskList=new TaskList();
         taskList.setId(task.getTaskListId());
         taskList=taskListRepository.get(taskList);
+        log.debug("Best I can tell");
         cleanTaskList(task.getId(), taskList);
         return taskList;
     }
@@ -231,6 +232,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
      * @throws CriticalException
      */
     protected void cleanTaskList(int taskId, TaskList taskList) throws BusinessException, SystemException, CriticalException {
+        log.debug("Debugging NPE. Here in 'cleanTaskList(int, TaskList), we have the values {}, and {}", taskId, taskList.toJson());
         if(taskList.getTaskIds().contains(taskId)) {
             taskList.getTaskIds().remove((Object)taskId);
         }

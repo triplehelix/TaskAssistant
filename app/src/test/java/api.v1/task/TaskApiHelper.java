@@ -4,6 +4,7 @@ import api.v1.UnitTestHelper;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.TaskList;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,8 +94,14 @@ public class TaskApiHelper extends UnitTestHelper {
 
     protected static ArrayList<TaskList> toTaskLists(ArrayList<String> backtickTaskLists) throws Exception{
         ArrayList<TaskList> myTaskLists=new ArrayList<TaskList>();
+        LOGGER.debug("The fuck? Well, here is the bakctick tasklist {}", backtickTaskLists);
         for(String s: backtickTaskLists) {
             String[] elements = s.split("`");
+            LOGGER.debug("Here is element 0. It is supposed to be an id. {}", elements[0]);
+            LOGGER.debug("Here is element 1. It is supposed to be an id. {}", elements[1]);
+            LOGGER.debug("Here is element 2. It is supposed to be the TaskList name. {}", elements[2]);
+            LOGGER.debug("Here is element 3. It is supposed to be the TaskList description. {}", elements[3]);
+            LOGGER.debug("Here is element 4. It is supposed to be the Task IDs. {}", elements[4]);
             TaskList taskList=new TaskList();
             taskList.setId(Integer.parseInt(elements[0]));
             taskList.setUserId(Integer.parseInt(elements[1]));
