@@ -253,6 +253,7 @@ public class UnitTestHelper {
      * @return
      */
     protected static ArrayList<Integer> toIntegerArrayList(String s) {
+        LOGGER.debug("What about here? Are we getting here?!?! {}", s);
         ArrayList<Integer> myIntegers = new ArrayList<Integer>();
         s=s.trim();
         if(s.equals("[]"))

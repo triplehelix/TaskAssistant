@@ -107,8 +107,11 @@ public class TaskApiHelper extends UnitTestHelper {
             taskList.setUserId(Integer.parseInt(elements[1]));
             taskList.setName(elements[2].trim());
             taskList.setDescription(elements[3].trim());
-            if(elements.length>4)
+            if(elements.length>4) {
                 taskList.setTaskIds(toIntegerArrayList(elements[4]));
+                LOGGER.debug("Here? Did we ever make it here?!?!");
+            }
+            LOGGER.debug("Here is element 4. It is supposed to be the Task IDs. {}", new Gson().toJson(taskList.getTaskIds()));
             myTaskLists.add(taskList);
         }
         return myTaskLists;

@@ -130,7 +130,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
         TaskList taskList=new TaskList();
         taskList.setId(task.getTaskListId());
         taskList=taskListRepository.get(taskList);
-        log.debug("Best I can tell");
+        log.debug("Best I can tell, this should be really informative. {}", taskList.toJson());
         cleanTaskList(task.getId(), taskList);
         return taskList;
     }
