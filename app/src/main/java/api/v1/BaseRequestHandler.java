@@ -175,15 +175,20 @@ public class BaseRequestHandler extends HttpServlet{
      * @param s
      * @return
      */
-    protected static ArrayList<Integer> toIntegerArrayList(String s) {
+    protected static ArrayList<Integer> toIntegerArrayList(String s) throws BusinessException{
         ArrayList<Integer> myIntegers = new ArrayList<Integer>();
-        s=s.trim();
-        if(s.equals("[]"))
-            return null;
-        s=s.substring(1,s.length()-1);
-        String[] elements = s.split(",");
-        for(String i: elements)
-            myIntegers.add(Integer.parseInt(i));
-        return myIntegers;
+        try {
+            if (s == null || s.trim().equals("[]"))
+                return null;
+            s.trim();
+            s = s.substring(1, s.length() - 1);
+            String[] elements = s.split(",");
+            for (String i : elements)
+                myIntegers.add(Integer.parseInt(i));
+            return myIntegers;
+        } catch (NumberFormatException nfe) {
+            LOGGER.error("Error while parsing a String as an Integer Array. {}", s);
+            throw new BusinessException("Could not parse the String {" + s+ "} as an integer array. ", Error.valueOf("PARSE_INTEGER_ARRAY_ERROR"));
+        }
     }
 }
