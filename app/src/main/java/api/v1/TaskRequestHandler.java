@@ -130,9 +130,27 @@ public class TaskRequestHandler extends AuthRequestHandler {
         TaskList taskList=new TaskList();
         taskList.setId(task.getTaskListId());
         taskList=taskListRepository.get(taskList);
-        LOGGER.debug("Best I can tell, this should be really informative. {}", taskList.toJson());
+        LOGGER.debug("Here is the TaskList as it is comes from repository: {}", taskList.toJson());
+        LOGGER.debug("Next, we will have it 'cleaned' by cleanTaskList(task.getId(), taskList)");
         cleanTaskList(task.getId(), taskList);
         return taskList;
+    }
+    /**
+     * Remove the reference to the task id from the provided TaskList.
+     * @param taskId
+     * @param taskList
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    protected void cleanTaskList(int taskId, TaskList taskList) throws BusinessException, SystemException, CriticalException {
+        LOGGER.debug("Here in 'cleanTaskList(int, TaskList), we have the values {}, and {}", taskId, taskList.toJson());
+        if(taskList.getTaskIds().contains(taskId)) {
+            taskList.getTaskIds().remove((Object)taskId);
+        }
+        else
+            throw new CriticalException("Critical error! Cannot clean this Task. TaskList {id=" + taskList.getId()
+                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
     }
 
     /**
@@ -155,6 +173,27 @@ public class TaskRequestHandler extends AuthRequestHandler {
         }
         cleanCategories(task.getId(), myCategories);
         return myCategories;
+    }
+    /**
+     * Remove references to the supplied task id from an ArrayList of Categories.
+     * @param taskId
+     * @param categories
+     * @throws BusinessException
+     * @throws SystemException
+     * @throws CriticalException
+     */
+    protected void cleanCategories(int taskId, ArrayList<Category> categories) throws BusinessException, SystemException, CriticalException {
+        if(categories==null)
+            return;
+        for(Category category: categories) {
+            if (category.getTaskIds().contains(taskId)) {
+                category.getTaskIds().remove((Object) taskId);
+            }else {
+                LOGGER.error("The task id {" + taskId +"} is not referenced by the Category: " + category.toJson());
+                throw new CriticalException("Critical error! Cannot clean this Task. Task {id=" + category.getId()
+                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
+            }
+        }
     }
 
     /**
@@ -200,45 +239,4 @@ public class TaskRequestHandler extends AuthRequestHandler {
             }
         }
     }
-
-
-    /**
-     * Remove references to the supplied task id from an ArrayList of Categories.
-     * @param taskId
-     * @param categories
-     * @throws BusinessException
-     * @throws SystemException
-     * @throws CriticalException
-     */
-    protected void cleanCategories(int taskId, ArrayList<Category> categories) throws BusinessException, SystemException, CriticalException {
-        if(categories==null)
-            return;
-        for(Category category: categories) {
-            if (category.getTaskIds().contains(taskId)) {
-                category.getTaskIds().remove((Object) taskId);
-            }else {
-                LOGGER.error("The task id {" + taskId +"} is not referenced by the Category: " + category.toJson());
-                throw new CriticalException("Critical error! Cannot clean this Task. Task {id=" + category.getId()
-                        + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-            }
-        }
-    }
-    /**
-     * Remove the reference to the task id from the provided TaskList.
-     * @param taskId
-     * @param taskList
-     * @throws BusinessException
-     * @throws SystemException
-     * @throws CriticalException
-     */
-    protected void cleanTaskList(int taskId, TaskList taskList) throws BusinessException, SystemException, CriticalException {
-        LOGGER.debug("Debugging NPE. Here in 'cleanTaskList(int, TaskList), we have the values {}, and {}", taskId, taskList.toJson());
-        if(taskList.getTaskIds().contains(taskId)) {
-            taskList.getTaskIds().remove((Object)taskId);
-        }
-        else
-            throw new CriticalException("Critical error! Cannot clean this Task. TaskList {id=" + taskList.getId()
-                    + "} does not reference this object!", Error.valueOf("API_DELETE_OBJECT_FAILURE"));
-    }
-
 }

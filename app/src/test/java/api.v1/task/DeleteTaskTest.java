@@ -19,7 +19,7 @@ import static org.springframework.test.util.AssertionErrors.fail;
  * @author kennethlyon
  */
 public class DeleteTaskTest extends TaskApiHelper {
-    private Logger LOGGER = LoggerFactory.getLogger(AddTaskTest.class);
+    private Logger LOGGER = LoggerFactory.getLogger(DeleteTaskTest.class);
     private static DeleteTask deleteTaskInstance;
     private static TaskRepository taskRepository;
     private static UserRepository userRepository;
@@ -57,9 +57,11 @@ public class DeleteTaskTest extends TaskApiHelper {
 
         sampleTaskLists.add("0`0`Mike's TaskList.`This is Mike's  TaskList.`[0,1,2,3]");
         sampleTaskLists.add("1`1`Ken's  TaskList.`This is Kenny's TaskList.`[4,5,6,7]");
-        for(TaskList taskList: TaskApiHelper.toTaskLists(sampleTaskLists))
-            taskListRepository.add(taskList);
-
+        LOGGER.debug("Starting at the very beginning. These are the TaskLists as they are when they are put in the repository:");
+            for(TaskList taskList: TaskApiHelper.toTaskLists(sampleTaskLists)){
+                LOGGER.debug("This should appear twice...    {}", taskList.toJson());
+                taskListRepository.add(taskList);
+        }
         sampleSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY  `[0,3]      ");
         sampleSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY `[0,1,2]    ");
         sampleSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY  `[0,1,2,3]  ");
@@ -114,14 +116,16 @@ public class DeleteTaskTest extends TaskApiHelper {
      */
     @After
     public void tearDown() throws Exception {
-        for(TaskList taskList: toTaskLists(sampleTaskLists))
-	    taskListRepository.delete(taskList);
-	for(Schedule schedule: toSchedules(sampleSchedules))
-	    scheduleRepository.delete(schedule);
-	for(Category category: toCategories(sampleCategories))
-	    categoryRepository.delete(category);
-	for(User user: toUsers(sampleUsers))
-	    userRepository.delete(user);
+        for(TaskList taskList: toTaskLists(sampleTaskLists)){
+	    LOGGER.debug("It is suprising that we have made it this far, but we are about to destroy this TaskList {}", taskList.toJson());
+            taskListRepository.delete(taskList);
+        }
+    for(Schedule schedule: toSchedules(sampleSchedules))
+        scheduleRepository.delete(schedule);
+    for(Category category: toCategories(sampleCategories))
+        categoryRepository.delete(category);
+    for(User user: toUsers(sampleUsers))
+        userRepository.delete(user);
     }
 
     /**
@@ -138,12 +142,14 @@ public class DeleteTaskTest extends TaskApiHelper {
             deleteTaskInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
-
+        LOGGER.debug("Error requests are completed.");
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskInstance.doPost(request, response);
             validateDoPostValidResponse(response);
         }
+        LOGGER.debug("Valid requests are completed.");
+
         for(Schedule schedule: toSchedules(sampleSchedules))
             if(schedule.equals(scheduleRepository.get(schedule))) {
                 LOGGER.error("This schedule failed to update {}", schedule.toJson());

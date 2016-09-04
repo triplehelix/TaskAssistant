@@ -48,11 +48,11 @@ public class DeleteTask extends TaskRequestHandler {
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
             task.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-            LOGGER.debug("Do we have to track this fucking TaskList for it's entire life?");
-            task=taskRepository.get(task);
 
+            task=taskRepository.get(task);
+            LOGGER.debug("This Task specifies the TaskList with the ID: {}", task.getTaskListId());
             TaskList taskList=getCleanedTaskList(task);
-            LOGGER.debug("Inside doPost. TaskList: {}", taskList.toJson());
+            LOGGER.debug("Here is the completed TaskList as returned by getCleanedTaskList(Task): {}", taskList.toJson());
             ArrayList<Category> updatedCategories=getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(task);
 

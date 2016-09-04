@@ -94,14 +94,13 @@ public class TaskApiHelper extends UnitTestHelper {
 
     protected static ArrayList<TaskList> toTaskLists(ArrayList<String> backtickTaskLists) throws Exception{
         ArrayList<TaskList> myTaskLists=new ArrayList<TaskList>();
-        LOGGER.debug("The fuck? Well, here is the bakctick tasklist {}", backtickTaskLists);
         for(String s: backtickTaskLists) {
             String[] elements = s.split("`");
-            LOGGER.debug("Here is element 0. It is supposed to be an id. {}", elements[0]);
-            LOGGER.debug("Here is element 1. It is supposed to be an id. {}", elements[1]);
-            LOGGER.debug("Here is element 2. It is supposed to be the TaskList name. {}", elements[2]);
-            LOGGER.debug("Here is element 3. It is supposed to be the TaskList description. {}", elements[3]);
-            LOGGER.debug("Here is element 4. It is supposed to be the Task IDs. {}", elements[4]);
+            //LOGGER.debug("Here is element 0. It is supposed to be an id. {}", elements[0]);
+            //LOGGER.debug("Here is element 1. It is supposed to be an id. {}", elements[1]);
+            //LOGGER.debug("Here is element 2. It is supposed to be the TaskList name. {}", elements[2]);
+            //LOGGER.debug("Here is element 3. It is supposed to be the TaskList description. {}", elements[3]);
+            //LOGGER.debug("Here is element 4. It is supposed to be the Task IDs. {}", elements[4]);
             TaskList taskList=new TaskList();
             taskList.setId(Integer.parseInt(elements[0]));
             taskList.setUserId(Integer.parseInt(elements[1]));
@@ -109,9 +108,10 @@ public class TaskApiHelper extends UnitTestHelper {
             taskList.setDescription(elements[3].trim());
             if(elements.length>4) {
                 taskList.setTaskIds(toIntegerArrayList(elements[4]));
-                LOGGER.debug("Here? Did we ever make it here?!?!");
+		//    LOGGER.debug("Here? Did we ever make it here?!?!");
             }
-            LOGGER.debug("Here is element 4. It is supposed to be the Task IDs. {}", new Gson().toJson(taskList.getTaskIds()));
+
+            LOGGER.debug("A new TaskList has just been created by the UnitTest class. {}{}", new Gson().toJson(taskList.getTaskIds()), taskList.toJson());
             myTaskLists.add(taskList);
         }
         return myTaskLists;

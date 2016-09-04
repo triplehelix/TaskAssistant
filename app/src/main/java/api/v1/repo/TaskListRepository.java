@@ -32,6 +32,7 @@ public class TaskListRepository implements Repository<TaskList>{
      * @throws SystemException
      */
     public TaskList add(TaskList tl) throws BusinessException, SystemException{
+        LOGGER.debug("Here we are placing the TaskList in the repository.   {}", tl.toJson());
         int taskListId=0;
         while(taskListMap.containsKey(taskListId))
             taskListId++;
