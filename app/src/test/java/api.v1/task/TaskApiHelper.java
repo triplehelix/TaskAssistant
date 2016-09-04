@@ -1,8 +1,10 @@
 package api.v1.task;
 
 import api.v1.UnitTestHelper;
+import api.v1.category.CategoryApiHelper;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
+import api.v1.model.Task;
 import api.v1.model.TaskList;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
@@ -63,7 +65,7 @@ public class TaskApiHelper extends UnitTestHelper {
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
             schedule.setRepeatType(elements[4].trim());
             if(elements.length>5)
-                schedule.setCategoryIds(toIntegerArrayList(elements[5].trim()));
+                schedule.setTaskIds(toIntegerArrayList(elements[5].trim()));
             mySchedules.add(schedule);
         }
         return mySchedules;
@@ -111,5 +113,36 @@ public class TaskApiHelper extends UnitTestHelper {
             myTaskLists.add(taskList);
         }
         return myTaskLists;
+    }
+
+    /**
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of Tasks.
+     * @param bactickTasks
+     * @return  ArrayList<Task>
+     * @throws Exception
+     */
+    protected static ArrayList<Task> toTasks(ArrayList<String> bactickTasks) throws Exception{
+        ArrayList <Task> myTasks = new ArrayList<Task>();
+        for(String s: bactickTasks) {
+            String[] elements = s.split("`");
+            Task task = new Task();
+            task.setId(Integer.parseInt(elements[0]));
+            task.setTaskListId(Integer.parseInt(elements[1]));
+            task.setName(elements[2]);
+            task.setImportant(CategoryApiHelper.parseJsonBooleanAsBoolean(elements[3]));
+            task.setNote(elements[4]);
+            task.setEstimatedTime(Long.parseLong(elements[5]));
+            task.setInvestedTime(Long.parseLong(elements[6]));
+            task.setUrgent(CategoryApiHelper.parseJsonBooleanAsBoolean(elements[7]));
+            task.setDueDate(CategoryApiHelper.parseJsonDateAsDate(elements[8]));
+            task.setStatus(elements[9]);
+            if (elements.length > 10) {
+                task.setCategoryIds(toIntegerArrayList(elements[10]));
+                task.setScheduleIds(toIntegerArrayList(elements[11]));
+            }
+
+            myTasks.add(task);
+        }
+        return myTasks;
     }
 }

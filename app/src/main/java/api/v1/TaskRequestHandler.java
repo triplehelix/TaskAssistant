@@ -130,8 +130,6 @@ public class TaskRequestHandler extends AuthRequestHandler {
         TaskList taskList=new TaskList();
         taskList.setId(task.getTaskListId());
         taskList=taskListRepository.get(taskList);
-        LOGGER.debug("Here is the TaskList as it is comes from repository: {}", taskList.toJson());
-        LOGGER.debug("Next, we will have it 'cleaned' by cleanTaskList(task.getId(), taskList)");
         cleanTaskList(task.getId(), taskList);
         return taskList;
     }
@@ -164,9 +162,14 @@ public class TaskRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Category> getCleanedCategories(Task task) throws BusinessException, SystemException, CriticalException{
         ArrayList<Category> myCategories = new ArrayList<Category>();
-        if(task.getCategoryIds()==null)
+        if(task.getCategoryIds()==null) {
+            LOGGER.debug("Inside getCleanedCategories(Task), the category ids in the Task are null.");
             return myCategories;
+        }
+        else
+            LOGGER.debug("Inside getCleanedCategories(Task), the category ids in the Task are not null.");
         for(int i: task.getCategoryIds()) {
+            LOGGER.debug("Attempting to remove references to these tasks ");
             Category category=new Category();
             category.setId(i);
             myCategories.add(categoryRepository.get(category));

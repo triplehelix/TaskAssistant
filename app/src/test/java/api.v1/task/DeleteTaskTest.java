@@ -116,10 +116,8 @@ public class DeleteTaskTest extends TaskApiHelper {
      */
     @After
     public void tearDown() throws Exception {
-        for(TaskList taskList: toTaskLists(sampleTaskLists)){
-	    LOGGER.debug("It is suprising that we have made it this far, but we are about to destroy this TaskList {}", taskList.toJson());
-            taskListRepository.delete(taskList);
-        }
+    for(TaskList taskList: toTaskLists(sampleTaskLists))
+        taskListRepository.delete(taskList);
     for(Schedule schedule: toSchedules(sampleSchedules))
         scheduleRepository.delete(schedule);
     for(Category category: toCategories(sampleCategories))
@@ -170,7 +168,7 @@ public class DeleteTaskTest extends TaskApiHelper {
         for(TaskList taskList: toTaskLists(sampleTaskLists))
             if(taskList.equals(taskListRepository.get(taskList))) {
                 LOGGER.error("This taskList failed to update {}", taskList.toJson());
-                fail("This taskList was not updated!");
+               fail("This taskList was not updated!");
             }
             else
                 LOGGER.info("Updated TaskList: {}", taskListRepository.get(taskList).toJson());
