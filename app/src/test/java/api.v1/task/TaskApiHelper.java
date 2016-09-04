@@ -42,7 +42,6 @@ public class TaskApiHelper extends UnitTestHelper {
                 jsonObj.put("categoryIds", taskElementArray[10]);
                 jsonObj.put("scheduleIds", taskElementArray[11]);
             }
-            LOGGER.info("Created request {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
         return myJSONObjects;
@@ -108,10 +107,7 @@ public class TaskApiHelper extends UnitTestHelper {
             taskList.setDescription(elements[3].trim());
             if(elements.length>4) {
                 taskList.setTaskIds(toIntegerArrayList(elements[4]));
-		//    LOGGER.debug("Here? Did we ever make it here?!?!");
             }
-
-            LOGGER.debug("A new TaskList has just been created by the UnitTest class. {}{}", new Gson().toJson(taskList.getTaskIds()), taskList.toJson());
             myTaskLists.add(taskList);
         }
         return myTaskLists;

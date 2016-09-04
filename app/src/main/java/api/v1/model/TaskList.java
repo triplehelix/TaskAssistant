@@ -78,7 +78,7 @@ public class TaskList {
     public ArrayList<Integer> getTaskIds() {
         return taskIds;
     }
-    public void setTaskIds(ArrayList<Integer> tasks) {
+    public void setTaskIds(ArrayList<Integer> taskIds) {
         this.taskIds = taskIds;
     }
     public void addTask(Task task){
