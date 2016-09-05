@@ -56,12 +56,12 @@ public class UpdateTaskTest extends TaskApiHelper{
             userRepository.add(user);
 
         sampleTaskLists.add("0`0`Mike's TaskList.`This is Mike's  TaskList.`[0,1,2,3]");
-        sampleTaskLists.add("1`1`Ken's  TaskList.`This is Kenny's TaskList.`[4,5,6,7]");
+        sampleTaskLists.add("1`1`Ken's TaskList 1`This is Kenny's TaskList.`[4,5,6,7]");
+        sampleTaskLists.add("2`1`Ken's TaskList 2`This is Kens other TaskList.`[]");
         LOGGER.debug("Starting at the very beginning. These are the TaskLists as they are when they are put in the repository:");
-            for(TaskList taskList: TaskApiHelper.toTaskLists(sampleTaskLists)){
-                LOGGER.debug("This should appear twice...    {}", taskList.toJson());
+            for(TaskList taskList: TaskApiHelper.toTaskLists(sampleTaskLists))
                 taskListRepository.add(taskList);
-        }
+
         sampleSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY  `[0,3]      ");
         sampleSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY `[0,1,2]    ");
         sampleSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY  `[0,1,2,3]  ");
@@ -74,7 +74,7 @@ public class UpdateTaskTest extends TaskApiHelper{
         sampleCategories.add("0`0`Mikes work`This is for all of the work Mike does        `[0,3]");
         sampleCategories.add("1`0`Mikes home`This is for all of the chores Mike never does`[1]  ");
         sampleCategories.add("2`0`Mikes play`This is for Mike's recreational stuff        `[2]  ");
-        sampleCategories.add("3`1`Ken's work`This is for all of the work Ken never does.  `[4,7]");
+        sampleCategories.add("3`1`Ken's work`This is for all of the work Ken never does.  `[7,4]");
         sampleCategories.add("4`1`ken's home`This is for all of the chores Ken does.      `[5]  ");
         sampleCategories.add("5`1`Ken's play`This is for the recreational stuff Ken does. `[6]  ");
         for(Category category: TaskApiHelper.toCategories(sampleCategories))
@@ -87,18 +87,18 @@ public class UpdateTaskTest extends TaskApiHelper{
         validTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[3,4,5]");
         validTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4]`[]");
         validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[5]`[]");
-        validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
+        validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[]");
         for(Task task: TaskApiHelper.toTasks(validTasks))
             taskRepository.add(task);
 
-        validUpdates.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[0,1,2]");
-        validUpdates.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1]`[1,2]");
-        validUpdates.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[2]`[1,2]");
-        validUpdates.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]`[2,0]");
-        validUpdates.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[3,4,5]");
-        validUpdates.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4]`[]");
-        validUpdates.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[5]`[]");
-        validUpdates.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]`[]");
+        validUpdates.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0,1,2]`[]");
+        validUpdates.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[0,1,2]");
+        validUpdates.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[]");
+        validUpdates.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[]");
+        validUpdates.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[5]`[]");
+        validUpdates.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[3,4,5]");
+        validUpdates.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60001`100000`TRUE`2020-05-31_00:00:00`NEW`[3,4]`[]");
+        validUpdates.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-30_00:00:00`NEW");
 
         errorUpdates.add(  "8`0`Mike's work task A`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW");
         errorUpdates.add("-10`0`Mike's work task B`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[]`[]");

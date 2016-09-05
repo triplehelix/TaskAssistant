@@ -1,0 +1,12 @@
+
+1. Presently, no API can indicate what an added object's new id is. The repository 
+"add(Object)" function ought to return the new object, and this must be done for 
+all of the APIs. 
+
+2. All model objects must implement an addObject(Object) method that ensures that
+no a given reference cannot be placed in the Array of IDs more than once.
+
+3. Presently it is not possible to move a Task from one TaskList to another.
+
+4. When a Task is updated, and no field of category IDs is specified, then the 
+Task does not update the Category IDs. Should it set those categories to null?
