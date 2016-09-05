@@ -161,7 +161,8 @@ public class TaskRequestHandler extends AuthRequestHandler {
      */
     protected ArrayList<Category> getCleanedCategories(Task task) throws BusinessException, SystemException, CriticalException{
         ArrayList<Category> myCategories = new ArrayList<Category>();
-
+        if(task.getCategoryIds()==null)
+            return myCategories;
         for(int i: task.getCategoryIds()) {
             Category category=new Category();
             category.setId(i);
@@ -205,7 +206,6 @@ public class TaskRequestHandler extends AuthRequestHandler {
         ArrayList<Schedule> mySchedules = new ArrayList<Schedule>();
         if(task.getScheduleIds()==null)
             return mySchedules;
-
         for(int i: task.getScheduleIds()) {
             Schedule schedule=new Schedule();
             schedule.setId(i);

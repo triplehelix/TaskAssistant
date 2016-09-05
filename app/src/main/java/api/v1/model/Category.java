@@ -8,43 +8,43 @@ import com.google.appengine.repackaged.com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class Category {
-	private int id;
+    private int id;
     private int userId;
-	private String name;
-	private String description;
+    private String name;
+    private String description;
     private ArrayList<Integer> taskIds;
     private ArrayList<Integer> scheduleIds;
 
-	/**
-	 * Create an new Category w/o a category id. Categories without an
+    /**
+     * Create an new Category w/o a category id. Categories without an
      * id are assigned an id of -1.
-	 */
-	public Category(){
-		this.id=-1;
+     */
+    public Category(){
+        this.id=-1;
         this.userId=-1;
         this.description=null;
         this.name=null;
     }
-	public int getId() {
+    public int getId() {
         return id;
     }
-	public void setId(int id) {
-		this.id=id;
-	}
-	public String getName() {
-		return name;
-	}
+    public void setId(int id) {
+        this.id=id;
+    }
+    public String getName() {
+        return name;
+    }
     public void setName(String name)throws BusinessException {
         if(name==null || name.equals(""))
             throw new BusinessException("The Category name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
         this.name=name.trim();
     }
     public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description.trim();
-	}
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description.trim();
+    }
     public ArrayList<Integer> getTaskIds() {
         return taskIds;
     }
@@ -54,7 +54,8 @@ public class Category {
     public void addTask(Task task){
         if(this.taskIds==null)
             taskIds=new ArrayList<Integer>();
-        taskIds.add(task.getId());
+    if(!taskIds.contains((Object) task.getId()))
+       taskIds.add(task.getId());
     }
     public ArrayList<Integer> getScheduleIds() {
         return scheduleIds;
