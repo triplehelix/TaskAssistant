@@ -61,18 +61,17 @@ public class GetTaskListTest extends TaskListApiHelper {
         getTaskListInstance=new GetTaskList();
 
         validTaskLists=new ArrayList<String>();
-        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
-        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        validTaskLists.add("0`0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 
         errorTaskLists=new ArrayList<String>();
-        errorTaskLists.add("-9`Invalid Id TaskList`This has an invalid id.");
-        errorTaskLists.add("2`non existent id`This is an invalid TaskList because the ID should not exist in the repository.");
+        errorTaskLists.add("-9`0`Invalid Id TaskList`This has an invalid id.");
+        errorTaskLists.add("2`1`non existent id`This is an invalid TaskList because the ID should not exist in the repository.");
 
         //get the TaskListRepository and place valid TaskLists within it.
         taskListRepository=getTaskListInstance.getTaskListRepository();
         for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
-
 
         for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
             validRequestList.add(createDoPostMockRequest(jsonObj));

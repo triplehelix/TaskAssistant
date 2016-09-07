@@ -69,7 +69,6 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         for (Task task : toTasks(sampleTasks))
             taskRepository.add(task);
 
-
         sampleSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY  `[0,3]      ");
         sampleSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY `[0,1,2]    ");
         sampleSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY  `[0,1,2,3]  ");
@@ -112,6 +111,12 @@ public class DeleteTaskListTest extends TaskListApiHelper {
      */
     @After
     public void tearDown() throws Exception {
+        for(User user: toUsers(sampleUsers))
+            userRepository.delete(user);
+        for(Category category: toCategories(sampleCategories))
+            categoryRepository.delete(category);
+        for(Schedule schedule: toSchedules(sampleSchedules))
+            scheduleRepository.delete(schedule);
         deleteTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;

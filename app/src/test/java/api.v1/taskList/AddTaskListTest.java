@@ -69,8 +69,10 @@ public class AddTaskListTest extends TaskListApiHelper {
     @After
     public void tearDown() throws Exception {
         TaskListRepository taskListRepository = addTaskListInstance.getTaskListRepository();
-        for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
+        for(TaskList taskList: toTaskLists(validTaskLists))
             taskListRepository.delete(taskList);
+        for(User user: toUsers(sampleUsers))
+            userRepository.delete(user);
         addTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;

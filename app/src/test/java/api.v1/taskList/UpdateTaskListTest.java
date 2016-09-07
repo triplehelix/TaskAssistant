@@ -47,18 +47,16 @@ public class UpdateTaskListTest extends TaskListApiHelper {
         LOGGER.info("Here are the valid TaskLists being added to the Repository: ");
         taskListRepository=updateTaskListInstance.getTaskListRepository();
         validTaskLists=new ArrayList<String>();
-        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
-        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        validTaskLists.add("0`0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 
         validTaskListUpdates=new ArrayList<String>();
-        validTaskListUpdates.add("0`TaskList 0 created from ValidTasks`This is a valid update.");
-        validTaskListUpdates.add("1`TaskList 1 created from ValidTaskUpdates`This is another valid update. ");
+        validTaskListUpdates.add("0`0`TaskList 0 created from ValidTasks`This is a valid update.");
+        validTaskListUpdates.add("1`1`TaskList 1 created from ValidTaskUpdates`This is another valid update. ");
 
         errorTaskListUpdates=new ArrayList<String>();
-        errorTaskListUpdates.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
-        errorTaskListUpdates.add("10` `This is an invalid TaskList because it has an invalid name.");
-
-
+        errorTaskListUpdates.add("-9`0`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
+        errorTaskListUpdates.add("10`1` `This is an invalid TaskList because it has an invalid name.");
 
         for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
