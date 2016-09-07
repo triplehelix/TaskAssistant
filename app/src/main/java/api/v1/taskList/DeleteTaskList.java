@@ -7,13 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
+import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
-import api.v1.model.Task;
-import api.v1.model.User;
+import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
-import api.v1.model.TaskList;
+import java.util.ArrayList;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -55,22 +56,23 @@ public class DeleteTaskList extends TaskRequestHandler {
             user.getTaskListIds().remove((Object) taskList.getId());
 
             taskList=taskListRepository.get(taskList);
-            for(Integer i: taskList.getTaskIds()){
-                Task task=new Task();
-                task.setId(i);
-                taskRepository.delete(task);
-            }
+            cleanTasks(taskList.getTaskIds());
             taskListRepository.delete(taskList);
 
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a DeleteTaskList Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an DeleteTaskList Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a DeleteTaskList Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
+            error = true;
+        } catch (CriticalException c) {
+            LOGGER.error("An error occurred while handling a DeleteTaskList Request: {}.", jsonRequest.toJSONString(), c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
             error = true;
         }
 
@@ -81,5 +83,29 @@ public class DeleteTaskList extends TaskRequestHandler {
             jsonResponse.put("success", true);
         }
         sendMessage(jsonResponse, response);
+    }
+
+    /**
+     * Remove references to these tasks from Categories and Schedules.
+     * @param taskIds
+     */
+    private void cleanTasks(ArrayList<Integer> taskIds) throws BusinessException, CriticalException, SystemException {
+        for(Integer i: taskIds) {
+            Task task=new Task();
+            task.setId(i);
+            task=taskRepository.get(task);
+            ArrayList<Category> updatedCategories = getCleanedCategories(task);
+            ArrayList<Schedule> updatedSchedules = getCleanedSchedules(task);
+            LOGGER.debug("Attempting to clean schedules belonging to this task. {}", task.toJson());
+            for(Schedule schedule: updatedSchedules){
+                LOGGER.debug("Before: {}", scheduleRepository.get(schedule).toJson());
+                scheduleRepository.update(schedule);
+                LOGGER.debug("After: {}", scheduleRepository.get(schedule).toJson());
+            }
+
+            for(Category category: updatedCategories)
+                categoryRepository.update(category);
+            taskRepository.delete(task);
+        }
     }
 }
