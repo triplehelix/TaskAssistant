@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.TaskListRequestHandler;
 import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -23,7 +23,7 @@ import org.slf4j.Logger;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/AddTaskList")
-public class AddTaskList extends TaskRequestHandler {
+public class AddTaskList extends TaskListRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddTaskList.class);
     /**
      *

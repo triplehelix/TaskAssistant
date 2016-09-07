@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.TaskListRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
@@ -22,7 +22,7 @@ import org.slf4j.Logger;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/UpdateTaskList")
-public class UpdateTaskList extends TaskRequestHandler {
+public class UpdateTaskList extends TaskListRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateTaskList.class);
     /**
      * Update a TaskList object. Include references to all Tasks that you

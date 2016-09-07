@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.TaskListRequestHandler;
 import api.v1.model.Task;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
@@ -26,7 +26,7 @@ import api.v1.model.TaskList;
  *  @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/GetTasks")
-public class GetTasks extends TaskRequestHandler {
+public class GetTasks extends TaskListRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetTasks.class);
     /**
      *

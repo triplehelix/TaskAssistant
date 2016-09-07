@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.TaskListRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
@@ -13,7 +13,6 @@ import api.v1.model.*;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -26,7 +25,7 @@ import org.slf4j.Logger;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/DeleteTaskList")
-public class DeleteTaskList extends TaskRequestHandler {
+public class DeleteTaskList extends TaskListRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteTaskList.class);
     /**
      * Delete a TaskList and all of the tasks that belong to it. A
@@ -83,24 +82,5 @@ public class DeleteTaskList extends TaskRequestHandler {
             jsonResponse.put("success", true);
         }
         sendMessage(jsonResponse, response);
-    }
-
-    /**
-     * Remove references to these tasks from Categories and Schedules.
-     * @param taskIds
-     */
-    private void cleanTasks(ArrayList<Integer> taskIds) throws BusinessException, CriticalException, SystemException {
-        for(Integer i: taskIds) {
-            Task task=new Task();
-            task.setId(i);
-            task=taskRepository.get(task);
-            ArrayList<Category> updatedCategories = getCleanedCategories(task);
-            ArrayList<Schedule> updatedSchedules = getCleanedSchedules(task);
-            for(Schedule schedule: updatedSchedules)
-                scheduleRepository.update(schedule);
-            for(Category category: updatedCategories)
-                categoryRepository.update(category);
-            taskRepository.delete(task);
-        }
     }
 }
