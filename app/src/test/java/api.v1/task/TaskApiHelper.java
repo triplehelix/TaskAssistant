@@ -1,12 +1,10 @@
 package api.v1.task;
 
 import api.v1.UnitTestHelper;
-import api.v1.category.CategoryApiHelper;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,12 +127,12 @@ public class TaskApiHelper extends UnitTestHelper {
             task.setId(Integer.parseInt(elements[0]));
             task.setTaskListId(Integer.parseInt(elements[1]));
             task.setName(elements[2]);
-            task.setImportant(CategoryApiHelper.parseJsonBooleanAsBoolean(elements[3]));
+            task.setImportant(parseJsonBooleanAsBoolean(elements[3]));
             task.setNote(elements[4]);
             task.setEstimatedTime(Long.parseLong(elements[5]));
             task.setInvestedTime(Long.parseLong(elements[6]));
-            task.setUrgent(CategoryApiHelper.parseJsonBooleanAsBoolean(elements[7]));
-            task.setDueDate(CategoryApiHelper.parseJsonDateAsDate(elements[8]));
+            task.setUrgent(parseJsonBooleanAsBoolean(elements[7]));
+            task.setDueDate(parseJsonDateAsDate(elements[8]));
             task.setStatus(elements[9]);
             if (elements.length > 10) {
                 task.setCategoryIds(toIntegerArrayList(elements[10]));
