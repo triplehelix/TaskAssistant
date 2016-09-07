@@ -19,6 +19,7 @@ import org.slf4j.Logger;
  * doPut(HttpServletRequest, HttpServletResponse) to update this
  * taskList.
  *
+ * TODO currently this api does not update Tasks that have been added or deleted on the client side.
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/UpdateTaskList")
@@ -42,23 +43,11 @@ public class UpdateTaskList extends TaskListRequestHandler {
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
             taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
+            taskList=taskListRepository.get(taskList);
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));
-            //LOGGER.debug("Here is the internal TaskList id: " + taskList.getId());
-            //LOGGER.debug("Here is the internal TaskList name: " + taskList.getName());
-            //LOGGER.debug("Here is the internal TaskList description: " + taskList.getDescription());
-
             taskListRepository.update(taskList);
-            //LOGGER.debug("Here is the purported TaskList id: " + taskList.getId());
-            //LOGGER.debug("Here is the purported TaskList name: " + taskList.getName());
-            //LOGGER.debug("Here is the purported TaskList description: " + taskList.getDescription());
 
-            /**
-             * TODO: Update this taskList.
-             * First, we have to read the taskList id from the jsonRequest. Then, an instance of taskList must
-             * be sent to repository containing the id and all member fields that need to be modified.
-             * Finally, the client should be notified of success/failure.
-             */
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an PutTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
