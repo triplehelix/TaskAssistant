@@ -124,6 +124,8 @@ public class UpdateTaskTest extends TaskApiHelper{
      */
     @After
     public void tearDown() throws Exception {
+        for(Task task: toTasks(validTasks))
+            taskRepository.delete(task);
 
         for(TaskList taskList: toTaskLists(sampleTaskLists))
             taskListRepository.delete(taskList);
@@ -131,11 +133,11 @@ public class UpdateTaskTest extends TaskApiHelper{
         for(Schedule schedule: toSchedules(sampleSchedules))
             scheduleRepository.delete(schedule);
 
+        for(User user: toUsers(sampleUsers))
+            userRepository.delete(user);
+
         for(Category category: toCategories(sampleCategories))
             categoryRepository.delete(category);
-
-        for(Task task: toTasks(validTasks))
-            taskRepository.delete(task);
     }
 
     /**

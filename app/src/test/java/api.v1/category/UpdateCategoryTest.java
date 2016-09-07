@@ -125,8 +125,21 @@ public class UpdateCategoryTest extends CategoryApiHelper {
      */
     @After
     public void tearDown() throws Exception {
-        for(Category category: CategoryApiHelper.toCategories(validCategories))
+        for(Category category: toCategories(validCategories))
             categoryRepository.delete(category);
+
+        for(Task task: toTasks(sampleTasks))
+            taskRepository.delete(task);
+
+        for(User user: toUsers(sampleUsers))
+            userRepository.delete(user);
+
+        for(TaskList taskList: toTaskLists(sampleTaskLists))
+            taskListRepository.delete(taskList);
+
+        for(Schedule schedule: toSchedules(sampleSchedules))
+            scheduleRepository.delete(schedule);
+
         updateCategoryInstance = null;
         validRequestList = null;
     }
