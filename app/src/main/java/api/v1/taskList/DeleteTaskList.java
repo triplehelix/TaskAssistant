@@ -9,6 +9,7 @@ import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.model.Task;
+import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
@@ -47,12 +48,20 @@ public class DeleteTaskList extends TaskRequestHandler {
             int taskListId=parseJsonIntAsInt((String)jsonRequest.get("id"));
             TaskList taskList=new TaskList();
             taskList.setId(taskListId);
+
+            User user=new User();
+            user.setId(taskList.getUserId());
+            user=userRepository.get(user);
+            user.getTaskListIds().remove((Object) taskList.getId());
+
             taskList=taskListRepository.get(taskList);
             for(Integer i: taskList.getTaskIds()){
                 Task task=new Task();
                 task.setId(i);
                 taskRepository.delete(task);
             }
+
+
             taskListRepository.delete(taskList);
 
         } catch (BusinessException b) {

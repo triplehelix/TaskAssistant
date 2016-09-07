@@ -3,8 +3,10 @@ package api.v1.taskList;
 import api.v1.error.BusinessException;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
+import api.v1.model.User;
 import api.v1.repo.TaskListRepository;
 import api.v1.repo.TaskRepository;
+import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -27,11 +29,13 @@ public class DeleteTaskListTest extends TaskListApiHelper {
     private static DeleteTaskList deleteTaskListInstance;
     private static TaskListRepository taskListRepository;
     private static TaskRepository taskRepository;
+    private static UserRepository userRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
     private static ArrayList<String> validTaskLists=new ArrayList<String>();
     private static ArrayList<String> errorTaskLists=new ArrayList<String>();
     private static ArrayList<String> sampleTasks=new ArrayList<String>();
+    private static ArrayList<String> sampleUsers=new ArrayList<String>();
 
     /**
      * First create a new Instance of DeleteTaskList() object, then add new
@@ -45,6 +49,13 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         deleteTaskListInstance=new DeleteTaskList();
         taskListRepository=DeleteTaskList.getTaskListRepository();
         taskRepository=DeleteTaskList.getTaskRepository();
+        userRepository=DeleteTaskList.getUserRepository();
+
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[]`[]`[]`[0]");
+        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo`[]`[]`[]`[6,2,3,4,5,1,7]");
+        for(User user: TaskListApiHelper.toUsers(sampleUsers))
+            userRepository.add(user);
+
 
         validTaskLists.add("0`TaskList 0`This is a valid TaskList.`[0,1,2,3]");
         validTaskLists.add("1`TaskList 1`This is a valid TaskList.`[4,5,6,7]");
@@ -59,8 +70,8 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
         sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
         sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
-        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3] 
-        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3] 
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3]
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3]
         sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
         sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
         for(Task task: toTasks(sampleTasks))

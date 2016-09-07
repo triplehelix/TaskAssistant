@@ -46,7 +46,7 @@ public class BaseRequestHandler extends HttpServlet{
     }
 
     public static TaskRepository getTaskRepository(){ return taskRepository; }
-    public UserRepository getUserRepository(){ return userRepository; }
+    public static UserRepository getUserRepository(){ return userRepository; }
     public static TaskListRepository getTaskListRepository() { return taskListRepository; }
     public static ReminderRepository getReminderRepository() { return reminderRepository; }
     public static CategoryRepository getCategoryRepository() { return categoryRepository; }
