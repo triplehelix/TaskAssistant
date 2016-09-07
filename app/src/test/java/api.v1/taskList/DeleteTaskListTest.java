@@ -57,14 +57,14 @@ public class DeleteTaskListTest extends TaskListApiHelper {
             userRepository.add(user);
 
 
-        validTaskLists.add("0`TaskList 0`This is a valid TaskList.`[0,1,2,3]");
-        validTaskLists.add("1`TaskList 1`This is a valid TaskList.`[4,5,6,7]");
+        validTaskLists.add("0`0`TaskList 0`This is a valid TaskList.`[0,1,2,3]");
+        validTaskLists.add("1`1`TaskList 1`This is a valid TaskList.`[4,5,6,7]");
         // Populate the TaskListRepository with valid TaskLists.
         for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
 
-        errorTaskLists.add("4`TaskList 4` There is no TaskList 4.");
-        errorTaskLists.add("-1`TaskList -1 `-1 is an invalid object id.");
+        errorTaskLists.add("4`0`TaskList 4` There is no TaskList 4.");
+        errorTaskLists.add("-1`1`TaskList -1 `-1 is an invalid object id.");
 
         sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
         sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]

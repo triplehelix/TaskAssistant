@@ -45,14 +45,17 @@ public class DeleteTaskList extends TaskRequestHandler {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
-            int taskListId=parseJsonIntAsInt((String)jsonRequest.get("id"));
             TaskList taskList=new TaskList();
-            taskList.setId(taskListId);
+            taskList.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+            taskList.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
 
             User user=new User();
             user.setId(taskList.getUserId());
+            LOGGER.debug("Attempting to update the User (Step 1) {} {}", user.toJson(), taskList.toJson());
             user=userRepository.get(user);
+            LOGGER.debug("Attempting to update the User (Step 2) {}", user.toJson());
             user.getTaskListIds().remove((Object) taskList.getId());
+            LOGGER.debug("Attempting to update the User (Step 3) {}", user.toJson());
 
             taskList=taskListRepository.get(taskList);
             for(Integer i: taskList.getTaskIds()){
@@ -60,8 +63,6 @@ public class DeleteTaskList extends TaskRequestHandler {
                 task.setId(i);
                 taskRepository.delete(task);
             }
-
-
             taskListRepository.delete(taskList);
 
         } catch (BusinessException b) {

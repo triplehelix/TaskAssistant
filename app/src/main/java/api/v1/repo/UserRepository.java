@@ -84,7 +84,7 @@ public class UserRepository implements Repository<User>{
         if(emailMap.containsKey(u.getEmail()))
             return emailMap.get(u.getEmail());
         else
-            throw new BusinessException(" User email not found {}" + u.getEmail(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+            throw new BusinessException(" User email not found {" + u.getEmail() + "}", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
 
     /**

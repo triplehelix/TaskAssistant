@@ -26,8 +26,9 @@ public class TaskListApiHelper extends UnitTestHelper {
             String[] taskElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("id", taskElementArray[0]);
-            jsonObj.put("name", taskElementArray[1]);
-            jsonObj.put("description", taskElementArray[2]);
+            jsonObj.put("userId", taskElementArray[1]);
+            jsonObj.put("name", taskElementArray[2]);
+            jsonObj.put("description", taskElementArray[3]);
             LOGGER.info("Created request {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
@@ -47,10 +48,11 @@ public class TaskListApiHelper extends UnitTestHelper {
             String[] elements = s.split("`");
             TaskList taskList = new TaskList();
             taskList.setId(Integer.parseInt(elements[0]));
-            taskList.setName(elements[1]);
-            taskList.setDescription(elements[2]);
-            if(elements.length>3)
-                taskList.setTaskIds(toIntegerArrayList(elements[3].trim()));
+            taskList.setUserId(Integer.parseInt(elements[1]));
+            taskList.setName(elements[2]);
+            taskList.setDescription(elements[3]);
+            if(elements.length>4)
+                taskList.setTaskIds(toIntegerArrayList(elements[4].trim()));
             myTaskLists.add(taskList);
         }
         return myTaskLists;
