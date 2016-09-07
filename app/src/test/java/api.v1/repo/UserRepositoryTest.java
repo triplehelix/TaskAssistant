@@ -43,9 +43,9 @@ public class UserRepositoryTest {
         errorAddUsers.add(toUser("0`mikehedden@gmail.com`a681wo$dKo")); // email already in use
         errorAddUsers.add(toUser("1`kenlyon@gmail.com`Mouwkl87%qo"));   // email already in use
 
-        validGetUsers.add(toUser("0`mikehedden@gmail.com`a681wo$dKo")); // Search by id
+        validGetUsers.add(toUser("0` `a681wo$dKo")); // Search by id
         validGetUsers.add(toUser("-1`kenlyon@gmail.com`Mouwkl87%qo"));  // Search by email
-        validGetUsers.add(toUser("2`kenlyon@test.com`e-W^2VmQ"));       // Search by id
+        validGetUsers.add(toUser("2``e-W^2VmQ"));       // Search by id
         validGetUsers.add(toUser("-1`fatsteaks@gmail.com`+%D5|x%b"));   // Search by email
         errorGetUsers.add(toUser("0`mikehedden@gmail.com`a681wo$dKo")); // wrong password
         errorGetUsers.add(toUser("1`kenlyon@gmail.com`Mouwkl87%qo"));   // wrong password
@@ -219,7 +219,7 @@ public class UserRepositoryTest {
     private void testGet() throws Exception {
         LOGGER.info("Test get: ");
         for(User u: validGetUsers){
-            LOGGER.info("Received User: {}", userRepository.get(u).toJson());
+            LOGGER.info("Received User: {} from {}", userRepository.get(u).toJson(), u.toJson());
         }
         LOGGER.info("\"testGet\" finished.\n\n");
     }
