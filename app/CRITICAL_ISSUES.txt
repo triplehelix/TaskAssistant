@@ -15,3 +15,6 @@ Task does not update the Category IDs. Should it set those categories to null?
 5. Updates ought to have a clean-up method similar those present in Add APIs. It 
 should update the repository with the serverObjects used to to map all of the
 objects that need to be cleaned and modified.
+
+6. Most unit tests do not test the point back error where an inconsistency in the 
+database is not detected because 

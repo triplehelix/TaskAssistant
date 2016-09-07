@@ -1,7 +1,10 @@
 package api.v1.taskList;
 
+import api.v1.error.BusinessException;
+import api.v1.model.Task;
 import api.v1.model.TaskList;
 import api.v1.repo.TaskListRepository;
+import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +16,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.util.ArrayList;
 
+import static org.springframework.test.util.AssertionErrors.fail;
+
 
 /**
  * @author kennethlyon on 20160711.
@@ -21,10 +26,12 @@ public class DeleteTaskListTest extends TaskListApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(DeleteTaskListTest.class);
     private static DeleteTaskList deleteTaskListInstance;
     private static TaskListRepository taskListRepository;
+    private static TaskRepository taskRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-    private static ArrayList<String> validTaskLists;
-    private static ArrayList<String> errorTaskLists;
+    private static ArrayList<String> validTaskLists=new ArrayList<String>();
+    private static ArrayList<String> errorTaskLists=new ArrayList<String>();
+    private static ArrayList<String> sampleTasks=new ArrayList<String>();
 
     /**
      * First create a new Instance of DeleteTaskList() object, then add new
@@ -37,18 +44,27 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         //First instantiate DeleteTaskList, then fetch TaskListRepository.
         deleteTaskListInstance=new DeleteTaskList();
         taskListRepository=DeleteTaskList.getTaskListRepository();
-        validTaskLists=new ArrayList<String>();
-        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
-        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
-        errorTaskLists=new ArrayList<String>();
-        errorTaskLists.add("0`  `This TaskList has no name.");
-        errorTaskLists.add("1``This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        taskRepository=DeleteTaskList.getTaskRepository();
 
-
+        validTaskLists.add("0`TaskList 0`This is a valid TaskList.`[0,1,2,3]");
+        validTaskLists.add("1`TaskList 1`This is a valid TaskList.`[4,5,6,7]");
         // Populate the TaskListRepository with valid TaskLists.
         for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
 
+        errorTaskLists.add("4`TaskList 4` There is no TaskList 4.");
+        errorTaskLists.add("-1`TaskList -1 `-1 is an invalid object id.");
+
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3] 
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3] 
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
+        for(Task task: toTasks(sampleTasks))
+            taskRepository.add(task);
 
         //Finally, create Mock HTTP Servlet Requests.
         for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
@@ -81,6 +97,14 @@ public class DeleteTaskListTest extends TaskListApiHelper {
     @Test
     public void doPost() throws Exception {
         // First delete TaskLists that have been added to the repository.
+        // Finally, we try to delete TaskLists that belong to the error updates list.
+        LOGGER.debug("Delete TaskLists that belong to the error updates list.");
+        for (MockHttpServletRequest request : errorRequestList) {
+            MockHttpServletResponse response = new MockHttpServletResponse();
+            deleteTaskListInstance.doPost(request, response);
+            validateDoPostErrorResponse(response);
+        }
+
         LOGGER.info("First delete TaskLists that have been added to the repository.");
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
@@ -96,12 +120,22 @@ public class DeleteTaskListTest extends TaskListApiHelper {
             validateDoPostErrorResponse(response);
         }
 
-        //Finally, we try to delete TaskLists that belong to the error updates list.
-        LOGGER.debug("// Finally, we try to delete TaskLists that belong to the error updates list.");
-        for (MockHttpServletRequest request : errorRequestList) {
-            MockHttpServletResponse response = new MockHttpServletResponse();
-            deleteTaskListInstance.doPost(request, response);
-            validateDoPostErrorResponse(response);
+
+        LOGGER.info("Verifying Tasks have been cleaned...");
+        for(Task task: toTasks(sampleTasks)) {
+        boolean taskDeleted=false;
+            try {
+                taskRepository.delete(task);
+
+            }catch (BusinessException e){
+                taskDeleted=true;
+            }
+
+            if(!taskDeleted) {
+                LOGGER.error("The Task Object was never removed from the database! {}", task.toJson());
+                fail("DeleteTaskList failed because of cleanup.");
+            }
         }
+        LOGGER.info("Tasks cleaned successfully.");
     }
 }

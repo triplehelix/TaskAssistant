@@ -39,4 +39,26 @@ public class TaskListApiHelper extends UnitTestHelper {
         }
         return myJSONObjects;
     }
+
+
+    /**
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of TaskLists.
+     * @param backtickTaskLists
+     * @return  ArrayList<TaskList>
+     * @throws Exception
+     */
+    protected static ArrayList<TaskList> toTaskLists(ArrayList<String> backtickTaskLists)throws Exception{
+        ArrayList<TaskList> myTaskLists=new ArrayList<TaskList>();
+        for(String s: backtickTaskLists) {
+            String[] elements = s.split("`");
+            TaskList taskList = new TaskList();
+            taskList.setId(Integer.parseInt(elements[0]));
+            taskList.setName(elements[1]);
+            taskList.setDescription(elements[2]);
+            if(elements.length>3)
+                taskList.setTaskIds(toIntegerArrayList(elements[3].trim()));
+            myTaskLists.add(taskList);
+        }
+        return myTaskLists;
+    }
 }

@@ -22,8 +22,8 @@ public class AddTaskListTest extends TaskListApiHelper {
     private static AddTaskList addTaskListInstance;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
-    private static ArrayList<String> validTaskLists;
-    private static ArrayList<String> errorTaskLists;
+    private static ArrayList<String> validTaskLists=new ArrayList<String>();
+    private static ArrayList<String> errorTaskLists=new ArrayList<String>();
 
     /**
      * First create a new Instance of AddTaskList() object, then add new
@@ -34,12 +34,10 @@ public class AddTaskListTest extends TaskListApiHelper {
     @Before
     public void setUp() throws Exception {
         addTaskListInstance=new AddTaskList();
-        validTaskLists=new ArrayList<String>();
-        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
-        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
-        errorTaskLists=new ArrayList<String>();
-        errorTaskLists.add("0`  `This TaskList has no name.");
-        errorTaskLists.add("1``This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        validTaskLists.add("0`TaskList 0`This is a valid TaskList.");
+        validTaskLists.add("1`TaskList 1`This is a valid TaskList.");
+        errorTaskLists.add("0` `This TaskList has no name.");
+        errorTaskLists.add("1` `This TaskList has no name.");
 
 
         for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
