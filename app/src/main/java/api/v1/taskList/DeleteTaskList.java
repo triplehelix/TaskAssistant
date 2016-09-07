@@ -96,13 +96,8 @@ public class DeleteTaskList extends TaskRequestHandler {
             task=taskRepository.get(task);
             ArrayList<Category> updatedCategories = getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules = getCleanedSchedules(task);
-            LOGGER.debug("Attempting to clean schedules belonging to this task. {}", task.toJson());
-            for(Schedule schedule: updatedSchedules){
-                LOGGER.debug("Before: {}", scheduleRepository.get(schedule).toJson());
+            for(Schedule schedule: updatedSchedules)
                 scheduleRepository.update(schedule);
-                LOGGER.debug("After: {}", scheduleRepository.get(schedule).toJson());
-            }
-
             for(Category category: updatedCategories)
                 categoryRepository.update(category);
             taskRepository.delete(task);
