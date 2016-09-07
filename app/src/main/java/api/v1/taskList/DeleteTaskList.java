@@ -51,11 +51,8 @@ public class DeleteTaskList extends TaskRequestHandler {
 
             User user=new User();
             user.setId(taskList.getUserId());
-            LOGGER.debug("Attempting to update the User (Step 1) {} {}", user.toJson(), taskList.toJson());
             user=userRepository.get(user);
-            LOGGER.debug("Attempting to update the User (Step 2) {}", user.toJson());
             user.getTaskListIds().remove((Object) taskList.getId());
-            LOGGER.debug("Attempting to update the User (Step 3) {}", user.toJson());
 
             taskList=taskListRepository.get(taskList);
             for(Integer i: taskList.getTaskIds()){

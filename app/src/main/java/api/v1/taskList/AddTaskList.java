@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
+import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -39,14 +40,18 @@ public class AddTaskList extends TaskRequestHandler {
         int errorCode = 0;
         JSONObject jsonRequest = new JSONObject();
         try {
-           /* TODO DO NOT look for tasks that belong to TaskList.
-            * TaskLists cannot be created with tasks that already belong to them
-            * since tasks are created as members of a valid TaskList.
-            */
             jsonRequest = parseRequest(request.getParameter("params"));
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));
+            taskList.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
+
+            User user=new User();
+            user.setId(taskList.getUserId());
+            user=userRepository.get(user);
+            user.addTaskList(taskList);
+
             taskListRepository.add(taskList);
+            userRepository.update(user);
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an AddTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();

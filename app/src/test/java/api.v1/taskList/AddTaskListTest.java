@@ -1,7 +1,9 @@
 package api.v1.taskList;
 
 import api.v1.model.TaskList;
+import api.v1.model.User;
 import api.v1.repo.TaskListRepository;
+import api.v1.repo.UserRepository;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +15,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.util.ArrayList;
 
+import static org.springframework.test.util.AssertionErrors.fail;
+
 
 /**
  * @author kennethlyon on 20160711.
@@ -20,10 +24,13 @@ import java.util.ArrayList;
 public class AddTaskListTest extends TaskListApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(AddTaskListTest.class);
     private static AddTaskList addTaskListInstance;
+    private static UserRepository userRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
     private static ArrayList<String> validTaskLists=new ArrayList<String>();
     private static ArrayList<String> errorTaskLists=new ArrayList<String>();
+    private static ArrayList<String> sampleUsers=new ArrayList<String>();
+
 
     /**
      * First create a new Instance of AddTaskList() object, then add new
@@ -34,10 +41,16 @@ public class AddTaskListTest extends TaskListApiHelper {
     @Before
     public void setUp() throws Exception {
         addTaskListInstance=new AddTaskList();
-        validTaskLists.add("0`TaskList 0`This is a valid TaskList.");
-        validTaskLists.add("1`TaskList 1`This is a valid TaskList.");
-        errorTaskLists.add("0` `This TaskList has no name.");
-        errorTaskLists.add("1` `This TaskList has no name.");
+        validTaskLists.add("0`0`TaskList 0`This is a valid TaskList.");
+        validTaskLists.add("1`1`TaskList 1`This is a valid TaskList.");
+        errorTaskLists.add("0`0` `This TaskList has no name.");
+        errorTaskLists.add("1`1` `This TaskList has no name.");
+        userRepository=DeleteTaskList.getUserRepository();
+
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[]`[]`[]`[0]");
+        sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo`[]`[]`[]`[6,2,3,4,5,7]");
+        for(User user: TaskListApiHelper.toUsers(sampleUsers))
+            userRepository.add(user);
 
 
         for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
@@ -86,5 +99,13 @@ public class AddTaskListTest extends TaskListApiHelper {
             addTaskListInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
+
+        // Verify that the User has been updated.
+        for(User user: toUsers(sampleUsers))
+            if(user.equals(userRepository.get(user))) {
+                LOGGER.error("This user failed to update {}", user);
+                fail("This user was not updated!");
+            }else
+                LOGGER.info("Updated User: {}", userRepository.get(user).toJson());
     }
 }
