@@ -5,16 +5,14 @@ all of the APIs.
 
 2. All model objects must implement an addObject(Object) method that ensures that
 a given reference cannot be placed in the Array of IDs more than once. This needs
-to be changed in the model unit tests as well.
+to be tested by the model unit tests as well.
 
 3. Presently it is not possible to move a Task from one TaskList to another.
 
-4. When a Task is updated, and no field of category IDs is specified, then the 
-Task does not update the Category IDs. Should it set those categories to null?
-
-5. Updates ought to have a clean-up method similar those present in Add APIs. It 
+4. Updates ought to have a clean-up method similar those present in Add APIs. It 
 should update the repository with the serverObjects used to to map all of the
 objects that need to be cleaned and modified.
 
-6. Most unit tests do not test the point back error where an inconsistency in the 
-database is not detected because 
+5. Most unit tests do not test the point back error where an inconsistency in the 
+database is not detected because the API assumes the internal data is never
+corrupted.
