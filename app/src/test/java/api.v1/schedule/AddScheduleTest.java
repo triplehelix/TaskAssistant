@@ -112,7 +112,7 @@ public class AddScheduleTest extends ScheduleApiHelper {
      */
     @After
     public void tearDown() throws Exception {
-	    for(Category category: toCategories(sampleCategories))
+        for(Category category: toCategories(sampleCategories))
             categoryRepository.delete(category);
         for(Schedule schedule: toSchedules(validSchedules))
             scheduleRepository.delete(schedule);

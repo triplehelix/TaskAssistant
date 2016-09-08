@@ -62,12 +62,12 @@ public class GetTasksTest extends TaskListApiHelper {
         validTasks.add("8`1`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
 
         validTaskLists=new ArrayList<String>();
-        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
-        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        validTaskLists.add("0`0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
 
         errorTaskLists=new ArrayList<String>();
-        errorTaskLists.add("-9`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
-        errorTaskLists.add("10` `This is an invalid TaskList because it has an invalid name.");
+        errorTaskLists.add("-9`0`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
+        errorTaskLists.add("10`1` `This is an invalid TaskList because it has an invalid name.");
 
         // Populate the TaskRepository:
         for(Task task: TaskListApiHelper.toTasks(validTasks))

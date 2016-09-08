@@ -41,16 +41,19 @@ public class AddTaskListTest extends TaskListApiHelper {
     @Before
     public void setUp() throws Exception {
         addTaskListInstance=new AddTaskList();
-        validTaskLists.add("0`0`TaskList 0`This is a valid TaskList.");
-        validTaskLists.add("1`1`TaskList 1`This is a valid TaskList.");
-        errorTaskLists.add("0`0` `This TaskList has no name.");
-        errorTaskLists.add("1`1` `This TaskList has no name.");
         userRepository=DeleteTaskList.getUserRepository();
-
         sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[]`[]`[]`[0]");
         sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo`[]`[]`[]`[6,2,3,4,5,7]");
         for(User user: TaskListApiHelper.toUsers(sampleUsers))
             userRepository.add(user);
+
+        validTaskLists.add("0`0`TaskList 0`This is a valid TaskList.");
+        validTaskLists.add("1`1`TaskList 1`This is a valid TaskList.");
+
+        errorTaskLists.add("0`0` `This TaskList has no name.");
+        errorTaskLists.add("1`1` `This TaskList has no name.");
+
+
 
 
         for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))

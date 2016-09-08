@@ -167,7 +167,6 @@ public class UpdateCategoryTest extends CategoryApiHelper {
             validateDoPostErrorResponse(response);
         }
 
-
         // Verify that the User has been updated.
         for(User user: toUsers(sampleUsers))
             if(user.equals(userRepository.get(user))) {

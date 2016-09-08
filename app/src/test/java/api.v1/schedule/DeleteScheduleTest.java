@@ -119,7 +119,7 @@ public class DeleteScheduleTest extends ScheduleApiHelper {
      */
     @After
     public void tearDown() throws Exception {
-	    for(Category category: toCategories(sampleCategories))
+        for(Category category: toCategories(sampleCategories))
             categoryRepository.delete(category);
         for(TaskList taskList: toTaskLists(sampleTaskLists))
             taskListRepository.delete(taskList);
