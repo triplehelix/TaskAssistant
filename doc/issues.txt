@@ -1,18 +1,44 @@
 
-1. Presently, no API can indicate what an added object's new id is. The repository 
-"add(Object)" function ought to return the new object, and this must be done for 
-all of the APIs. 
+1. Presently, no API can indicate what an added object's new id is. The repository
+   "add(Object)" function ought to return the new object, and this must be done for 
+   all of the APIs. 
 
 2. All model objects must implement an addObject(Object) method that ensures that
-a given reference cannot be placed in the Array of IDs more than once. This needs
-to be tested by the model unit tests as well.
+   a given reference cannot be placed in the Array of IDs more than once. This 
+   needs to be tested by the model unit tests as well.
 
 3. Presently it is not possible to move a Task from one TaskList to another.
 
 4. Updates ought to have a clean-up method similar those present in Add APIs. It 
-should update the repository with the serverObjects used to to map all of the
-objects that need to be cleaned and modified.
+   should update the repository with the serverObjects used to to map all of the
+   objects that need to be cleaned and modified.
 
 5. Most unit tests do not test the point back error where an inconsistency in the 
-database is not detected because the API assumes the internal data is never
-corrupted.
+   database is not detected because the API assumes the internal data is never
+   corrupted.
+
+6. Database sanitization. When someone creates a "note" or names a task, how do we 
+   make sure the database is not corrupted?
+
+7.  I would like to see a UI where TaskLists are generated on the fly. This way a 
+    person can create a task list by selecting and de-selecting categories. Such a 
+    TaskList should be called a "todo" list? At present, this api does not really 
+    support that.
+
+***********************************************************************************
+Mike likes a program called: http://todotxt.com/
+
+Also, mike says that if something is low priority, but is really short, then
+the cost of keeping it on the task list is too expensive to just leave in the
+task list. Alternatively: if the cost of making a decission is more than the 
+difference between decisions, then jsut flip a coin.
+
+*** Security ***
+Use "O"-auth to protect all of out APIs. There exists a philosophy that all get
+requests are open, and everything else ought to be behind a token. This probably
+sucks for our purposes however.
+
+Logins require user name and password. The response is a token, and tokens 
+are required for all post, get, delete and put requests.
+
+***********************************************************************************
