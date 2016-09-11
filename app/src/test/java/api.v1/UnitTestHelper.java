@@ -2,6 +2,7 @@ package api.v1;
 
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
+import api.v1.error.SystemException;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -274,5 +275,31 @@ public class UnitTestHelper {
         LOGGER.info("Created request {}",jsonObj.toJSONString());
         request.addParameter("params", jsonObj.toJSONString());
         return request;
+    }
+
+
+    /**
+     *
+     *
+     */
+    protected void verifyRepositoriesAreClean(){
+
+        Task task=new Task();
+        User user=new User();
+        Category category=new Category();
+        TaskList taskList=new TaskList();
+        Schedule schedule=new Schedule();
+        Reminder reminder=new Reminder();
+        Calendar calendar=new Calendar();
+        boolean error=false;
+        for(int i=0; i<100; i++) {
+            user.setId(i);
+            task.setId(i);
+            category.setId(i);
+            taskList.setId(i);
+            schedule.setId(i);
+            reminder.setId(i);
+            calendar.setId(i);
+        }
     }
 }

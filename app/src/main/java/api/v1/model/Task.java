@@ -59,11 +59,11 @@ public class Task {
         this.scheduleIds = ModelHelper.copyIntegerArrayList(task.getScheduleIds());
         this.reminderIds = ModelHelper.copyIntegerArrayList(task.getReminderIds());
     }
-    public void setId(int id) throws BusinessException{
+    public void setId(int id) {
         this.id=id;
     }
 
-    public void setTaskListId(int taskListId) throws BusinessException{
+    public void setTaskListId(int taskListId) {
         this.taskListId = taskListId;
     }
 

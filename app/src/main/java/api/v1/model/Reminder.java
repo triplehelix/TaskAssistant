@@ -36,7 +36,7 @@ public class Reminder {
         return id;
     }
 
-    public void setId(int id) throws BusinessException{
+    public void setId(int id) {
         this.id=id;
     }
 
