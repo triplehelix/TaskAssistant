@@ -12,6 +12,8 @@ import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.Reminder;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * This api is used to retrieve a given reminder. Use the class member
@@ -22,7 +24,7 @@ import api.v1.model.Reminder;
  */
 @WebServlet("/api/v1/reminder/GetReminder")
 public class GetReminder extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetReminder.class);
     /**
      *
      * @param request
@@ -44,12 +46,12 @@ public class GetReminder extends TaskRequestHandler {
 
         reminderRepository.get(reminder);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an GetReminder  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an GetReminder  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an GetReminder Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an GetReminder Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

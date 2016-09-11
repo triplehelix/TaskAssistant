@@ -5,14 +5,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.TaskListRequestHandler;
+import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.TaskList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 /**
  * This api is used to create a new taskList. Use the class member
  * doPost(HttpServletRequest, HttpServletResponse) to create a
@@ -21,26 +23,15 @@ import api.v1.model.TaskList;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/AddTaskList")
-public class AddTaskList extends TaskRequestHandler {
-    /** /api/v1/user/addtasklist
-     * o POST
-     * ·  Request
-     *    ·  user_id
-     *    ·  tasklistid (can be null)
-     *    ·  name (can be null)
-     *    ·  description (can be null)
-     *    ·  permission
-     * ·  Response
-     *    ·  Success
-     *    ·  Tasklistid
-     *    ·  error
-     * 
+public class AddTaskList extends TaskListRequestHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddTaskList.class);
+    /**
      *
      * @param request
      * @param response
      * @throws ServletException
      * @throws IOException
-         */
+     */
     public void doPost(HttpServletRequest request, 
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
@@ -50,17 +41,24 @@ public class AddTaskList extends TaskRequestHandler {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
-            // private String name;
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));
+            taskList.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
+
+            User user=new User();
+            user.setId(taskList.getUserId());
+            user=userRepository.get(user);
+            user.addTaskList(taskList);
+
             taskListRepository.add(taskList);
+            userRepository.update(user);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an AddTaskList  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an AddTaskList Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTaskList Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

@@ -32,13 +32,13 @@ public class ReminderRepository implements Repository<Reminder>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Reminder r) throws BusinessException, SystemException{
-	// First, we make sure that the reminder DNE. Else throw BusinessException
+    public Reminder add(Reminder r) throws BusinessException, SystemException{
         int reminderId=0;
         while(reminderMap.containsKey(reminderId))
             reminderId++;
         r.setId(reminderId);
         reminderMap.put(reminderId, r);
+        return r;
     }
 
     /**
@@ -62,10 +62,11 @@ public class ReminderRepository implements Repository<Reminder>{
      * @throws SystemException
      */
 	public void update(Reminder r) throws BusinessException, SystemException{
-        // First, delete the reminder:
-        this.delete(r);
-        // Then add the new reminder:
-        this.add(r);
+        if (reminderMap.containsKey(r.getId())) {
+            reminderMap.remove(r.getId());
+            reminderMap.put(r.getId(), r);
+        } else
+            throw new BusinessException(" Reminder not found. ID=" + r.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 	}
 
     /**

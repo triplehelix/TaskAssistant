@@ -10,6 +10,8 @@ import api.v1.error.SystemException;
 import api.v1.ScheduleRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.model.Schedule;
 
 /**
@@ -21,49 +23,44 @@ import api.v1.model.Schedule;
  */
 @WebServlet("/api/v1/schedule/GetSchedule")
 public class GetSchedule extends ScheduleRequestHandler {
-
-	/**
-	 *
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetSchedule.class);
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
      */
-	public void doPost(HttpServletRequest request,
-				HttpServletResponse response)throws ServletException, IOException {
-		boolean error = false;
-		String errorMsg = "no error";
-		Schedule schedule = new Schedule();
-		int errorCode = 0;
-		JSONObject jsonRequest = new JSONObject();
-		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			/**
-			 * TODO: Return an instance of this schedule.
-			 * To successfully, return an instance of schedule to the client, it is necessary to
-			 * first discover the schedule id, then a serialized version of that instance should be
-			 * sent back to the client through the HttpServletResponse.
-			 */
+    public void doPost(HttpServletRequest request,
+                HttpServletResponse response)throws ServletException, IOException {
+        boolean error = false;
+        String errorMsg = "no error";
+        Schedule schedule = new Schedule();
+        int errorCode = 0;
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest = parseRequest(request.getParameter("params"));
+            schedule.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+        schedule=scheduleRepository.get(schedule);
+        } catch (BusinessException b) {
+            LOGGER.error("An error occurred while handling an GetSchedule  Request: {}.", jsonRequest.toJSONString(), b);
+            errorMsg = "Error. " + b.getMessage();
+            errorCode = b.getError().getCode();
+            error = true;
+        } catch (SystemException s) {
+            LOGGER.error("An error occurred while handling an GetSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            errorMsg = "Error. " + s.getMessage();
+            errorCode = s.getError().getCode();
+            error = true;
+        }
 
-		scheduleRepository.get(schedule);
-		} catch (BusinessException b) {
-			log.error("An error occurred while handling an GetSchedule  Request: {}.", jsonRequest.toJSONString(), b);
-			errorMsg = "Error. " + b.getMessage();
-			errorCode = b.getError().getCode();
-			error = true;
-		} catch (SystemException s) {
-			log.error("An error occurred while handling an GetSchedule Request: {}.", jsonRequest.toJSONString(), s);
-			errorMsg = "Error. " + s.getMessage();
-			errorCode = s.getError().getCode();
-			error = true;
-		}
-
-		JSONObject jsonResponse = new JSONObject();
-		if (error) {
-			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-		} else {
-			jsonResponse.put("success", true);
-		}
-		sendMessage(jsonResponse, response);
-	}
+        JSONObject jsonResponse = new JSONObject();
+        if (error) {
+            jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+        } else {
+            jsonResponse.put("success", true);
+            jsonResponse.put("schedule", schedule.toJson());
+        }
+        sendMessage(jsonResponse, response);
+    }
 }

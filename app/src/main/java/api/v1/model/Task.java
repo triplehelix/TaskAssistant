@@ -2,8 +2,10 @@ package api.v1.model;
 
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
+import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -22,31 +24,46 @@ public class Task {
     private Date dueDate;
     private Status status;
     public enum Status{NEW, IN_PROGRESS, DELEGATED, DEFERRED, DONE};
+    private ArrayList<Integer> categoryIds;
+    private ArrayList<Integer> scheduleIds;
+    private ArrayList<Integer> reminderIds;
 
-	/**
-	 * Create a new task w/o an id. Tasks created without an id are assigned
+
+    /**
+     * Create a new task w/o an id. Tasks created without an id are assigned
      * an id of -1.
-	 */
-	public Task(){
+     */
+    public Task(){
         this.id=-1;
         this.taskListId=-1;
-		this.note="";
-		this.estimatedTime=0;
-		this.investedTime=0;
-		this.urgent=false;
-		this.dueDate=null;
+        this.urgent=false;
         this.status=Status.valueOf("NEW");
-	}
+    }
 
+    /**
+     * Return an deep copy of a given task.
+     * @param task
+     */
+    public Task(Task task){
+        this.id=task.getId();
+        this.taskListId=task.getTaskListId();
+        this.name=new String(task.getName());
+        this.note=new String(task.getNote());
+        this.estimatedTime=task.getEstimatedTime();
+        this.investedTime=task.getInvestedTime();
+        this.important=task.getImportant();
+        this.urgent=task.getUrgent();
+        this.dueDate=new Date(task.getDueDate().getTime());
+        this.status=Status.valueOf(task.getStatus().toString());
+        this.categoryIds = ModelHelper.copyIntegerArrayList(task.getCategoryIds());
+        this.scheduleIds = ModelHelper.copyIntegerArrayList(task.getScheduleIds());
+        this.reminderIds = ModelHelper.copyIntegerArrayList(task.getReminderIds());
+    }
     public void setId(int id) throws BusinessException{
-        if(id<0)
-            throw new BusinessException("Invalid id: " + id + ". A non-negative Task id is required", Error.valueOf("INVALID_ID_ERROR"));
         this.id=id;
     }
 
     public void setTaskListId(int taskListId) throws BusinessException{
-        if(taskListId<0)
-            throw new BusinessException("Invalid id: " + taskListId + ". A non-negative TaskList id is required", Error.valueOf("INVALID_ID_ERROR"));
         this.taskListId = taskListId;
     }
 
@@ -57,8 +74,8 @@ public class Task {
     }
 
     public void setNote(String note){
-	this.note = note;
-	}
+    this.note = note;
+    }
 
     /**
      * The amount of continuous time a expected for a task to
@@ -66,14 +83,15 @@ public class Task {
      * @param estimatedTime
      */
     public void setEstimatedTime(long estimatedTime){
-	this.estimatedTime = estimatedTime;
+        this.estimatedTime = estimatedTime;
     }
+
     /**
      * The amount of time invested in this task so far.
      * @param investedTime
      */
     public void setInvestedTime(long investedTime){
-	this.investedTime = investedTime;
+        this.investedTime = investedTime;
     }
     public void setImportant(boolean important){
         this.important=important;
@@ -92,7 +110,6 @@ public class Task {
             throw new BusinessException(status +" is not a valid task status.", Error.valueOf("INVALID_TASK_STATUS_ERROR"));
         }
     }
-
     public int getId(){
         return this.id;
     }
@@ -132,5 +149,88 @@ public class Task {
     public String toJson(){
         Gson gson=new Gson();
         return gson.toJson(this);
+    }
+
+    public void addCategory(Category category){
+        if(null==categoryIds)
+            categoryIds=new ArrayList<Integer>();
+        categoryIds.add(category.getId());
+    }
+
+    public ArrayList<Integer> getReminderIds() {
+        return reminderIds;
+    }
+
+    public void setReminderIds(ArrayList<Integer> reminderIds) {
+        this.reminderIds = reminderIds;
+    }
+
+    public void addReminder(Reminder reminder){
+        if(reminderIds==null)
+            reminderIds=new ArrayList<Integer>();
+        reminderIds.add(reminder.getId());
+    }
+
+    public ArrayList<Integer> getScheduleIds() {
+        return scheduleIds;
+    }
+
+    public void setScheduleIds(ArrayList<Integer> scheduleIds) {
+        this.scheduleIds = scheduleIds;
+    }
+
+    public void addSchedule(Schedule schedule){
+        if(scheduleIds==null)
+            scheduleIds=new ArrayList<Integer>();
+        scheduleIds.add(schedule.getId());
+    }
+    public ArrayList<Integer> getCategoryIds() {
+        return categoryIds;
+    }
+
+    
+    public void setCategoryIds(ArrayList<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task = (Task) o;
+
+        if (id != task.id) return false;
+        if (taskListId != task.taskListId) return false;
+        if (estimatedTime != task.estimatedTime) return false;
+        if (investedTime != task.investedTime) return false;
+        if (important != task.important) return false;
+        if (urgent != task.urgent) return false;
+        if (!name.equals(task.name)) return false;
+        if (note != null ? !note.equals(task.note) : task.note != null) return false;
+        if (dueDate != null ? !dueDate.equals(task.dueDate) : task.dueDate != null) return false;
+        if (status != task.status) return false;
+        if (categoryIds != null ? !categoryIds.equals(task.categoryIds) : task.categoryIds != null) return false;
+        if (scheduleIds != null ? !scheduleIds.equals(task.scheduleIds) : task.scheduleIds != null) return false;
+        return reminderIds != null ? reminderIds.equals(task.reminderIds) : task.reminderIds == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + taskListId;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (note != null ? note.hashCode() : 0);
+        result = 31 * result + (int) (estimatedTime ^ (estimatedTime >>> 32));
+        result = 31 * result + (int) (investedTime ^ (investedTime >>> 32));
+        result = 31 * result + (important ? 1 : 0);
+        result = 31 * result + (urgent ? 1 : 0);
+        result = 31 * result + (dueDate != null ? dueDate.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (categoryIds != null ? categoryIds.hashCode() : 0);
+        result = 31 * result + (scheduleIds != null ? scheduleIds.hashCode() : 0);
+        result = 31 * result + (reminderIds != null ? reminderIds.hashCode() : 0);
+        return result;
     }
 }

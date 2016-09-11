@@ -1,0 +1,18 @@
+
+1. Presently, no API can indicate what an added object's new id is. The repository 
+"add(Object)" function ought to return the new object, and this must be done for 
+all of the APIs. 
+
+2. All model objects must implement an addObject(Object) method that ensures that
+a given reference cannot be placed in the Array of IDs more than once. This needs
+to be tested by the model unit tests as well.
+
+3. Presently it is not possible to move a Task from one TaskList to another.
+
+4. Updates ought to have a clean-up method similar those present in Add APIs. It 
+should update the repository with the serverObjects used to to map all of the
+objects that need to be cleaned and modified.
+
+5. Most unit tests do not test the point back error where an inconsistency in the 
+database is not detected because the API assumes the internal data is never
+corrupted.

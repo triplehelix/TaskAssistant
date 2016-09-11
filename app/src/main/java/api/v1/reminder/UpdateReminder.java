@@ -6,14 +6,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
+import api.v1.error.CriticalException;
+import api.v1.model.Task;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.error.Error;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.Date;
-
 import api.v1.model.Reminder;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * This api is used to update a given reminder. Use the class member
@@ -24,7 +29,7 @@ import api.v1.model.Reminder;
  */
 @WebServlet("/api/v1/reminder/UpdateReminder")
 public class UpdateReminder extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateReminder.class);
     /**
      *
      * @param request
@@ -36,29 +41,45 @@ public class UpdateReminder extends TaskRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        Reminder reminder = new Reminder();
+        Reminder clientReminder = new Reminder();
+        Reminder serverReminder;
         int errorCode = 0;
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
+            //Create and validate the client reminder.
+            LOGGER.debug("Create and validate the client reminder.");
             Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminderTime"));
             Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("taskId"));
             Integer reminderId =  parseJsonIntAsInt((String)jsonRequest.get("id"));
-            reminder.setId(reminderId);
-            reminder.setTaskId(taskId);
-            verifyTaskExists(reminder.getTaskId());
-            reminder.setReminderTime(reminderDate);
-            reminderRepository.update(reminder);
+            clientReminder.setId(reminderId);
+            clientReminder.setTaskId(taskId);
+            clientReminder.setReminderTime(reminderDate);
+            verifyTaskExists(clientReminder.getTaskId());
+            LOGGER.debug("So, now we have the client reminder id, " + clientReminder.getId() + " and the task id it points to " + clientReminder.getTaskId() + ".");
+
+            // Clean references to the current reminder using the serverReminder:
+            serverReminder=reminderRepository.get(clientReminder);
+            LOGGER.debug("Now, we can fetch the server reminder and clean it's reference to the task. Which, by the way is " + serverReminder.getTaskId() + ".");
+
+            removeReferences(serverReminder);
+            addReminderToTask(clientReminder);
+            reminderRepository.update(clientReminder);
 
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an PutReminder  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an PutReminder  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
+            error = true;
+        } catch (CriticalException c) {
+            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
             error = true;
         }
 

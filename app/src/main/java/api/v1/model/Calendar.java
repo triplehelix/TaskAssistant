@@ -17,7 +17,7 @@ import com.google.appengine.repackaged.com.google.gson.Gson;
 public class Calendar {
 	private int id;
 	private String name;
-	public static enum CalendarTypes{};
+	public enum CalendarTypes{};
 	private CalendarTypes calendarType;
     private String remoteId;
 	private String remoteToken;

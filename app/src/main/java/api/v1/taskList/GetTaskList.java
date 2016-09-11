@@ -5,14 +5,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.TaskListRequestHandler;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.TaskList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 /**
  * This api is used to retrieve a given taskList. Use the class member
  * doGet(HttpServletRequest, HttpServletResponse) to retrieve this
@@ -21,8 +22,8 @@ import api.v1.model.TaskList;
  *  @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/GetTaskList")
-public class GetTaskList extends TaskRequestHandler {
-
+public class GetTaskList extends TaskListRequestHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetTaskList.class);
     /**
      *
      * @param request
@@ -40,13 +41,13 @@ public class GetTaskList extends TaskRequestHandler {
         try {
             jsonRequest = parseRequest(request.getParameter("params"));
             taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
-            //log.debug("Here is the purported TaskList id: " + taskList.getId());
-            //log.debug("Here is the purported TaskList name: " + taskList.getName());
-            //log.debug("Here is the purported TaskList description: " + taskList.getDescription());
+            //LOGGER.debug("Here is the purported TaskList id: " + taskList.getId());
+            //LOGGER.debug("Here is the purported TaskList name: " + taskList.getName());
+            //LOGGER.debug("Here is the purported TaskList description: " + taskList.getDescription());
             taskList=taskListRepository.get(taskList);
-            //log.debug("Here is the internal TaskList id: " + taskList.getId());
-            //log.debug("Here is the internal TaskList name: " + taskList.getName());
-            //log.debug("Here is the internal TaskList description: " + taskList.getDescription());
+            //LOGGER.debug("Here is the internal TaskList id: " + taskList.getId());
+            //LOGGER.debug("Here is the internal TaskList name: " + taskList.getName());
+            //LOGGER.debug("Here is the internal TaskList description: " + taskList.getDescription());
 
             /**
              * TODO: Return an instance of this taskList.
@@ -55,12 +56,12 @@ public class GetTaskList extends TaskRequestHandler {
              *
              */
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an GetTaskList Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an GetTaskList Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

@@ -7,11 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
+import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import api.v1.model.Reminder;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * This api is used to delete a given reminder. Use the class member
@@ -22,7 +25,7 @@ import api.v1.model.Reminder;
  */
 @WebServlet("/api/v1/reminder/DeleteReminder")
 public class DeleteReminder extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteReminder.class);
     /**
      * Delete a particular reminder. A reminder "id" is required to specify the 
      * reminder to be removed.
@@ -43,17 +46,23 @@ public class DeleteReminder extends TaskRequestHandler {
             int reminderId=parseJsonIntAsInt((String)jsonRequest.get("id"));
             Reminder reminder=new Reminder();
             reminder.setId(reminderId);
+            reminder=reminderRepository.get(reminder);
+            removeReferences(reminder);
             reminderRepository.delete(reminder);
-
         } catch (BusinessException b) {
-            log.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
+            error = true;
+        } catch (CriticalException c) {
+            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), c);
+            errorMsg = "Error. " + c.getMessage();
+            errorCode = c.getError().getCode();
             error = true;
         }
 

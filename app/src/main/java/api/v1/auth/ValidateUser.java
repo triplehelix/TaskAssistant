@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.helper.ErrorHelper;
 import org.json.simple.JSONObject;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.AuthRequestHandler;
 import api.v1.model.User;
 
@@ -22,6 +24,7 @@ import api.v1.model.User;
  */
 @WebServlet("/api/v1/auth/ValidateUser")
 public class ValidateUser extends AuthRequestHandler{
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidateUser.class);
 	/**
 	 * POST
 	 * request 
@@ -42,32 +45,37 @@ public class ValidateUser extends AuthRequestHandler{
 		boolean error=false;
 		int errorCode=1;
 		String errorMsg = "no error";
-		User user=new User();
+		User clientUser=new User();
+		User serverUser=null;
 		JSONObject jsonRequest = new JSONObject();
 		try{
 			jsonRequest=parseRequest(request.getParameter("params"));
 			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
-			String password= parseJsonAsEmail((String)jsonRequest.get("password"));
-			user.setEmail(email);
-			user.setPassword(password);
-			
-			/**
-			 * TODO verify that there is a User with this email and password.
-			 */
-			userRepository.get(user);
-
+			String password = parseJsonAsPassword((String)jsonRequest.get("password"));
+			clientUser.setEmail(email);
+			clientUser.setPassword(password);
+			serverUser=userRepository.get(clientUser);
+			validatePassword(clientUser, serverUser);
 		}catch(BusinessException e){
-			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
-			log.error(e.getMessage());
+			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
+			LOGGER.error(e.getMessage());
 			errorMsg = "Error " + e.getMessage();
 			errorCode = e.getError().getCode();
 			error = true;
 		}catch(SystemException s){
-			log.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), s);
 			errorMsg = "Error " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
 		}
-		sendResponse(error, errorMsg, response);
+
+		JSONObject jsonResponse = new JSONObject();
+		if (error){
+			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
+		}else {
+			jsonResponse.put("success", true);
+			jsonResponse.put("User", serverUser.toJson());
+		}
+		sendMessage(jsonResponse, response);
 	}
 }

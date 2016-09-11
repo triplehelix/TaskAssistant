@@ -32,13 +32,13 @@ public class CalendarRepository implements Repository<Calendar>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Calendar c) throws BusinessException, SystemException{
-	// First, we make sure that the calendar DNE. Else throw BusinessException
+    public Calendar add(Calendar c) throws BusinessException, SystemException{
         int calendarId=0;
         while(calendarMap.containsKey(calendarId))
             calendarId++;
         c.setId(calendarId);
         calendarMap.put(calendarId, c);
+        return c;
     }
 
     /**
@@ -62,10 +62,11 @@ public class CalendarRepository implements Repository<Calendar>{
      * @throws SystemException
      */
 	public void update(Calendar c) throws BusinessException, SystemException{
-        // First, delete the calendar:
-        this.delete(c);
-        // Then add the new calendar:
-        this.add(c);
+        if (calendarMap.containsKey(c.getId())) {
+            calendarMap.remove(c.getId());
+            calendarMap.put(c.getId(), c);
+        } else
+            throw new BusinessException(" Calendar not found. ID=" + c.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 	}
 
     /**

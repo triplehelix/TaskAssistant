@@ -15,6 +15,8 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import api.v1.model.Reminder;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  *
@@ -31,7 +33,7 @@ import api.v1.model.Reminder;
 @SuppressWarnings("serial")
 @WebServlet("/api/v1/reminder/AddReminder")
 public class AddReminder extends TaskRequestHandler {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddReminder.class);
     /**
      * Post a new Reminder object. Request must provide task_id and reminder_time. 
      * Responds with success or error.
@@ -49,16 +51,18 @@ public class AddReminder extends TaskRequestHandler {
             Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminderTime"));
             Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("taskId"));
             reminder.setTaskId(taskId);
+            //Verify the existence of the tasks prior to updating anything.
             verifyTaskExists(reminder.getTaskId());
+            reminder=reminderRepository.add(reminder);
+            addReminderToTask(reminder);
             reminder.setReminderTime(reminderDate);
-            reminderRepository.add(reminder);
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

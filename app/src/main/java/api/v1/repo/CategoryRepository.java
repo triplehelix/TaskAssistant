@@ -32,13 +32,13 @@ public class CategoryRepository implements Repository<Category>{
      * @throws BusinessException
      * @throws SystemException
      */
-    public void add(Category c) throws BusinessException, SystemException{
-	// First, we make sure that the category DNE. Else throw BusinessException
+    public Category add(Category c) throws BusinessException, SystemException{
         int categoryId=0;
         while(categoryMap.containsKey(categoryId))
             categoryId++;
         c.setId(categoryId);
         categoryMap.put(categoryId, c);
+        return new Category(c);
     }
 
     /**
@@ -50,7 +50,7 @@ public class CategoryRepository implements Repository<Category>{
      */
 	public Category get(Category c)throws BusinessException, SystemException{
         if(categoryMap.containsKey(c.getId()))
-            return categoryMap.get(c.getId());
+            return new Category(categoryMap.get(c.getId()));
         else
             throw new BusinessException(" Category not found. ID=" + c.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
     }
@@ -62,10 +62,11 @@ public class CategoryRepository implements Repository<Category>{
      * @throws SystemException
      */
 	public void update(Category c) throws BusinessException, SystemException{
-        // First, delete the category:
-        this.delete(c);
-        // Then add the new category:
-        this.add(c);
+        if (categoryMap.containsKey(c.getId())) {
+            categoryMap.remove(c.getId());
+            categoryMap.put(c.getId(), c);
+        } else
+            throw new BusinessException(" Category not found. ID=" + c.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 	}
 
     /**

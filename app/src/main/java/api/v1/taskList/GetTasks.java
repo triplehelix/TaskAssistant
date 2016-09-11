@@ -5,9 +5,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.TaskListRequestHandler;
 import api.v1.model.Task;
-import api.v1.repo.TaskRepository;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
@@ -15,7 +14,8 @@ import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import api.v1.model.TaskList;
 
 /**
@@ -26,8 +26,8 @@ import api.v1.model.TaskList;
  *  @author Ken Lyon
  */
 @WebServlet("/api/v1/taskList/GetTasks")
-public class GetTasks extends TaskRequestHandler {
-
+public class GetTasks extends TaskListRequestHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetTasks.class);
     /**
      *
      * @param request
@@ -59,14 +59,13 @@ public class GetTasks extends TaskRequestHandler {
              * String json = new Gson().toJson(foo );
             */
             listOfTasksAsJson=new Gson().toJson(listOfTasks);
-
         } catch (BusinessException b) {
-            log.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            log.error("An error occurred while handling an GetTaskList Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an GetTaskList Request: {}.", jsonRequest.toJSONString(), s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

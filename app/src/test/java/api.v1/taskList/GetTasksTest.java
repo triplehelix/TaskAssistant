@@ -1,10 +1,7 @@
 package api.v1.taskList;
 
-import api.v1.ApiTest;
 import api.v1.model.Task;
 import api.v1.model.TaskList;
-import api.v1.model.TaskListTest;
-import api.v1.model.TaskTest;
 import api.v1.repo.TaskListRepository;
 import api.v1.repo.TaskRepository;
 import org.json.simple.JSONObject;
@@ -28,13 +25,16 @@ import java.util.ArrayList;
  *
  * @author kennethlyon on 20160718.
  */
-public class GetTasksTest extends ApiTest {
+public class GetTasksTest extends TaskListApiHelper {
     private Logger LOGGER = LoggerFactory.getLogger(GetTasksTest.class);
     private static GetTasks getTasksInstance;
     private static TaskRepository taskRepository;
     private static TaskListRepository taskListRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
+    private static ArrayList<String> validTasks;
+    private static ArrayList<String> validTaskLists;
+    private static ArrayList<String> errorTaskLists;
 
     /**
      * Create a GetTask instance and fetch the TaskRepository. Populate
@@ -47,25 +47,42 @@ public class GetTasksTest extends ApiTest {
         getTasksInstance=new GetTasks();
         taskRepository=GetTasks.getTaskRepository();
         taskListRepository=GetTasks.getTaskListRepository();
+        /* Add valid tasks. Tasks fields are arranged in the order:
+         * validTasks.add("int id` String name` boolean important` String note` long estimatedTime` long investedTime` boolean urgent` Date dueDate` State status");
+         */
+        validTasks = new ArrayList<String>();
+        validTasks.add("0`0`Feed dog`TRUE`Dog eats kibble.`60000`0`TRUE`2020-05-28_08:31:01`NEW");
+        validTasks.add("1`0`Create AddTask unit test`TRUE`A unit test for the AddTask api needs to be created.`3600000`60000`FALSE`2020-05-31_00:00:00`IN_PROGRESS");
+        validTasks.add("2`0`Buy beer`TRUE`Pick up some IPAs on the way home from work. Edit: Bill said he would pick up beers instead.`900000`0`TRUE`2016-06-09_18:30:00`DELEGATED");
+        validTasks.add("3`0`Play basketball with Tom and Eric.`FALSE`Sunday morning at 08:00 at Sunset Park.`3600000`0`FALSE`2016-06-12_08:00:00`DEFERRED");
+        validTasks.add("4`0`Shave`FALSE`GF said I need to shave.`180000`0`TRUE`2016-06-09_19:00:00`DONE");
+        validTasks.add("5`1`Robert'); DROP TABLE`TRUE`We call him little Bobby Tables.`300000`0`TRUE`2016-06-09_19:00:00`NEW");
+        validTasks.add("6`1`Collect underpants`TRUE`In phase 1 we collect underpants.`94620000000`31540000000`FALSE`2020-05-31_00:00:00`NEW");
+        validTasks.add("7`1`Do taxes`TRUE`Yay!! Taxes!!!`3600000`60000`TRUE`2016-04-15_00:00:01`DEFERRED");
+        validTasks.add("8`1`Finish TaskAssistant`TRUE`APIs, Unit tests, services...`1080000000`360000000`FALSE`2016-06-01_00:00:01`IN_PROGRESS");
+
+        validTaskLists=new ArrayList<String>();
+        validTaskLists.add("0`0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
+        validTaskLists.add("1`1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+
+        errorTaskLists=new ArrayList<String>();
+        errorTaskLists.add("-9`0`Invalid Id TaskList`This is an invalid TaskList because it has an invalid id.");
+        errorTaskLists.add("10`1` `This is an invalid TaskList because it has an invalid name.");
 
         // Populate the TaskRepository:
-        for(Task task: TaskTest.getValidTestTasksAsTasks())
-            taskRepository.add(task);
-        for(Task task: TaskTest.getValidTestTasksUpdatesAsTasks())
+        for(Task task: TaskListApiHelper.toTasks(validTasks))
             taskRepository.add(task);
 
         //Populate the TaskListRepository:
-        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+        for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.add(taskList);
 
         //Create valid Mock HTTP Servlet Requests:
-        for(JSONObject j:TaskListTest.getValidTestTaskListsAsJson())
-            validRequestList.add(createDoPostMockRequest(j));
-        for(JSONObject j:TaskListTest.getValidTestTaskListUpdatesAsJson())
+        for(JSONObject j:TaskListApiHelper.toJSONObjects(validTaskLists))
             validRequestList.add(createDoPostMockRequest(j));
 
         //Create error Mock HTTP Servlet Requests:
-        for(JSONObject j:TaskListTest.getErrorTestTaskListUpdatesAsJson())
+        for(JSONObject j:TaskListApiHelper.toJSONObjects(errorTaskLists))
             errorRequestList.add(createDoPostMockRequest(j));
     }
 
@@ -77,10 +94,10 @@ public class GetTasksTest extends ApiTest {
      */
     @After
     public void tearDown() throws Exception {
-        for(TaskList taskList: TaskListTest.getValidTestTaskListsAsTaskLists())
+        for(TaskList taskList: TaskListApiHelper.toTaskLists(validTaskLists))
             taskListRepository.delete(taskList);
 
-        for(Task task: TaskTest.getValidTestTasksAsTasks())
+        for(Task task: TaskListApiHelper.toTasks(validTasks))
             taskRepository.delete(task);
 
         getTasksInstance=null;
@@ -110,18 +127,5 @@ public class GetTasksTest extends ApiTest {
             getTasksInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
         }
-    }
-
-    /**
-     * Pass this method a json object to return a MockHttpServletRequest.
-     *
-     * @param jsonObj
-     * @return
-     */
-    private MockHttpServletRequest createDoPostMockRequest(JSONObject jsonObj) {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        LOGGER.info("Created request {}", jsonObj.toJSONString());
-        request.addParameter("params", jsonObj.toJSONString());
-        return request;
     }
 }

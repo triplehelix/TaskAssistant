@@ -1,0 +1,18 @@
+
+13:27:22.919 [main] INFO  api.v1.task.AddTaskTest - Updated Schedule: {"id":0,"userId":0,"startDate":"Jun 28, 2016 6:00:00 PM","endDate":"Jun 28, 2016 7:00:00 PM","repeatType":"DAILY","taskIds":[0,3]}
+13:27:22.921 [main] INFO  api.v1.task.AddTaskTest - Updated Schedule: {"id":1,"userId":0,"startDate":"Jul 3, 2016 9:00:00 AM","endDate":"Jun 28, 2016 10:00:00 AM","repeatType":"WEEKLY","taskIds":[0,1,2]}
+13:27:22.922 [main] INFO  api.v1.task.AddTaskTest - Updated Schedule: {"id":2,"userId":0,"startDate":"Jun 28, 2016 9:00:00 AM","endDate":"Jun 28, 2016 5:00:00 PM","repeatType":"DAILY","taskIds":[0,1,2,3]}
+13:27:22.926 [main] INFO  api.v1.task.AddTaskTest - Updated Schedule: {"id":3,"userId":1,"startDate":"Jun 30, 2016 6:00:00 PM","endDate":"Jun 28, 2016 7:00:00 PM","repeatType":"WEEKLY","taskIds":[4]}
+13:27:22.928 [main] INFO  api.v1.task.AddTaskTest - Updated Schedule: {"id":4,"userId":1,"startDate":"Jul 3, 2016 4:00:00 PM","endDate":"Jul 3, 2016 3:00:00 PM","repeatType":"WEEKLY","taskIds":[4]}
+13:27:22.929 [main] INFO  api.v1.task.AddTaskTest - Updated Schedule: {"id":5,"userId":1,"startDate":"Jul 3, 2016 4:00:00 PM","endDate":"Jul 1, 2016 3:00:00 PM","repeatType":"WEEKLY","taskIds":[4]}
+
+13:27:22.930 [main] INFO  api.v1.task.AddTaskTest - Updated Category: {"id":0,"userId":0,"name":"Mikes work","description":"This is for all of the work Mike does","taskIds":[0,3]}
+13:27:22.931 [main] INFO  api.v1.task.AddTaskTest - Updated Category: {"id":1,"userId":0,"name":"Mikes home","description":"This is for all of the chores Mike never does","taskIds":[1]}
+13:27:22.931 [main] INFO  api.v1.task.AddTaskTest - Updated Category: {"id":2,"userId":0,"name":"Mikes play","description":"This is for Mike\u0027s recreational stuff","taskIds":[2]}
+13:27:22.934 [main] INFO  api.v1.task.AddTaskTest - Updated Category: {"id":3,"userId":1,"name":"Ken\u0027s work","description":"This is for all of the work Ken never does.","taskIds":[4,7]}
+13:27:22.941 [main] INFO  api.v1.task.AddTaskTest - Updated Category: {"id":4,"userId":1,"name":"ken\u0027s home","description":"This is for all of the chores Ken does.","taskIds":[5]}
+13:27:22.942 [main] INFO  api.v1.task.AddTaskTest - Updated Category: {"id":5,"userId":1,"name":"Ken\u0027s play","description":"This is for the recreational stuff Ken does.","taskIds":[6]}
+
+13:27:22.943 [main] INFO  api.v1.task.AddTaskTest - Updated TaskList: {"id":0,"userId":0,"name":"Mike\u0027s TaskList.","description":"This is Mike\u0027s  TaskList.","taskIds":[0,1,2,3]}
+13:27:22.988 [main] INFO  api.v1.task.AddTaskTest - Updated TaskList: {"id":1,"userId":1,"name":"Ken\u0027s  TaskList.","description":"This is Kenny\u0027s TaskList.","taskIds":[4,5,6,7]}
+

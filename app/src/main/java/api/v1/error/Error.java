@@ -22,21 +22,34 @@ public enum Error{
     INVALID_EMAIL_ERROR(1003),
     INVALID_PASSWORD_ERROR(1004),
     PARSE_LONG_INTEGER_ERROR(1005),
-    //CREATE_USER_ERROR_USER_EXISTS(1006),
+    CREATE_USER_ERROR_USER_EXISTS(1006),
     PARSE_BOOLEAN_ERROR(1007),
     INVALID_ENUM_TYPE(1008),
+    INCORRECT_PASSWORD_ERROR(1009),
+    OBJECT_OWNERSHIP_ERROR(1010),
+    PARSE_INTEGER_ARRAY_ERROR(1011),
 
-    /** model errors */
+    /* model errors */
     INVALID_NAME_ERROR(1160),
     INVALID_ID_ERROR(1161),
     INVALID_TASK_STATUS_ERROR(1162),
+    INVALID_SCHEDULE_REPEAT_TYPE_ERROR(1163),
 
-    /** Repo errors */
+    /* Repo errors */
     NO_SUCH_OBJECT_ERROR(1200),
 
     /*** System Errors ***/
-    CREATE_USER_SQL_ERROR(2001);
+    CREATE_USER_SQL_ERROR(2001),
+
+
+    /*** Critical Errors ***/
+    API_DELETE_OBJECT_FAILURE(3001);
+
+
     private int code;
+
+
+
 
     /**
      *
