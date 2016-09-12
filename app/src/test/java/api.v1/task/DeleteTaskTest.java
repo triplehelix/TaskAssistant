@@ -117,6 +117,9 @@ public class DeleteTaskTest extends TaskApiHelper {
         categoryRepository.delete(category);
     for(User user: toUsers(sampleUsers))
         userRepository.delete(user);
+
+        verifyRepositoriesAreClean();
+        deleteTaskInstance=null;
     }
 
     /**

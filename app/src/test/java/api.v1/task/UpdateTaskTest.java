@@ -138,6 +138,9 @@ public class UpdateTaskTest extends TaskApiHelper{
 
         for(Category category: toCategories(sampleCategories))
             categoryRepository.delete(category);
+
+        verifyRepositoriesAreClean();
+        updateTaskInstance=null;
     }
 
     /**

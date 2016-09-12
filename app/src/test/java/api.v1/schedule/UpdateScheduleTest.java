@@ -137,6 +137,8 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
         for(User user: toUsers(sampleUsers))
             userRepository.delete(user);
 
+        verifyRepositoriesAreClean();
+        updateScheduleInstance=null;
     }
 
     /**

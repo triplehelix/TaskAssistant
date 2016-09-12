@@ -72,6 +72,9 @@ public class GetTaskTest extends TaskApiHelper {
     public void tearDown() throws Exception {
         for(Task task: toTasks(validTasks))
             taskRepository.delete(task);
+
+        verifyRepositoriesAreClean();
+        getTaskInstance=null;
     }
 
     /**

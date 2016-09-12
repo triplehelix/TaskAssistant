@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -122,6 +123,9 @@ public class AddScheduleTest extends ScheduleApiHelper {
             taskRepository.delete(task);
         for(User user: toUsers(sampleUsers))
             userRepository.delete(user);
+
+        verifyRepositoriesAreClean();
+        addScheduleInstance=null;
     }
 
     /**

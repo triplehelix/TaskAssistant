@@ -73,6 +73,9 @@ public class GetScheduleTest extends ScheduleApiHelper {
     public void tearDown() throws Exception {
 	for(Schedule schedule: toSchedules(validSchedules))
             scheduleRepository.delete(schedule);
+
+        verifyRepositoriesAreClean();
+        getScheduleInstance=null;
     }
 
     /**

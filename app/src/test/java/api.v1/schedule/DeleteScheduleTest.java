@@ -74,7 +74,6 @@ public class DeleteScheduleTest extends ScheduleApiHelper {
         sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]"); //   [4,5]
         for(Task task: ScheduleApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
- 
                                                                             // Tasks Categories  
         validSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[]");
         validSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0,1,2]");
@@ -127,6 +126,9 @@ public class DeleteScheduleTest extends ScheduleApiHelper {
             taskRepository.delete(task);
         for(User user: toUsers(sampleUsers))
             userRepository.delete(user);
+
+        verifyRepositoriesAreClean();
+        deleteScheduleInstance=null;
     }
 
     /**

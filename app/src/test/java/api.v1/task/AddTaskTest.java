@@ -129,6 +129,9 @@ public class AddTaskTest extends TaskApiHelper {
 
         for(User user: toUsers(sampleUsers))
             userRepository.delete(user);
+
+        verifyRepositoriesAreClean();
+        addTaskInstance=null;
     }
 
     /**
