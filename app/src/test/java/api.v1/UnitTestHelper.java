@@ -279,13 +279,11 @@ public class UnitTestHelper {
         return request;
     }
 
-
     /**
      *
-     *
+     * @throws SystemException
      */
     protected void verifyRepositoriesAreClean() throws SystemException{
-
         Task task=new Task();
         User user=new User();
         Category category=new Category();
@@ -294,8 +292,7 @@ public class UnitTestHelper {
         Reminder reminder=new Reminder();
         Calendar calendar=new Calendar();
         boolean error=false;
-        String message="All repositories are clean.";
-        for(int i=0; i<100; i++) {
+        for(int i=0; i<20; i++) {
             user.setId(i);
             task.setId(i);
             category.setId(i);
@@ -306,46 +303,45 @@ public class UnitTestHelper {
 
             try{
                 BaseRequestHandler.getUserRepository().delete(user);
-                message="Error. This User was not removed from the repository " + user.toJson();
+                fail("Error. This User was not removed from the repository " + user.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
                 BaseRequestHandler.getTaskRepository().delete(task);
-                message="Error. This Task was not removed from the repository " + task.toJson();
+                fail("Error. This Task was not removed from the repository " + task.toJson());
             }catch(BusinessException e){error=true;}
         
             try{
                 BaseRequestHandler.getCategoryRepository().delete(category);
-                message="Error. This Category was not removed from the repository " + category.toJson();
+                fail("Error. This Category was not removed from the repository " + category.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
                 BaseRequestHandler.getTaskListRepository().delete(taskList);
-                message="Error. This TaskList was not removed from the repository " + taskList.toJson();
+                fail("Error. This TaskList was not removed from the repository " + taskList.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
                 BaseRequestHandler.getScheduleRepository().delete(schedule);
-                message="Error. This Schedule was not removed from the repository " + schedule.toJson();
+                fail("Error. This Schedule was not removed from the repository " + schedule.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
                 BaseRequestHandler.getScheduleRepository().delete(schedule);
-                message="Error. This Schedule was not removed from the repository " + schedule.toJson();
+                fail("Error. This Schedule was not removed from the repository " + schedule.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
                 BaseRequestHandler.getReminderRepository().delete(reminder);
-                message="Error. This Reminder was not removed from the repository " + reminder.toJson();
+                fail("Error. This Reminder was not removed from the repository " + reminder.toJson());
             }catch(BusinessException e){error=true;}
 
             /*try{
                 BaseRequestHandler.getCalendarRepository().delete(calendar);
                 message="Error. This Calendar was not removed from the repository " + calendar.toJson();
             }catch(BusinessException e){error=true;}//*/
-
-        if(!error)
-        fail(message);
         }
+        if(error)
+            LOGGER.info("All repositories cleaned successfully.");
     }
 }

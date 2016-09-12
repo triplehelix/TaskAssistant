@@ -116,10 +116,11 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         for(Category category: toCategories(sampleCategories))
             categoryRepository.delete(category);
         for(Schedule schedule: toSchedules(sampleSchedules))
-            scheduleRepository.delete(schedule);
+            scheduleRepository.delete(schedule);//*/
         deleteTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**

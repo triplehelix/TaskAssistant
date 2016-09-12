@@ -104,6 +104,7 @@ public class GetTasksTest extends TaskListApiHelper {
         taskRepository=null;
         validRequestList=null;
         errorRequestList=null;
+        verifyRepositoriesAreClean();
     }
 
     /**

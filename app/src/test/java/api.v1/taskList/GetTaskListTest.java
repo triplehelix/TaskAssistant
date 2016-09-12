@@ -94,6 +94,7 @@ public class GetTaskListTest extends TaskListApiHelper {
         getTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**
