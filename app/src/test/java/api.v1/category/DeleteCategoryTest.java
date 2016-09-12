@@ -122,6 +122,7 @@ public class DeleteCategoryTest extends CategoryApiHelper {
 
         deleteCategoryInstance = null;
         validRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**

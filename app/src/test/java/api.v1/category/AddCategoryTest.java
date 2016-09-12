@@ -128,6 +128,7 @@ public class AddCategoryTest extends CategoryApiHelper {
         addCategoryInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**
