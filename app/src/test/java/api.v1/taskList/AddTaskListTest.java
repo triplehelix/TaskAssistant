@@ -53,9 +53,6 @@ public class AddTaskListTest extends TaskListApiHelper {
         errorTaskLists.add("0`0` `This TaskList has no name.");
         errorTaskLists.add("1`1` `This TaskList has no name.");
 
-
-
-
         for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
@@ -79,6 +76,7 @@ public class AddTaskListTest extends TaskListApiHelper {
         addTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**

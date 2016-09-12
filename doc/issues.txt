@@ -42,3 +42,9 @@ Logins require user name and password. The response is a token, and tokens
 are required for all post, get, delete and put requests.
 
 ***********************************************************************************
+
+NEW PROBLEMS (AS OF 09/11/2016):
+1. Do not attempt to parse Strings as Integers, JSON can do this w/o my help.
+2. Objects should not implement ArrayLists of other object Ids, they should be List
+objects instead.
+

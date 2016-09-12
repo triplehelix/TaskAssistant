@@ -85,6 +85,8 @@ public class UnitTestHelper {
             responseObj = (JSONObject) new JSONParser().parse(responseString);
         } catch (ParseException e) {
             LOGGER.error("Parse Exception while parsing the response string", e);
+            // TODO Mike thinks that this should fail. Try it.
+            fail("The JSON request could not be parsed correctly!");
             return;
         }
         if (null != responseObj){
@@ -282,7 +284,7 @@ public class UnitTestHelper {
      *
      *
      */
-    protected void verifyRepositoriesAreClean(){
+    protected void verifyRepositoriesAreClean() throws SystemException{
 
         Task task=new Task();
         User user=new User();
@@ -292,6 +294,7 @@ public class UnitTestHelper {
         Reminder reminder=new Reminder();
         Calendar calendar=new Calendar();
         boolean error=false;
+        String message="All repositories are clean.";
         for(int i=0; i<100; i++) {
             user.setId(i);
             task.setId(i);
@@ -300,6 +303,49 @@ public class UnitTestHelper {
             schedule.setId(i);
             reminder.setId(i);
             calendar.setId(i);
+
+            try{
+                BaseRequestHandler.getUserRepository().delete(user);
+                message="Error. This User was not removed from the repository " + user.toJson();
+            }catch(BusinessException e){error=true;}
+
+            try{
+                BaseRequestHandler.getTaskRepository().delete(task);
+                message="Error. This Task was not removed from the repository " + task.toJson();
+            }catch(BusinessException e){error=true;}
+        
+            try{
+                BaseRequestHandler.getCategoryRepository().delete(category);
+                message="Error. This Category was not removed from the repository " + category.toJson();
+            }catch(BusinessException e){error=true;}
+
+            try{
+                BaseRequestHandler.getTaskListRepository().delete(taskList);
+                message="Error. This TaskList was not removed from the repository " + taskList.toJson();
+            }catch(BusinessException e){error=true;}
+
+            try{
+                BaseRequestHandler.getScheduleRepository().delete(schedule);
+                message="Error. This Schedule was not removed from the repository " + schedule.toJson();
+            }catch(BusinessException e){error=true;}
+
+            try{
+                BaseRequestHandler.getScheduleRepository().delete(schedule);
+                message="Error. This Schedule was not removed from the repository " + schedule.toJson();
+            }catch(BusinessException e){error=true;}
+
+            try{
+                BaseRequestHandler.getReminderRepository().delete(reminder);
+                message="Error. This Reminder was not removed from the repository " + reminder.toJson();
+            }catch(BusinessException e){error=true;}
+
+            /*try{
+                BaseRequestHandler.getCalendarRepository().delete(calendar);
+                message="Error. This Calendar was not removed from the repository " + calendar.toJson();
+            }catch(BusinessException e){error=true;}//*/
+
+        if(!error)
+        fail(message);
         }
     }
 }
