@@ -25,6 +25,8 @@
     TaskList should be called a "todo" list? At present, this api does not really 
     support that.
 
+8.  Does the DeleteTaskList class clean existing reminders?
+
 ***********************************************************************************
 Mike likes a program called: http://todotxt.com/
 

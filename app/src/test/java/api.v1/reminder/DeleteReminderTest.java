@@ -30,8 +30,8 @@ public class DeleteReminderTest extends ReminderApiHelper {
     private static ArrayList<String> sampleTasks=new ArrayList<String>();
 
     /**
-     * First create a new Instance of DeleteReminder() object, then add new
-     * reminder test cases to validRequestList and errorRequestList.
+     * First create a new Instance of DeleteReminder() object, then add
+     * new reminder test cases to validRequestList and errorRequestList.
      *
      * @throws Exception
      */
@@ -84,9 +84,8 @@ public class DeleteReminderTest extends ReminderApiHelper {
         for(Task task: ReminderApiHelper.toTasks(sampleTasks))
             taskRepository.delete(task);
 
+        verifyRepositoriesAreClean();
         deleteReminderInstance = null;
-        validRequestList = null;
-        errorRequestList = null;
     }
 
     /**

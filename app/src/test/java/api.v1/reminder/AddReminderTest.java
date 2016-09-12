@@ -95,10 +95,9 @@ public class AddReminderTest extends ReminderApiHelper {
         }
         for(Task task: ReminderApiHelper.toTasks(sampleTasks))
             taskRepository.delete(task);
+
+        verifyRepositoriesAreClean();
         addReminderInstance = null;
-        validRequestList = null;
-        errorRequestList = null;
-        sampleTasks=null;
     }
 
     /**

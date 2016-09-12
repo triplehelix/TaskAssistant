@@ -75,6 +75,9 @@ public class GetReminderTest extends ReminderApiHelper {
             reminderRepository.delete(reminder);
         getReminderInstance = null;
         validRequestList = null;
+
+        verifyRepositoriesAreClean();
+        getReminderInstance=null;
     }
 
     /**
