@@ -302,42 +302,37 @@ public class UnitTestHelper {
             calendar.setId(i);
 
             try{
-                BaseRequestHandler.getUserRepository().delete(user);
+                user=BaseRequestHandler.getUserRepository().get(user);
                 fail("Error. This User was not removed from the repository " + user.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
-                BaseRequestHandler.getTaskRepository().delete(task);
+                task=BaseRequestHandler.getTaskRepository().get(task);
                 fail("Error. This Task was not removed from the repository " + task.toJson());
             }catch(BusinessException e){error=true;}
         
             try{
-                BaseRequestHandler.getCategoryRepository().delete(category);
+                category=BaseRequestHandler.getCategoryRepository().get(category);
                 fail("Error. This Category was not removed from the repository " + category.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
-                BaseRequestHandler.getTaskListRepository().delete(taskList);
+                taskList=BaseRequestHandler.getTaskListRepository().get(taskList);
                 fail("Error. This TaskList was not removed from the repository " + taskList.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
-                BaseRequestHandler.getScheduleRepository().delete(schedule);
+                schedule=BaseRequestHandler.getScheduleRepository().get(schedule);
                 fail("Error. This Schedule was not removed from the repository " + schedule.toJson());
             }catch(BusinessException e){error=true;}
 
             try{
-                BaseRequestHandler.getScheduleRepository().delete(schedule);
-                fail("Error. This Schedule was not removed from the repository " + schedule.toJson());
-            }catch(BusinessException e){error=true;}
-
-            try{
-                BaseRequestHandler.getReminderRepository().delete(reminder);
+                reminder=BaseRequestHandler.getReminderRepository().get(reminder);
                 fail("Error. This Reminder was not removed from the repository " + reminder.toJson());
             }catch(BusinessException e){error=true;}
 
             /*try{
-                BaseRequestHandler.getCalendarRepository().delete(calendar);
+	      calendar=BaseRequestHandler.getCalendarRepository().get(calendar);
                 message="Error. This Calendar was not removed from the repository " + calendar.toJson();
             }catch(BusinessException e){error=true;}//*/
         }

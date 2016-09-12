@@ -105,10 +105,6 @@ public class UpdateCategoryTest extends CategoryApiHelper {
         errorUpdates.add("2`0`MH recreation`This Category points to tasks that do not exist.`[-3,2000]`[]");
 
 
-        // Populate the Category repository with valid Categories.
-        for(Category category: CategoryApiHelper.toCategories(validCategories))
-            categoryRepository.add(category);
-
         // Create valid mock categories.
         for(JSONObject jsonObj: CategoryApiHelper.toJSONObject(validUpdates))
             validRequestList.add(createDoPostMockRequest(jsonObj));
