@@ -142,6 +142,7 @@ public class UpdateCategoryTest extends CategoryApiHelper {
 
         updateCategoryInstance = null;
         validRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**

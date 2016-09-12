@@ -71,6 +71,7 @@ public class GetCategoryTest extends CategoryApiHelper {
             categoryRepository.delete(category);
         getCategoryInstance = null;
         validRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**
