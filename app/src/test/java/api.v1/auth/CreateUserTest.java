@@ -78,6 +78,7 @@ public class CreateUserTest extends AuthApiHelper {
         createUserInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**
