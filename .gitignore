@@ -17,4 +17,5 @@ temp
 .idea/
 *.settings/
 *.iml
+.gradle
 doc/kens_problems.txt
