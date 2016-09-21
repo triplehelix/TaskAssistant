@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.CategoryRequestHandler;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -36,22 +37,21 @@ public class GetCategory extends CategoryRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Category category = new Category();
+		Category category=new Category();
 		int errorCode = 0;
-		JSONObject jsonRequest = new JSONObject();
+		Gson gson=new Gson();
+		String json="";
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			// private int id
-			category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-
-		categoryRepository.get(category);
+			json = request.getParameter("params");
+			category= gson.fromJson(json, Category.class);
+		    category=categoryRepository.get(category);
 		} catch (BusinessException b) {
-			LOGGER.error("An error occurred while handling an GetCategory  Request: {}.", jsonRequest.toJSONString(), b);
+			LOGGER.error("An error occurred while handling an GetCategory  Request: {}.", json, b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			LOGGER.error("An error occurred while handling an GetCategory Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling an GetCategory Request: {}.", json, s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
@@ -62,6 +62,7 @@ public class GetCategory extends CategoryRequestHandler {
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
 		} else {
 			jsonResponse.put("success", true);
+            jsonResponse.put("Category",category.toJson());
 		}
 		sendMessage(jsonResponse, response);
 	}

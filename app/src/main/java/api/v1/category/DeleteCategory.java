@@ -46,11 +46,12 @@ public class DeleteCategory extends CategoryRequestHandler {
 		boolean error = false;
 		String errorMsg = "no error";
 		int errorCode = 0;
-        Category category = new Category();
-		JSONObject jsonRequest = new JSONObject();
+        Category category;
+		Gson gson=new Gson();
+		String json="";
 		try {
-		    jsonRequest = parseRequest(request.getParameter("params"));
-            category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+		    json = request.getParameter("params");
+            category=gson.fromJson(json, Category.class);
             category=categoryRepository.get(category);
 
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(category);
@@ -65,17 +66,17 @@ public class DeleteCategory extends CategoryRequestHandler {
             userRepository.update(updatedUser);
             categoryRepository.delete(category);
 		} catch (BusinessException b) {
-			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
+			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", json, b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", json, s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
 		} catch (CriticalException c) {
-            LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", json, c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

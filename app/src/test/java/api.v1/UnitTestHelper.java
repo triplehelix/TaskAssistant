@@ -55,9 +55,9 @@ public class UnitTestHelper {
             }else{
                 boolean success = (Boolean) responseObj.get("success");
                 if (success){
-                    LOGGER.info("Success value returned to the caller as: true\n\n");
+                    LOGGER.info("Success value returned to the caller as: true");
                 }else{
-                    fail("success value false in response and error value was not found\n\n");
+                    fail("success value false in response and error value was not found");
                 }
             }
         }else{
