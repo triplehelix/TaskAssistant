@@ -1,6 +1,7 @@
 package api.v1.model;
 
 import api.v1.UnitTestHelper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +64,7 @@ public class UserTest extends UnitTestHelper{
         }
 
 
-    // Verify that instances made from "validUsers" and validUpdates are not equal to eachother.
+        // Verify that instances made from "validUsers" and validUpdates are not equal to eachother:
         LOGGER.info("Verifying object non-equivalence.");
         for(int i=0; i<myUsers.size(); i++){
             LOGGER.info("Evaluating {} {}",
@@ -74,6 +75,18 @@ public class UserTest extends UnitTestHelper{
                         myUsers.get(i).toJson(),
                         myUpdates.get(i).toJson());
                 fail("Error! These objects should not be equal!");
+            }
+        }
+
+
+        // Verify Gson serialization works properly:
+        LOGGER.info("Verifying Gson serialization works properly.");
+        Gson gson=new Gson();
+        String json="";
+        for(int i=0; i<myUsers.size(); i++){
+            json=myUsers.get(i).toJson();
+            if(!myUsers.get(i).equals(gson.fromJson(json, User.class))){
+                LOGGER.info("Error attempting to serialize/deserialize the user {} {}", json, (gson.fromJson(json, User.class)).toJson() );
             }
         }
     }
