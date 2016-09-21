@@ -143,7 +143,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	 * @param scheduleIds
 	 */
 	protected void verifySchedulePrivileges(int userId, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException{
-		if(scheduleIds==null)
+		if(scheduleIds==null || scheduleIds.size()==0)
 			return;
 		Schedule schedule=new Schedule();
 		for(int i: scheduleIds)

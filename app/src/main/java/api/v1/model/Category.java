@@ -34,9 +34,7 @@ public class Category {
     public String getName() {
         return name;
     }
-    public void setName(String name)throws BusinessException {
-        if(name==null || name.equals(""))
-            throw new BusinessException("The Category name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
+    public void setName(String name){
         this.name=name.trim();
     }
     public String getDescription() {
