@@ -1,6 +1,7 @@
 package api.v1.model;
 
 import api.v1.UnitTestHelper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,5 +73,20 @@ public class ReminderTest extends UnitTestHelper{
                 fail("Error! These objects should not be equal!");
             }
         }
+
+        // Verify Gson serialization works properly:
+        LOGGER.info("Verifying Gson serialization works properly.");
+        Gson gson=new Gson();
+        String json="";
+        for(int i=0; i<myReminders.size(); i++){
+            json=myReminders.get(i).toJson();
+            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, Reminder.class)).toJson() );
+            if(!myReminders.get(i).equals(gson.fromJson(json, Reminder.class))){
+                LOGGER.info("Error attempting to serialize/deserialize the reminder {} {}", json, (gson.fromJson(json, Reminder.class)).toJson() );
+            }
+        }
+
+
+
     }
 }

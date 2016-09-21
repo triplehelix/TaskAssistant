@@ -1,6 +1,7 @@
 package api.v1.model;
 
 import api.v1.UnitTestHelper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,6 +122,19 @@ public class TaskTest extends UnitTestHelper{
                         myTasks.get(i).toJson(),
                         myUpdates.get(i).toJson());
                 fail("Error! These objects should not be equal!");
+            }
+        }
+
+
+        // Verify Gson serialization works properly:
+        LOGGER.info("Verifying Gson serialization works properly.");
+        Gson gson=new Gson();
+        String json="";
+        for(int i=0; i<myTasks.size(); i++){
+            json=myTasks.get(i).toJson();
+            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, Task.class)).toJson() );
+            if(!myTasks.get(i).equals(gson.fromJson(json, Task.class))){
+                LOGGER.info("Error attempting to serialize/deserialize the task {} {}", json, (gson.fromJson(json, Task.class)).toJson() );
             }
         }
     }

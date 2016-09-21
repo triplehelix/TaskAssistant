@@ -85,6 +85,7 @@ public class UserTest extends UnitTestHelper{
         String json="";
         for(int i=0; i<myUsers.size(); i++){
             json=myUsers.get(i).toJson();
+            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, User.class)).toJson() );
             if(!myUsers.get(i).equals(gson.fromJson(json, User.class))){
                 LOGGER.info("Error attempting to serialize/deserialize the user {} {}", json, (gson.fromJson(json, User.class)).toJson() );
             }
