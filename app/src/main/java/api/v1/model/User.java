@@ -1,10 +1,15 @@
 package api.v1.model;
 
 
+import api.v1.error.Error;
+import api.v1.error.BusinessException;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.util.ArrayList;
 
 public class User {
@@ -49,15 +54,23 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
-        this.email = email;
+
+    /**
+     *
+     * @param email
+     * @throws BusinessException
+     */
+	public void setEmail(String email){
+            this.email = email;
 	}
 
     /**
+     *
      * @param password
+     * @throws BusinessException
      */
-	public void setPassword(String password) {
-            this.password=password;
+	public void setPassword(String password){
+        this.password=password;
 	}
 
     public ArrayList<Integer> getTaskListIds() {
