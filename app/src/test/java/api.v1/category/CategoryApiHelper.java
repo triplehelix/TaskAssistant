@@ -25,12 +25,12 @@ public class CategoryApiHelper extends UnitTestHelper {
         for(String s: backtickCategories) {
             String[] categoryElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("id", categoryElementArray[0]);
-            jsonObj.put("userId", categoryElementArray[1]);
-            jsonObj.put("name", categoryElementArray[2]);
-            jsonObj.put("description", categoryElementArray[3]);
-            jsonObj.put("taskIds", categoryElementArray[4]);
-            jsonObj.put("scheduleIds", categoryElementArray[5]);
+            jsonObj.put("id", Integer.parseInt(categoryElementArray[0]));
+            jsonObj.put("userId", Integer.parseInt(categoryElementArray[1]));
+            jsonObj.put("name", categoryElementArray[2].trim());
+            jsonObj.put("description", categoryElementArray[3].trim());
+            jsonObj.put("taskIds", toIntegerArrayList(categoryElementArray[4]));
+            jsonObj.put("scheduleIds", toIntegerArrayList(categoryElementArray[5]));
             LOGGER.info("Created JSONObject {}", jsonObj.toJSONString());
             myJSONObjects.add(jsonObj);
         }
