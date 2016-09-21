@@ -144,12 +144,14 @@ public class AddCategoryTest extends CategoryApiHelper {
             MockHttpServletResponse response = new MockHttpServletResponse();
             addCategoryInstance.doPost(request, response);
             validateDoPostValidResponse(response);
+            LOGGER.info("Completed {}\n\n\n", response.hashCode());
         }
 
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
             addCategoryInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
+            LOGGER.info("Completed {}\n\n\n", response.hashCode());
         }
         Category category=new Category();
         LOGGER.info("Verifying categories were placed in the repository...");

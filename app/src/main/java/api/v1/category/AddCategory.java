@@ -44,7 +44,7 @@ public class AddCategory extends CategoryRequestHandler {
         String errorMsg = "no error";
         Category category = new Category();
         int errorCode = 0;
-
+        boolean cleanCategory=false;
         Gson gson=new Gson();
         String json="";
         try {
@@ -57,8 +57,10 @@ public class AddCategory extends CategoryRequestHandler {
             verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
             verifySchedulePrivileges(category.getUserId(), category.getScheduleIds());
 
-            //Place completed category in the repository.
+            /* Place completed category in the repository and flag that the category
+             * has been added..*/
             category=categoryRepository.add(category);
+            cleanCategory=true;
 
             // Create updated Tasks, Schedules and User:
             ArrayList<Task> updatedTasks=getUpdatedTasks(category);
@@ -86,7 +88,8 @@ public class AddCategory extends CategoryRequestHandler {
         JSONObject jsonResponse = new JSONObject();
         if (error) {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-            cleanUp(category);
+            if(cleanCategory)
+                cleanUp(category);
         } else {
             jsonResponse.put("success", true);
             jsonResponse.put("Category", category.toJson());

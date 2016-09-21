@@ -33,6 +33,7 @@ public class CategoryRepository implements Repository<Category>{
      * @throws SystemException
      */
     public Category add(Category c) throws BusinessException, SystemException{
+        LOGGER.debug("Here we are adding the Category: {}", c.toJson());
         int categoryId=0;
         while(categoryMap.containsKey(categoryId))
             categoryId++;
@@ -76,6 +77,7 @@ public class CategoryRepository implements Repository<Category>{
      * @throws SystemException
      */
 	public void delete(Category c) throws BusinessException, SystemException{
+	    LOGGER.debug("Here we are deleting the Category: {}", c.toJson());
         if(categoryMap.containsKey(c.getId())){
             categoryMap.remove(c.getId());
         }
