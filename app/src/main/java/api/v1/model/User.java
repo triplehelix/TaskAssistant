@@ -1,15 +1,11 @@
 package api.v1.model;
 
 
-import api.v1.error.Error;
 import api.v1.error.BusinessException;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import java.util.ArrayList;
 
 public class User {

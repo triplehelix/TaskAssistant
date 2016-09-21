@@ -56,7 +56,7 @@ public class CreateUser extends AuthRequestHandler{
             user = gson.fromJson(json, User.class);
             verifyEmailIsValid(user.getEmail());
             verifyPasswordIsValid(user.getPassword());
-            userRepository.add(user);
+            user=userRepository.add(user);
         }catch(BusinessException b) {
             LOGGER.error("An error occurred while handling a CreateUser Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
