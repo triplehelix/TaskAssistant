@@ -20,37 +20,11 @@ import org.slf4j.Logger;
 public class AuthRequestHandler extends BaseRequestHandler{
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthRequestHandler.class);
 
-	/**
-	 * Validates that an email is well formed. Throws Exception 
-	 * if it is not well formed.
-	 * @param email
-	 * @return
-	 */
-	protected String parseJsonAsEmail(String email) throws BusinessException{
-		email=email.trim();
-		if(!isValidEmail(email)){
-            LOGGER.error("Supplied email address: {} is not valid.", email);
-			throw new BusinessException("Email address: " + email + " is invalid.", Error.valueOf("INVALID_EMAIL_ERROR"));
-		}
-		return email;
-	}
-
-	/**
-	 * Validates that the email is well formed. Returns T/F.
-	 * @param email
-	 * @return
+    /**
+     *
+     * @param email
+     * @throws BusinessException
      */
-	private boolean isValidEmail(String email){
-		boolean result = true;
-        try {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
-        } catch (AddressException ex) {
-            result = false;
-        }
-		return result;
-	}
-
 	protected void verifyEmailIsValid(String email) throws BusinessException{
         try {
             InternetAddress emailAddr = new InternetAddress(email);
@@ -65,19 +39,6 @@ public class AuthRequestHandler extends BaseRequestHandler{
         if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
             throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
     }
-
-
-	/**
-	 * Validates the password as being well formed. Throws Exception.
-	 * @param password
-	 * @return
-	 * @throws Exception
-	 */
-	protected String parseJsonAsPassword(String password) throws BusinessException{
-        if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
-            throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
-		return password;
-	}
 
     /**
      * Use to validate the supplied password from a GetUser request.
