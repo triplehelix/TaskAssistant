@@ -6,8 +6,11 @@ import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.jvm.hotspot.oops.Instance;
+
 import static org.junit.Assert.fail;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 /**
@@ -33,7 +36,6 @@ public class ReminderTest extends UnitTestHelper{
         validUpdates.add("3`3`2016-06-12_08:00:00`2016-09-22T03:37:55.577Z");
         validUpdates.add("4`4`2020-05-28_08:31:01`2016-09-22T03:37:55.577Z");
         validUpdates.add("5`7`2020-05-31_00:00:00`2016-09-22T03:37:55.585Z");
-
     }
 
 
@@ -57,7 +59,11 @@ public class ReminderTest extends UnitTestHelper{
         }
 
 
+        LOGGER.info("Is this possible? {}", validReminders.get(1).split("`")[2]);
+        Instant instant= Instant.parse("2020-05-28T08:31:01.123Z");
 
+        LOGGER.info("Well, is it? {}", instant.toString());
+	//TODO Is there a way for Gson to print out ISO 8601 natively?
 
 // 20:37:56.306 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.575Z {"id":0,"taskId":1,"reminderTime":"May 28, 2020 8:31:01 AM","instant":{"seconds":1474515475,"nanos":575000000}}
 // 20:37:56.318 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.576Z {"id":1,"taskId":1,"reminderTime":"May 31, 2020 12:00:00 AM","instant":{"seconds":1474515475,"nanos":576000000}}
