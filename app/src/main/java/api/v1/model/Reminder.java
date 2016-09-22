@@ -2,7 +2,7 @@ package api.v1.model;
 
 
 import com.google.appengine.repackaged.com.google.gson.Gson;
-//import java.time.Instant;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -13,7 +13,7 @@ public class Reminder {
     private int id;
     private int taskId;
     private Date reminderTime;
-
+    private Instant reminderTiime;
     /**
      * Create a new, Reminder without an id. Reminders are
      * assigned an id of -1 when created.
