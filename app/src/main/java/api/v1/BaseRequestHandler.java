@@ -28,7 +28,8 @@ import org.slf4j.Logger;
 public class BaseRequestHandler extends HttpServlet{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseRequestHandler.class);
-    private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
+    //private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
+    private final static String DATE_FORMAT_KEY="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     protected static TaskRepository taskRepository;
     protected static UserRepository userRepository;
     protected static TaskListRepository taskListRepository;
