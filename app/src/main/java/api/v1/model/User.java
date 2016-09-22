@@ -4,6 +4,7 @@ package api.v1.model;
 import api.v1.error.BusinessException;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
@@ -111,7 +112,8 @@ public class User {
      * @return
      */
     public String toJson(){
-        Gson gson=new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
         return gson.toJson(this);
     }
 

@@ -4,6 +4,7 @@ import api.v1.error.Error;
 import api.v1.error.BusinessException;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,7 +109,8 @@ public class Schedule {
      * @return
      */
     public String toJson(){
-        Gson gson=new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
         return gson.toJson(this);
     }
 
