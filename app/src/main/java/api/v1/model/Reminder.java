@@ -13,7 +13,16 @@ public class Reminder {
     private int id;
     private int taskId;
     private Date reminderTime;
-    private Instant reminderTiime;
+
+
+    private Instant instant;
+    public Instant getInstant() {
+        return instant;
+    }
+
+    public void setInstant(Instant instant) {
+        this.instant = instant;
+    }
     /**
      * Create a new, Reminder without an id. Reminders are
      * assigned an id of -1 when created.
