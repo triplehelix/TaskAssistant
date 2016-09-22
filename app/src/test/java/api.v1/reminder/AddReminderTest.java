@@ -47,30 +47,28 @@ public class AddReminderTest extends ReminderApiHelper {
         taskRepository=addReminderInstance.getTaskRepository();
 
         //2. populate the TaskRepository with valid Tasks.
-        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
-        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [0,1]
-        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [2,3]
-        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [4]
-        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [5]
-        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
-        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
-        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   []
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   []
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [0,1]
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [2,3]
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [4]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [5]
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   []
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   []
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   []
         for(Task task: ReminderApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
-        validReminders.add("-1`1`2020-05-28_08:31:01"); //
-        validReminders.add("-1`1`2020-05-31_00:00:00"); //
-        validReminders.add("-1`2`2016-06-09_18:30:00"); //
-        validReminders.add("-1`2`2016-06-12_08:00:00"); //
-        validReminders.add("-1`3`2016-06-09_19:00:00"); //
-        validReminders.add("-1`4`2020-05-31_00:00:00"); //
+        validReminders.add("-1`1`2020-05-28T08:31:01.123Z"); //
+        validReminders.add("-1`1`2020-05-31T00:00:00.123Z"); //
+        validReminders.add("-1`2`2016-06-09T18:30:00.123Z"); //
+        validReminders.add("-1`2`2016-06-12T08:00:00.123Z"); //
+        validReminders.add("-1`3`2016-06-09T19:00:00.123Z"); //
+        validReminders.add("-1`4`2020-05-31T00:00:00.123Z"); //
 
-        errorReminders.add("0`1`0");
         errorReminders.add("1`1` ");
-        errorReminders.add("2`2`yyyy-MM-dd_HH:mm:ss");
-        errorReminders.add("3`2`2020-18-31_00:00:00");
-        errorReminders.add("4`-3`2016-06-09_19:00:00");
-        errorReminders.add("5`40`2020-05-31_00:00:00");
+        errorReminders.add( "3`2`2020-18-31T00:00:00.123Z");
+        errorReminders.add("4`-3`2016-06-09T19:00:00.123Z");
+        errorReminders.add("5`40`2020-05-31T00:00:00.123Z");
 
         //3. Create valid mock reminders.
         for(JSONObject jsonObj: ReminderApiHelper.toJSONObject(validReminders))
