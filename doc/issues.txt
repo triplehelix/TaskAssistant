@@ -1,3 +1,5 @@
+0. The The permissions verification is broken. This needs to be fixed see the methods
+  verifySchedulePrivileges and verifyCategoryPrivileges in the AuthRequestHandler class.
 
 1. Presently, no API can indicate what an added object's new id is. The repository
    "add(Object)" function ought to return the new object, and this must be done for 
