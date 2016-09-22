@@ -2,6 +2,7 @@ package api.v1.model;
 
 import api.v1.UnitTestHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,17 +77,17 @@ public class ReminderTest extends UnitTestHelper{
 
         // Verify Gson serialization works properly:
         LOGGER.info("Verifying Gson serialization works properly.");
-        Gson gson=new Gson();
+        Gson gson = new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss";
+        //Gson gson = new GsonBuilder().setDateFormat(format).create();
         String json="";
         for(int i=0; i<myReminders.size(); i++){
             json=myReminders.get(i).toJson();
-            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, Reminder.class)).toJson() );
+            LOGGER.info("Evaluating 1 {}", json);
+            LOGGER.info("Evaluating 2 {}", (gson.fromJson(json, Reminder.class)).toJson());
             if(!myReminders.get(i).equals(gson.fromJson(json, Reminder.class))){
                 LOGGER.info("Error attempting to serialize/deserialize the reminder {} {}", json, (gson.fromJson(json, Reminder.class)).toJson() );
             }
         }
-
-
-
     }
 }
