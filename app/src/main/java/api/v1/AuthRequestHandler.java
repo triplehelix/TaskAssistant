@@ -7,6 +7,8 @@ import api.v1.error.Error;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.util.ArrayList;
+
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -100,6 +102,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	/**
 	 * Verify that the User with the specified ID has permission to access these
 	 * schedules.
+     * TODO This method is broken just like the verifyCategoryPrivleges was!
 	 * @param userId
 	 * @param scheduleIds
 	 */
@@ -125,17 +128,19 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	 * @param categoryIds
 	 */
 	protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException{
-		if(categoryIds==null)
+		LOGGER.info("Here is the user and the categories we are testing the validation of {} {} ", userId, new Gson().toJson(categoryIds));
+	    if(categoryIds==null)
 			return;
 		Category category=new Category();
-		for(int i: categoryIds)
-			category.setId(i);
-		category=categoryRepository.get(category);
-		if (category.getUserId()==userId)
-			return;
-		else{
-			String message= "This category cannot be accessed by the specified user. ";
-			throwObjectOwnershipError(userId, message);
-		}
+		for(int i: categoryIds) {
+            category.setId(i);
+            category = categoryRepository.get(category);
+            if (category.getUserId() == userId)
+                return;
+            else {
+                String message = "This category cannot be accessed by the specified user. ";
+                throwObjectOwnershipError(userId, message);
+            }
+        }
 	}
 }
