@@ -24,17 +24,17 @@ public class TaskListTest extends UnitTestHelper{
     static {
         validTaskLists.add("0`0`Mike's Work Tasks`Tasks for work.                  `[1,5]");
         validTaskLists.add("1`0`Mike's Personal Tasks`Medical, vacay, finance etc. `[1,2]");
-        validTaskLists.add("2`0`Mike's Excercize Tasks`This is for Excercize       `[3,4]");
+        validTaskLists.add("2`0`Mike's Excercize Tasks`This is for Excercize.      `[3,4]");
         validTaskLists.add("3`1`Ken's Work Tasks`Tasks for work.                  `[1,4]");
         validTaskLists.add("4`1`Ken's Personal Tasks`Medical, vacay, finance etc. `[1,2]");
         validTaskLists.add("5`1`Ken's Excercize Tasks`This is for Excercize       `[4,5]");
 
-        validUpdates.add("0`0`Mike's Work Tasks`Tasks for work.                 `[]");
-        validUpdates.add("1`0`Mike's Personal Tasks`Medical, vacay, finance etc.`[1,2]");
-        validUpdates.add("2`0`Mike's Excercize Tasks`This is for Excercize      `[4,3]");
-        validUpdates.add("0`1`Ken&amp;s Work Tasks`Tasks for work.              `[1,4]");
-        validUpdates.add("4`1`Ken's Personal Tasks`Medical, vacay, finance etc. `[0,2]");
-        validUpdates.add("5`0`Ken's Excercize Tasks`This is for Excercize       `[4,5]");
+        validUpdates.add("0`0`Mike's Work Tasks`Tasks for work.                        `[]");
+        validUpdates.add("1`0`Mike&amp;s Personal Tasks`Medical, vacay, finance etc.`[1,2]");
+        validUpdates.add("2`0`Mike's Excercize Tasks`This is for Excercize.         `[4,3]");
+        validUpdates.add("0`1`Ken&amp;s Work Tasks`Tasks for work.                  `[1,4]");
+        validUpdates.add("4`1`Ken's Personal Tasks`Medical, vacay, finance etc.     `[0,2]");
+        validUpdates.add("5`0`Ken's Excercize Tasks`This is for Excercize           `[4,5]");
      }
 
     /**

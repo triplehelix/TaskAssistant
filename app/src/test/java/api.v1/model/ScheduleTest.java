@@ -2,6 +2,7 @@ package api.v1.model;
 
 import api.v1.UnitTestHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.junit.Before;
 import org.slf4j.Logger;
@@ -101,11 +102,12 @@ public class ScheduleTest extends UnitTestHelper{
 
         // Verify Gson serialization works properly:
         LOGGER.info("Verifying Gson serialization works properly.");
-        Gson gson=new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
         String json="";
         for(int i=0; i<mySchedules.size(); i++){
             json=mySchedules.get(i).toJson();
-            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, Schedule.class)).toJson() );
+            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, Schedule.class)).toJson());
             if(!mySchedules.get(i).equals(gson.fromJson(json, Schedule.class))){
                 LOGGER.info("Error attempting to serialize/deserialize the schedule {} {}", json, (gson.fromJson(json, Schedule.class)).toJson() );
             }

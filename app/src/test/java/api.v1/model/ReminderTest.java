@@ -145,7 +145,7 @@ public class ReminderTest extends UnitTestHelper{
 
 
 
-        /*
+
         // Verify that clones generated from "validReminders" are identical to themselves:
         ArrayList<Reminder> myReminders=toReminders(validReminders);
         ArrayList<Reminder> myUpdates=toReminders(validUpdates);
@@ -181,9 +181,9 @@ public class ReminderTest extends UnitTestHelper{
 
         // Verify Gson serialization works properly:
         LOGGER.info("Verifying Gson serialization works properly.");
-        Gson gson = new Gson();
-        String format="yyyy-MM-dd'T'HH:mm:ss";
-        //Gson gson = new GsonBuilder().setDateFormat(format).create();
+        //Gson gson = new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        gson = new GsonBuilder().setDateFormat(format).create();
         String json="";
         for(int i=0; i<myReminders.size(); i++){
             json=myReminders.get(i).toJson();

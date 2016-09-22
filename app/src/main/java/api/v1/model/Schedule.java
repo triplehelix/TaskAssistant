@@ -111,6 +111,7 @@ public class Schedule {
     public String toJson(){
         String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         Gson gson = new GsonBuilder().setDateFormat(format).create();
+        //Gson gson=new Gson();
         return gson.toJson(this);
     }
 

@@ -2,6 +2,7 @@ package api.v1.model;
 
 import api.v1.UnitTestHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,7 +129,8 @@ public class TaskTest extends UnitTestHelper{
 
         // Verify Gson serialization works properly:
         LOGGER.info("Verifying Gson serialization works properly.");
-        Gson gson=new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
         String json="";
         for(int i=0; i<myTasks.size(); i++){
             json=myTasks.get(i).toJson();
