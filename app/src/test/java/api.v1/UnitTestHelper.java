@@ -132,7 +132,8 @@ public class UnitTestHelper {
      * @return Date
      */
     protected static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        //DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         df.setLenient(false);
         Date result = null;
         try {

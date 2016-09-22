@@ -23,19 +23,19 @@ public class ScheduleTest extends UnitTestHelper{
     @Before
     public void setUp() throws Exception {
 
-        validSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[0]");  //exercize
-        validSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0]");  //church
-        validSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[0]");  //workdays
-        validSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[5]");  //date night.
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[5]");  //Tacos!
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[5]");  //Wings!
+        validSchedules.add("0`0`2016-06-28T18:00:00.000Z`2016-06-28T19:00:00.123Z`DAILY `[0,1]`[0]");  //exercize
+        validSchedules.add("1`0`2016-07-03T09:00:00.000Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[0]");  //church
+        validSchedules.add("2`0`2016-06-28T09:00:00.000Z`2016-06-28T17:00:00.123Z`DAILY `[2,3]`[0]");  //workdays
+        validSchedules.add("3`1`2016-06-30T18:00:00.000Z`2016-06-28T19:00:00.123Z`WEEKLY`[4,5]`[5]");  //date night.
+        validSchedules.add("4`1`2016-07-03T16:00:00.000Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Tacos!
+        validSchedules.add("4`1`2016-07-03T16:00:00.000Z`2016-07-01T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Wings!
 
-        validUpdates.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[]`[0]");     //exercize
-        validUpdates.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[1]");  //church
-        validUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[3,2]`[0]");  //workdays
-        validUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`NONE`[4,5]`[5]");    //date night.
-        validUpdates.add("4`1`2016-07-03_16:00:00`2016-07-05_15:00:00`WEEKLY`[6,7]`[5]");  //Tacos!
-        validUpdates.add("4`1`2016-07-02_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[5]");  //Wings!
+        validUpdates.add("0`0`2016-06-28T18:00:00.000Z`2016-06-28T19:00:00.123Z`DAILY `[]`[0]");     //exercize
+        validUpdates.add("1`0`2016-07-03T09:00:00.000Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[1]");  //church
+        validUpdates.add("2`0`2016-06-28T09:00:00.000Z`2016-06-28T17:00:00.123Z`DAILY `[3,2]`[0]");  //workdays
+        validUpdates.add("3`1`2016-06-30T18:00:00.000Z`2016-06-28T19:00:00.123Z`NONE`[4,5]`[5]");    //date night.
+        validUpdates.add("4`1`2016-07-03T16:00:00.000Z`2016-07-05T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Tacos!
+        validUpdates.add("4`1`2016-07-02T16:00:00.000Z`2016-07-01T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Wings!
     }
 
   /**

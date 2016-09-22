@@ -23,19 +23,19 @@ public class ReminderTest extends UnitTestHelper{
     private static ArrayList<String> validUpdates=new ArrayList<String>();
 
     static {
-        validReminders.add("0`1`2020-05-28_08:31:01");
-        validReminders.add("1`1`2020-05-31_00:00:00");
-        validReminders.add("2`2`2016-06-09_18:30:00");
-        validReminders.add("3`2`2016-06-12_08:00:00");
-        validReminders.add("4`3`2016-06-09_19:00:00");
-        validReminders.add("5`4`2020-05-31_00:00:00");
+        validReminders.add("0`1`2020-05-28T08:31:01.575Z");
+        validReminders.add("1`1`2020-05-31T00:00:00.576Z");
+        validReminders.add("2`2`2016-06-09T18:30:00.576Z");
+        validReminders.add("3`2`2016-06-12T08:00:00.577Z");
+        validReminders.add("4`3`2016-06-09T19:00:00.577Z");
+        validReminders.add("5`4`2020-05-31T00:00:00.585Z");
 
-        validUpdates.add("0`6`2020-05-31_00:00:00`2016-09-22T03:37:55.575Z");
-        validUpdates.add("1`5`2016-06-09_18:30:00`2016-09-22T03:37:55.576Z"); 
-        validUpdates.add("2`4`2016-06-09_19:00:00`2016-09-22T03:37:55.576Z");
-        validUpdates.add("3`3`2016-06-12_08:00:00`2016-09-22T03:37:55.577Z");
-        validUpdates.add("4`4`2020-05-28_08:31:01`2016-09-22T03:37:55.577Z");
-        validUpdates.add("5`7`2020-05-31_00:00:00`2016-09-22T03:37:55.585Z");
+        validUpdates.add("0`6`2016-09-22T03:37:55.575Z");
+        validUpdates.add("1`5`2016-09-22T03:37:55.576Z"); 
+        validUpdates.add("2`4`2016-09-22T03:37:55.576Z");
+        validUpdates.add("3`3`2016-09-22T03:37:55.577Z");
+        validUpdates.add("4`4`2016-09-22T03:37:55.577Z");
+        validUpdates.add("5`7`2016-09-22T03:37:55.585Z");
     }
 
 
@@ -45,7 +45,7 @@ public class ReminderTest extends UnitTestHelper{
     @Test
     public void test() throws Exception {
         //Gson gson=new Gson();
-        Gson gson = new GsonBuilder().setDateFormat("YYYY-MM-DD'T'HH:mm:ss.SSS'Z'").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
         ArrayList<Reminder> reminders=new ArrayList<>();
 
         for(Reminder r: toReminders(validReminders)) {
