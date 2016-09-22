@@ -15,6 +15,7 @@ import static org.junit.Assert.fail;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -199,6 +200,8 @@ public class UnitTestHelper {
             reminder.setId(Integer.parseInt(reminderElementArray[0]));
             reminder.setTaskId(Integer.parseInt(reminderElementArray[1]));
             reminder.setReminderTime(parseJsonDateAsDate(reminderElementArray[2]));
+            if(reminderElementArray.length>3)
+                reminder.setInstant(Instant.parse(reminderElementArray[3].trim()));
             myReminders.add(reminder);
         }
         return myReminders;

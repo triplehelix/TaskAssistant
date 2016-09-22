@@ -27,12 +27,12 @@ public class ReminderTest extends UnitTestHelper{
         validReminders.add("4`3`2016-06-09_19:00:00");
         validReminders.add("5`4`2020-05-31_00:00:00");
 
-        validUpdates.add("0`6`2020-05-31_00:00:00");
-        validUpdates.add("1`5`2016-06-09_18:30:00"); 
-        validUpdates.add("2`4`2016-06-09_19:00:00");
-        validUpdates.add("3`3`2016-06-12_08:00:00");
-        validUpdates.add("4`4`2020-05-28_08:31:01");
-        validUpdates.add("5`7`2020-05-31_00:00:00");
+        validUpdates.add("0`6`2020-05-31_00:00:00`2016-09-22T03:37:55.575Z");
+        validUpdates.add("1`5`2016-06-09_18:30:00`2016-09-22T03:37:55.576Z"); 
+        validUpdates.add("2`4`2016-06-09_19:00:00`2016-09-22T03:37:55.576Z");
+        validUpdates.add("3`3`2016-06-12_08:00:00`2016-09-22T03:37:55.577Z");
+        validUpdates.add("4`4`2020-05-28_08:31:01`2016-09-22T03:37:55.577Z");
+        validUpdates.add("5`7`2020-05-31_00:00:00`2016-09-22T03:37:55.585Z");
 
     }
 
@@ -42,6 +42,104 @@ public class ReminderTest extends UnitTestHelper{
      */
     @Test
     public void test() throws Exception {
+        //Gson gson=new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("YYYY-MM-DD'T'HH:mm:ss.SSS'Z'").create();
+        ArrayList<Reminder> reminders=new ArrayList<>();
+
+        for(Reminder r: toReminders(validReminders)) {
+            LOGGER.info("Valid reminders: {} {}", r.getInstant().toString(), r.toJson());
+            //LOGGER.info("Evaluating 2 {}", (gson.fromJson(r.toJson(), Reminder.class)).toJson());
+        }
+
+
+        for(Reminder r: toReminders(validUpdates)){
+            LOGGER.info("Valid updates: {} {}", r.getInstant().toString(), r.toJson());
+        }
+
+
+
+
+// 20:37:56.306 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.575Z {"id":0,"taskId":1,"reminderTime":"May 28, 2020 8:31:01 AM","instant":{"seconds":1474515475,"nanos":575000000}}
+// 20:37:56.318 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.576Z {"id":1,"taskId":1,"reminderTime":"May 31, 2020 12:00:00 AM","instant":{"seconds":1474515475,"nanos":576000000}}
+// 20:37:56.319 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.576Z {"id":2,"taskId":2,"reminderTime":"Jun 9, 2016 6:30:00 PM","instant":{"seconds":1474515475,"nanos":576000000}}
+// 20:37:56.327 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.577Z {"id":3,"taskId":2,"reminderTime":"Jun 12, 2016 8:00:00 AM","instant":{"seconds":1474515475,"nanos":577000000}}
+// 20:37:56.329 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.577Z {"id":4,"taskId":3,"reminderTime":"Jun 9, 2016 7:00:00 PM","instant":{"seconds":1474515475,"nanos":577000000}}
+// 20:37:56.331 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.585Z {"id":5,"taskId":4,"reminderTime":"May 31, 2020 12:00:00 AM","instant":{"seconds":1474515475,"nanos":585000000}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
         // Verify that clones generated from "validReminders" are identical to themselves:
         ArrayList<Reminder> myReminders=toReminders(validReminders);
         ArrayList<Reminder> myUpdates=toReminders(validUpdates);
@@ -88,6 +186,6 @@ public class ReminderTest extends UnitTestHelper{
             if(!myReminders.get(i).equals(gson.fromJson(json, Reminder.class))){
                 LOGGER.info("Error attempting to serialize/deserialize the reminder {} {}", json, (gson.fromJson(json, Reminder.class)).toJson() );
             }
-        }
+        }//*/
     }
 }

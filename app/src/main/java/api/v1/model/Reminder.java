@@ -30,6 +30,7 @@ public class Reminder {
     public Reminder(){
         this.id=-1;
         this.taskId=-1;
+        instant= Instant.now();
     }
 
     /**
