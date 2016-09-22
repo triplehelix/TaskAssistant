@@ -124,6 +124,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	/**
 	 * Verify that the User with the specified ID has permission to access these
 	 * schedules.
+     *  TODO This method is broken just like the verifySchedulePrivleges was!
 	 * @param userId
 	 * @param categoryIds
 	 */
@@ -132,15 +133,14 @@ public class AuthRequestHandler extends BaseRequestHandler{
 	    if(categoryIds==null)
 			return;
 		Category category=new Category();
-		for(int i: categoryIds) {
+		for(int i: categoryIds)
             category.setId(i);
-            category = categoryRepository.get(category);
-            if (category.getUserId() == userId)
-                return;
-            else {
-                String message = "This category cannot be accessed by the specified user. ";
-                throwObjectOwnershipError(userId, message);
-            }
+        category = categoryRepository.get(category);
+        if (category.getUserId() == userId)
+             return;
+        else {
+            String message = "This category cannot be accessed by the specified user. ";
+            throwObjectOwnershipError(userId, message);
         }
 	}
 }

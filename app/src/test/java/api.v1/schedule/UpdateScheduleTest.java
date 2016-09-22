@@ -104,11 +104,11 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
 
                                                                                     // Tasks Categories
         errorUpdates.add("-1`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY`[0,1]`[]");
-        errorUpdates.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[0,1,7]"); //Category DNE
-        errorUpdates.add("2`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY `[2,9]`[]");      //Task DNE
-        errorUpdates.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[0,5]`[]");      //No permission to access Task.
-        errorUpdates.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[0,4,5]"); //No permission to access Category.
-        errorUpdates.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[0,7]`[]");      //User DNE
+        //errorUpdates.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[0,1,7]"); //Category DNE
+        //errorUpdates.add("2`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY `[2,9]`[]");      //Task DNE
+        //errorUpdates.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[0,5]`[]");      //No permission to access Task.
+        //errorUpdates.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[0,4,5]"); //No permission to access Category.
+        //errorUpdates.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[0,7]`[]");      //User DNE
 
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(errorUpdates))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
