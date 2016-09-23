@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.model.Category;
 import api.v1.model.Task;
 import api.v1.model.User;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -43,20 +44,16 @@ public class AddSchedule extends ScheduleRequestHandler {
         String errorMsg = "no error";
         Schedule schedule = new Schedule();
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        String json="";
+        Gson gson=getCustomGson();
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            schedule.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
-            schedule.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
-            schedule.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
-            schedule.setStartDate(parseJsonDateAsDate((String)jsonRequest.get("startDate")));
-            schedule.setEndDate(parseJsonDateAsDate((String)jsonRequest.get("endDate")));
-            schedule.setRepeatType(((String)jsonRequest.get("repeatType")).trim());
+            json = request.getParameter("params");
+	        schedule=gson.fromJson(json, Schedule.class);
             // Verify privileges.
             verifyTaskPrivileges(schedule.getUserId(), schedule.getTaskIds());
             verifyCategoryPrivileges(schedule.getUserId(), schedule.getCategoryIds());
             //Place completed category in the repository.
-            scheduleRepository.add(schedule);
+            schedule=scheduleRepository.add(schedule);
 
             ArrayList<Task> updatedTasks=getUpdatedTasks(schedule);
             ArrayList<Category> updatedCategories=getUpdatedCategories(schedule);
@@ -69,12 +66,12 @@ public class AddSchedule extends ScheduleRequestHandler {
             userRepository.update(updatedUser);
 
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an AddSchedule  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddSchedule  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an AddSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddSchedule Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

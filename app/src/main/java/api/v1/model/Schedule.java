@@ -26,6 +26,7 @@ public class Schedule {
     public Schedule(){
         this.id=-1;
         this.userId=-1;
+        this.repeatType=RepeatTypes.NONE;
     }
     
     public int getId() {
@@ -71,6 +72,10 @@ public class Schedule {
         catch(java.lang.IllegalArgumentException e){
             throw new BusinessException(repeatType +" is not a valid task status.", Error.valueOf("INVALID_SCHEDULE_REPEAT_TYPE_ERROR"));
         }
+    }
+
+    public void setRepeatType(RepeatTypes repeatType){
+	this.repeatType=repeatType;
     }
 
     public ArrayList<Integer> getTaskIds() {
@@ -151,7 +156,7 @@ public class Schedule {
         this.userId=schedule.getUserId();
         this.startDate=new Date(schedule.getStartDate().getTime());
         this.endDate=new Date(schedule.getEndDate().getTime());
-        this.repeatType=RepeatTypes.valueOf(schedule.getRepeatType().toString());
+        this.repeatType=schedule.getRepeatType(); //Pretty sure this is a deep copy.
         this.categoryIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
         this.taskIds= ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
     }

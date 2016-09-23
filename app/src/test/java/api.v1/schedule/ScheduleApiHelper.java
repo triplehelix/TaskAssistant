@@ -25,14 +25,14 @@ public class ScheduleApiHelper extends UnitTestHelper {
         for(String s: backtickCategories) {
             String[] elements = s.split("`");
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("id", elements[0]);
-            jsonObj.put("userId", elements[1]);
+            jsonObj.put("id", Integer.parseInt(elements[0]));
+            jsonObj.put("userId", Integer.parseInt(elements[1]));
             jsonObj.put("startDate", elements[2]);
             jsonObj.put("endDate", elements[3]);
             jsonObj.put("repeatType", elements[4]);
             if(elements.length>5) {
-                jsonObj.put("taskIds", elements[5]);
-                jsonObj.put("categoryIds", elements[6]);
+                jsonObj.put("taskIds", toIntegerArrayList(elements[5]));
+                jsonObj.put("categoryIds", toIntegerArrayList(elements[6]));
             }
             myJSONObjects.add(jsonObj);
         }
