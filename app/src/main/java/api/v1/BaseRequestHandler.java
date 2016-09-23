@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
 import api.v1.repo.*;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,7 +30,6 @@ import org.slf4j.Logger;
 public class BaseRequestHandler extends HttpServlet{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseRequestHandler.class);
-    //private final static String DATE_FORMAT_KEY="yyyy-MM-dd_HH:mm:ss";
     private final static String DATE_FORMAT_KEY="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     protected static TaskRepository taskRepository;
     protected static UserRepository userRepository;
@@ -111,23 +112,6 @@ public class BaseRequestHandler extends HttpServlet{
     }
 
     /**
-     * This method sends success/failure response back to the web layer that 
-     * called the given servlet subclass. It also logs an error. 
-     * 
-     * @param error
-     * @param message
-     * @param response
-     */
-    @SuppressWarnings("unchecked")
-    protected static void sendResponse(boolean error, String message, HttpServletResponse response) throws IOException{
-        JSONObject obj = new JSONObject();
-        obj.put("error", error);
-        obj.put("errorMsg", message);
-        PrintWriter out = response.getWriter();
-        out.println(obj);
-    }
-
-    /**
      *
      * @param response
      * @param httpResponse
@@ -191,5 +175,14 @@ public class BaseRequestHandler extends HttpServlet{
             LOGGER.error("Error while parsing a String as an Integer Array. {}", s);
             throw new BusinessException("Could not parse the String {" + s+ "} as an integer array. ", Error.valueOf("PARSE_INTEGER_ARRAY_ERROR"));
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected Gson getCustomGson(){
+        Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT_KEY).create();
+        return gson;
     }
 }
