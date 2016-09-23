@@ -1,26 +1,27 @@
-0. The The permissions verification is broken. This needs to be fixed see the methods
-  verifySchedulePrivileges and verifyCategoryPrivileges in the AuthRequestHandler class.
-
-1. Presently, no API can indicate what an added object's new id is. The repository
-   "add(Object)" function ought to return the new object, and this must be done for 
-   all of the APIs. 
-
-2. All model objects must implement an addObject(Object) method that ensures that
-   a given reference cannot be placed in the Array of IDs more than once. This 
-   needs to be tested by the model unit tests as well.
-
-3. Presently it is not possible to move a Task from one TaskList to another.
-
-4. Updates ought to have a clean-up method similar those present in Add APIs. It 
-   should update the repository with the serverObjects used to to map all of the
-   objects that need to be cleaned and modified.
-
-5. Most unit tests do not test the point back error where an inconsistency in the 
-   database is not detected because the API assumes the internal data is never
-   corrupted.
-
-6. Database sanitization. When someone creates a "note" or names a task, how do we 
-   make sure the database is not corrupted?
+0.  The The permissions verification is broken. This needs to be fixed see the methods
+    verifySchedulePrivileges and verifyCategoryPrivileges in the AuthRequestHandler 
+    class.
+    
+1.  Presently, no API can indicate what an added object's new id is. The repository
+    "add(Object)" function ought to return the new object, and this must be done for 
+    all of the APIs. 
+    
+2.  All model objects must implement an addObject(Object) method that ensures that
+    a given reference cannot be placed in the Array of IDs more than once. This 
+    needs to be tested by the model unit tests as well.
+    
+3.  Presently it is not possible to move a Task from one TaskList to another.
+    
+4.  Updates ought to have a clean-up method similar those present in Add APIs. It 
+    should update the repository with the serverObjects used to to map all of the
+    objects that need to be cleaned and modified.
+    
+5.  Most unit tests do not test the point back error where an inconsistency in the 
+    database is not detected because the API assumes the internal data is never
+    corrupted.
+    
+6.  Database sanitization. When someone creates a "note" or names a task, how do we 
+    make sure the database is not corrupted?
 
 7.  I would like to see a UI where TaskLists are generated on the fly. This way a 
     person can create a task list by selecting and de-selecting categories. Such a 
@@ -29,6 +30,11 @@
 
 8.  Does the DeleteTaskList class clean existing reminders?
 
+9.  The new time stamp format does not automatically throw exceptions for malformed
+    dates. A routine for verifying dates needs to be added to each API.
+
+10. Objects should not implement ArrayLists of other object Ids, they should be List
+    objects instead.
 ***********************************************************************************
 Mike likes a program called: http://todotxt.com/
 
@@ -46,9 +52,3 @@ Logins require user name and password. The response is a token, and tokens
 are required for all post, get, delete and put requests.
 
 ***********************************************************************************
-
-NEW PROBLEMS (AS OF 09/11/2016):
-1. Do not attempt to parse Strings as Integers, JSON can do this w/o my help.
-2. Objects should not implement ArrayLists of other object Ids, they should be List
-objects instead.
-
