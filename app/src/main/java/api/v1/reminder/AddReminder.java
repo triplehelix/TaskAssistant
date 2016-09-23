@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import api.v1.TaskRequestHandler;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 
 import api.v1.error.BusinessException;
@@ -43,26 +45,26 @@ public class AddReminder extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
         Reminder reminder = new Reminder();
+        String json="";
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
         // Step 1: parse taskId and reminderDate.
         try{
-            jsonRequest = parseRequest(request.getParameter("params"));
-            Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminderTime"));
-            Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("taskId"));
-            reminder.setTaskId(taskId);
+            json=request.getParameter("params");
+            reminder=gson.fromJson(json, Reminder.class);
+
             //Verify the existence of the tasks prior to updating anything.
             verifyTaskExists(reminder.getTaskId());
             reminder=reminderRepository.add(reminder);
             addReminderToTask(reminder);
-            reminder.setReminderTime(reminderDate);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTask Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -73,6 +75,7 @@ public class AddReminder extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("Reminder", reminder);
         }
         sendMessage(jsonResponse, response);
     }

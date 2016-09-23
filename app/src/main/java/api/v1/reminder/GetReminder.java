@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -37,21 +39,21 @@ public class GetReminder extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         Reminder reminder = new Reminder();
+        String json="";
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            Integer reminderId =  parseJsonIntAsInt((String)jsonRequest.get("id"));
-            reminder.setId(reminderId);
-
-        reminderRepository.get(reminder);
+            json = request.getParameter("params");
+            reminder=gson.fromJson(json, Reminder.class);
+            reminder=reminderRepository.get(reminder);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an GetReminder  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an GetReminder  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an GetReminder Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an GetReminder Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -62,6 +64,7 @@ public class GetReminder extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("Reminder", reminder);
         }
         sendMessage(jsonResponse, response);
     }

@@ -58,18 +58,17 @@ public class UpdateReminderTest extends ReminderApiHelper {
             taskRepository.add(task);
 
         //3. Populate the repository with valid reminders.
-        validReminders.add("0`1`2020-05-28_08:31:01.123Z");
-        validReminders.add("1`1`2020-05-31_00:00:00.123Z");
-        validReminders.add("2`2`2016-06-09_18:30:00.123Z");
-        validReminders.add("3`2`2016-06-12_08:00:00.123Z");
-        validReminders.add("4`3`2016-06-09_19:00:00.123Z");
-        validReminders.add("5`4`2020-05-31_00:00:00.123Z");
+        validReminders.add("0`1`2020-05-28T08:31:01.123Z");
+        validReminders.add("1`1`2020-05-31T00:00:00.123Z");
+        validReminders.add("2`2`2016-06-09T18:30:00.123Z");
+        validReminders.add("3`2`2016-06-12T08:00:00.123Z");
+        validReminders.add("4`3`2016-06-09T19:00:00.123Z");
+        validReminders.add("5`4`2020-05-31T00:00:00.123Z");
         for(Reminder reminder: toReminders(validReminders))
             reminderRepository.add(reminder);
 
         //4. Create invalid mock updates.
-
-        errorUpdates.add("1`1 `2020-05-35T00:00:00.123Z");
+        //errorUpdates.add("1`1 `2020-05-35T00:00:00.123Z");
         errorUpdates.add("1`20`2016-06-09T18:30:00.123Z");
         errorUpdates.add("-15`4`2020-05-31T00:00:00.123Z");
         for(JSONObject jsonObj: ReminderApiHelper.toJSONObject(errorUpdates))
