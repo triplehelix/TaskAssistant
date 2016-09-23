@@ -43,8 +43,7 @@ public class UpdateSchedule extends ScheduleRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        Schedule clientSchedule = new Schedule();
-        Schedule serverSchedule=null;
+        Schedule clientSchedule, serverSchedule;
         int errorCode = 0;
         Gson gson=getCustomGson();
         String json="";
