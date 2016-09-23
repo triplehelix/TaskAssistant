@@ -4,6 +4,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -37,18 +39,19 @@ public class GetSchedule extends ScheduleRequestHandler {
         String errorMsg = "no error";
         Schedule schedule = new Schedule();
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        String json="";
+        Gson gson=getCustomGson();
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            schedule.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-        schedule=scheduleRepository.get(schedule);
+            json = request.getParameter("params");
+            schedule=gson.fromJson(json, Schedule.class);
+            schedule=scheduleRepository.get(schedule);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an GetSchedule  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an GetSchedule  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an GetSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an GetSchedule Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

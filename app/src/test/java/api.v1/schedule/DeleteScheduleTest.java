@@ -98,9 +98,9 @@ public class DeleteScheduleTest extends ScheduleApiHelper {
          * will not look at them anyway since it retrieves these references
          * from the repository.
          */
-        errorSchedules.add("-1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY");
-        errorSchedules.add("6`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY");
-        errorSchedules.add("600`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY");
+        errorSchedules.add( "-1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY");
+        errorSchedules.add(  "6`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY");
+        errorSchedules.add("600`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY");
 
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(errorSchedules))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
