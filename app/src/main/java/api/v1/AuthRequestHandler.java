@@ -124,13 +124,13 @@ public class AuthRequestHandler extends BaseRequestHandler{
     /**
      * Verify that the User with the specified ID has permission to access these
      * schedules.
-     *  TODO This method is broken just like the verifySchedulePrivleges was!
+     *  TODO This method is broken just like the verifySchedulePrivileges was!
      * @param userId
      * @param categoryIds
      */
     protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException{
         LOGGER.info("Here is the user and the categories we are testing the validation of {} {} ", userId, new Gson().toJson(categoryIds));
-        if(categoryIds==null)
+        if(categoryIds==null || categoryIds.size()==0)
             return;
         Category category=new Category();
         for(int i: categoryIds)
