@@ -66,7 +66,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
      */
     protected void verifyTaskPrivileges(int userId, ArrayList<Integer> taskIds)
             throws BusinessException, SystemException {
-        if(taskIds==null)
+        if(taskIds==null || taskIds.size()==0)
             return;
         for(Integer i: taskIds){
             // First fetch the Task specified in the taskIds list.
@@ -102,7 +102,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
     /**
      * Verify that the User with the specified ID has permission to access these
      * schedules.
-     * TODO This method is broken just like the verifyCategoryPrivleges was!
+     * TODO This method is broken just like the verifyCategoryPrivileges was!
      * @param userId
      * @param scheduleIds
      */
