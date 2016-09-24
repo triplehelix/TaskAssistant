@@ -102,19 +102,19 @@ public class AuthRequestHandler extends BaseRequestHandler{
     /**
      * Verify that the User with the specified ID has permission to access these
      * schedules.
-     * TODO This method is broken just like the verifyCategoryPrivileges was!
+     * TODO This method is aparantly fixed. Unlike the verifyCategoryPrivileges was!
      * @param userId
      * @param scheduleIds
      */
     protected void verifySchedulePrivileges(int userId, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException{
-	LOGGER.debug("Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
+	//LOGGER.debug("Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
         if(scheduleIds==null || scheduleIds.size()==0)
             return;
         Schedule schedule=new Schedule();
         for(int i: scheduleIds) {
             schedule.setId(i);
             schedule = scheduleRepository.get(schedule);
-            LOGGER.debug("Here is the Schedule we are verifying {}", schedule.toJson());
+            //LOGGER.debug("Here is the Schedule we are verifying {}", schedule.toJson());
             if (schedule.getUserId() == userId)
                 continue;	    
             else {

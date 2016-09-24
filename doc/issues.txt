@@ -82,11 +82,11 @@ required for all post, get, delete and put requests.
 ******* 8     ../app/src/main/java/api//v1/schedule/UpdateSchedule.java
 ******* 8     ../app/src/main/java/api//v1/schedule/AddSchedule.java
 ******* 8     ../app/src/main/java/api//v1/schedule/GetSchedule.java
-   
-******* 8     ../app/src/main/java/api//v1/reminder/DeleteReminder.java
-******* 8     ../app/src/main/java/api//v1/reminder/UpdateReminder.java
-******* 8     ../app/src/main/java/api//v1/reminder/AddReminder.java
-******* 8     ../app/src/main/java/api//v1/reminder/GetReminder.java
+  
+****** 8     ../app/src/main/java/api//v1/reminder/DeleteReminder.java
+****** 8     ../app/src/main/java/api//v1/reminder/UpdateReminder.java
+****** 8     ../app/src/main/java/api//v1/reminder/AddReminder.java
+****** 8     ../app/src/main/java/api//v1/reminder/GetReminder.java
 
 ******* 8     ../app/src/main/java/api//v1/taskList/DeleteTaskList.java
 ***** 8     ../app/src/main/java/api//v1/taskList/UpdateTaskList.java
