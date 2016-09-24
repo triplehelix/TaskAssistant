@@ -54,62 +54,6 @@ public class BaseRequestHandler extends HttpServlet{
     public static CategoryRepository getCategoryRepository() { return categoryRepository; }
     public static ScheduleRepository getScheduleRepository() { return scheduleRepository; }
 
-    /**
-     *
-     * @param requestString
-     * @return
-     * @throws BusinessException
-     */
-    protected JSONObject parseRequest(String requestString)  throws BusinessException {
-        JSONObject param = null;
-        LOGGER.info("This is the JSON reqest: " + requestString);
-        try{
-            JSONParser parser = new JSONParser();
-            param =  (JSONObject) parser.parse(requestString);
-        }catch(ParseException e){
-            LOGGER.error("Exception while parsing request: " + requestString);
-            throw new BusinessException ("Error caused by: " + requestString, Error.valueOf("PARSE_JSON_ERROR"));
-        }
-        return param;
-    }
-
-    /**
-     * Parse a String representing a given date and return a Date object.
-     * String must be in the format: yyyy-MM-dd_HH:mm:ss
-     * @param stringDate
-     * @return
-     */
-    protected Date parseJsonDateAsDate(String stringDate) throws  BusinessException{
-        DateFormat df = new SimpleDateFormat(DATE_FORMAT_KEY);
-        df.setLenient(false);
-        Date result = null;
-        try{
-            result = df.parse(stringDate);
-        } catch (java.text.ParseException e) {
-            LOGGER.error("Exception while parsing date token: " + stringDate);
-            throw new BusinessException("Error caused by the String date: " + stringDate, Error.valueOf("PARSE_DATE_ERROR"));
-        }
-        return result;
-    }
-    
-    /**
-     * Parse a String representation of an integer as an Integer object. A
-     * null Integer indicates that a NumberFormatException has occurred.
-     * 
-     * @param i
-     * @return
-     */
-    protected Integer parseJsonIntAsInt(String i) throws BusinessException {
-        Integer myInt=0;
-        String nfeError="Exception while parsing the token as an integer: " + i;
-        try{
-            myInt = Integer.parseInt(i);
-        }catch(NumberFormatException e){
-            LOGGER.error(nfeError);
-            throw new BusinessException(nfeError, Error.valueOf("PARSE_INTEGER_ERROR"));
-        }
-        return myInt;
-    }
 
     /**
      *
@@ -123,60 +67,12 @@ public class BaseRequestHandler extends HttpServlet{
     }
 
     /**
-     * Parse a String as a long integer.
-     * @param l
-     * @return
-     */
-    protected long parseJsonLongAsLong(String l) throws BusinessException{
-        l=l.trim();
-        long myLong=0;
-        String nfeError="Exception while parsing the token as a long integer: " + l;
-        try{
-            myLong=java.lang.Long.parseLong(l);
-        }catch(NumberFormatException nfe){
-            LOGGER.error(nfeError);
-            throw new BusinessException(nfeError, Error.valueOf("PARSE_LONG_INTEGER_ERROR"));
-        }
-        return myLong;
-    }
-
-    /**
-     * Parse a JSON derived array and return an ArrayList of integers.
-     * @param s
-     * @return
-     */
-    protected static ArrayList<Integer> toIntegerArrayList(String s) throws BusinessException{
-        ArrayList<Integer> myIntegers = new ArrayList<Integer>();
-        try {
-            if (s == null || s.trim().equals("[]"))
-                return null;
-            s.trim();
-            s = s.substring(1, s.length() - 1);
-            String[] elements = s.split(",");
-            for (String i : elements)
-                myIntegers.add(Integer.parseInt(i));
-            return myIntegers;
-        } catch (NumberFormatException nfe) {
-            LOGGER.error("Error while parsing a String as an Integer Array. {}", s);
-            throw new BusinessException("Could not parse the String {" + s+ "} as an integer array. ", Error.valueOf("PARSE_INTEGER_ARRAY_ERROR"));
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    protected Gson getCustomGson(){
-        Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT_KEY).create();
-        return gson;
-    }
-
-    /**
-     *
+     * Accept a 
      * @param obj
      * @return
      */
      protected Object getMyObject(String json, Object obj){
+         LOGGER.info("Here is the Json object {} ", json);
          Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT_KEY).create();
          obj=gson.fromJson(json, obj.getClass());
          return obj;
