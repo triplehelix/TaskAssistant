@@ -107,7 +107,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
      * @param scheduleIds
      */
     protected void verifySchedulePrivileges(int userId, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException{
-	//LOGGER.debug("Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
+        //LOGGER.debug("Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
         if(scheduleIds==null || scheduleIds.size()==0)
             return;
         Schedule schedule=new Schedule();
@@ -131,18 +131,21 @@ public class AuthRequestHandler extends BaseRequestHandler{
      * @param userId
      * @param categoryIds
      */
-    protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException{
-        if(categoryIds==null || categoryIds.size()==0)
+    protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException {
+        //LOGGER.debug("Here inside verifyCategoryPrivileges. These are our category ids {}", new Gson().toJson(categoryIds));
+        if (categoryIds == null || categoryIds.size() == 0)
             return;
-        Category category=new Category();
-        for(int i: categoryIds)
+        Category category = new Category();
+        for (int i : categoryIds) {
             category.setId(i);
-        category = categoryRepository.get(category);
-        if (category.getUserId() == userId)
-             return;
-        else {
-            String message = "This category cannot be accessed by the specified user. ";
-            throwObjectOwnershipError(userId, message);
+            category = categoryRepository.get(category);
+            //LOGGER.debug("Here is the Category we are verifying {}", category.toJson());
+            if (category.getUserId() == userId)
+                continue;
+            else {
+                String message = "This category cannot be accessed by the specified user. ";
+                throwObjectOwnershipError(userId, message);
+            }
         }
     }
 }
