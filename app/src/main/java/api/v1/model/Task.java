@@ -55,7 +55,7 @@ public class Task {
         this.important=task.getImportant();
         this.urgent=task.getUrgent();
         this.dueDate=new Date(task.getDueDate().getTime());
-        this.status=Status.valueOf(task.getStatus().toString());
+        this.status=task.getStatus();
         this.categoryIds = ModelHelper.copyIntegerArrayList(task.getCategoryIds());
         this.scheduleIds = ModelHelper.copyIntegerArrayList(task.getScheduleIds());
         this.reminderIds = ModelHelper.copyIntegerArrayList(task.getReminderIds());

@@ -88,8 +88,8 @@ public class AddTaskTest extends TaskApiHelper {
         validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]");
         validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[]");
 													      	       
-        errorTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-02-31T00:00:00.123Z`NEW`[]`[]");  //  Invalid Date
-        errorTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`YES `2020-05-31T00:00:00.123Z`NEW`[]`[]");  //  Invalid boolean value
+//        errorTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-02-31T00:00:00.123Z`TWO`[]`[]");  //  Invalid Status.
+//        errorTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[]");  //  Invalid boolean value
         errorTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]"); //  Cannot access category
         errorTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[5]"); //  Cannot access schedule
         errorTasks.add("4`9`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[]");  //  TaskList DNE

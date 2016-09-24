@@ -49,12 +49,6 @@ public class GetTaskList extends TaskListRequestHandler {
             //LOGGER.debug("Here is the internal TaskList name: " + taskList.getName());
             //LOGGER.debug("Here is the internal TaskList description: " + taskList.getDescription());
 
-            /**
-             * TODO: Return an instance of this taskList.
-             * Okay, so do we need to send a success response AND the taskList? How
-             * does the print stream interpret this? I have no fucking idea!
-             *
-             */
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
             errorMsg = "Error. " + b.getMessage();

@@ -141,21 +141,6 @@ public class BaseRequestHandler extends HttpServlet{
     }
 
     /**
-     * Parse string as boolean.
-     * @param b
-     * @return
-     */
-    protected boolean parseJsonBooleanAsBoolean(String b) throws BusinessException{
-        b = b.trim().toUpperCase();
-        if (b.equals("TRUE"))
-            return true;
-        else if(b.equals("FALSE"))
-            return false;
-        else
-            throw new BusinessException("Invalid boolean value: " + b, Error.valueOf("PARSE_BOOLEAN_ERROR"));
-    }
-
-    /**
      * Parse a JSON derived array and return an ArrayList of integers.
      * @param s
      * @return

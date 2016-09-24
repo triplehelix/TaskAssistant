@@ -50,6 +50,7 @@ public class AddTask extends TaskRequestHandler {
         try {
             //Create a basic task object:
             json=request.getParameter("params");
+            LOGGER.debug("");
             task=gson.fromJson(json, Task.class);
 
             task=taskRepository.add(task);

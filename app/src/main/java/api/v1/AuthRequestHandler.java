@@ -129,7 +129,6 @@ public class AuthRequestHandler extends BaseRequestHandler{
      * @param categoryIds
      */
     protected void verifyCategoryPrivileges(int userId, ArrayList<Integer> categoryIds) throws BusinessException, SystemException{
-        LOGGER.info("Here is the user and the categories we are testing the validation of {} {} ", userId, new Gson().toJson(categoryIds));
         if(categoryIds==null || categoryIds.size()==0)
             return;
         Category category=new Category();

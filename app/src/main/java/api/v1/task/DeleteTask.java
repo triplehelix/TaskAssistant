@@ -42,10 +42,8 @@ public class DeleteTask extends TaskRequestHandler {
                   HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-
         int errorCode = 0;
-
-        Task task = new Task();
+        Task task;
         String json="";
         Gson gson=getCustomGson();
         try {
