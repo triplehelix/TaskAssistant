@@ -83,7 +83,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
             LOGGER.debug("User id: " + userId);
             //Finally, verify that ownership of the TaskList.
             if(taskList.getUserId()==userId)
-                return;
+                continue;
             else{
                 String message= "This task cannot be accessed by the specified user. ";
                 throwObjectOwnershipError(userId, message);
