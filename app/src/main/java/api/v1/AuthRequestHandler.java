@@ -107,14 +107,16 @@ public class AuthRequestHandler extends BaseRequestHandler{
      * @param scheduleIds
      */
     protected void verifySchedulePrivileges(int userId, ArrayList<Integer> scheduleIds) throws BusinessException, SystemException{
+	LOGGER.debug("Here inside verifySchedulePrivileges. These are our schedule ids {}", new Gson().toJson(scheduleIds));
         if(scheduleIds==null || scheduleIds.size()==0)
             return;
         Schedule schedule=new Schedule();
         for(int i: scheduleIds) {
             schedule.setId(i);
             schedule = scheduleRepository.get(schedule);
+            LOGGER.debug("Here is the Schedule we are verifying {}", schedule.toJson());
             if (schedule.getUserId() == userId)
-                return;
+                continue;	    
             else {
                 String message = "This schedule cannot be accessed by the specified user. ";
                 throwObjectOwnershipError(userId, message);

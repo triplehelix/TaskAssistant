@@ -48,7 +48,7 @@ public class UpdateTask extends TaskRequestHandler {
             //Create a basic task object:
             json = request.getParameter("params");
             clientTask=(Task) getMyObject(json, clientTask);
-	        serverTask=taskRepository.get(clientTask);
+            serverTask=taskRepository.get(clientTask);
             // Fetch an updated TaskList.
 
             TaskList taskList=getUpdatedTaskList(clientTask);
@@ -56,8 +56,8 @@ public class UpdateTask extends TaskRequestHandler {
             verifySchedulePrivileges(taskList.getUserId(), clientTask.getScheduleIds());
             verifyCategoryPrivileges(taskList.getUserId(), clientTask.getCategoryIds());
 
-	        // Clean the serverTask
-			cleanReferences(serverTask);
+            // Clean the serverTask
+            cleanReferences(serverTask);
 
             //Update objects with the new Task.
             updateReferences(clientTask);
@@ -89,7 +89,7 @@ public class UpdateTask extends TaskRequestHandler {
 
     private void updateReferences(Task task) throws BusinessException, SystemException, CriticalException{
         TaskList taskList=getUpdatedTaskList(task);
-    	ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
+        ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
         ArrayList<Category> updatedCategories=getUpdatedCategories(task);
 
         taskListRepository.update(taskList);
