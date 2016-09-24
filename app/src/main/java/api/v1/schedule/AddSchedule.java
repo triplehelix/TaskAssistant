@@ -81,6 +81,7 @@ public class AddSchedule extends ScheduleRequestHandler {
             cleanUp(schedule);
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("Schedule", schedule.toJson());
         }
         sendMessage(jsonResponse, response);
     }

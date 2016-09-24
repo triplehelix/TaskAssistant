@@ -60,7 +60,7 @@ public class GetReminder extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
-            jsonResponse.put("Reminder", reminder);
+            jsonResponse.put("Reminder", reminder.toJson());
         }
         sendMessage(jsonResponse, response);
     }

@@ -67,6 +67,7 @@ public class AddTaskList extends TaskListRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("TaskList", taskList.toJson());
         }
         sendMessage(jsonResponse, response);
     }
