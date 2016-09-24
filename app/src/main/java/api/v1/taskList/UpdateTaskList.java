@@ -47,7 +47,7 @@ public class UpdateTaskList extends TaskListRequestHandler {
             json=request.getParameter("params");
             clientTaskList=(TaskList)getMyObject(json, taskList);
             serverTaskList=taskListRepository.get(clientTaskList);
-
+            // TODO implement something to remove tasks that have been removed this way.
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));
             taskListRepository.update(taskList);

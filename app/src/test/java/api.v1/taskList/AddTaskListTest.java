@@ -50,8 +50,8 @@ public class AddTaskListTest extends TaskListApiHelper {
         validTaskLists.add("0`0`TaskList 0`This is a valid TaskList.");
         validTaskLists.add("1`1`TaskList 1`This is a valid TaskList.");
 
-        errorTaskLists.add("0`0` `This TaskList has no name.");
-        errorTaskLists.add("1`1` `This TaskList has no name.");
+        errorTaskLists.add("0`-2`TaskList 2`This taskList has an Invalid User id.");
+        errorTaskLists.add("1`10`TaskList 3`This taskList references a User that does not exist.");
 
         for(JSONObject jsonObj: TaskListApiHelper.toJSONObjects(validTaskLists))
             validRequestList.add(createDoPostMockRequest(jsonObj));

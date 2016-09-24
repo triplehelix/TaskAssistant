@@ -5,7 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -40,10 +39,9 @@ public class GetSchedule extends ScheduleRequestHandler {
         Schedule schedule = new Schedule();
         int errorCode = 0;
         String json="";
-        Gson gson=getCustomGson();
         try {
             json = request.getParameter("params");
-            schedule=gson.fromJson(json, Schedule.class);
+            schedule=(Schedule) getMyObject(json, schedule);
             schedule=scheduleRepository.get(schedule);
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an GetSchedule  Request: {}.", json, b);

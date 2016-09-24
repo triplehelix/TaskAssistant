@@ -47,12 +47,11 @@ public class DeleteSchedule extends ScheduleRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         int errorCode = 0;
-        Schedule schedule;
+        Schedule schedule=new Schedule();
         String json="";
-        Gson gson=getCustomGson();
         try {
             json = request.getParameter("params");
-            schedule=gson.fromJson(json, Schedule.class);
+            schedule=(Schedule) getMyObject(json, schedule);
             schedule=scheduleRepository.get(schedule);
 
             ArrayList<Category> updatedCategories=getCleanedCategories(schedule);

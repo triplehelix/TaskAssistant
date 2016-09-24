@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.TaskList;
-import api.v1.repo.TaskListRepository;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;

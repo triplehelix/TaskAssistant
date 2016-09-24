@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.CategoryRequestHandler;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -39,11 +38,10 @@ public class GetCategory extends CategoryRequestHandler {
 		String errorMsg = "no error";
 		Category category=new Category();
 		int errorCode = 0;
-		Gson gson=new Gson();
 		String json="";
 		try {
 			json = request.getParameter("params");
-			category= gson.fromJson(json, Category.class);
+			category= (Category) getMyObject(json, category);
 		    category=categoryRepository.get(category);
 		} catch (BusinessException b) {
 			LOGGER.error("An error occurred while handling an GetCategory  Request: {}.", json, b);

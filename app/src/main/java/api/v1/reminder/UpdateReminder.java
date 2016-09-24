@@ -42,19 +42,14 @@ public class UpdateReminder extends TaskRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        Reminder clientReminder;
+        Reminder clientReminder=new Reminder();
         Reminder serverReminder;
         String json="";
-        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        Gson gson = new GsonBuilder().setDateFormat(format).create();
-
         int errorCode = 0;
         try {
             json = request.getParameter("params");
             //Create and validate the client reminder.
-            LOGGER.debug("Create and validate the client reminder.");
-
-            clientReminder=gson.fromJson(json, Reminder.class);
+            clientReminder=(Reminder) getMyObject(json, clientReminder);
             verifyTaskExists(clientReminder.getTaskId());
 
             // Clean references to the current reminder using the serverReminder:

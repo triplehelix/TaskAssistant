@@ -43,29 +43,22 @@ public class GetTasks extends TaskListRequestHandler {
         TaskList taskList = new TaskList();
         ArrayList<Task> listOfTasks;
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
+            json = request.getParameter("params");
+            taskList=(TaskList) getMyObject(json, taskList);
             taskList=taskListRepository.get(taskList);
             //TaskRepository takes a valid TaskList and returns an ArrayList of corresponding tasks.
             listOfTasks=taskRepository.getListOfTasks(taskList);
-            /*
-             * List<String> foo = new ArrayList<String>();
-             * foo.add("A");
-             * foo.add("B");
-             * foo.add("C");
-             *
-             * String json = new Gson().toJson(foo );
-            */
+
             listOfTasksAsJson=new Gson().toJson(listOfTasks);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an GetTaskList  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an GetTaskList  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an GetTaskList Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an GetTaskList Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

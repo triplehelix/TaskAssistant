@@ -73,15 +73,15 @@ required for all post, get, delete and put requests.
 ***** Does not work.
 ** TBD
 
-****** 8     ../app/src/main/java/api//v1/category/DeleteCategory.java
-****** 8     ../app/src/main/java/api//v1/category/UpdateCategory.java
-****** 16    ../app/src/main/java/api//v1/category/AddCategory.java
-****** 8     ../app/src/main/java/api//v1/category/GetCategory.java
+******* 8     ../app/src/main/java/api//v1/category/DeleteCategory.java
+******* 8     ../app/src/main/java/api//v1/category/UpdateCategory.java
+******* 16    ../app/src/main/java/api//v1/category/AddCategory.java
+******* 8     ../app/src/main/java/api//v1/category/GetCategory.java
    
-****** 8     ../app/src/main/java/api//v1/schedule/DeleteSchedule.java
-****** 8     ../app/src/main/java/api//v1/schedule/UpdateSchedule.java
-****** 8     ../app/src/main/java/api//v1/schedule/AddSchedule.java
-****** 8     ../app/src/main/java/api//v1/schedule/GetSchedule.java
+******* 8     ../app/src/main/java/api//v1/schedule/DeleteSchedule.java
+******* 8     ../app/src/main/java/api//v1/schedule/UpdateSchedule.java
+******* 8     ../app/src/main/java/api//v1/schedule/AddSchedule.java
+******* 8     ../app/src/main/java/api//v1/schedule/GetSchedule.java
    
 ******* 8     ../app/src/main/java/api//v1/reminder/DeleteReminder.java
 ******* 8     ../app/src/main/java/api//v1/reminder/UpdateReminder.java
@@ -90,12 +90,12 @@ required for all post, get, delete and put requests.
 
 ******* 8     ../app/src/main/java/api//v1/taskList/DeleteTaskList.java
 ***** 8     ../app/src/main/java/api//v1/taskList/UpdateTaskList.java
-***** 8     ../app/src/main/java/api//v1/taskList/AddTaskList.java
+******* 8     ../app/src/main/java/api//v1/taskList/AddTaskList.java
 ******* 8     ../app/src/main/java/api//v1/taskList/GetTaskList.java
 ******* 8     ../app/src/main/java/api//v1/taskList/GetTasks.java
- 
-****** 8     ../app/src/main/java/api//v1/task/AddTask.java
-****** 8     ../app/src/main/java/api//v1/task/DeleteTask.java
-****** 8     ../app/src/main/java/api//v1/task/UpdateTask.java
-****** 8     ../app/src/main/java/api//v1/task/GetTask.java
+
+******* 8     ../app/src/main/java/api//v1/task/DeleteTask.java
+******* 8     ../app/src/main/java/api//v1/task/UpdateTask.java
+******* 8     ../app/src/main/java/api//v1/task/AddTask.java
+******* 8     ../app/src/main/java/api//v1/task/GetTask.java
 

@@ -9,14 +9,14 @@ import api.v1.error.CriticalException;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.TaskList;
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.TaskRequestHandler;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import api.v1.model.Task;
@@ -43,16 +43,13 @@ public class DeleteTask extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         int errorCode = 0;
-        Task task;
+        Task task=new Task();
         String json="";
-        Gson gson=getCustomGson();
         try {
             json = request.getParameter("params");
-            task=gson.fromJson(json, Task.class);
+            task=(Task) getMyObject(json, task);
             task=taskRepository.get(task);
-            LOGGER.debug("This Task specifies the TaskList with the ID: {}", task.getTaskListId());
             TaskList taskList=getCleanedTaskList(task);
-            LOGGER.debug("Here is the completed TaskList as returned by getCleanedTaskList(Task): {}", taskList.toJson());
             ArrayList<Category> updatedCategories=getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(task);
 

@@ -94,8 +94,8 @@ public class AddScheduleTest extends ScheduleApiHelper {
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(validSchedules))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
-        errorSchedules.add("0`1`2016-02-31T18:00:00.123Z`2016-02-31T19:00:00.123Z`DAILY   `[]`[]"); //Invalid date.
-        errorSchedules.add("1`1`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`SUNDAYS `[]`[]"); //Invalid repeat type. 
+        //errorSchedules.add("0`1`2016-02-31T18:00:00.123Z`2016-02-31T19:00:00.123Z`DAILY   `[]`[]"); //Invalid date.
+        //errorSchedules.add("1`1`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`SUNDAYS `[]`[]"); //Invalid repeat type.
         errorSchedules.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[0]`[1]");  //Not permitted to access this Category.
         errorSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6]`[0]");  //Not permitted to access this Task.
         errorSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[67]`[]");  //Task DNE.

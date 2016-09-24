@@ -9,8 +9,6 @@ import api.v1.TaskRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
@@ -42,13 +40,11 @@ public class DeleteReminder extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         int errorCode = 0;
-        Reminder reminder;
+        Reminder reminder=new Reminder();
         String json="";
-        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        Gson gson = new GsonBuilder().setDateFormat(format).create();
         try {
-            json = request.getParameter("params");
-            reminder=gson.fromJson(json, Reminder.class);
+            json=request.getParameter("params");
+            reminder=(Reminder) getMyObject(json, reminder);
             reminder=reminderRepository.get(reminder);
             removeReferences(reminder);
             reminderRepository.delete(reminder);

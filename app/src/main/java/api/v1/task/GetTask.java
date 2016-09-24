@@ -42,10 +42,9 @@ public class GetTask extends TaskRequestHandler {
 
         Task task = new Task();
         String json="";
-        Gson gson=getCustomGson();
         try {
             json=request.getParameter("params");
-            task=gson.fromJson(json, Task.class);
+            task=(Task) getMyObject(json, Task.class);
             task=taskRepository.get(task);
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an GetTask Request: {}.", json, b);

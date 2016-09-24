@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.CategoryRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
-import api.v1.error.Error;
 import api.v1.error.SystemException;
 import api.v1.model.Schedule;
 import api.v1.model.Task;
 import api.v1.model.User;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
@@ -46,12 +44,11 @@ public class DeleteCategory extends CategoryRequestHandler {
 		boolean error = false;
 		String errorMsg = "no error";
 		int errorCode = 0;
-        Category category;
-		Gson gson=new Gson();
+        Category category=new Category();
 		String json="";
 		try {
 		    json = request.getParameter("params");
-            category=gson.fromJson(json, Category.class);
+            category=(Category) getMyObject(json, category);
             category=categoryRepository.get(category);
 
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(category);

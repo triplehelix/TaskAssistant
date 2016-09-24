@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.TaskRequestHandler;
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -40,12 +38,10 @@ public class GetReminder extends TaskRequestHandler {
         String errorMsg = "no error";
         Reminder reminder = new Reminder();
         String json="";
-        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        Gson gson = new GsonBuilder().setDateFormat(format).create();
         int errorCode = 0;
         try {
             json = request.getParameter("params");
-            reminder=gson.fromJson(json, Reminder.class);
+            reminder=(Reminder) getMyObject(json, reminder);
             reminder=reminderRepository.get(reminder);
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an GetReminder  Request: {}.", json, b);

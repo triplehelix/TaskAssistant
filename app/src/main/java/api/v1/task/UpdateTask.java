@@ -9,7 +9,6 @@ import api.v1.error.CriticalException;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.TaskList;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -42,13 +41,13 @@ public class UpdateTask extends TaskRequestHandler {
         String errorMsg = "no error";
 
         int errorCode = 0;
-        Task clientTask, serverTask;
+        Task clientTask=new Task();
+        Task serverTask;
         String json="";
-        Gson gson=getCustomGson();
         try {
             //Create a basic task object:
             json = request.getParameter("params");
-            clientTask=gson.fromJson(json, Task.class);
+            clientTask=(Task) getMyObject(json, clientTask);
 	        serverTask=taskRepository.get(clientTask);
             // Fetch an updated TaskList.
 
@@ -56,7 +55,6 @@ public class UpdateTask extends TaskRequestHandler {
             //Verify privileges to modify Schedules and Categories.
             verifySchedulePrivileges(taskList.getUserId(), clientTask.getScheduleIds());
             verifyCategoryPrivileges(taskList.getUserId(), clientTask.getCategoryIds());
-
 
 	        // Clean the serverTask
 			cleanReferences(serverTask);

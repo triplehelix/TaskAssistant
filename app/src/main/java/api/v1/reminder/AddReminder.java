@@ -1,7 +1,6 @@
 package api.v1.reminder;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import api.v1.TaskRequestHandler;
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 
 import api.v1.error.BusinessException;
@@ -47,12 +44,9 @@ public class AddReminder extends TaskRequestHandler {
         int errorCode = 0;
         Reminder reminder = new Reminder();
         String json="";
-        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-        Gson gson = new GsonBuilder().setDateFormat(format).create();
-        // Step 1: parse taskId and reminderDate.
         try{
             json=request.getParameter("params");
-            reminder=gson.fromJson(json, Reminder.class);
+            reminder=(Reminder) getMyObject(json, reminder);
 
             //Verify the existence of the tasks prior to updating anything.
             verifyTaskExists(reminder.getTaskId());

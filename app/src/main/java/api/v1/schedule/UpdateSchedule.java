@@ -9,7 +9,6 @@ import api.v1.error.CriticalException;
 import api.v1.model.Category;
 import api.v1.model.Task;
 import api.v1.model.User;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -43,13 +42,13 @@ public class UpdateSchedule extends ScheduleRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        Schedule clientSchedule, serverSchedule;
+        Schedule clientSchedule = new Schedule();
+        Schedule serverSchedule;
         int errorCode = 0;
-        Gson gson=getCustomGson();
         String json="";
         try {
             json = request.getParameter("params");
-            clientSchedule=gson.fromJson(json, Schedule.class);
+            clientSchedule=(Schedule) getMyObject(json, clientSchedule);
             // Verify privileges.
 
             verifyCategoryPrivileges(clientSchedule.getUserId(), clientSchedule.getCategoryIds());

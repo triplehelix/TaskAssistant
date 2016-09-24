@@ -9,7 +9,6 @@ import api.v1.CategoryRequestHandler;
 import api.v1.model.Schedule;
 import api.v1.model.Task;
 import api.v1.model.User;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.CriticalException;
 import api.v1.error.BusinessException;
@@ -44,15 +43,14 @@ public class UpdateCategory extends CategoryRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        Category clientCategory;
+        Category clientCategory=new Category();
         Category serverCategory;
         int errorCode = 0;
-        Gson gson=new Gson();
         String json="";
         try {
             //Create a Category object.
             json = request.getParameter("params");
-            clientCategory=gson.fromJson(json, Category.class);
+            clientCategory=(Category) getMyObject(json, clientCategory);
             if(clientCategory.getName()==null || clientCategory.getName().equals(""))
                 throw new BusinessException("The Category name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
 

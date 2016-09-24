@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.model.Category;
 import api.v1.model.Task;
 import api.v1.model.User;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -45,10 +44,9 @@ public class AddSchedule extends ScheduleRequestHandler {
         Schedule schedule = new Schedule();
         int errorCode = 0;
         String json="";
-        Gson gson=getCustomGson();
         try {
             json = request.getParameter("params");
-	        schedule=gson.fromJson(json, Schedule.class);
+	        schedule= (Schedule) getMyObject(json, schedule);
             // Verify privileges.
             verifyTaskPrivileges(schedule.getUserId(), schedule.getTaskIds());
             verifyCategoryPrivileges(schedule.getUserId(), schedule.getCategoryIds());
