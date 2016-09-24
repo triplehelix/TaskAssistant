@@ -38,23 +38,27 @@ public class UpdateTaskList extends TaskListRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         TaskList taskList = new TaskList();
+        TaskList clientTaskList = new TaskList();
+        TaskList serverTaskList = new TaskList();
         int errorCode = 0;
         JSONObject jsonRequest = new JSONObject();
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            taskList.setId(Integer.parseInt((String)jsonRequest.get("id")));
-            taskList=taskListRepository.get(taskList);
+            json=request.getParameter("params");
+            clientTaskList=(TaskList)getMyObject(json, taskList);
+            serverTaskList=taskListRepository.get(clientTaskList);
+
             taskList.setName((String)jsonRequest.get("name"));
             taskList.setDescription((String)jsonRequest.get("description"));
             taskListRepository.update(taskList);
 
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an PutTaskList  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an PutTaskList  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an PutTaskList Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an PutTaskList Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

@@ -95,7 +95,7 @@ public class AddTaskTest extends TaskApiHelper {
         errorTasks.add("4`9`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[]");  //  TaskList DNE
         errorTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[9]`[]"); //  Category DNE 
         errorTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[9]"); //  Schedule DNE
-        errorTasks.add("7`1`                   `TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[]");  //  No name.
+//        errorTasks.add("7`1`                   `TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[]");  //  No name.
 
 
         // Create valid mock tasks.

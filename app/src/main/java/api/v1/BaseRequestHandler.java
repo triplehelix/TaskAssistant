@@ -170,4 +170,15 @@ public class BaseRequestHandler extends HttpServlet{
         Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT_KEY).create();
         return gson;
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+     protected Object getMyObject(String json, Object obj){
+         Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT_KEY).create();
+         obj=gson.fromJson(json, obj.getClass());
+         return obj;
+    }
 }

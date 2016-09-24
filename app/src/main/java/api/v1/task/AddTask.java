@@ -46,12 +46,9 @@ public class AddTask extends TaskRequestHandler {
         int errorCode = 0;
         Task task = new Task();
         String json="";
-        Gson gson=getCustomGson();
         try {
-            //Create a basic task object:
             json=request.getParameter("params");
-            LOGGER.debug("");
-            task=gson.fromJson(json, Task.class);
+            task=(Task)getMyObject(json, task);
 
             task=taskRepository.add(task);
             // Fetch an updated TaskList.

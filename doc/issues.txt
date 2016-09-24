@@ -37,9 +37,13 @@
 10. Objects should not implement ArrayLists of other object Ids, they should be List
     objects instead.
 
-11. Enum type errors are not caught by Gson. 
-
+11. Enum type errors are not caught by Gson.
+     
 12. Boolean errors arn't caught either.
+     
+13. Objects that need names no longer errors when a null value is given.
+
+14. Number format exceptions are also missed.
 *************************************************************************************
 
 Mike likes a program called: http://todotxt.com/
