@@ -110,14 +110,15 @@ public class AuthRequestHandler extends BaseRequestHandler{
         if(scheduleIds==null || scheduleIds.size()==0)
             return;
         Schedule schedule=new Schedule();
-        for(int i: scheduleIds)
+        for(int i: scheduleIds) {
             schedule.setId(i);
-        schedule=scheduleRepository.get(schedule);
-        if (schedule.getUserId()==userId)
-            return;
-        else{
-            String message= "This schedule cannot be accessed by the specified user. ";
-            throwObjectOwnershipError(userId, message);
+            schedule = scheduleRepository.get(schedule);
+            if (schedule.getUserId() == userId)
+                return;
+            else {
+                String message = "This schedule cannot be accessed by the specified user. ";
+                throwObjectOwnershipError(userId, message);
+            }
         }
     }
 
