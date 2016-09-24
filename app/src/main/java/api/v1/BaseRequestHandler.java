@@ -67,7 +67,8 @@ public class BaseRequestHandler extends HttpServlet{
     }
 
     /**
-     * Accept a 
+     * Accept a json String and an instance of the Object being made.  Return
+     * an instance of Object created from the Json String.
      * @param obj
      * @return
      */
