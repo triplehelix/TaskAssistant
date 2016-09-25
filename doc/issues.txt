@@ -1,55 +1,40 @@
 *************************************************************************************
-0.  The permissions verification is broken. This needs to be fixed see the methods:
-    verifySchedulePrivileges and verifyCategoryPrivileges in the AuthRequestHandler 
-    class.
-    
-1.  Presently, no API can indicate what an added object's new id is. The repository
-    "add(Object)" function ought to return the new object, and this must be done for 
-    all of the APIs. 
-    
-2.  All model objects must implement an addObject(Object) method that ensures that a 
+0.  All model objects must implement an addObject(Object) method that ensures that a 
     given reference cannot be placed in the Array of IDs more than once. This needs 
     to be tested by the model unit tests as well.
     
-3.  Presently it is not possible to move a Task from one TaskList to another.
+1.  Presently it is not possible to move a Task from one TaskList to another.
 
-4.  Updates ought to have a clean-up method similar those present in Add APIs. It 
+2.  Updates ought to have a clean-up method similar those present in Add APIs. It 
     should update the repository with the serverObjects used to to map all of the
     objects that need to be cleaned and modified.
     
-5.  Most unit tests do not test the point back error where an inconsistency in the 
-    database is not detected because the API assumes the internal data is never
-    corrupted.
+3.  An api should be made that verifies a User's object tree is valid.
     
-6.  Database sanitization. When someone creates a "note" or names a task, how do we 
+4.  Database sanitization. When someone creates a "note" or names a task, how do we 
     make sure the database is not corrupted?
 
-7.  I would like to see a UI where TaskLists are generated on the fly. This way a 
-    person can create a task list by selecting and de-selecting categories. Such a 
-    TaskList should be called a "todo" list? At present, this api does not really 
-    support that.
+5.  DeleteTaskList does not clean task reminders. 
 
-8.  Does the DeleteTaskList class clean existing reminders?
-
-9.  The new time stamp format does not automatically throw exceptions for malformed
+6.  The new time stamp format does not automatically throw exceptions for malformed
     dates. A routine for verifying dates needs to be added to each API.
 
-10. Objects should not implement ArrayLists of other object Ids, they should be List
+7.  Objects should not implement ArrayLists of other object Ids, they should be List
     objects instead.
 
-11. Enum type errors are not caught by Gson.
+8.  Enum type errors are not caught by Gson.
      
-12. Boolean errors arn't caught either.
+9.  Boolean errors arn't caught either.
      
-13. Objects that need names no longer errors when a null value is given.
+10. Objects that need names no longer errors when a null value is given.
 
-14. Number format exceptions are also missed.
+11. Number format exceptions are also missed.
 
-15. The UpdateTaskList API should delete Tasks that are de-referenced. 
+12. The UpdateTaskList API should delete Tasks that are de-referenced. 
 
-16. Null timestamps are unhandled exceptions.
+13. Null timestamps are unhandled exceptions.
 
-17. All APIs still use JSONObject to create a response.
+14. All APIs still use JSONObject to create a response.
 *************************************************************************************
 
 Mike likes a program called: http://todotxt.com/
@@ -68,34 +53,5 @@ Logins require user name and password. The response is a token, and tokens are
 required for all post, get, delete and put requests.
 
 ***********************************************************************************
-******* Works and implements Gson.
-******  Runs but not verified as converted to Gson.
-***** Does not work.
-** TBD
 
-******* 8     ../app/src/main/java/api//v1/category/DeleteCategory.java
-******* 8     ../app/src/main/java/api//v1/category/UpdateCategory.java
-******* 16    ../app/src/main/java/api//v1/category/AddCategory.java
-******* 8     ../app/src/main/java/api//v1/category/GetCategory.java
-   
-******* 8     ../app/src/main/java/api//v1/schedule/DeleteSchedule.java
-******* 8     ../app/src/main/java/api//v1/schedule/UpdateSchedule.java
-******* 8     ../app/src/main/java/api//v1/schedule/AddSchedule.java
-******* 8     ../app/src/main/java/api//v1/schedule/GetSchedule.java
-  
-****** 8     ../app/src/main/java/api//v1/reminder/DeleteReminder.java
-****** 8     ../app/src/main/java/api//v1/reminder/UpdateReminder.java
-****** 8     ../app/src/main/java/api//v1/reminder/AddReminder.java
-****** 8     ../app/src/main/java/api//v1/reminder/GetReminder.java
-
-******* 8     ../app/src/main/java/api//v1/taskList/DeleteTaskList.java
-***** 8     ../app/src/main/java/api//v1/taskList/UpdateTaskList.java
-******* 8     ../app/src/main/java/api//v1/taskList/AddTaskList.java
-******* 8     ../app/src/main/java/api//v1/taskList/GetTaskList.java
-******* 8     ../app/src/main/java/api//v1/taskList/GetTasks.java
-
-******* 8     ../app/src/main/java/api//v1/task/DeleteTask.java
-******* 8     ../app/src/main/java/api//v1/task/UpdateTask.java
-******* 8     ../app/src/main/java/api//v1/task/AddTask.java
-******* 8     ../app/src/main/java/api//v1/task/GetTask.java
-
+20160924 merge: 9d4375cd65824de2f3e21387b250a043c8e68d97
