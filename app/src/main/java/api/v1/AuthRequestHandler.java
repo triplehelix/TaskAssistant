@@ -102,7 +102,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
     /**
      * Verify that the User with the specified ID has permission to access these
      * schedules.
-     * TODO This method is aparantly fixed. Unlike the verifyCategoryPrivileges was!
+     *
      * @param userId
      * @param scheduleIds
      */
@@ -127,7 +127,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
     /**
      * Verify that the User with the specified ID has permission to access these
      * schedules.
-     *  TODO This method is broken just like the verifySchedulePrivileges was!
+     *
      * @param userId
      * @param categoryIds
      */
