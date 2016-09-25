@@ -4,6 +4,7 @@ import api.v1.error.Error;
 import api.v1.error.BusinessException;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ public class Schedule {
     public Schedule(){
         this.id=-1;
         this.userId=-1;
+        this.repeatType=RepeatTypes.NONE;
     }
     
     public int getId() {
@@ -72,6 +74,10 @@ public class Schedule {
         }
     }
 
+    public void setRepeatType(RepeatTypes repeatType){
+	this.repeatType=repeatType;
+    }
+
     public ArrayList<Integer> getTaskIds() {
 
         return taskIds;
@@ -108,7 +114,9 @@ public class Schedule {
      * @return
      */
     public String toJson(){
-        Gson gson=new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
+        //Gson gson=new Gson();
         return gson.toJson(this);
     }
 
@@ -148,7 +156,7 @@ public class Schedule {
         this.userId=schedule.getUserId();
         this.startDate=new Date(schedule.getStartDate().getTime());
         this.endDate=new Date(schedule.getEndDate().getTime());
-        this.repeatType=RepeatTypes.valueOf(schedule.getRepeatType().toString());
+        this.repeatType=schedule.getRepeatType(); //Pretty sure this is a deep copy.
         this.categoryIds=ModelHelper.copyIntegerArrayList(schedule.getCategoryIds());
         this.taskIds= ModelHelper.copyIntegerArrayList(schedule.getTaskIds());
     }

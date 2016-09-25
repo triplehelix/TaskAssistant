@@ -41,26 +41,14 @@ public class UpdateTask extends TaskRequestHandler {
         String errorMsg = "no error";
 
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
-        Task clientTask = new Task();
-	    Task serverTask=null;
+        Task clientTask=new Task();
+        Task serverTask;
+        String json="";
         try {
             //Create a basic task object:
-            jsonRequest = parseRequest(request.getParameter("params"));
-            clientTask.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-            clientTask.setTaskListId(parseJsonIntAsInt((String)jsonRequest.get("taskListId")));
-            clientTask.setName((String)jsonRequest.get("name"));
-            clientTask.setImportant(parseJsonBooleanAsBoolean((String)jsonRequest.get("important")));
-            clientTask.setNote((String)jsonRequest.get("note"));
-            clientTask.setEstimatedTime(parseJsonLongAsLong((String)jsonRequest.get("estimatedTime")));
-            clientTask.setInvestedTime(parseJsonLongAsLong((String)jsonRequest.get("investedTime")));
-            clientTask.setUrgent(parseJsonBooleanAsBoolean((String)jsonRequest.get("urgent")));
-            clientTask.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
-            clientTask.setStatus((String)jsonRequest.get("status"));
-            clientTask.setScheduleIds(toIntegerArrayList((String)jsonRequest.get("scheduleIds")));
-            clientTask.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
-	        serverTask=taskRepository.get(clientTask);
-	    
+            json = request.getParameter("params");
+            clientTask=(Task) getMyObject(json, clientTask);
+            serverTask=taskRepository.get(clientTask);
             // Fetch an updated TaskList.
 
             TaskList taskList=getUpdatedTaskList(clientTask);
@@ -68,22 +56,23 @@ public class UpdateTask extends TaskRequestHandler {
             verifySchedulePrivileges(taskList.getUserId(), clientTask.getScheduleIds());
             verifyCategoryPrivileges(taskList.getUserId(), clientTask.getCategoryIds());
 
+            // Clean the serverTask
+            cleanReferences(serverTask);
 
-	    // Clean the serverTask
-			cleanReferences(serverTask);
+            //Update objects with the new Task.
             updateReferences(clientTask);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling an UpdateTask Request: {}.", json, c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;
@@ -100,7 +89,7 @@ public class UpdateTask extends TaskRequestHandler {
 
     private void updateReferences(Task task) throws BusinessException, SystemException, CriticalException{
         TaskList taskList=getUpdatedTaskList(task);
-    	ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
+        ArrayList<Schedule> updatedSchedules=getUpdatedSchedules(task);
         ArrayList<Category> updatedCategories=getUpdatedCategories(task);
 
         taskListRepository.update(taskList);

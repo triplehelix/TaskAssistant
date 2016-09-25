@@ -37,21 +37,19 @@ public class GetReminder extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         Reminder reminder = new Reminder();
+        String json="";
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            Integer reminderId =  parseJsonIntAsInt((String)jsonRequest.get("id"));
-            reminder.setId(reminderId);
-
-        reminderRepository.get(reminder);
+            json = request.getParameter("params");
+            reminder=(Reminder) getMyObject(json, reminder);
+            reminder=reminderRepository.get(reminder);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an GetReminder  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an GetReminder  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an GetReminder Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an GetReminder Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -62,6 +60,7 @@ public class GetReminder extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("Reminder", reminder.toJson());
         }
         sendMessage(jsonResponse, response);
     }

@@ -43,20 +43,15 @@ public class AddSchedule extends ScheduleRequestHandler {
         String errorMsg = "no error";
         Schedule schedule = new Schedule();
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            schedule.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
-            schedule.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
-            schedule.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
-            schedule.setStartDate(parseJsonDateAsDate((String)jsonRequest.get("startDate")));
-            schedule.setEndDate(parseJsonDateAsDate((String)jsonRequest.get("endDate")));
-            schedule.setRepeatType(((String)jsonRequest.get("repeatType")).trim());
+            json = request.getParameter("params");
+	        schedule= (Schedule) getMyObject(json, schedule);
             // Verify privileges.
             verifyTaskPrivileges(schedule.getUserId(), schedule.getTaskIds());
             verifyCategoryPrivileges(schedule.getUserId(), schedule.getCategoryIds());
             //Place completed category in the repository.
-            scheduleRepository.add(schedule);
+            schedule=scheduleRepository.add(schedule);
 
             ArrayList<Task> updatedTasks=getUpdatedTasks(schedule);
             ArrayList<Category> updatedCategories=getUpdatedCategories(schedule);
@@ -69,12 +64,12 @@ public class AddSchedule extends ScheduleRequestHandler {
             userRepository.update(updatedUser);
 
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an AddSchedule  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddSchedule  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an AddSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddSchedule Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -86,6 +81,7 @@ public class AddSchedule extends ScheduleRequestHandler {
             cleanUp(schedule);
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("Schedule", schedule.toJson());
         }
         sendMessage(jsonResponse, response);
     }

@@ -12,6 +12,7 @@ import api.v1.model.User;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
+import api.v1.error.Error;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,21 +43,22 @@ public class AddCategory extends CategoryRequestHandler {
         String errorMsg = "no error";
         Category category = new Category();
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        boolean cleanCategory=false;
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-
-            category.setName(((String)jsonRequest.get("name")).trim());
-            category.setDescription(((String)jsonRequest.get("description")).trim());
-            category.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
-            category.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
-            category.setScheduleIds(toIntegerArrayList((String)jsonRequest.get("scheduleIds")));
+            json=request.getParameter("params");
+            category=(Category) getMyObject(json, category);
+            if(category.getName()==null || category.getName().equals(""))
+                throw new BusinessException("The Category name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
 
             // Verify privileges.
             verifyTaskPrivileges(category.getUserId(), category.getTaskIds());
             verifySchedulePrivileges(category.getUserId(), category.getScheduleIds());
-            //Place completed category in the repository.
+
+            /* Place completed category in the repository and flag that the category
+             * has been added..*/
             category=categoryRepository.add(category);
+            cleanCategory=true;
 
             // Create updated Tasks, Schedules and User:
             ArrayList<Task> updatedTasks=getUpdatedTasks(category);
@@ -70,12 +72,12 @@ public class AddCategory extends CategoryRequestHandler {
                 scheduleRepository.update(schedule);
             userRepository.update(updatedUser);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an AddCategory  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddCategory  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an AddCategory Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddCategory Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -84,7 +86,8 @@ public class AddCategory extends CategoryRequestHandler {
         JSONObject jsonResponse = new JSONObject();
         if (error) {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
-            cleanUp(category);
+            if(cleanCategory)
+                cleanUp(category);
         } else {
             jsonResponse.put("success", true);
             jsonResponse.put("Category", category.toJson());

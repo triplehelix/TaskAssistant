@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.CategoryRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
-import api.v1.error.Error;
 import api.v1.error.SystemException;
 import api.v1.model.Schedule;
 import api.v1.model.Task;
 import api.v1.model.User;
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
@@ -46,11 +44,11 @@ public class DeleteCategory extends CategoryRequestHandler {
 		boolean error = false;
 		String errorMsg = "no error";
 		int errorCode = 0;
-        Category category = new Category();
-		JSONObject jsonRequest = new JSONObject();
+        Category category=new Category();
+		String json="";
 		try {
-		    jsonRequest = parseRequest(request.getParameter("params"));
-            category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+		    json = request.getParameter("params");
+            category=(Category) getMyObject(json, category);
             category=categoryRepository.get(category);
 
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(category);
@@ -65,17 +63,17 @@ public class DeleteCategory extends CategoryRequestHandler {
             userRepository.update(updatedUser);
             categoryRepository.delete(category);
 		} catch (BusinessException b) {
-			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), b);
+			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", json, b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", json, s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
 		} catch (CriticalException c) {
-            LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling a DeleteCategory Request: {}.", json, c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

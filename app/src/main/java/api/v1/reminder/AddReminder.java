@@ -1,7 +1,6 @@
 package api.v1.reminder;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,26 +42,23 @@ public class AddReminder extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
         Reminder reminder = new Reminder();
-        // Step 1: parse taskId and reminderDate.
+        String json="";
         try{
-            jsonRequest = parseRequest(request.getParameter("params"));
-            Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminderTime"));
-            Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("taskId"));
-            reminder.setTaskId(taskId);
+            json=request.getParameter("params");
+            reminder=(Reminder) getMyObject(json, reminder);
+
             //Verify the existence of the tasks prior to updating anything.
             verifyTaskExists(reminder.getTaskId());
             reminder=reminderRepository.add(reminder);
             addReminderToTask(reminder);
-            reminder.setReminderTime(reminderDate);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTask Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -73,6 +69,7 @@ public class AddReminder extends TaskRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("Reminder", reminder.toJson());
         }
         sendMessage(jsonResponse, response);
     }

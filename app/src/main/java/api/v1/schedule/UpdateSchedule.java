@@ -43,18 +43,12 @@ public class UpdateSchedule extends ScheduleRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         Schedule clientSchedule = new Schedule();
-        Schedule serverSchedule=null;
+        Schedule serverSchedule;
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            clientSchedule.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-            clientSchedule.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
-            clientSchedule.setTaskIds(toIntegerArrayList((String)jsonRequest.get("taskIds")));
-            clientSchedule.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
-            clientSchedule.setStartDate(parseJsonDateAsDate((String)jsonRequest.get("startDate")));
-            clientSchedule.setEndDate(parseJsonDateAsDate((String)jsonRequest.get("endDate")));
-            clientSchedule.setRepeatType(((String)jsonRequest.get("repeatType")).trim());
+            json = request.getParameter("params");
+            clientSchedule=(Schedule) getMyObject(json, clientSchedule);
             // Verify privileges.
 
             verifyCategoryPrivileges(clientSchedule.getUserId(), clientSchedule.getCategoryIds());
@@ -65,17 +59,17 @@ public class UpdateSchedule extends ScheduleRequestHandler {
             cleanReferences(serverSchedule);
             updateReferences(clientSchedule);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling an UpdateSchedule Request: {}.", json, c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

@@ -37,20 +37,20 @@ public class GetReminderTest extends ReminderApiHelper {
         reminderRepository=getReminderInstance.getReminderRepository();
 
         validReminders=new ArrayList<String>();
-        validReminders.add("0`1`2020-05-28_08:31:01");
-        validReminders.add("1`1`2020-05-31_00:00:00");
-        validReminders.add("2`2`2016-06-09_18:30:00");
-        validReminders.add("3`2`2016-06-12_08:00:00");
-        validReminders.add("4`3`2016-06-09_19:00:00");
-        validReminders.add("5`4`2020-05-31_00:00:00");
+        validReminders.add("0`1`2020-05-28T08:31:01.123Z");
+        validReminders.add("1`1`2020-05-31T00:00:00.123Z");
+        validReminders.add("2`2`2016-06-09T18:30:00.123Z");
+        validReminders.add("3`2`2016-06-12T08:00:00.123Z");
+        validReminders.add("4`3`2016-06-09T19:00:00.123Z");
+        validReminders.add("5`4`2020-05-31T00:00:00.123Z");
 
         errorReminders=new ArrayList<String>();
-        errorReminders.add("-1`1`2020-05-28_08:31:01");
-        errorReminders.add("10`1`2020-05-31_00:00:00");
-        errorReminders.add("20`2`2016-06-09_18:30:00");
-        errorReminders.add("50`2`2016-06-12_08:00:00");
-        errorReminders.add("-4`3`2016-06-09_19:00:00");
-        errorReminders.add("6`4`2020-05-31_00:00:00");
+        errorReminders.add("-1`1`2020-05-28T08:31:01.123Z");
+        errorReminders.add("10`1`2020-05-31T00:00:00.123Z");
+        errorReminders.add("20`2`2016-06-09T18:30:00.123Z");
+        errorReminders.add("50`2`2016-06-12T08:00:00.123Z");
+        errorReminders.add("-4`3`2016-06-09T19:00:00.123Z");
+        errorReminders.add( "6`4`2020-05-31T00:00:00.123Z");
 
         // Populate the Reminder repository with valid Reminders.
         for(Reminder reminder: ReminderApiHelper.toReminders(validReminders))
@@ -75,6 +75,9 @@ public class GetReminderTest extends ReminderApiHelper {
             reminderRepository.delete(reminder);
         getReminderInstance = null;
         validRequestList = null;
+
+        verifyRepositoriesAreClean();
+        getReminderInstance=null;
     }
 
     /**

@@ -65,14 +65,14 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
         for(TaskList taskList: ScheduleApiHelper.toTaskLists(sampleTaskLists))
             taskListRepository.add(taskList);
 
-        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
-        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[0]");  //   [0]
-        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
-        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[1,2]");//   [1,2]
-        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3]
-        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[3]");  //   [3]
-        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
-        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW`[4,5]");//   [4,5]
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[0]");  //   [0]
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[0]");  //   [0]
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[1,2]");//   [1,2]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[3]");  //   [3]
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[3]");  //   [3]
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[4,5]");//   [4,5]
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.100Z`NEW`[4,5]");//   [4,5]
         for(Task task: ScheduleApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
 
@@ -85,30 +85,30 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
         for(Category category: ScheduleApiHelper.toCategories(sampleCategories))
             categoryRepository.add(category);
 
-                                                                            // Tasks Categories  
-        validSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[]");
-        validSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0,1,2]");
-        validSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[]");
-        validSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[]");
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[3,4,5]");
-        validSchedules.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[]");
+                                                                                      // Tasks Categories
+        validSchedules.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY `[0,1]`[]");
+        validSchedules.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[0,1,2]");  
+        validSchedules.add("2`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY `[2,3]`[]");
+        validSchedules.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[4,5]`[]");
+        validSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[3,4,5]");  
+        validSchedules.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[6,7]`[]");
         for(Schedule schedule: toSchedules(validSchedules))
             scheduleRepository.add(schedule);
-                                                                          // Tasks Categories  
-        validUpdates.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[3,2]`[]"); 
-        validUpdates.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[1,3]`[]"); 
-        validUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[1,0]`[]");
-        validUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[5,6]`[]");
-        validUpdates.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[5,6]`[]"); 
-        validUpdates.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[4,5]`[5]");       
+                                                                                    // Tasks Categories
+        validUpdates.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY `[3,2]`[]"); 
+        validUpdates.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY`[1,3]`[]"); 
+        validUpdates.add("2`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY `[1,0]`[]");
+        validUpdates.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[5,6]`[]");
+        validUpdates.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[5,6]`[]"); 
+        validUpdates.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[4,5]`[5]");       
 
-                                                                          // Tasks Categories  
-        errorUpdates.add("-1`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[]");
-        //errorUpdates.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0,1,2]");
-        //errorUpdates.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[]");
-        //errorUpdates.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[]");
-        //errorUpdates.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[3,4,5]");
-        //errorUpdates.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[]");
+                                                                                    // Tasks Categories
+        errorUpdates.add("-1`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY`[0,1]`[]");
+        //errorUpdates.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[0,1,7]"); //Category DNE
+        //errorUpdates.add("2`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY `[2,9]`[]");      //Task DNE
+        //errorUpdates.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[0,5]`[]");      //No permission to access Task.
+        //errorUpdates.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[0,4,5]"); //No permission to access Category.
+        //errorUpdates.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[0,7]`[]");      //User DNE
 
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(errorUpdates))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
@@ -137,6 +137,8 @@ public class UpdateScheduleTest extends ScheduleApiHelper {
         for(User user: toUsers(sampleUsers))
             userRepository.delete(user);
 
+        verifyRepositoriesAreClean();
+        updateScheduleInstance=null;
     }
 
     /**

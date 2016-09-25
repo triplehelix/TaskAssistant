@@ -1,18 +1,57 @@
+*************************************************************************************
+0.  All model objects must implement an addObject(Object) method that ensures that a 
+    given reference cannot be placed in the Array of IDs more than once. This needs 
+    to be tested by the model unit tests as well.
+    
+1.  Presently it is not possible to move a Task from one TaskList to another.
 
-1. Presently, no API can indicate what an added object's new id is. The repository 
-"add(Object)" function ought to return the new object, and this must be done for 
-all of the APIs. 
+2.  Updates ought to have a clean-up method similar those present in Add APIs. It 
+    should update the repository with the serverObjects used to to map all of the
+    objects that need to be cleaned and modified.
+    
+3.  An api should be made that verifies a User's object tree is valid.
+    
+4.  Database sanitization. When someone creates a "note" or names a task, how do we 
+    make sure the database is not corrupted?
 
-2. All model objects must implement an addObject(Object) method that ensures that
-a given reference cannot be placed in the Array of IDs more than once. This needs
-to be tested by the model unit tests as well.
+5.  DeleteTaskList does not clean task reminders. 
 
-3. Presently it is not possible to move a Task from one TaskList to another.
+6.  The new time stamp format does not automatically throw exceptions for malformed
+    dates. A routine for verifying dates needs to be added to each API.
 
-4. Updates ought to have a clean-up method similar those present in Add APIs. It 
-should update the repository with the serverObjects used to to map all of the
-objects that need to be cleaned and modified.
+7.  Objects should not implement ArrayLists of other object Ids, they should be List
+    objects instead.
 
-5. Most unit tests do not test the point back error where an inconsistency in the 
-database is not detected because the API assumes the internal data is never
-corrupted.
+8.  Enum type errors are not caught by Gson.
+     
+9.  Boolean errors arn't caught either.
+     
+10. Objects that need names no longer errors when a null value is given.
+
+11. Number format exceptions are also missed.
+
+12. The UpdateTaskList API should delete Tasks that are de-referenced. 
+
+13. Null timestamps are unhandled exceptions.
+
+14. All APIs still use JSONObject to create a response.
+*************************************************************************************
+
+Mike likes a program called: http://todotxt.com/
+
+Also, mike says that if something is low priority, but is really short, then the cost 
+of keeping it on the task list is too expensive to just leave in the task list. 
+Corilary- if the cost of making a decission is more than the difference between 
+decisions, then jsut flip a coin.
+ 
+*** Security ***
+Use "O"-auth to protect all of out APIs. There exists a philosophy that all get 
+requests are open, and everything else ought to be behind a token. This probably 
+sucks for our purposes however.
+
+Logins require user name and password. The response is a token, and tokens are 
+required for all post, get, delete and put requests.
+
+***********************************************************************************
+
+20160924 merge: 9d4375cd65824de2f3e21387b250a043c8e68d97

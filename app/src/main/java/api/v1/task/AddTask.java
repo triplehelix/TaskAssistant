@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import api.v1.model.Category;
 import api.v1.model.Schedule;
 import api.v1.model.TaskList;
-import api.v1.repo.TaskListRepository;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -43,23 +42,12 @@ public class AddTask extends TaskRequestHandler {
         String errorMsg = "no error";
 
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
         Task task = new Task();
+        String json="";
         try {
-            //Create a basic task object:
-            jsonRequest = parseRequest(request.getParameter("params"));
-            task.setTaskListId(parseJsonIntAsInt((String)jsonRequest.get("taskListId")));
-            task.setName((String)jsonRequest.get("name"));
-            task.setImportant(parseJsonBooleanAsBoolean((String)jsonRequest.get("important")));
-            task.setNote((String)jsonRequest.get("note"));
-            task.setEstimatedTime(parseJsonLongAsLong((String)jsonRequest.get("estimatedTime")));
-            task.setInvestedTime(parseJsonLongAsLong((String)jsonRequest.get("investedTime")));
-            task.setUrgent(parseJsonBooleanAsBoolean((String)jsonRequest.get("urgent")));
-            task.setDueDate(parseJsonDateAsDate((String)jsonRequest.get("dueDate")));
-            task.setStatus((String)jsonRequest.get("status"));
-            // Add an array of schedule and category ids.
-            task.setScheduleIds(toIntegerArrayList((String)jsonRequest.get("scheduleIds")));
-            task.setCategoryIds(toIntegerArrayList((String)jsonRequest.get("categoryIds")));
+            json=request.getParameter("params");
+            task=(Task)getMyObject(json, task);
+
             task=taskRepository.add(task);
             // Fetch an updated TaskList.
             TaskList taskList=getUpdatedTaskList(task);
@@ -78,12 +66,12 @@ public class AddTask extends TaskRequestHandler {
                 categoryRepository.update(category);
 
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTask  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an AddTask Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTask Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -95,6 +83,7 @@ public class AddTask extends TaskRequestHandler {
             cleanUp(task);
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("Task", task.toJson());
         }
         sendMessage(jsonResponse, response);
     }

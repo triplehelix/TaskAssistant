@@ -38,12 +38,10 @@ public class AddTaskList extends TaskListRequestHandler {
         String errorMsg = "no error";
         TaskList taskList = new TaskList();
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            taskList.setName((String)jsonRequest.get("name"));
-            taskList.setDescription((String)jsonRequest.get("description"));
-            taskList.setUserId(parseJsonIntAsInt((String)jsonRequest.get("userId")));
+            json=request.getParameter("params");
+            taskList=(TaskList)getMyObject(json, taskList);
 
             User user=new User();
             user.setId(taskList.getUserId());
@@ -53,12 +51,12 @@ public class AddTaskList extends TaskListRequestHandler {
             taskListRepository.add(taskList);
             userRepository.update(user);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an AddTaskList  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an AddTaskList  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an AddTaskList Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an AddTaskList Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
@@ -69,6 +67,7 @@ public class AddTaskList extends TaskListRequestHandler {
             jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
         } else {
             jsonResponse.put("success", true);
+            jsonResponse.put("TaskList", taskList.toJson());
         }
         sendMessage(jsonResponse, response);
     }

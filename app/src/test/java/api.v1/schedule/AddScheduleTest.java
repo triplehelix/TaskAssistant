@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -64,14 +65,14 @@ public class AddScheduleTest extends ScheduleApiHelper {
         for(TaskList taskList: ScheduleApiHelper.toTaskLists(sampleTaskLists))
             taskListRepository.add(taskList);
 
-        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [0]  
-        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [0]  
-        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [1,2]
-        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [1,2]
-        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [3]  
-        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [3]  
-        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [4,5] 
-        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31_00:00:00`NEW"); //   [4,5]
+        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [0]  
+        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [0]  
+        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [1,2]
+        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [1,2]
+        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [3]  
+        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [3]  
+        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [4,5] 
+        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW"); //   [4,5]
         for(Task task: ScheduleApiHelper.toTasks(sampleTasks))
             taskRepository.add(task);
  
@@ -84,22 +85,21 @@ public class AddScheduleTest extends ScheduleApiHelper {
         for(Category category: ScheduleApiHelper.toCategories(sampleCategories))
             categoryRepository.add(category);
                                                                           // Tasks Categories  
-        validSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[0]");  //exercize
-        validSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[1]");  //church
-        validSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[2]");  //workdays
-        validSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[3]");  //date night.
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[4]");  //Tacos!
-        validSchedules.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[5]");  //Wings!
+        validSchedules.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY `[0,1]`[0]");  //exercize
+        validSchedules.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[1]");  //church
+        validSchedules.add("2`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY `[2,3]`[2]");  //workdays
+        validSchedules.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[4,5]`[3]");  //date night.
+        validSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[4]");  //Tacos!
+        validSchedules.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[6,7]`[5]");  //Wings!
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(validSchedules))
             validRequestList.add(createDoPostMockRequest(jsonObj));
 
-        errorSchedules.add("0`1`2016-02-31_18:00:00`2016-02-31_19:00:00`DAILY   `[]`[]"); //Invalid date.
-        errorSchedules.add("1`1`2016-07-03_09:00:00`2016-06-28_10:00:00`SUNDAYS `[]`[]"); //Invalid repeat type. 
-        errorSchedules.add("2`1`2016-07-03_16:00:00`2016-07-03`WEEKLY           `[]`[]"); //Date is not well formed.
-        errorSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[0]`[1]");  //Not permitted to access this Category.
-        errorSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6]`[0]");  //Not permitted to access this Task.
-        errorSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[67]`[]");  //Task DNE.
-        errorSchedules.add("4`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[]`[99]");  //Category DNE.
+        //errorSchedules.add("0`1`2016-02-31T18:00:00.123Z`2016-02-31T19:00:00.123Z`DAILY   `[]`[]"); //Invalid date.
+        //errorSchedules.add("1`1`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`SUNDAYS `[]`[]"); //Invalid repeat type.
+        errorSchedules.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[0]`[1]");  //Not permitted to access this Category.
+        errorSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6]`[0]");  //Not permitted to access this Task.
+        errorSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[67]`[]");  //Task DNE.
+        errorSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[]`[99]");  //Category DNE.
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(errorSchedules))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
     }
@@ -122,6 +122,9 @@ public class AddScheduleTest extends ScheduleApiHelper {
             taskRepository.delete(task);
         for(User user: toUsers(sampleUsers))
             userRepository.delete(user);
+
+        verifyRepositoriesAreClean();
+        addScheduleInstance=null;
     }
 
     /**

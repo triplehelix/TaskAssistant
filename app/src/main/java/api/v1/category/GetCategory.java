@@ -36,22 +36,20 @@ public class GetCategory extends CategoryRequestHandler {
 				HttpServletResponse response)throws ServletException, IOException {
 		boolean error = false;
 		String errorMsg = "no error";
-		Category category = new Category();
+		Category category=new Category();
 		int errorCode = 0;
-		JSONObject jsonRequest = new JSONObject();
+		String json="";
 		try {
-			jsonRequest = parseRequest(request.getParameter("params"));
-			// private int id
-			category.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
-
-		categoryRepository.get(category);
+			json = request.getParameter("params");
+			category= (Category) getMyObject(json, category);
+		    category=categoryRepository.get(category);
 		} catch (BusinessException b) {
-			LOGGER.error("An error occurred while handling an GetCategory  Request: {}.", jsonRequest.toJSONString(), b);
+			LOGGER.error("An error occurred while handling an GetCategory  Request: {}.", json, b);
 			errorMsg = "Error. " + b.getMessage();
 			errorCode = b.getError().getCode();
 			error = true;
 		} catch (SystemException s) {
-			LOGGER.error("An error occurred while handling an GetCategory Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling an GetCategory Request: {}.", json, s);
 			errorMsg = "Error. " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;
@@ -62,6 +60,7 @@ public class GetCategory extends CategoryRequestHandler {
 			jsonResponse.put("error", ErrorHelper.createErrorJson(errorCode, errorMsg));
 		} else {
 			jsonResponse.put("success", true);
+            jsonResponse.put("Category",category.toJson());
 		}
 		sendMessage(jsonResponse, response);
 	}

@@ -47,11 +47,11 @@ public class DeleteSchedule extends ScheduleRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         int errorCode = 0;
-        Schedule schedule = new Schedule();
-        JSONObject jsonRequest = new JSONObject();
+        Schedule schedule=new Schedule();
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            schedule.setId(parseJsonIntAsInt((String)jsonRequest.get("id")));
+            json = request.getParameter("params");
+            schedule=(Schedule) getMyObject(json, schedule);
             schedule=scheduleRepository.get(schedule);
 
             ArrayList<Category> updatedCategories=getCleanedCategories(schedule);
@@ -66,17 +66,17 @@ public class DeleteSchedule extends ScheduleRequestHandler {
             userRepository.update(updatedUser);
             scheduleRepository.delete(schedule);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling a DeleteSchedule Request: {}.", json, c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

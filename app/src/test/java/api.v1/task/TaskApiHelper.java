@@ -28,19 +28,19 @@ public class TaskApiHelper extends UnitTestHelper {
         for(String s: bactickTasks){
             String[] taskElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("id", taskElementArray[0]);
-            jsonObj.put("taskListId", taskElementArray[1].trim());
+            jsonObj.put("id", Integer.parseInt(taskElementArray[0]));
+            jsonObj.put("taskListId", Integer.parseInt(taskElementArray[1].trim()));
             jsonObj.put("name", taskElementArray[2].trim());
             jsonObj.put("important", taskElementArray[3]);
             jsonObj.put("note", taskElementArray[4]);
-            jsonObj.put("estimatedTime", taskElementArray[5]);
-            jsonObj.put("investedTime", taskElementArray[6]);
+            jsonObj.put("estimatedTime", Long.parseLong(taskElementArray[5]));
+            jsonObj.put("investedTime", Long.parseLong(taskElementArray[6]));
             jsonObj.put("urgent", taskElementArray[7]);
             jsonObj.put("dueDate", taskElementArray[8]);
             jsonObj.put("status", taskElementArray[9]);
             if(taskElementArray.length> 10) {
-                jsonObj.put("categoryIds", taskElementArray[10]);
-                jsonObj.put("scheduleIds", taskElementArray[11]);
+                jsonObj.put("categoryIds", toIntegerArrayList(taskElementArray[10]));
+                jsonObj.put("scheduleIds", toIntegerArrayList(taskElementArray[11]));
             }
             myJSONObjects.add(jsonObj);
         }

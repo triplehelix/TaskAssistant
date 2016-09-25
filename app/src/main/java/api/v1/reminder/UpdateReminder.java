@@ -9,6 +9,7 @@ import api.v1.TaskRequestHandler;
 import api.v1.error.CriticalException;
 import api.v1.model.Task;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -41,43 +42,35 @@ public class UpdateReminder extends TaskRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        Reminder clientReminder = new Reminder();
+        Reminder clientReminder=new Reminder();
         Reminder serverReminder;
+        String json="";
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
+            json = request.getParameter("params");
             //Create and validate the client reminder.
-            LOGGER.debug("Create and validate the client reminder.");
-            Date reminderDate = parseJsonDateAsDate((String)jsonRequest.get("reminderTime"));
-            Integer taskId =  parseJsonIntAsInt((String)jsonRequest.get("taskId"));
-            Integer reminderId =  parseJsonIntAsInt((String)jsonRequest.get("id"));
-            clientReminder.setId(reminderId);
-            clientReminder.setTaskId(taskId);
-            clientReminder.setReminderTime(reminderDate);
+            clientReminder=(Reminder) getMyObject(json, clientReminder);
             verifyTaskExists(clientReminder.getTaskId());
-            LOGGER.debug("So, now we have the client reminder id, " + clientReminder.getId() + " and the task id it points to " + clientReminder.getTaskId() + ".");
 
             // Clean references to the current reminder using the serverReminder:
             serverReminder=reminderRepository.get(clientReminder);
-            LOGGER.debug("Now, we can fetch the server reminder and clean it's reference to the task. Which, by the way is " + serverReminder.getTaskId() + ".");
 
             removeReferences(serverReminder);
             addReminderToTask(clientReminder);
             reminderRepository.update(clientReminder);
 
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling an PutReminder  Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling an PutReminder  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", json, c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

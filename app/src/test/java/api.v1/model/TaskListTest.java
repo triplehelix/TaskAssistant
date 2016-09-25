@@ -1,6 +1,8 @@
 package api.v1.model;
 
+import api.v1.UnitTestHelper;
 import api.v1.error.BusinessException;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -13,46 +15,48 @@ import java.util.ArrayList;
  *
  * Created by kennethlyon on 6/9/16.
  */
-public class TaskListTest {
+public class TaskListTest extends UnitTestHelper{
     private static Logger LOGGER = LoggerFactory.getLogger(TaskListTest.class);
-    private static ArrayList<String> validTaskLists;
-    private static ArrayList<String> errorTaskLists;
-    private static ArrayList<String> validTaskListUpdates;
-    private static ArrayList<String> errorTaskListUpdates;
+    private static ArrayList<String> validTaskLists=new ArrayList<String>();
+    private static ArrayList<String> validUpdates=new ArrayList<String>();
+
 
     static {
-        /* Add valid TaskLists.
-         */
-        validTaskLists=new ArrayList<String>();
-        validTaskLists.add("0`TaskList 0 created from ValidTasks`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksAsTasks().");
-        validTaskLists.add("1`TaskList 1 created from ValidTaskUpdates`This is a valid TaskList composed of Tasks from: TaskTest.getValidTestTasksUpdatesAsTasks().");
+        validTaskLists.add("0`0`Mike's Work Tasks`Tasks for work.                  `[1,5]");
+        validTaskLists.add("1`0`Mike's Personal Tasks`Medical, vacay, finance etc. `[1,2]");
+        validTaskLists.add("2`0`Mike's Excercize Tasks`This is for Excercize.      `[3,4]");
+        validTaskLists.add("3`1`Ken's Work Tasks`Tasks for work.                  `[1,4]");
+        validTaskLists.add("4`1`Ken's Personal Tasks`Medical, vacay, finance etc. `[1,2]");
+        validTaskLists.add("5`1`Ken's Excercize Tasks`This is for Excercize       `[4,5]");
 
-        errorTaskLists=new ArrayList<String>();
-        errorTaskLists.add("0`  `This TaskList has no name.");
-        errorTaskLists.add("1``This is an invalid TaskList composed of Task ids from: TaskTest.getValidTestTasksUpdatesAsTasks().");
-
-        validTaskListUpdates=new ArrayList<String>();
-        validTaskListUpdates.add("0`TaskList 0 created from ValidTasks`This is a valid update.");
-        validTaskListUpdates.add("1`TaskList 1 created from ValidTaskUpdates`This is another valid update. ");
-
-        errorTaskListUpdates=new ArrayList<String>();
-        errorTaskListUpdates.add("10` `This is an invalid TaskList because it has an invalid name.");
-    }
+        validUpdates.add("0`0`Mike's Work Tasks`Tasks for work.                        `[]");
+        validUpdates.add("1`0`Mike&amp;s Personal Tasks`Medical, vacay, finance etc.`[1,2]");
+        validUpdates.add("2`0`Mike's Excercize Tasks`This is for Excercize.         `[4,3]");
+        validUpdates.add("0`1`Ken&amp;s Work Tasks`Tasks for work.                  `[1,4]");
+        validUpdates.add("4`1`Ken's Personal Tasks`Medical, vacay, finance etc.     `[0,2]");
+        validUpdates.add("5`0`Ken's Excercize Tasks`This is for Excercize           `[4,5]");
+     }
 
     /**
-     * Use the backtick delimited Strings in errorTaskLists, or
-     * validTaskLists to create a TaskList.
-     * @param s
-     * @return taskList
-     * @throws BusinessException
+     * Accept an ArrayList of backtick delimited strings and return an ArrayList of TaskLists.
+     * @param backtickTaskLists
+     * @return  ArrayList<TaskList>
+     * @throws Exception
      */
-    private static TaskList toTaskList(String s) throws BusinessException{
-        String[] taskListElementArray = s.split("`");
-        TaskList taskList = new TaskList();
-        taskList.setId(Integer.parseInt(taskListElementArray[0]));
-        taskList.setName(taskListElementArray[1]);
-        taskList.setDescription(taskListElementArray[2]);
-        return taskList;
+    protected static ArrayList<TaskList> toTaskLists(ArrayList<String> backtickTaskLists)throws Exception{
+        ArrayList<TaskList> myTaskLists=new ArrayList<TaskList>();
+        for(String s: backtickTaskLists) {
+            String[] elements = s.split("`");
+            TaskList taskList = new TaskList();
+            taskList.setId(Integer.parseInt(elements[0]));
+            taskList.setUserId(Integer.parseInt(elements[1]));
+            taskList.setName(elements[2].trim());
+            taskList.setDescription(elements[3].trim());
+            if(elements.length>4)
+                taskList.setTaskIds(toIntegerArrayList(elements[4].trim()));
+            myTaskLists.add(taskList);
+        }
+        return myTaskLists;
     }
 
     /**
@@ -60,74 +64,50 @@ public class TaskListTest {
      */
     @Test
     public void test() throws Exception {
-        LOGGER.info("Creating valid TaskLists...");
-        for(String s: validTaskLists)
-            validateValidTaskList(s);
-
-        LOGGER.info("Creating valid TaskList Updates...");
-        for(String s: validTaskListUpdates)
-            validateValidTaskList(s);
-
-        LOGGER.info("Creating error TaskLists...");
-        for(String s: errorTaskLists)
-            validateErrorTaskList(s);
-        LOGGER.info("Success!");
-
-        LOGGER.info("Creating error TaskList Updates...");
-        for(String s: errorTaskListUpdates)
-            validateErrorTaskList(s);
-        LOGGER.info("Success!");
-    }
-
-    /**
-     * This method is used to verify that an error causing TaskList results
-     * in an error. Errors should result from invalid IDs, or null names.
-     * @param s
-     */
-    public void validateErrorTaskList(String s){
-        boolean error=false;
-        TaskList taskList;
-        try{
-            taskList=TaskListTest.toTaskList(s);
-        }catch(Exception e){
-            error=true;
-            LOGGER.info("Invalid TaskList returned error. " + e.getMessage(), e);
+        // Verify that clones generated from "validTaskLists" are identical to themselves:
+        ArrayList<TaskList> myTaskLists=toTaskLists(validTaskLists);
+        ArrayList<TaskList> myUpdates=toTaskLists(validUpdates);
+        LOGGER.info("Verifying object equivalence.");
+        TaskList tempTaskList=null;
+        for(int i=0; i<myTaskLists.size(); i++){
+            tempTaskList=new TaskList(myTaskLists.get(i));
+            LOGGER.info("Evaluating {} {}",
+                    myTaskLists.get(i),
+                    tempTaskList);
+            if(!myTaskLists.get(i).equals(tempTaskList)){
+                LOGGER.error("These objects were evaluated as not equal when they should be: {} {}",
+                        myTaskLists.get(i).toJson(),
+                        tempTaskList.toJson());
+                fail("Error! These objects should be equal!");
+            }
         }
-        if(!error){
-            fail("Success returned for invalid TaskList: " + s);
-        }
-    }
 
-    /**
-     * Ensure that the provided String can be translated into a
-     * valid TaskList.
-     * @param s
-     */
-    public void validateValidTaskList(String s){
-        TaskList taskList;
-        try{
-            taskList=TaskListTest.toTaskList(s);
-            LOGGER.info("Valid TaskList returned {}", taskList.toJson());
-        }catch (Exception e){
-            LOGGER.error("Invalid TaskList returned error. " + e.getMessage(), e);
-            fail("Error returned for valid TaskList. {} " + s);
-        }
-    }
 
-    /**
-     * Returns a string from validTaskLists, errorTaskLists, validUpdates
-     * or errorUpdates as a JSONObject suitable to create HTTP servlet
-     * mock requests from.
-     * @param stringTask
-     * @return
-     */
-    private static JSONObject toJsonObject(String stringTask) {
-        String[] taskElementArray = stringTask.split("`");
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("id", taskElementArray[0]);
-        jsonObj.put("name", taskElementArray[1]);
-        jsonObj.put("description", taskElementArray[2]);
-        LOGGER.info("Created request {}", jsonObj.toJSONString());
-        return jsonObj;
+    // Verify that instances made from "validTaskLists" and validUpdates are not equal to eachother.
+        LOGGER.info("Verifying object non-equivalence.");
+        for(int i=0; i<myTaskLists.size(); i++){
+            LOGGER.info("Evaluating {} {}",
+                    myTaskLists.get(i),
+                    myUpdates.get(i));
+            if(myTaskLists.get(i).equals(myUpdates.get(i))){
+                LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                        myTaskLists.get(i).toJson(),
+                        myUpdates.get(i).toJson());
+                fail("Error! These objects should not be equal!");
+            }
+        }
+
+
+        // Verify Gson serialization works properly:
+        LOGGER.info("Verifying Gson serialization works properly.");
+        Gson gson=new Gson();
+        String json="";
+        for(int i=0; i<myTaskLists.size(); i++){
+            json=myTaskLists.get(i).toJson();
+            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, TaskList.class)).toJson() );
+            if(!myTaskLists.get(i).equals(gson.fromJson(json, TaskList.class))){
+                LOGGER.info("Error attempting to serialize/deserialize the taskList {} {}", json, (gson.fromJson(json, TaskList.class)).toJson() );
+            }
+        }
     }
 }

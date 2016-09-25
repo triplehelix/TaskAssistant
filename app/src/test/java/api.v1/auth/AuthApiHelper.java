@@ -25,14 +25,14 @@ public class AuthApiHelper extends UnitTestHelper {
             String[] categoryElementArray = s.split("`");
             JSONObject jsonObj = new JSONObject();
 
-            jsonObj.put("id", categoryElementArray[0]);
-            jsonObj.put("email", categoryElementArray[1]);
-            jsonObj.put("password", categoryElementArray[2]);
+            jsonObj.put("id", Integer.parseInt(categoryElementArray[0]));
+            jsonObj.put("email", categoryElementArray[1].trim());
+            jsonObj.put("password", categoryElementArray[2].trim());
             if(categoryElementArray.length>3){
-                jsonObj.put("calendarIds",categoryElementArray[3]);
-                jsonObj.put("categoryIds",categoryElementArray[4]);
-                jsonObj.put("scheduleIds",categoryElementArray[5]);
-                jsonObj.put("taskListIds",categoryElementArray[6]);
+                jsonObj.put("calendarIds", toIntegerArrayList(categoryElementArray[3]));
+                jsonObj.put("categoryIds", toIntegerArrayList(categoryElementArray[4]));
+                jsonObj.put("scheduleIds", toIntegerArrayList(categoryElementArray[5]));
+                jsonObj.put("taskListIds", toIntegerArrayList(categoryElementArray[6]));
             }
             myJSONObjects.add(jsonObj);
         }

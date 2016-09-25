@@ -40,27 +40,26 @@ public class DeleteReminder extends TaskRequestHandler {
         boolean error = false;
         String errorMsg = "no error";
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        Reminder reminder=new Reminder();
+        String json="";
         try {
-            jsonRequest = parseRequest(request.getParameter("params"));
-            int reminderId=parseJsonIntAsInt((String)jsonRequest.get("id"));
-            Reminder reminder=new Reminder();
-            reminder.setId(reminderId);
+            json=request.getParameter("params");
+            reminder=(Reminder) getMyObject(json, reminder);
             reminder=reminderRepository.get(reminder);
             removeReferences(reminder);
             reminderRepository.delete(reminder);
         } catch (BusinessException b) {
-            LOGGER.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a DeleteReminder Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         } catch (SystemException s) {
-            LOGGER.error("An error occurred while handling a DeleteReminder Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a DeleteReminder Request: {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
         } catch (CriticalException c) {
-            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", jsonRequest.toJSONString(), c);
+            LOGGER.error("An error occurred while handling an PutReminder Request: {}.", json, c);
             errorMsg = "Error. " + c.getMessage();
             errorCode = c.getError().getCode();
             error = true;

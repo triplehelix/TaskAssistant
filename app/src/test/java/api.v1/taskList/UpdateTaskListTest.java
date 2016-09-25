@@ -82,6 +82,7 @@ public class UpdateTaskListTest extends TaskListApiHelper {
         updateTaskListInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**

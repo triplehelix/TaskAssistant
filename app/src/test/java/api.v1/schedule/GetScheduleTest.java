@@ -37,12 +37,12 @@ public class GetScheduleTest extends ScheduleApiHelper {
         scheduleRepository=getScheduleInstance.getScheduleRepository();
 
                                                                             // Tasks Categories  
-        validSchedules.add("0`0`2016-06-28_18:00:00`2016-06-28_19:00:00`DAILY `[0,1]`[]");
-        validSchedules.add("1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY`[2,3]`[0,1,2]");
-        validSchedules.add("2`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY `[2,3]`[]");
-        validSchedules.add("3`1`2016-06-30_18:00:00`2016-06-28_19:00:00`WEEKLY`[4,5]`[]");
-        validSchedules.add("4`1`2016-07-03_16:00:00`2016-07-03_15:00:00`WEEKLY`[6,7]`[3,4,5]");
-        validSchedules.add("5`1`2016-07-03_16:00:00`2016-07-01_15:00:00`WEEKLY`[6,7]`[]");
+        validSchedules.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY `[0,1]`[]");
+        validSchedules.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY`[2,3]`[0,1,2]");
+        validSchedules.add("2`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY `[2,3]`[]");
+        validSchedules.add("3`1`2016-06-30T18:00:00.123Z`2016-06-28T19:00:00.123Z`WEEKLY`[4,5]`[]");
+        validSchedules.add("4`1`2016-07-03T16:00:00.123Z`2016-07-03T15:00:00.123Z`WEEKLY`[6,7]`[3,4,5]");
+        validSchedules.add("5`1`2016-07-03T16:00:00.123Z`2016-07-01T15:00:00.123Z`WEEKLY`[6,7]`[]");
         for(Schedule schedule: toSchedules(validSchedules))
             scheduleRepository.add(schedule);
 
@@ -51,9 +51,9 @@ public class GetScheduleTest extends ScheduleApiHelper {
          * will not look at them anyway since it retrieves these references
          * from the repository.
          */
-        errorSchedules.add("-1`0`2016-07-03_09:00:00`2016-06-28_10:00:00`WEEKLY");
-        errorSchedules.add("6`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY");
-        errorSchedules.add("600`0`2016-06-28_09:00:00`2016-06-28_17:00:00`DAILY");
+        errorSchedules.add( "-1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY");
+        errorSchedules.add(  "6`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY");
+        errorSchedules.add("600`0`2016-06-28T09:00:00.123Z`2016-06-28T17:00:00.123Z`DAILY");
 
         for(JSONObject jsonObj: ScheduleApiHelper.toJSONObject(errorSchedules))
             errorRequestList.add(createDoPostMockRequest(jsonObj));
@@ -73,6 +73,9 @@ public class GetScheduleTest extends ScheduleApiHelper {
     public void tearDown() throws Exception {
 	for(Schedule schedule: toSchedules(validSchedules))
             scheduleRepository.delete(schedule);
+
+        verifyRepositoriesAreClean();
+        getScheduleInstance=null;
     }
 
     /**

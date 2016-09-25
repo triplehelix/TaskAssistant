@@ -4,6 +4,7 @@ import api.v1.error.BusinessException;
 import api.v1.error.Error;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,16 +55,16 @@ public class Task {
         this.important=task.getImportant();
         this.urgent=task.getUrgent();
         this.dueDate=new Date(task.getDueDate().getTime());
-        this.status=Status.valueOf(task.getStatus().toString());
+        this.status=task.getStatus();
         this.categoryIds = ModelHelper.copyIntegerArrayList(task.getCategoryIds());
         this.scheduleIds = ModelHelper.copyIntegerArrayList(task.getScheduleIds());
         this.reminderIds = ModelHelper.copyIntegerArrayList(task.getReminderIds());
     }
-    public void setId(int id) throws BusinessException{
+    public void setId(int id) {
         this.id=id;
     }
 
-    public void setTaskListId(int taskListId) throws BusinessException{
+    public void setTaskListId(int taskListId) {
         this.taskListId = taskListId;
     }
 
@@ -147,7 +148,8 @@ public class Task {
      * @return
      */
     public String toJson(){
-        Gson gson=new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
         return gson.toJson(this);
     }
 

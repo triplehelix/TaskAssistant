@@ -1,11 +1,16 @@
 package api.v1.model;
 
 import api.v1.UnitTestHelper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.jvm.hotspot.oops.Instance;
+
 import static org.junit.Assert.fail;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 /**
@@ -18,20 +23,19 @@ public class ReminderTest extends UnitTestHelper{
     private static ArrayList<String> validUpdates=new ArrayList<String>();
 
     static {
-        validReminders.add("0`1`2020-05-28_08:31:01");
-        validReminders.add("1`1`2020-05-31_00:00:00");
-        validReminders.add("2`2`2016-06-09_18:30:00");
-        validReminders.add("3`2`2016-06-12_08:00:00");
-        validReminders.add("4`3`2016-06-09_19:00:00");
-        validReminders.add("5`4`2020-05-31_00:00:00");
+        validReminders.add("0`1`2020-05-28T08:31:01.575Z");
+        validReminders.add("1`1`2020-05-31T00:00:00.576Z");
+        validReminders.add("2`2`2016-06-09T18:30:00.576Z");
+        validReminders.add("3`2`2016-06-12T08:00:00.577Z");
+        validReminders.add("4`3`2016-06-09T19:00:00.577Z");
+        validReminders.add("5`4`2020-05-31T00:00:00.585Z");
 
-        validUpdates.add("0`6`2020-05-31_00:00:00");
-        validUpdates.add("1`5`2016-06-09_18:30:00"); 
-        validUpdates.add("2`4`2016-06-09_19:00:00");
-        validUpdates.add("3`3`2016-06-12_08:00:00");
-        validUpdates.add("4`4`2020-05-28_08:31:01");
-        validUpdates.add("5`7`2020-05-31_00:00:00");
-
+        validUpdates.add("0`6`2016-09-22T03:37:55.575Z");
+        validUpdates.add("1`5`2016-09-22T03:37:55.576Z"); 
+        validUpdates.add("2`4`2016-09-22T03:37:55.576Z");
+        validUpdates.add("3`3`2016-09-22T03:37:55.577Z");
+        validUpdates.add("4`4`2016-09-22T03:37:55.577Z");
+        validUpdates.add("5`7`2016-09-22T03:37:55.585Z");
     }
 
 
@@ -40,6 +44,108 @@ public class ReminderTest extends UnitTestHelper{
      */
     @Test
     public void test() throws Exception {
+        //Gson gson=new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
+        ArrayList<Reminder> reminders=new ArrayList<>();
+
+        for(Reminder r: toReminders(validReminders)) {
+            LOGGER.info("Valid reminders: {} {}", r.getInstant().toString(), r.toJson());
+            //LOGGER.info("Evaluating 2 {}", (gson.fromJson(r.toJson(), Reminder.class)).toJson());
+        }
+
+
+        for(Reminder r: toReminders(validUpdates)){
+            LOGGER.info("Valid updates: {} {}", r.getInstant().toString(), r.toJson());
+        }
+
+
+        LOGGER.info("Is this possible? {}", validReminders.get(1).split("`")[2]);
+        Instant instant= Instant.parse("2020-05-28T08:31:01.123Z");
+
+        LOGGER.info("Well, is it? {}", instant.toString());
+	//TODO Is there a way for Gson to print out ISO 8601 natively?
+
+// 20:37:56.306 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.575Z {"id":0,"taskId":1,"reminderTime":"May 28, 2020 8:31:01 AM","instant":{"seconds":1474515475,"nanos":575000000}}
+// 20:37:56.318 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.576Z {"id":1,"taskId":1,"reminderTime":"May 31, 2020 12:00:00 AM","instant":{"seconds":1474515475,"nanos":576000000}}
+// 20:37:56.319 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.576Z {"id":2,"taskId":2,"reminderTime":"Jun 9, 2016 6:30:00 PM","instant":{"seconds":1474515475,"nanos":576000000}}
+// 20:37:56.327 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.577Z {"id":3,"taskId":2,"reminderTime":"Jun 12, 2016 8:00:00 AM","instant":{"seconds":1474515475,"nanos":577000000}}
+// 20:37:56.329 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.577Z {"id":4,"taskId":3,"reminderTime":"Jun 9, 2016 7:00:00 PM","instant":{"seconds":1474515475,"nanos":577000000}}
+// 20:37:56.331 [main] INFO  api.v1.model.ReminderTest - 2016-09-22T03:37:55.585Z {"id":5,"taskId":4,"reminderTime":"May 31, 2020 12:00:00 AM","instant":{"seconds":1474515475,"nanos":585000000}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Verify that clones generated from "validReminders" are identical to themselves:
         ArrayList<Reminder> myReminders=toReminders(validReminders);
         ArrayList<Reminder> myUpdates=toReminders(validUpdates);
@@ -72,5 +178,20 @@ public class ReminderTest extends UnitTestHelper{
                 fail("Error! These objects should not be equal!");
             }
         }
+
+        // Verify Gson serialization works properly:
+        LOGGER.info("Verifying Gson serialization works properly.");
+        //Gson gson = new Gson();
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        gson = new GsonBuilder().setDateFormat(format).create();
+        String json="";
+        for(int i=0; i<myReminders.size(); i++){
+            json=myReminders.get(i).toJson();
+            LOGGER.info("Evaluating 1 {}", json);
+            LOGGER.info("Evaluating 2 {}", (gson.fromJson(json, Reminder.class)).toJson());
+            if(!myReminders.get(i).equals(gson.fromJson(json, Reminder.class))){
+                LOGGER.info("Error attempting to serialize/deserialize the reminder {} {}", json, (gson.fromJson(json, Reminder.class)).toJson() );
+            }
+        }//*/
     }
 }

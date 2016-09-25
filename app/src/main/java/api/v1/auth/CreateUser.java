@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -42,27 +43,27 @@ public class CreateUser extends AuthRequestHandler{
      * @throws IOException
      */
     public void doPost(HttpServletRequest request,
-					   HttpServletResponse response)throws ServletException, IOException {
+                       HttpServletResponse response)throws ServletException, IOException {
         //First get the email and password.
         boolean error=false;
         String errorMsg = "no error";
+        String json="";
         User user=new User();
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
+        Gson gson=new Gson();
         try{
-            jsonRequest=parseRequest(request.getParameter("params"));
-            String email= parseJsonAsEmail((String)jsonRequest.get("email"));
-            String password=parseJsonAsPassword((String)jsonRequest.get("password"));
-            user.setEmail(email);
-            user.setPassword(password);
-            userRepository.add(user);
+            json=request.getParameter("params");
+            user = gson.fromJson(json, User.class);
+            verifyEmailIsValid(user.getEmail());
+            verifyPasswordIsValid(user.getPassword());
+            user=userRepository.add(user);
         }catch(BusinessException b) {
-            LOGGER.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), b);
+            LOGGER.error("An error occurred while handling a CreateUser Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
             errorCode = b.getError().getCode();
             error = true;
         }catch(SystemException s){
-            LOGGER.error("An error occurred while handling a CreateUser Request: {}.", jsonRequest.toJSONString(), s);
+            LOGGER.error("An error occurred while handling a CreateUser Request:  {}.", json, s);
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;

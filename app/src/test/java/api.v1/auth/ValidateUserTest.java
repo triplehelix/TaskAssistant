@@ -99,6 +99,7 @@ public class ValidateUserTest extends AuthApiHelper {
         validateUserInstance = null;
         validRequestList = null;
         errorRequestList = null;
+        verifyRepositoriesAreClean();
     }
 
     /**

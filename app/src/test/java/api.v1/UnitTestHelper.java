@@ -2,6 +2,7 @@ package api.v1;
 
 import api.v1.error.BusinessException;
 import api.v1.error.Error;
+import api.v1.error.SystemException;
 import api.v1.model.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +15,7 @@ import static org.junit.Assert.fail;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -54,9 +56,9 @@ public class UnitTestHelper {
             }else{
                 boolean success = (Boolean) responseObj.get("success");
                 if (success){
-                    LOGGER.info("Success value returned to the caller as: true\n\n");
+                    LOGGER.info("Success value returned to the caller as: true");
                 }else{
-                    fail("success value false in response and error value was not found\n\n");
+                    fail("success value false in response and error value was not found");
                 }
             }
         }else{
@@ -84,6 +86,8 @@ public class UnitTestHelper {
             responseObj = (JSONObject) new JSONParser().parse(responseString);
         } catch (ParseException e) {
             LOGGER.error("Parse Exception while parsing the response string", e);
+            // TODO Mike thinks that this should fail. Try it.
+            fail("The JSON request could not be parsed correctly!");
             return;
         }
         if (null != responseObj){
@@ -128,7 +132,8 @@ public class UnitTestHelper {
      * @return Date
      */
     protected static Date parseJsonDateAsDate(String stringDate) throws BusinessException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        //DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         df.setLenient(false);
         Date result = null;
         try {
@@ -196,6 +201,8 @@ public class UnitTestHelper {
             reminder.setId(Integer.parseInt(reminderElementArray[0]));
             reminder.setTaskId(Integer.parseInt(reminderElementArray[1]));
             reminder.setReminderTime(parseJsonDateAsDate(reminderElementArray[2]));
+            if(reminderElementArray.length>3)
+                reminder.setInstant(Instant.parse(reminderElementArray[3].trim()));
             myReminders.add(reminder);
         }
         return myReminders;
@@ -274,5 +281,66 @@ public class UnitTestHelper {
         LOGGER.info("Created request {}",jsonObj.toJSONString());
         request.addParameter("params", jsonObj.toJSONString());
         return request;
+    }
+
+    /**
+     *
+     * @throws SystemException
+     */
+    protected void verifyRepositoriesAreClean() throws SystemException{
+        Task task=new Task();
+        User user=new User();
+        Category category=new Category();
+        TaskList taskList=new TaskList();
+        Schedule schedule=new Schedule();
+        Reminder reminder=new Reminder();
+        Calendar calendar=new Calendar();
+        boolean error=false;
+        for(int i=0; i<20; i++) {
+            user.setId(i);
+            task.setId(i);
+            category.setId(i);
+            taskList.setId(i);
+            schedule.setId(i);
+            reminder.setId(i);
+            calendar.setId(i);
+
+            try{
+                user=BaseRequestHandler.getUserRepository().get(user);
+                fail("Error. This User was not removed from the repository " + user.toJson());
+            }catch(BusinessException e){error=true;}
+
+            try{
+                task=BaseRequestHandler.getTaskRepository().get(task);
+                fail("Error. This Task was not removed from the repository " + task.toJson());
+            }catch(BusinessException e){error=true;}
+        
+            try{
+                category=BaseRequestHandler.getCategoryRepository().get(category);
+                fail("Error. This Category was not removed from the repository " + category.toJson());
+            }catch(BusinessException e){error=true;}
+
+            try{
+                taskList=BaseRequestHandler.getTaskListRepository().get(taskList);
+                fail("Error. This TaskList was not removed from the repository " + taskList.toJson());
+            }catch(BusinessException e){error=true;}
+
+            try{
+                schedule=BaseRequestHandler.getScheduleRepository().get(schedule);
+                fail("Error. This Schedule was not removed from the repository " + schedule.toJson());
+            }catch(BusinessException e){error=true;}
+
+            try{
+                reminder=BaseRequestHandler.getReminderRepository().get(reminder);
+                fail("Error. This Reminder was not removed from the repository " + reminder.toJson());
+            }catch(BusinessException e){error=true;}
+
+            /*try{
+	      calendar=BaseRequestHandler.getCalendarRepository().get(calendar);
+                message="Error. This Calendar was not removed from the repository " + calendar.toJson();
+            }catch(BusinessException e){error=true;}//*/
+        }
+        if(error)
+            LOGGER.info("All repositories cleaned successfully.");
     }
 }

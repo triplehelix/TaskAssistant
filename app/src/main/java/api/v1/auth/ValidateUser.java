@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.helper.ErrorHelper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -45,25 +46,25 @@ public class ValidateUser extends AuthRequestHandler{
 		boolean error=false;
 		int errorCode=1;
 		String errorMsg = "no error";
-		User clientUser=new User();
+		String json="";
+		User clientUser=null;
 		User serverUser=null;
-		JSONObject jsonRequest = new JSONObject();
+        Gson gson=new Gson();
 		try{
-			jsonRequest=parseRequest(request.getParameter("params"));
-			String email= parseJsonAsEmail((String)jsonRequest.get("email"));
-			String password = parseJsonAsPassword((String)jsonRequest.get("password"));
-			clientUser.setEmail(email);
-			clientUser.setPassword(password);
+            json=request.getParameter("params");
+            clientUser = gson.fromJson(json, User.class);
+            verifyEmailIsValid(clientUser.getEmail());
+            verifyPasswordIsValid(clientUser.getPassword());
 			serverUser=userRepository.get(clientUser);
 			validatePassword(clientUser, serverUser);
 		}catch(BusinessException e){
-			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), e);
+			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", json, e);
 			LOGGER.error(e.getMessage());
 			errorMsg = "Error " + e.getMessage();
 			errorCode = e.getError().getCode();
 			error = true;
 		}catch(SystemException s){
-			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", jsonRequest.toJSONString(), s);
+			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", json, s);
 			errorMsg = "Error " + s.getMessage();
 			errorCode = s.getError().getCode();
 			error = true;

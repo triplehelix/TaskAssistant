@@ -1,6 +1,8 @@
 package api.v1.model;
 
 import api.v1.UnitTestHelper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,40 +23,40 @@ public class TaskTest extends UnitTestHelper{
         /* Add valid tasks. Tasks fields are arranged in the order:
          * validTasks.add("int id` String name` boolean important` String note` long estimatedTime` long investedTime` boolean urgent` Date dueDate` State status");
          */
-        validTasks.add( "0`0`Task Name 0`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "1`0`Task Name 1`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "2`0`Task Name 2`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "3`0`Task Name 3`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "4`1`Task Name 4`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "5`1`Task Name 5`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "6`1`Task Name 6`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "7`1`Task Name 7`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "8`2`Task Name 8`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add( "9`2`Task Name 9`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add("10`2`Task Name A`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add("11`2`Task Name B`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add("12`2`Task Name C`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add("13`2`Task Name D`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add("14`2`Task Name E`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validTasks.add("15`2`Task Name F`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
+        validTasks.add( "0`0`Task Name 0`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "1`0`Task Name 1`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "2`0`Task Name 2`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "3`0`Task Name 3`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "4`1`Task Name 4`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "5`1`Task Name 5`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "6`1`Task Name 6`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "7`1`Task Name 7`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "8`2`Task Name 8`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add( "9`2`Task Name 9`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add("10`2`Task Name A`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add("11`2`Task Name B`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add("12`2`Task Name C`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add("13`2`Task Name D`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add("14`2`Task Name E`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validTasks.add("15`2`Task Name F`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
 
         // Add valid mutations to valid tasks.
-        validUpdates.add( "0`0`Task Name 0`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`DONE`[]`[]`[]");
-        validUpdates.add( "1`0`Task Name 1`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`IN_PROGRESS`[]`[]`[]");
-        validUpdates.add( "2`0`Task Name 2`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`DELEGATED`[]`[]`[]");
-        validUpdates.add( "3`0`Task Name 3`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`DEFERRED`[]`[]`[]");
-        validUpdates.add( "4`1`Task Name 4`TRUE`This is the Task's note.`60000`0`TRUE`2000-05-28_08:01:01`NEW`[]`[]`[]");
-        validUpdates.add( "5`1`Task Name 5`TRUE`This is the Task's note.`60000`0`TRUE`2099-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add( "6`1`Task Name 6`TRUE`This is the Task's note.`60000`0`FALSE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add( "7`1`Task Name 7`TRUE`This is the Task's note.`60000`1`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add( "8`2`Task Name 8`TRUE`This is the Task's note.`60001`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add( "9`2`Task Name 9`TRUE`This is the Task's note!`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add("10`2`Task Name10`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add("11`3`Task Name B`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add("-1`2`Task Name C`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[]");
-        validUpdates.add("13`2`Task Name D`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[1]`[]`[]");
-        validUpdates.add("14`2`Task Name E`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[2]`[]");
-        validUpdates.add("15`2`Task Name F`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28_08:31:01`NEW`[]`[]`[3]");
+        validUpdates.add( "0`0`Task Name 0`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`DONE`[]`[]`[]");
+        validUpdates.add( "1`0`Task Name 1`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`IN_PROGRESS`[]`[]`[]");
+        validUpdates.add( "2`0`Task Name 2`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`DELEGATED`[]`[]`[]");
+        validUpdates.add( "3`0`Task Name 3`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`DEFERRED`[]`[]`[]");
+        validUpdates.add( "4`1`Task Name 4`TRUE`This is the Task's note.`60000`0`TRUE`2000-05-28T08:01:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add( "5`1`Task Name 5`TRUE`This is the Task's note.`60000`0`TRUE`2099-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add( "6`1`Task Name 6`TRUE`This is the Task's note.`60000`0`FALSE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add( "7`1`Task Name 7`TRUE`This is the Task's note.`60000`1`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add( "8`2`Task Name 8`TRUE`This is the Task's note.`60001`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add( "9`2`Task Name 9`TRUE`This is the Task's note!`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add("10`2`Task Name10`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add("11`3`Task Name B`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add("-1`2`Task Name C`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[]");
+        validUpdates.add("13`2`Task Name D`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[1]`[]`[]");
+        validUpdates.add("14`2`Task Name E`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[2]`[]");
+        validUpdates.add("15`2`Task Name F`TRUE`This is the Task's note.`60000`0`TRUE`2020-05-28T08:31:01.123Z`NEW`[]`[]`[3]");
 
     }
 
@@ -121,6 +123,20 @@ public class TaskTest extends UnitTestHelper{
                         myTasks.get(i).toJson(),
                         myUpdates.get(i).toJson());
                 fail("Error! These objects should not be equal!");
+            }
+        }
+
+
+        // Verify Gson serialization works properly:
+        LOGGER.info("Verifying Gson serialization works properly.");
+        String format="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        Gson gson = new GsonBuilder().setDateFormat(format).create();
+        String json="";
+        for(int i=0; i<myTasks.size(); i++){
+            json=myTasks.get(i).toJson();
+            LOGGER.info("Evaluating {} {}", json, (gson.fromJson(json, Task.class)).toJson() );
+            if(!myTasks.get(i).equals(gson.fromJson(json, Task.class))){
+                LOGGER.info("Error attempting to serialize/deserialize the task {} {}", json, (gson.fromJson(json, Task.class)).toJson() );
             }
         }
     }
