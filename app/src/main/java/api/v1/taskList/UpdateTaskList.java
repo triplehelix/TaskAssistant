@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 /**
  * This api is used to update a given taskList. Use the class member
- * doPut(HttpServletRequest, HttpServletResponse) to update this
+ * doPost(HttpServletRequest, HttpServletResponse) to update this
  * taskList.
  *
  * TODO currently this api does not update Tasks that have been added or deleted on the client side.
@@ -26,8 +26,8 @@ import org.slf4j.Logger;
 public class UpdateTaskList extends TaskListRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateTaskList.class);
     /**
-     * Update a TaskList object. Include references to all Tasks that you
-     * want to keep since dereferenced Tasks will be deleted.
+     * Presently, this class only updates the Name and Description of a TaskList. It
+     * cannot be used to delete or add Tasks.
      * @param request
      * @param response
      * @throws ServletException
@@ -37,21 +37,17 @@ public class UpdateTaskList extends TaskListRequestHandler {
                 HttpServletResponse response)throws ServletException, IOException {
         boolean error = false;
         String errorMsg = "no error";
-        TaskList taskList = new TaskList();
         TaskList clientTaskList = new TaskList();
-        TaskList serverTaskList = new TaskList();
+        TaskList serverTaskList;
         int errorCode = 0;
-        JSONObject jsonRequest = new JSONObject();
         String json="";
         try {
             json=request.getParameter("params");
-            clientTaskList=(TaskList)getMyObject(json, taskList);
+            clientTaskList=(TaskList)getMyObject(json, clientTaskList);
             serverTaskList=taskListRepository.get(clientTaskList);
-            // TODO implement something to remove tasks that have been removed this way.
-            taskList.setName((String)jsonRequest.get("name"));
-            taskList.setDescription((String)jsonRequest.get("description"));
-            taskListRepository.update(taskList);
-
+            serverTaskList.setName(clientTaskList.getName());
+            serverTaskList.setDescription(clientTaskList.getDescription());
+            taskListRepository.update(serverTaskList);
         } catch (BusinessException b) {
             LOGGER.error("An error occurred while handling an PutTaskList  Request: {}.", json, b);
             errorMsg = "Error. " + b.getMessage();
