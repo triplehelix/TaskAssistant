@@ -1,42 +1,43 @@
 *****************************************************************************************
+** Pending issues:
+
+
+*** GSON issues:
+0.  The new time stamp format does not automatically throw exceptions for malformed
+    dates. A routine for verifying dates needs to be added to each API. 
+1.  Enum type errors are not caught by Gson.
+     
+2.  Boolean errors arn't caught either.
+     
+3.  Objects that need names no longer errors when a null value is given.
+
+4.  Number format exceptions are also missed.
+
+5.  Null timestamps are unhandled exceptions.
+
+6.  All APIs still use JSONObject to create a response.
+
+7.  Date fields in the model should be updated to Java.time.Instant.
+
+*** API reference issues:
+0.  Presently it is not possible to move a Task from one TaskList to another.
+
+1.  Implements deleteTaskList, deleteTask and deleteUser methods.
+
+2.  The UpdateTaskList API should delete Tasks that are de-referenced. 
+
+*** Miscellaneous issues:
 0.  All model objects must implement an addObject(Object) method that ensures that a 
     given reference cannot be placed in the Array of IDs more than once. This needs to
     be tested by the model unit tests as well.
-    
-1.  Presently it is not possible to move a Task from one TaskList to another.
-
-2.  Updates ought to have a clean-up method similar those present in Add APIs. It should
-    should update the repository with the serverObjects used to to map all of the objects 
-    that need to be cleaned and modified.
     
 3.  An api should be made that verifies a User's object tree is valid.
     
 4.  Database sanitization. When someone creates a "note" or names a task, how do we make
     sure the database is not corrupted? 
 
-5.  DeleteTaskList does not clean task reminders. 
-
-6.  The new time stamp format does not automatically throw exceptions for malformed
-    dates. A routine for verifying dates needs to be added to each API. 
-
 7.  Objects should not implement ArrayLists of other object Ids, they should be List
     objects instead.
-
-8.  Enum type errors are not caught by Gson.
-     
-9.  Boolean errors arn't caught either.
-     
-10. Objects that need names no longer errors when a null value is given.
-
-11. Number format exceptions are also missed.
-
-12. The UpdateTaskList API should delete Tasks that are de-referenced. 
-
-13. Null timestamps are unhandled exceptions.
-
-14. All APIs still use JSONObject to create a response.
-
-15. Date fields in the model should be updated to Java.time.Instant.
 
 *****************************************************************************************
 Mike likes a program called: http://todotxt.com/
@@ -72,4 +73,16 @@ removal from the repository. That is, they must remove objects that cannot exist
 absence. For example, deleting a Task requires that reminders are removed since they 
 cannot be seen without a Task. Likewise, Users must have all objects they reference
 removed with the exception of shared objects.
+
+Calendar       Category       Reminder       Schedule     
+  - validate     - validate     - validate     - validate 
+  - clean        - clean        - clean        - clean    
+  - update       - update       - update       - update   
+
+Task          User          TaskList
+  - validate    - validate    - validate
+  - clean       - clean       - clean
+  - update      - update      - update
+  - delete      - delete      - delete
+
 *****************************************************************************************
