@@ -53,7 +53,7 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
         if(tasks==null)
             return;
         for(Task task: tasks) {
-            LOGGER.debug("Here is the Task we are attempting to clean {} ", task.toJson());
+            //LOGGER.debug("Here is the Task we are attempting to clean {} ", task.toJson());
             if (task.getScheduleIds().contains(scheduleId)) {
                 task.getScheduleIds().remove((Object) scheduleId);
             }else {

@@ -74,7 +74,9 @@ public class BaseRequestHandler extends HttpServlet{
      */
      protected Object getMyObject(String json, Object obj){
          LOGGER.info("Here is the Json object {} ", json);
-         Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT_KEY).create();
+         GsonBuilder gsonBuilder=new GsonBuilder();
+         Gson gson = gsonBuilder.setDateFormat(DATE_FORMAT_KEY).create();
+
          obj=gson.fromJson(json, obj.getClass());
          return obj;
     }
