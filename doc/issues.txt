@@ -35,6 +35,8 @@
 13. Null timestamps are unhandled exceptions.
 
 14. All APIs still use JSONObject to create a response.
+
+15. Date fields in the model should be updated to Java.time.Instant.
 *************************************************************************************
 
 Mike likes a program called: http://todotxt.com/

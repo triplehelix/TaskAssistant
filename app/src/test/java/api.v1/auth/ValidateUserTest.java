@@ -57,8 +57,8 @@ public class ValidateUserTest extends AuthApiHelper {
 
         validUsers=null;
         validUsers=new ArrayList<String>();
-        validUsers.add(     "0`mikehedden@gmail.com`a681wo$dKo");
-        validUsers.add(       "1`kenlyon@gmail.com`Mouwkl87%qo");
+        validUsers.add(    "-1`mikehedden@gmail.com`a681wo$dKo");
+        validUsers.add(      "10`kenlyon@gmail.com`Mouwkl87%qo");
         validUsers.add(           "2`kenlyon@test.com`e-W^2VmQ");
         validUsers.add(        "3`fatsteaks@gmail.com`+%D5|x%b");
         validUsers.add(      "4`yannisgreek@gmail.com`sy@UCL0_");
@@ -94,8 +94,12 @@ public class ValidateUserTest extends AuthApiHelper {
      */
     @After
     public void tearDown() throws Exception {
-        for(User user: AuthApiHelper.toUsers(validUsers))
+        User user;
+        for(int i=0;i<validUsers.size(); i++) {
+            user=new User();
+            user.setId(i);
             userRepository.delete(user);
+        }
         validateUserInstance = null;
         validRequestList = null;
         errorRequestList = null;

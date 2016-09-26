@@ -46,17 +46,19 @@ public class UserRepository implements Repository<User>{
     }
 
     /**
-     * Use a User object to fetch a corresponding complete User.
+     * Use a User object to fetch a corresponding complete User. First try
+     * to fetch the user by the use email. If that fails, try to
      * @param u
      * @return
      * @throws BusinessException
      * @throws SystemException
      */
     public User get(User u)throws BusinessException, SystemException{
-        if(u.getId()==-1)
+        try{
             return new User(getUserByEmail(u));
-        else
+        }catch (BusinessException e){
             return new User(getUserById(u));
+        }
     }
 
     /**
