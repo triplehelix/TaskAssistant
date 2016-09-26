@@ -91,7 +91,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
         }
     }
 
-    protected void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
+    private void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
         User user = new User();
         user.setId(userId);
         user=userRepository.get(user);

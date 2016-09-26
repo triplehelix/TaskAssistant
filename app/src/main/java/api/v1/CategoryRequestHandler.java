@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * CategoryRequestHandler contains, fields and methods that are common to
  * category APIs. All category APIs inherit CategoryRequestHandler. 
  */
-public class CategoryRequestHandler extends TaskRequestHandler {
+public class CategoryRequestHandler extends AuthRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryRequestHandler.class);
     /**
      * Remove references to the supplied category id from an ArrayList of Schedules.
@@ -26,7 +26,7 @@ public class CategoryRequestHandler extends TaskRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanSchedules(int categoryId, ArrayList<Schedule> schedules) throws BusinessException, SystemException, CriticalException {
+    private void cleanSchedules(int categoryId, ArrayList<Schedule> schedules) throws BusinessException, SystemException, CriticalException {
         if(schedules==null)
             return;
         for(Schedule schedule: schedules) {
@@ -48,7 +48,7 @@ public class CategoryRequestHandler extends TaskRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanTasks(int categoryId, ArrayList<Task> tasks) throws BusinessException, SystemException, CriticalException {
+    private void cleanTasks(int categoryId, ArrayList<Task> tasks) throws BusinessException, SystemException, CriticalException {
         if(tasks==null)
             return;
         for(Task task: tasks) {
@@ -70,7 +70,7 @@ public class CategoryRequestHandler extends TaskRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanUser(int categoryId, User user) throws BusinessException, SystemException, CriticalException {
+    private void cleanUser(int categoryId, User user) throws BusinessException, SystemException, CriticalException {
         if(user.getCategoryIds().contains(categoryId)) {
             user.getCategoryIds().remove((Object)categoryId);
         }

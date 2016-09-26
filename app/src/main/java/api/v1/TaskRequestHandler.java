@@ -141,7 +141,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanTaskList(int taskId, TaskList taskList) throws BusinessException, SystemException, CriticalException {
+    private void cleanTaskList(int taskId, TaskList taskList) throws BusinessException, SystemException, CriticalException {
         if(taskList.getTaskIds().contains(taskId)) {
             taskList.getTaskIds().remove((Object)taskId);
         }
@@ -179,7 +179,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanCategories(int taskId, ArrayList<Category> categories) throws BusinessException, SystemException, CriticalException {
+    private void cleanCategories(int taskId, ArrayList<Category> categories) throws BusinessException, SystemException, CriticalException {
         if(categories==null)
             return;
         for(Category category: categories) {
@@ -222,7 +222,7 @@ public class TaskRequestHandler extends AuthRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanSchedules(int taskId, ArrayList<Schedule> schedules) throws BusinessException, SystemException, CriticalException {
+    private void cleanSchedules(int taskId, ArrayList<Schedule> schedules) throws BusinessException, SystemException, CriticalException {
         if(schedules==null)
             return;
         for(Schedule schedule: schedules) {

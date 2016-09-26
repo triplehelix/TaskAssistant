@@ -34,8 +34,4 @@ public class TaskListRequestHandler extends TaskRequestHandler {
             taskRepository.delete(task);
         }
     }
-
-    protected void findDeletedTasks(){
-
-    }
 }
