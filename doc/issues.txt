@@ -1,23 +1,23 @@
-*************************************************************************************
+*****************************************************************************************
 0.  All model objects must implement an addObject(Object) method that ensures that a 
-    given reference cannot be placed in the Array of IDs more than once. This needs 
-    to be tested by the model unit tests as well.
+    given reference cannot be placed in the Array of IDs more than once. This needs to
+    be tested by the model unit tests as well.
     
 1.  Presently it is not possible to move a Task from one TaskList to another.
 
-2.  Updates ought to have a clean-up method similar those present in Add APIs. It 
-    should update the repository with the serverObjects used to to map all of the
-    objects that need to be cleaned and modified.
+2.  Updates ought to have a clean-up method similar those present in Add APIs. It should
+    should update the repository with the serverObjects used to to map all of the objects 
+    that need to be cleaned and modified.
     
 3.  An api should be made that verifies a User's object tree is valid.
     
-4.  Database sanitization. When someone creates a "note" or names a task, how do we 
-    make sure the database is not corrupted?
+4.  Database sanitization. When someone creates a "note" or names a task, how do we make
+    sure the database is not corrupted? 
 
 5.  DeleteTaskList does not clean task reminders. 
 
 6.  The new time stamp format does not automatically throw exceptions for malformed
-    dates. A routine for verifying dates needs to be added to each API.
+    dates. A routine for verifying dates needs to be added to each API. 
 
 7.  Objects should not implement ArrayLists of other object Ids, they should be List
     objects instead.
@@ -37,23 +37,39 @@
 14. All APIs still use JSONObject to create a response.
 
 15. Date fields in the model should be updated to Java.time.Instant.
-*************************************************************************************
 
+*****************************************************************************************
 Mike likes a program called: http://todotxt.com/
 
-Also, mike says that if something is low priority, but is really short, then the cost 
-of keeping it on the task list is too expensive to just leave in the task list. 
-Corilary- if the cost of making a decission is more than the difference between 
-decisions, then jsut flip a coin.
+Also, mike says that if something is low priority, but is really short, then the cost of
+keeping it on the task list is too expensive to just leave in the task list. Corilary- if 
+the cost of making a decission is more than the difference between decisions, then just 
+flip a coin.
  
 *** Security ***
-Use "O"-auth to protect all of out APIs. There exists a philosophy that all get 
-requests are open, and everything else ought to be behind a token. This probably 
-sucks for our purposes however.
+Use "O"-auth to protect all of out APIs. There exists a philosophy that all get requests 
+are open, and everything else ought to be behind a token. This probably sucks for our 
+purposes however.
 
-Logins require user name and password. The response is a token, and tokens are 
-required for all post, get, delete and put requests.
+Logins require user name and password. The response is a token, and tokens are required 
+for all post, get, delete and put requests.
 
-***********************************************************************************
+*****************************************************************************************
+**All objects should implement 3(4) different functions:
+Validation - Verify that an object being added or updated results in a valid object-model
+state. In particular, all object fields must be valid, any objects referenced must exist
+and that the new object must have permission to access them.
 
-20160924 merge: 9d4375cd65824de2f3e21387b250a043c8e68d97
+Cleaning - Remove all references to an object already in the repository. This should be 
+done without deleteing any objects that can no longer be seen so a recovery attempt can
+be made in the event of an update failure.
+
+Updateing - Add references to an object that is being placed in the repository. Before
+an update is attempted, validation must be performed to validate the new state. 
+
+Deleting - Users, Tasks, and TaskLists must implement a special procedure for proper 
+removal from the repository. That is, they must remove objects that cannot exist in their 
+absence. For example, deleting a Task requires that reminders are removed since they 
+cannot be seen without a Task. Likewise, Users must have all objects they reference
+removed with the exception of shared objects.
+*****************************************************************************************
