@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.ReminderRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
@@ -24,7 +24,7 @@ import org.slf4j.Logger;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/reminder/DeleteReminder")
-public class DeleteReminder extends TaskRequestHandler {
+public class DeleteReminder extends ReminderRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteReminder.class);
     /**
      * Delete a particular reminder. A reminder "id" is required to specify the 

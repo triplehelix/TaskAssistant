@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import api.v1.TaskRequestHandler;
+import api.v1.ReminderRequestHandler;
 import org.json.simple.JSONObject;
 
 import api.v1.error.BusinessException;
@@ -31,7 +31,7 @@ import org.slf4j.Logger;
  */
 @SuppressWarnings("serial")
 @WebServlet("/api/v1/reminder/AddReminder")
-public class AddReminder extends TaskRequestHandler {
+public class AddReminder extends ReminderRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddReminder.class);
     /**
      * Post a new Reminder object. Request must provide task_id and reminder_time. 

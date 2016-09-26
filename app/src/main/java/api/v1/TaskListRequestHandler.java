@@ -5,6 +5,7 @@ import api.v1.error.BusinessException;
 import api.v1.error.CriticalException;
 import api.v1.error.SystemException;
 import api.v1.model.Category;
+import api.v1.model.Reminder;
 import api.v1.model.Schedule;
 import api.v1.model.Task;
 
@@ -27,6 +28,7 @@ public class TaskListRequestHandler extends TaskRequestHandler {
             task=taskRepository.get(task);
             ArrayList<Category> updatedCategories = getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules = getCleanedSchedules(task);
+            //ArrayList<Reminder> updatedReminders = getCleanedReminders(task);
             for(Schedule schedule: updatedSchedules)
                 scheduleRepository.update(schedule);
             for(Category category: updatedCategories)
