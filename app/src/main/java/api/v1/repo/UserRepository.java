@@ -35,6 +35,7 @@ public class UserRepository implements Repository<User>{
      * @throws SystemException
      */
     public User add(User u) throws BusinessException, SystemException{
+        LOGGER.debug("Here is a user we might add {}", u.toJson());
 	    // First, we make sure that the user DNE. Else throw BusinessException
         if(emailMap.containsKey(u.getEmail()))
             throw new BusinessException("Error. This User email already exits! {" + u.getEmail()+"}", Error.valueOf("CREATE_USER_ERROR_USER_EXISTS"));
