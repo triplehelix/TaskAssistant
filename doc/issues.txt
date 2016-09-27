@@ -33,7 +33,8 @@
     be tested by the model unit tests as well.
     
 1.  An api should be made that verifies a User's object tree is valid.
-    
+
+2.  Models should implement java.time.Instant instead of java.util.Date.    
 *****************************************************************************************
 Mike likes a program called: http://todotxt.com/
 
