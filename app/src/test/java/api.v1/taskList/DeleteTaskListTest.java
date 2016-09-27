@@ -61,14 +61,14 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         for (User user : TaskListApiHelper.toUsers(sampleUsers))
             userRepository.add(user);
 
-        sampleTasks.add("0`0`Mike's 01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[0,1,2]`[0]");
-        sampleTasks.add("1`0`Mike's 02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,2]`  [1]");
-        sampleTasks.add("2`0`Mike's 01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]`  [2]");
-        sampleTasks.add("3`0`Mike's 02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[2,0]`  [3]");
-        sampleTasks.add("4`1`Ken's  01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[3,4,5]`[4,5]");
-        sampleTasks.add("5`1`Ken's  02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[4]`[]`     []");
-        sampleTasks.add("6`1`Ken's  01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]`     []");
-        sampleTasks.add("7`1`Ken's  02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[]`     []");
+        sampleTasks.add("0`0`Mike's 01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[0,1,2]`[0]");	  
+        sampleTasks.add("1`0`Mike's 02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,2]`  [1]");	  
+        sampleTasks.add("2`0`Mike's 01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]`  [2]");	  
+        sampleTasks.add("3`0`Mike's 02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[2,0]`  [3]");	  
+        sampleTasks.add("4`1`Ken's  01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[3,4,5]`[4,5]"); 
+        sampleTasks.add("5`1`Ken's  02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[4]`[]`     [6]");	  
+        sampleTasks.add("6`1`Ken's  01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]`     []");    
+        sampleTasks.add("7`1`Ken's  02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[]`     []");    
         for (Task task : toTasks(sampleTasks))
             taskRepository.add(task);
 
@@ -79,6 +79,7 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         sampleReminders.add("3`3`2016-06-12T08:00:00.123Z");
         sampleReminders.add("4`4`2016-06-09T19:00:00.123Z");
         sampleReminders.add("5`4`2020-05-31T00:00:00.123Z");
+        sampleReminders.add("6`5`2020-05-31T00:00:00.123Z");
         for(Reminder reminder: toReminders(sampleReminders))
             reminderRepository.add(reminder);
 
@@ -149,7 +150,6 @@ public class DeleteTaskListTest extends TaskListApiHelper {
     public void doPost() throws Exception {
         // First delete TaskLists that have been added to the repository.
         // Finally, we try to delete TaskLists that belong to the error updates list.
-        /*
         LOGGER.debug("Delete TaskLists that belong to the error updates list.");
         for (MockHttpServletRequest request : errorRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();
@@ -165,7 +165,6 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         }
 
         // Next, try to delete them again, this time we should get errors.
-        /*
         LOGGER.info("Next, try to delete them again, this time we should get errors.");
         for (MockHttpServletRequest request : validRequestList) {
             MockHttpServletResponse response = new MockHttpServletResponse();

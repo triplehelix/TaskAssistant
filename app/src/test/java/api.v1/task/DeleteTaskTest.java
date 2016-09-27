@@ -26,11 +26,13 @@ public class DeleteTaskTest extends TaskApiHelper {
     private static CategoryRepository categoryRepository;
     private static ScheduleRepository scheduleRepository;
     private static TaskListRepository taskListRepository;
+    private static ReminderRepository reminderRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
     private static ArrayList<String> sampleCategories=new ArrayList<String>();
     private static ArrayList<String> sampleSchedules=new ArrayList<String>();
     private static ArrayList<String> sampleTaskLists=new ArrayList<String>();
+    private static ArrayList<String> sampleReminders=new ArrayList<String>();
     private static ArrayList<String> sampleUsers=new ArrayList<String>();
     private static ArrayList<String> validTasks=new ArrayList<String>();
     private static ArrayList<String> errorTasks=new ArrayList<String>();
@@ -47,6 +49,7 @@ public class DeleteTaskTest extends TaskApiHelper {
         taskListRepository=deleteTaskInstance.getTaskListRepository();
         scheduleRepository=deleteTaskInstance.getScheduleRepository();
         categoryRepository=deleteTaskInstance.getCategoryRepository();
+        reminderRepository=deleteTaskInstance.getReminderRepository();
         taskRepository=deleteTaskInstance.getTaskRepository();
         userRepository=deleteTaskInstance.getUserRepository();
 
@@ -78,14 +81,26 @@ public class DeleteTaskTest extends TaskApiHelper {
         for(Category category: TaskApiHelper.toCategories(sampleCategories))
             categoryRepository.add(category);
 
-        validTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[0,1,2]");
-        validTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,2]");
-        validTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]");
-        validTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[2,0]");
-        validTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[3,4,5]");
-        validTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[4]`[]");
-        validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]");
-        validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[]");
+
+        //3. Populate the repository with valid reminders.
+        sampleReminders.add("0`0`2020-05-28T08:31:01.123Z");
+        sampleReminders.add("1`1`2020-05-31T00:00:00.123Z");
+        sampleReminders.add("2`2`2016-06-09T18:30:00.123Z");
+        sampleReminders.add("3`3`2016-06-12T08:00:00.123Z");
+        sampleReminders.add("4`4`2016-06-09T19:00:00.123Z");
+        sampleReminders.add("5`4`2020-05-31T00:00:00.123Z");
+        for(Reminder reminder: toReminders(sampleReminders))
+            reminderRepository.add(reminder);
+
+
+        validTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[0,1,2] `[0]");
+        validTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,2]   `[1]");
+        validTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]   `[2]");
+        validTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[2,0]   `[3]");
+        validTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[3,4,5] `[4,5]");
+        validTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[4]`[]      `[]");
+        validTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]      `[]");
+        validTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[]      `[]");
         for(Task task: TaskApiHelper.toTasks(validTasks))
             taskRepository.add(task);
 

@@ -137,6 +137,8 @@ public class TaskApiHelper extends UnitTestHelper {
             if (elements.length > 10) {
                 task.setCategoryIds(toIntegerArrayList(elements[10]));
                 task.setScheduleIds(toIntegerArrayList(elements[11]));
+                if (elements.length > 12)
+                    task.setReminderIds(toIntegerArrayList(elements[12]));
             }
 
             myTasks.add(task);
