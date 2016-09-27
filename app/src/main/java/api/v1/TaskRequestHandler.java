@@ -4,6 +4,7 @@ import api.v1.error.CriticalException;
 import api.v1.error.Error;
 import api.v1.error.SystemException;
 import api.v1.model.*;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -16,6 +17,33 @@ import java.util.ArrayList;
 public class TaskRequestHandler extends AuthRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRequestHandler.class);
 
+    /**
+     * Return an ArrayList of Reminders that belong to this Task.
+     * @param task
+     * @return
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    protected ArrayList<Reminder> getReminders(Task task) throws BusinessException, SystemException {
+        LOGGER.debug("getReminders: Here is the Task we will use to discover Reminders {} {}", task.getId(), task.getName());
+        ArrayList<Reminder> reminders=new ArrayList<>();
+        if(task.getReminderIds()==null || task.getReminderIds().size()==0)
+            return reminders;
+        Reminder reminder=new Reminder();
+        for(Integer i: task.getReminderIds()) {
+            //Reminder reminder=new Reminder();
+            LOGGER.debug("Here is the Integer we must use: {}", i);
+            reminder.setId(i);
+            LOGGER.debug("Here is the reference reminder {}", reminder.toJson());
+            reminder = reminderRepository.get(reminder);
+            LOGGER.debug("Here is the real reminder {}", reminder.toJson());
+            reminders.add(reminder);
+            LOGGER.debug("getReminders: Here is a reminder we are going to return: {}", reminder.toJson());
+        }
+
+        LOGGER.debug("Finally, lets look at the reminders we are about to return {}", new Gson().toJson(reminders));
+        return reminders;
+    }
 
     /**
      * Fetch and update a TaskList object so that it now points to the specified
