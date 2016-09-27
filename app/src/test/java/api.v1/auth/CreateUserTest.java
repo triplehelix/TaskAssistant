@@ -42,12 +42,6 @@ public class CreateUserTest extends AuthApiHelper {
 
         createUserInstance = new CreateUser();
         userRepository=createUserInstance.getUserRepository();
-        HashMap<String, User> emailMap=userRepository.getEmailMap();
-        HashMap<Integer, User> userMap=userRepository.getUserMap();
-
-        Gson gson=new Gson();
-        LOGGER.debug("Leviathan {}", gson.toJson(emailMap));
-        LOGGER.debug("Leviathan {}", gson.toJson(emailMap));
 
         validUsers=new ArrayList<String>();
         validUsers.add("0`mikehedden@gmail.com`a681wo$dKo");

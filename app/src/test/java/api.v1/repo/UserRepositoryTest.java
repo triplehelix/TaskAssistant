@@ -1,6 +1,8 @@
 package api.v1.repo;
+import api.v1.BaseRequestHandler;
 import api.v1.error.BusinessException;
 import api.v1.model.User;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.fail;
 
@@ -222,6 +225,22 @@ public class UserRepositoryTest {
             LOGGER.info("Received User: {} from {}", userRepository.get(u).toJson(), u.toJson());
         }
         LOGGER.info("\"testGet\" finished.\n\n");
+    }
+
+
+    /**
+     *
+     */
+    @After
+    public void cleanUp(){
+        UserRepository userRepository= BaseRequestHandler.getUserRepository();
+        HashMap<String, User> emailMap=userRepository.getEmailMap();
+        HashMap<Integer, User> userMap=userRepository.getUserMap();
+
+        Gson gson=new Gson();
+        LOGGER.debug("Leviathan {}", gson.toJson(emailMap));
+        LOGGER.debug("Leviathan {}", gson.toJson(userMap));
+
     }
 
 }

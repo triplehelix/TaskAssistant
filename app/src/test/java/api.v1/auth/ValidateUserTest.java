@@ -106,14 +106,6 @@ public class ValidateUserTest extends AuthApiHelper {
         validRequestList = null;
         errorRequestList = null;
         verifyRepositoriesAreClean();
-
-        HashMap<String, User> emailMap=userRepository.getEmailMap();
-        HashMap<Integer, User> userMap=userRepository.getUserMap();
-
-        Gson gson=new Gson();
-        LOGGER.debug("Behemoth {}", gson.toJson(emailMap));
-        LOGGER.debug("Behemoth {}", gson.toJson(userMap));
-
     }
 
     /**

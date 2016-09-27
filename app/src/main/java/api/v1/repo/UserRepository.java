@@ -121,12 +121,14 @@ public class UserRepository implements Repository<User>{
      * @throws SystemException
      */
 	public void delete(User u) throws BusinessException, SystemException{
-        if(userMap.containsKey(u.getId())){
-            userMap.remove(u.getId());
-            emailMap.remove(u.getEmail());
-        }
-        else
+        if(!userMap.containsKey(u.getId()))
             throw new BusinessException(" User not found. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+
+        if(!emailMap.containsKey(u.getEmail()))
+            throw new BusinessException(" User not found. email=" + u.getEmail(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+
+        userMap.remove(u.getId());
+        emailMap.remove(u.getEmail());
     }
 
     public HashMap<Integer, User> getUserMap(){
