@@ -202,8 +202,6 @@ public class UnitTestHelper {
             reminder.setId(Integer.parseInt(reminderElementArray[0]));
             reminder.setTaskId(Integer.parseInt(reminderElementArray[1]));
             reminder.setReminderTime(parseJsonDateAsDate(reminderElementArray[2]));
-            if(reminderElementArray.length>3)
-                reminder.setInstant(Instant.parse(reminderElementArray[3].trim()));
             myReminders.add(reminder);
         }
         return myReminders;

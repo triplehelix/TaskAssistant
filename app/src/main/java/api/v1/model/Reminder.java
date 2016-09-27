@@ -16,15 +16,6 @@ public class Reminder {
     private int taskId;
     private Date reminderTime;
 
-
-    private Instant instant;
-    public Instant getInstant() {
-        return instant;
-    }
-
-    public void setInstant(Instant instant) {
-        this.instant = instant;
-    }
     /**
      * Create a new, Reminder without an id. Reminders are
      * assigned an id of -1 when created.
@@ -32,7 +23,6 @@ public class Reminder {
     public Reminder(){
         this.id=-1;
         this.taskId=-1;
-        instant= Instant.now();
     }
 
     /**
@@ -89,8 +79,7 @@ public class Reminder {
 
         if (id != reminder.id) return false;
         if (taskId != reminder.taskId) return false;
-        if (!reminderTime.equals(reminder.reminderTime)) return false;
-        return instant.equals(reminder.instant);
+        return reminderTime != null ? reminderTime.equals(reminder.reminderTime) : reminder.reminderTime == null;
 
     }
 
@@ -98,8 +87,7 @@ public class Reminder {
     public int hashCode() {
         int result = id;
         result = 31 * result + taskId;
-        result = 31 * result + reminderTime.hashCode();
-        result = 31 * result + instant.hashCode();
+        result = 31 * result + (reminderTime != null ? reminderTime.hashCode() : 0);
         return result;
     }
 }
