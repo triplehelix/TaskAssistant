@@ -46,6 +46,7 @@ public class UnitTestHelper {
             responseObj = (JSONObject) new JSONParser().parse(responseString);
         } catch (ParseException e) {
             LOGGER.error("Parse Exception while parsing the response string", e);
+            fail("The JSON request could not be parsed correctly!");
             return;
         }
         if (null != responseObj){

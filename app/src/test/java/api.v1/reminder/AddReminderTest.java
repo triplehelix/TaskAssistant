@@ -65,7 +65,7 @@ public class AddReminderTest extends ReminderApiHelper {
         validReminders.add("-1`3`2016-06-09T19:00:00.123Z"); //
         validReminders.add("-1`4`2020-05-31T00:00:00.123Z"); //
 
-        //errorReminders.add( "1`1` "); TODO throw an error here.
+        errorReminders.add( "1`1` "); //TODO throw an error here.
         //errorReminders.add( "3`2`2020-18-31T00:00:00.123Z");
         errorReminders.add("4`-3`2016-06-09T19:00:00.123Z");
         errorReminders.add("5`40`2020-05-31T00:00:00.123Z");
