@@ -3,6 +3,8 @@ import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.error.Error;
 import java.util.HashMap;
+import java.util.Hashtable;
+
 import api.v1.model.User;
 
 import org.slf4j.Logger;
@@ -124,5 +126,14 @@ public class UserRepository implements Repository<User>{
         }
         else
             throw new BusinessException(" User not found. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+    }
+
+    public HashMap<Integer, User> getUserMap(){
+        return userMap;
+    }
+
+
+    public HashMap<String, User> getEmailMap(){
+        return emailMap;
     }
 }
