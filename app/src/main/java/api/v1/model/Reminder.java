@@ -84,10 +84,14 @@ public class Reminder {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Reminder reminder = (Reminder) o;
+
         if (id != reminder.id) return false;
         if (taskId != reminder.taskId) return false;
-        return reminderTime.equals(reminder.reminderTime);
+        if (!reminderTime.equals(reminder.reminderTime)) return false;
+        return instant.equals(reminder.instant);
+
     }
 
     @Override
@@ -95,6 +99,7 @@ public class Reminder {
         int result = id;
         result = 31 * result + taskId;
         result = 31 * result + reminderTime.hashCode();
+        result = 31 * result + instant.hashCode();
         return result;
     }
 }
