@@ -34,6 +34,7 @@ public class CreateUserTest extends AuthApiHelper {
      */
     @Before
     public void setUp() throws Exception {
+        verifyRepositoriesAreClean();
         createUserInstance = new CreateUser();
         userRepository=createUserInstance.getUserRepository();
         validUsers=new ArrayList<String>();
