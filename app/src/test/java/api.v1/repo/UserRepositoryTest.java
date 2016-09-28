@@ -28,6 +28,7 @@ public class UserRepositoryTest {
 
     private Logger LOGGER = LoggerFactory.getLogger(UserRepositoryTest.class);
     private UserRepository userRepository = new UserRepository();
+    private static ArrayList<User> errorDeleteUsers=new ArrayList<User>();
     private static ArrayList<User> validAddUsers=new ArrayList<User>();
     private static ArrayList<User> errorAddUsers=new ArrayList<User>();
     private static ArrayList<User> validGetUsers=new ArrayList<User>();
@@ -53,12 +54,20 @@ public class UserRepositoryTest {
         errorAddUsers.add(toUser("0`mikehedden@gmail.com`a681wo$dKo")); // email already in use
         errorAddUsers.add(toUser("1`kenlyon@gmail.com`Mouwkl87%qo"));   // email already in use
 
-        validGetUsers.add(toUser("0` `a681wo$dKo")); // Search by id
+        validGetUsers.add(toUser("0` `a681wo$dKo"));                    // Search by id
         validGetUsers.add(toUser("-1`kenlyon@gmail.com`Mouwkl87%qo"));  // Search by email
-        validGetUsers.add(toUser("2``e-W^2VmQ"));       // Search by id
+        validGetUsers.add(toUser("2``e-W^2VmQ"));                       // Search by id
         validGetUsers.add(toUser("-1`fatsteaks@gmail.com`+%D5|x%b"));   // Search by email
+
         errorGetUsers.add(toUser("0`mikehedden@gmail.com`a681wo$dKo")); // wrong password
         errorGetUsers.add(toUser("1`kenlyon@gmail.com`Mouwkl87%qo"));   // wrong password
+
+
+        errorDeleteUsers.add(toUser("1`mikehedden@gmail.com`a681wo$dKo` [1,2,3,5,8] ` [10,20,30,40,50]` [11,22,33,44,55]` [0,1,2]")); // Missmatching id/email.
+        errorDeleteUsers.add(toUser(  "1`kenlyon@gmail.com`Mouwkl87%qo` [2,1,3,4,7] ` [20,30,40,50,60]` [11,22,33,44,55]` [0,1,2]")); // Entry DNE
+        errorDeleteUsers.add(toUser(      "2`kenlyon@test.com`e-W^2VmQ` [0,1,2,3,5] ` [30,40,50,60,70]` [11,22,33,44,55]` [0,1,2]")); // Null email. 
+        errorDeleteUsers.add(toUser(   "3`fatsteaks@gmail.com`+%D5|x%b` [0,2,1,3,4] ` [40,50,60,70,80]` [11,22,33,44,55]` [0,1,2]")); // Entry DNE
+        errorDeleteUsers.get(2).setEmail(null);
 
         validUpdates.add(toUser("0`mikehedden@gmail.com`Mouwkl87%qo"));
         validUpdates.add(toUser("1`ken.lyon@gmail.com`a681wo$dKo"));
@@ -91,13 +100,6 @@ public class UserRepositoryTest {
 
     @After
     public void tearDown() throws Exception {
-        HashMap<String, User> emailMap=userRepository.getEmailMap();
-        HashMap<Integer, User> userMap=userRepository.getUserMap();
-
-        Gson gson=new Gson();
-        LOGGER.debug("Leviathan {}", gson.toJson(emailMap));
-        LOGGER.debug("Leviathan {}", gson.toJson(userMap));
-
         userRepository = null;
         validUpdates=null;
         validAddUsers = null;
@@ -138,15 +140,16 @@ public class UserRepositoryTest {
         LOGGER.info("Validating updated users... ");
         for (User tIn : validUpdates) {
             if (!(userRepository.get(tIn).toJson()).equals(tIn.toJson()))
-                LOGGER.error("These users are not identical!\n" +
+                LOGGER.error("These users are not identical.\n" +
                         userRepository.get(tIn).toJson() + "\n" +
                         tIn.toJson()
                 );
-            else
-                LOGGER.info("These users are identical.\n"+
+            else {
+                fail("These users are identical!\n" +
                         userRepository.get(tIn).toJson() + "\n" +
                         tIn.toJson()
                 );
+            }
         }
         LOGGER.info("Updated users are validated.\n\n");
     }
@@ -170,11 +173,10 @@ public class UserRepositoryTest {
         }
 
         boolean error=false;
-        for (int i=0;i<validUpdates.size();i++){
+        for(User user: errorDeleteUsers){
             try {
-                u=validUpdates.get(i);
-                //    LOGGER.debug("Re: UserRepositoryTest.testDelete: Attempting to delete " + t.toJson());
-                userRepository.delete(u);
+                //LOGGER.debug("Re: UserRepositoryTest.testDelete: Attempting to delete " + t.toJson());
+                userRepository.delete(user);
             } catch (Exception e) {
                 LOGGER.info("Delete User error {}", u.toJson());
                 LOGGER.info(e.getMessage(), e);

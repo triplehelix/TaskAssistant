@@ -119,7 +119,9 @@ public class UserRepository implements Repository<User> {
     }
 
     /**
-     * Deletes the provided user.
+     * Deletes the provided user. Note that the user passed as a parameter
+     * must have both the proper userId and Email to successfully remove a
+     * User.
      *
      * @param u
      * @throws BusinessException
@@ -128,12 +130,17 @@ public class UserRepository implements Repository<User> {
     public void delete(User u) throws BusinessException, SystemException {
         // First, throw an exception if the User cannot be found in
         // either mapping:
+        if (u.getEmail()==null)
+            throw new BusinessException("A valid user email must be provided.", Error.valueOf("NO_SUCH_OBJECT_ERROR"));
+
         if (!userMap.containsKey(u.getId()))
             throw new BusinessException(" User not found. ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 
         if (!emailMap.containsKey(u.getEmail()))
             throw new BusinessException(" User not found. email=" + u.getEmail(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
 
+        if(!emailMap.get(u.getEmail()).equals(userMap.get(u.getId())))
+            throw new BusinessException("The user id and email do not point to the same user! email=" + u.getEmail() + "  ID=" + u.getId(), Error.valueOf("NO_SUCH_OBJECT_ERROR"));
         //*/
         //Then attempt to remove the mapping.
         removeFromEmailMap(u);
@@ -166,14 +173,5 @@ public class UserRepository implements Repository<User> {
                 iterator.remove();
             }
         }
-    }
-
-    public HashMap<Integer, User> getUserMap(){
-        return userMap;
-    }
-
-
-    public HashMap<String, User> getEmailMap(){
-        return emailMap;
     }
 }
