@@ -69,8 +69,8 @@ public class UserRepositoryTest {
         errorUpdates.add(toUser("5`ken.lyon@gmail.com`a681wo$dKo"));
         }
 
-    private User toUser(String s) throws Exception{
-        User user= new User();
+    private User toUser(String s) throws Exception {
+        User user = new User();
         String[] elements = s.split("`");
         user.setId(Integer.parseInt(elements[0]));
         user.setEmail(elements[1]);
@@ -161,7 +161,7 @@ public class UserRepositoryTest {
         try {
             for (int i=0;i<validAddUsers.size();i++) {
                 u=validAddUsers.get(i);
-                LOGGER.info("Deleting ", u.toJson());
+                LOGGER.info("Deleting {}", u.toJson());
                 userRepository.delete(u);
             }
         } catch (Exception e) {
@@ -210,6 +210,11 @@ public class UserRepositoryTest {
                 fail("Success returned for an invalid update.");
         }
         LOGGER.info("\"testUpdate\" finished.\n\n");
+
+        //Use update to restore the User objects to their original
+        // state. This is expected by testDelete().
+        for(User u: validAddUsers)
+            userRepository.update(u);
     }
 
     private void testAdd() throws Exception {
