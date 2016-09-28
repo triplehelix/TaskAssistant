@@ -60,23 +60,4 @@ public class ReminderApiHelper extends UnitTestHelper{
         }
         return myTasks;
     }
-
-    /**
-     * Accept an ArrayList of backtick delimited strings and return an ArrayList of Reminders.
-     * @param backtickReminders
-     * @return  ArrayList<Reminder>
-     * @throws Exception
-     */
-    protected static ArrayList<Reminder> toReminders(ArrayList<String> backtickReminders) throws Exception {
-        ArrayList<Reminder> myReminders=new ArrayList<Reminder>();
-        for(String s: backtickReminders) {
-            String[] reminderElementArray = s.split("`");
-            Reminder reminder = new Reminder();
-            reminder.setId(Integer.parseInt(reminderElementArray[0]));
-            reminder.setTaskId(Integer.parseInt(reminderElementArray[1]));
-            reminder.setReminderTime(parseJsonDateAsDate(reminderElementArray[2]));
-            myReminders.add(reminder);
-        }
-        return myReminders;
-    }
 }
