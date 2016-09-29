@@ -108,7 +108,7 @@ public class Schedule {
     public void addCategory(Category category){
         if(categoryIds==null)
             categoryIds=new ArrayList<Integer>();
-
+        // Don't add the same ID twice.
         for(int i: categoryIds)
             if(i==category.getId())
                 return;

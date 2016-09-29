@@ -1,6 +1,4 @@
 package api.v1.model;
-
-
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 

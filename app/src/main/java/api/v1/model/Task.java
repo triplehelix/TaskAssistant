@@ -69,8 +69,6 @@ public class Task {
     }
 
     public void setName(String name)throws BusinessException{
-        if(name==null || name.equals(""))
-            throw new BusinessException("The task name cannot be empty.", Error.valueOf("INVALID_NAME_ERROR"));
         this.name=name;
     }
 
@@ -103,14 +101,10 @@ public class Task {
     public void setDueDate(Date dueDate){
         this.dueDate = dueDate;
     }
-    public void setStatus(String status) throws BusinessException{
-        try {
-            this.status = Status.valueOf(status);
-        }
-        catch(java.lang.IllegalArgumentException e){
-            throw new BusinessException(status +" is not a valid task status.", Error.valueOf("INVALID_TASK_STATUS_ERROR"));
-        }
+    public void setStatus(Status status){
+        this.status=status;
     }
+
     public int getId(){
         return this.id;
     }
@@ -153,9 +147,18 @@ public class Task {
         return gson.toJson(this);
     }
 
+    /**
+     * Associate a Category with this Task.
+     * @param category
+     */
     public void addCategory(Category category){
-        if(null==categoryIds)
+        if(categoryIds==null)
             categoryIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: categoryIds)
+            if(i==category.getId())
+                return;
+
         categoryIds.add(category.getId());
     }
 
@@ -167,9 +170,18 @@ public class Task {
         this.reminderIds = reminderIds;
     }
 
+    /**
+     * Add a reminder to this Task.
+     * @param reminder
+     */
     public void addReminder(Reminder reminder){
         if(reminderIds==null)
             reminderIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: reminderIds)
+            if(i==reminder.getId())
+                return;
+
         reminderIds.add(reminder.getId());
     }
 
@@ -181,9 +193,17 @@ public class Task {
         this.scheduleIds = scheduleIds;
     }
 
+    /**
+     * Associate this Task with a Schedule.
+     * @param schedule
+     */
     public void addSchedule(Schedule schedule){
         if(scheduleIds==null)
             scheduleIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: scheduleIds)
+            if(i==schedule.getId())
+                return;
         scheduleIds.add(schedule.getId());
     }
     public ArrayList<Integer> getCategoryIds() {
