@@ -16,8 +16,8 @@ public class Schedule {
     private Date endDate;
     private RepeatTypes repeatType;
     public enum RepeatTypes {NONE, DAILY, WEEKLY, MONTHLY, YEARLY};
-    ArrayList<Integer> categoryIds;
-    ArrayList<Integer> taskIds;
+    private ArrayList<Integer> categoryIds;
+    private ArrayList<Integer> taskIds;
 
     /**
      * Create a new schedule w/o an id. Schedules without an id are
@@ -65,15 +65,6 @@ public class Schedule {
         this.userId = userId;
     }
 
-    public void setRepeatType(String repeatType) throws BusinessException{
-        try {
-            this.repeatType = RepeatTypes.valueOf(repeatType);
-        }
-        catch(java.lang.IllegalArgumentException e){
-            throw new BusinessException(repeatType +" is not a valid task status.", Error.valueOf("INVALID_SCHEDULE_REPEAT_TYPE_ERROR"));
-        }
-    }
-
     public void setRepeatType(RepeatTypes repeatType){
 	this.repeatType=repeatType;
     }
@@ -87,9 +78,17 @@ public class Schedule {
         this.taskIds = taskIds;
     }
 
+    /**
+     * Add a Task to this Schedule.
+     * @param task
+     */
     public void addTask(Task task){
         if(this.taskIds==null)
             taskIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: taskIds)
+            if(i==task.getId())
+                return;
         taskIds.add(task.getId());
     }
 
@@ -102,10 +101,20 @@ public class Schedule {
         this.categoryIds = categoryIds;
     }
 
+    /**
+     * Add a category id to this ArrayList.
+     * @param category
+     */
     public void addCategory(Category category){
         if(categoryIds==null)
             categoryIds=new ArrayList<Integer>();
+
+        for(int i: categoryIds)
+            if(i==category.getId())
+                return;
+
         categoryIds.add(category.getId());
+
     }
 
     /**

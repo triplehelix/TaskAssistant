@@ -82,6 +82,7 @@ public class TaskListApiHelper extends UnitTestHelper {
         }
         return myCategories;
     }
+
     /**
      * Accept an ArrayList of backtick delimited strings and return an ArrayList of Categories.
      * @param backtickCategories
@@ -97,7 +98,7 @@ public class TaskListApiHelper extends UnitTestHelper {
             schedule.setUserId(Integer.parseInt(elements[1]));
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
-            schedule.setRepeatType(elements[4].trim());
+            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
             if(elements.length>5)
                 schedule.setTaskIds(toIntegerArrayList(elements[5].trim()));
             mySchedules.add(schedule);

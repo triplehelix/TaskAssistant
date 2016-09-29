@@ -61,7 +61,7 @@ public class TaskApiHelper extends UnitTestHelper {
             schedule.setUserId(Integer.parseInt(elements[1]));
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
-            schedule.setRepeatType(elements[4].trim());
+            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
             if(elements.length>5)
                 schedule.setTaskIds(toIntegerArrayList(elements[5].trim()));
             mySchedules.add(schedule);
@@ -95,11 +95,6 @@ public class TaskApiHelper extends UnitTestHelper {
         ArrayList<TaskList> myTaskLists=new ArrayList<TaskList>();
         for(String s: backtickTaskLists) {
             String[] elements = s.split("`");
-            //LOGGER.debug("Here is element 0. It is supposed to be an id. {}", elements[0]);
-            //LOGGER.debug("Here is element 1. It is supposed to be an id. {}", elements[1]);
-            //LOGGER.debug("Here is element 2. It is supposed to be the TaskList name. {}", elements[2]);
-            //LOGGER.debug("Here is element 3. It is supposed to be the TaskList description. {}", elements[3]);
-            //LOGGER.debug("Here is element 4. It is supposed to be the Task IDs. {}", elements[4]);
             TaskList taskList=new TaskList();
             taskList.setId(Integer.parseInt(elements[0]));
             taskList.setUserId(Integer.parseInt(elements[1]));

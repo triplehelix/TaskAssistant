@@ -87,7 +87,6 @@ public class UnitTestHelper {
             responseObj = (JSONObject) new JSONParser().parse(responseString);
         } catch (ParseException e) {
             LOGGER.error("Parse Exception while parsing the response string", e);
-            // TODO Mike thinks that this should fail. Try it.
             fail("The JSON request could not be parsed correctly!");
             return;
         }
@@ -283,7 +282,7 @@ public class UnitTestHelper {
     }
 
     /**
-     *
+     * Verify that there are no remaining objects in any repository.
      * @throws SystemException
      */
     protected void verifyRepositoriesAreClean() throws SystemException{
