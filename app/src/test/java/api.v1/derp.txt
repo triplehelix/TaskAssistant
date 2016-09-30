@@ -1,8 +1,0 @@
-        if(categoryIds==null)
-            categoryIds=new ArrayList<Integer>();
-        // Don't add the same ID twice.
-        for(int i: categoryIds)
-            if(i==category.getId())
-                return;
-
-        categoryIds.add(category.getId());

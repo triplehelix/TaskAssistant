@@ -126,7 +126,7 @@ public class TaskListApiHelper extends UnitTestHelper {
             task.setInvestedTime(Long.parseLong(elements[6]));
             task.setUrgent(parseJsonBooleanAsBoolean(elements[7]));
             task.setDueDate(parseJsonDateAsDate(elements[8]));
-            task.setStatus(elements[9]);
+            task.setStatus(Task.Status.valueOf(elements[9].trim()));
             if (elements.length > 10) {
                 task.setCategoryIds(toIntegerArrayList(elements[10]));
                 task.setScheduleIds(toIntegerArrayList(elements[11]));

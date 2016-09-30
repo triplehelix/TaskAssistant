@@ -80,7 +80,7 @@ public class TaskTest extends UnitTestHelper{
             task.setInvestedTime(Long.parseLong(elements[6]));
             task.setUrgent(UnitTestHelper.parseJsonBooleanAsBoolean(elements[7]));
             task.setDueDate(UnitTestHelper.parseJsonDateAsDate(elements[8]));
-            task.setStatus(elements[9]);
+            task.setStatus(Task.Status.valueOf(elements[9].trim()));
             task.setCategoryIds(toIntegerArrayList(elements[10]));
             task.setReminderIds(toIntegerArrayList(elements[11]));
             task.setScheduleIds(toIntegerArrayList(elements[12]));

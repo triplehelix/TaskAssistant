@@ -164,7 +164,7 @@ public class UnitTestHelper {
             task.setInvestedTime(Long.parseLong(taskElementArray[6]));
             task.setUrgent(UnitTestHelper.parseJsonBooleanAsBoolean(taskElementArray[7]));
             task.setDueDate(UnitTestHelper.parseJsonDateAsDate(taskElementArray[8]));
-            task.setStatus(taskElementArray[9]);
+            task.setStatus(Task.Status.valueOf(taskElementArray[9].trim()));
             myTasks.add(task);
         }
         return myTasks;
