@@ -109,5 +109,42 @@ public class TaskListTest extends UnitTestHelper{
                 LOGGER.info("Error attempting to serialize/deserialize the taskList {} {}", json, (gson.fromJson(json, TaskList.class)).toJson() );
             }
         }
+        testAddTasks();
+    }
+
+
+    /**
+     * Validate the addTask method.
+     */
+    private void testAddTasks() throws Exception{
+
+        Task task=new Task();
+
+        ArrayList<TaskList> myTaskLists=toTaskLists(validTaskLists);
+        TaskList taskListTask;
+
+        taskListTask=new TaskList(myTaskLists.get(1));
+        task.setId(1);
+        taskListTask.addTask(task);
+
+
+        if(!myTaskLists.get(1).equals(taskListTask)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    myTaskLists.get(1).toJson(),
+                    taskListTask.toJson());
+            fail("Error! These objects should be equal!");
+        }
+
+        task.setId(31);
+
+        taskListTask.addTask(task);
+
+        if(myTaskLists.get(1).equals(taskListTask)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    myTaskLists.get(1).toJson(),
+                    taskListTask.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+
     }
 }
