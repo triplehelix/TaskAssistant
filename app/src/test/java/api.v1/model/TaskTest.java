@@ -139,5 +139,80 @@ public class TaskTest extends UnitTestHelper{
                 LOGGER.info("Error attempting to serialize/deserialize the task {} {}", json, (gson.fromJson(json, Task.class)).toJson() );
             }
         }
+        testAddCategoriesRemindersAndSchedules();
+    }
+
+    /**
+     * Validate the addSchedule, addCalendar, addCategory & addReminder.
+     */
+    private void testAddCategoriesRemindersAndSchedules() throws Exception{
+     
+        Category category=new Category();
+        Reminder reminder=new Reminder();
+        Schedule schedule=new Schedule();
+
+        ArrayList<Task> myTasks=toTasks(validUpdates);
+        Task taskCategory, taskSchedule, taskReminder;
+        taskCategory=new Task(myTasks.get(13));
+        taskReminder=new Task(myTasks.get(14));
+        taskSchedule=new Task(myTasks.get(15));
+
+        category.setId(1);
+        reminder.setId(2);
+        schedule.setId(3);
+
+        taskCategory.addCategory(category);
+        taskReminder.addReminder(reminder);
+        taskSchedule.addSchedule(schedule);
+
+
+        if(!myTasks.get(13).equals(taskCategory)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    myTasks.get(13).toJson(),
+                    taskCategory.toJson());
+            fail("Error! These objects should be equal!");
+        }
+        if(!myTasks.get(14).equals(taskReminder)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    myTasks.get(14).toJson(),
+                    taskReminder.toJson());
+            fail("Error! These objects should be equal!");
+        }
+        if(!myTasks.get(15).equals(taskSchedule)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    myTasks.get(15).toJson(),
+                    taskSchedule.toJson());
+            fail("Error! These objects should be equal!");
+        }
+
+        category.setId(31);
+        reminder.setId(31);
+        schedule.setId(31);
+
+        taskCategory.addCategory(category);
+        taskReminder.addReminder(reminder);
+        taskSchedule.addSchedule(schedule);
+
+        if(myTasks.get(13).equals(taskCategory)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    myTasks.get(13).toJson(),
+                    taskCategory.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+        if(myTasks.get(14).equals(taskReminder)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    myTasks.get(14).toJson(),
+                    taskReminder.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+        if(myTasks.get(15).equals(taskSchedule)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    myTasks.get(15).toJson(),
+                    taskSchedule.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+
     }
 }
+
+
