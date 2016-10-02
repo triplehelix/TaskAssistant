@@ -119,7 +119,7 @@ public class User {
 
     /**
      * Add a Category to this User.
-     * @param reminder
+     * @param category
      */
     public void addCategory(Category category){
         if(categoryIds==null)
@@ -134,7 +134,7 @@ public class User {
 
     /**
      * Add a Schedule to this User.
-     * @param reminder
+     * @param schedule
      */
     public void addSchedule(Schedule schedule){
         if(scheduleIds==null)
@@ -149,7 +149,8 @@ public class User {
 
     /**
      * Add a TaskList to this User.
-     * @param reminder
+     * @param taskList
+     *
      */
     public void addTaskList(TaskList taskList){
         if(taskListIds==null)
@@ -164,7 +165,7 @@ public class User {
     
     /**
      * Add a Calendar to this User.
-     * @param reminder
+     * @param calendar
      */
     public void addCalendar(Calendar calendar){
         if(calendarIds==null)
