@@ -183,6 +183,5 @@ public class UserTest extends UnitTestHelper{
 
         //Finally test the
         testAddSchedulesCategoriesTaskListsAndCalendars();
-
     }
 }
