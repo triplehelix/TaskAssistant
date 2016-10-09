@@ -5,7 +5,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+
+import api.v1.ReminderRequestHandler;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
@@ -23,7 +24,7 @@ import org.slf4j.Logger;
  *  @author Ken Lyon
  */
 @WebServlet("/api/v1/reminder/GetReminder")
-public class GetReminder extends TaskRequestHandler {
+public class GetReminder extends ReminderRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetReminder.class);
     /**
      *

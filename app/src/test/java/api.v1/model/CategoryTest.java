@@ -108,6 +108,63 @@ public class CategoryTest extends UnitTestHelper{
             if(!myCategories.get(i).equals(gson.fromJson(json, Category.class))){
                 LOGGER.info("Error attempting to serialize/deserialize the category {} {}", json, (gson.fromJson(json, Category.class)).toJson() );
             }
+            testAddTasksAndSchedules();
         }
+    }
+
+
+
+    /**
+     * Validate the addSchedule & addTask methods.
+     */
+    private void testAddTasksAndSchedules() throws Exception{
+
+        Schedule schedule=new Schedule();
+        Task task=new Task();
+
+        ArrayList<Category> myCategories=toCategories(validCategories);
+        Category categorySchedule, categoryTask;
+        categorySchedule=new Category(myCategories.get(2));
+        categoryTask=new Category(myCategories.get(3));
+
+        schedule.setId(3);
+        task.setId(4);
+
+        categorySchedule.addSchedule(schedule);
+        categoryTask.addTask(task);
+
+
+        if(!myCategories.get(2).equals(categorySchedule)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    myCategories.get(2).toJson(),
+                    categorySchedule.toJson());
+            fail("Error! These objects should be equal!");
+        }
+        if(!myCategories.get(3).equals(categoryTask)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    myCategories.get(3).toJson(),
+                    categoryTask.toJson());
+            fail("Error! These objects should be equal!");
+        }
+
+        schedule.setId(31);
+        task.setId(31);
+
+        categorySchedule.addSchedule(schedule);
+        categoryTask.addTask(task);
+
+        if(myCategories.get(2).equals(categorySchedule)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    myCategories.get(2).toJson(),
+                    categorySchedule.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+        if(myCategories.get(3).equals(categoryTask)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    myCategories.get(3).toJson(),
+                    categoryTask.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+
     }
 }

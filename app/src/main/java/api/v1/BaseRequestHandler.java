@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import api.v1.repo.*;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
+import com.google.appengine.repackaged.com.google.gson.JsonSyntaxException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -72,10 +73,24 @@ public class BaseRequestHandler extends HttpServlet{
      * @param obj
      * @return
      */
-     protected Object getMyObject(String json, Object obj){
+     protected Object getMyObject(String json, Object obj) throws BusinessException{
          LOGGER.info("Here is the Json object {} ", json);
-         Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT_KEY).create();
-         obj=gson.fromJson(json, obj.getClass());
+         String message="An error occurred while deserializing the JSON object.";
+         GsonBuilder gsonBuilder = new GsonBuilder();
+         Gson gson = gsonBuilder.setDateFormat(DATE_FORMAT_KEY).create();
+         try {
+             obj = gson.fromJson(json, obj.getClass());
+
+         }catch (NullPointerException npe){
+             LOGGER.error(message, npe);
+             throw new BusinessException(message, Error.valueOf("DESERIALIZATION_NULL_VALUE_ERROR"));
+         }catch (NumberFormatException nfe){
+             LOGGER.error(message, nfe);
+             throw new BusinessException(message, Error.valueOf("DESERIALIZATION_NOT_A_NUMBER_ERROR"));
+         }catch (JsonSyntaxException jse){
+             LOGGER.error(message, jse);
+             throw new BusinessException(message, Error.valueOf("DESERIALIZATION_JSON_SYNTAX_ERROR"));
+         }
          return obj;
-    }
+     }
 }

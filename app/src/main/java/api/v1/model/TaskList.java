@@ -82,9 +82,19 @@ public class TaskList {
     public void setTaskIds(ArrayList<Integer> taskIds) {
         this.taskIds = taskIds;
     }
+
+    /**
+     * Add a Task to this TaskList.
+     * @param task
+     */
     public void addTask(Task task){
         if(taskIds==null)
             taskIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: taskIds)
+            if(i==task.getId())
+                return;
+
         taskIds.add(task.getId());
     }
     /**

@@ -84,7 +84,6 @@ public class UpdateTaskTest extends TaskApiHelper{
         errorUpdates.add("-10`0`Mike's work task B`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[]`[]");
         errorUpdates.add(  "0`0`Mike's work task C`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[0,1,2]"); // Lacks permission to access Category.
         errorUpdates.add(  "1`0`Mike's work task D`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,5]");   // Lacks permission to access Schedule.
-        //errorUpdates.add(  "2`0`Mike's home task E`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]");   // Invalid invested time.
         errorUpdates.add(  "3`0`Mike's home task F`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[200]");   // Schedule DNE.
 
                                                                                                                          // Category`Schedule

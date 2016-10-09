@@ -46,6 +46,7 @@ public class UnitTestHelper {
             responseObj = (JSONObject) new JSONParser().parse(responseString);
         } catch (ParseException e) {
             LOGGER.error("Parse Exception while parsing the response string", e);
+            fail("The JSON request could not be parsed correctly!");
             return;
         }
         if (null != responseObj){
@@ -86,7 +87,6 @@ public class UnitTestHelper {
             responseObj = (JSONObject) new JSONParser().parse(responseString);
         } catch (ParseException e) {
             LOGGER.error("Parse Exception while parsing the response string", e);
-            // TODO Mike thinks that this should fail. Try it.
             fail("The JSON request could not be parsed correctly!");
             return;
         }
@@ -164,7 +164,7 @@ public class UnitTestHelper {
             task.setInvestedTime(Long.parseLong(taskElementArray[6]));
             task.setUrgent(UnitTestHelper.parseJsonBooleanAsBoolean(taskElementArray[7]));
             task.setDueDate(UnitTestHelper.parseJsonDateAsDate(taskElementArray[8]));
-            task.setStatus(taskElementArray[9]);
+            task.setStatus(Task.Status.valueOf(taskElementArray[9].trim()));
             myTasks.add(task);
         }
         return myTasks;
@@ -201,8 +201,6 @@ public class UnitTestHelper {
             reminder.setId(Integer.parseInt(reminderElementArray[0]));
             reminder.setTaskId(Integer.parseInt(reminderElementArray[1]));
             reminder.setReminderTime(parseJsonDateAsDate(reminderElementArray[2]));
-            if(reminderElementArray.length>3)
-                reminder.setInstant(Instant.parse(reminderElementArray[3].trim()));
             myReminders.add(reminder);
         }
         return myReminders;
@@ -284,7 +282,7 @@ public class UnitTestHelper {
     }
 
     /**
-     *
+     * Verify that there are no remaining objects in any repository.
      * @throws SystemException
      */
     protected void verifyRepositoriesAreClean() throws SystemException{
