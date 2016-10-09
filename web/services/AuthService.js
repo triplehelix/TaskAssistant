@@ -7,7 +7,7 @@
 		service.login = function(email, password, callbackFunction) {
 			if (mock == false) {
 				//Make backend call for login validation
-				$http.post('/api/v1/auth/validateuser', {
+				$http.post('/api/v1/auth/ValidateUser', {
 					params: {
 						email: email,
 						password: password
