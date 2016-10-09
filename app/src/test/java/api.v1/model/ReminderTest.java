@@ -6,7 +6,6 @@ import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.jvm.hotspot.oops.Instance;
 
 import static org.junit.Assert.fail;
 

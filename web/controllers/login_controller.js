@@ -36,7 +36,8 @@
 						$scope.LoginController.error_message = "ERROR: " + response.error.message;
 						$scope.LoginController.fetchingData = false
 					} else {
-						TaskService.setTaskLists(response);
+						$log.info("Setting local tasks lists to: " + JSON.stringify(response.taskLists));
+						TaskService.setLocalTaskLists(response.taskLists);
 						$location.path('/');
 					}
 				});

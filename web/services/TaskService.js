@@ -13,7 +13,7 @@
 			} else {
 				var response = {};
                 if (email == "mike@test.com") {
-                    response = [{id: 1, name: "Mikes Tasks", description: "A list of Mikes tasks"}];
+                    response = { taskLists: [{id: 1, name: "Mikes Tasks", description: "A list of Mikes tasks"}] };
                 } else {
                     response = {
                         error: {
@@ -26,9 +26,14 @@
 			}
 		};
 
-		service.setTaskLists = function (taskLists) {
+		service.setLocalTaskLists = function (taskLists) {
 			$rootScope.globals.currentUser.taskLists = taskLists;
 			$cookies.put('globals', $rootScope.globals);
+		};
+
+		service.getLocalTaskLists = function () {
+			//return $cookies.get('globals').currentUser.taskLists;
+			return $rootScope.globals.currentUser.taskLists;
 		};
 
 		service.addTasklist = function(email, taskList, callbackFunction) {
@@ -99,18 +104,18 @@
 			} else {
 				var response;
 				//Mock backend response for the moment
-				response = [{
+				response = { listOfTaskIdsAsJson: [{
 					id: 1, name: "Task Assistant Application", estimated_time: 40, invested_time: 10,
-					important: 0, urgent: 0, deadline_date: null, status: "IN_PROGRESS"
+					important: 0, urgent: 0, dueDate: null, status: "IN_PROGRESS"
 				},
 					{
 						id: 2, name: "Shopping list application", estimated_time: 40, invested_time: 10,
-						important: 0, urgent: 0, deadline_date: null, status: "IN_PROGRESS"
+						important: 0, urgent: 0, dueDate: null, status: "IN_PROGRESS"
 					},
 					{
 						id: 3, name: "Serial Number Manager application", estimated_time: 40, invested_time: 10,
-						important: 0, urgent: 0, deadline_date: null, status: "NEW"
-					}];
+						important: 0, urgent: 0, dueDate: null, status: "NEW"
+					}]};
 
 				callbackFunction(response);
 			}

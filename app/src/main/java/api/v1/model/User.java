@@ -148,6 +148,7 @@ public class User {
 
         User user = (User) o;
 
+        //This is very unreadable
         if (id != user.id) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;

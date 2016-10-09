@@ -67,6 +67,11 @@ public class CreateUser extends AuthRequestHandler{
             errorMsg = "Error. " + s.getMessage();
             errorCode = s.getError().getCode();
             error = true;
+        }catch(NullPointerException e){
+            LOGGER.error("An error occurred while handling a CreateUser Request:  {}.", json, e);
+            errorMsg = "Error. " + e.getMessage();
+            errorCode = 123; //bullshit errorCode for NPE
+            error = true;
         }
 
         JSONObject jsonResponse = new JSONObject();

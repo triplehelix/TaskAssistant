@@ -39,7 +39,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
 
     protected void verifyPasswordIsValid(String password) throws BusinessException{
         if(!password.matches("(?=^.{8,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{\":;'?/>.<,])(?!.*\\s).*$"))
-            throw new BusinessException("Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
+            throw new BusinessException("Password is too weak. Try another password. ", Error.valueOf("INVALID_PASSWORD_ERROR"));
     }
 
     /**

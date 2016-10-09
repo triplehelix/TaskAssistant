@@ -25,7 +25,7 @@ import api.v1.model.Task;
  *
  * @author Ken Lyon
  */
-@WebServlet("/api/v1/task/AddTask")
+@WebServlet("/api/v1/task/UpdateTask")
 public class UpdateTask extends TaskRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateTask.class);
     /**
