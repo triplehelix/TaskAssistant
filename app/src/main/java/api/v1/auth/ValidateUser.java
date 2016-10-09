@@ -57,6 +57,7 @@ public class ValidateUser extends AuthRequestHandler{
             verifyPasswordIsValid(clientUser.getPassword());
 			serverUser=userRepository.get(clientUser);
 			validatePassword(clientUser, serverUser);
+            serverUser.setPassword(null);
 		}catch(BusinessException e){
 			LOGGER.error("An error occurred while handling a ValidateUser Request: {}.", json, e);
 			LOGGER.error(e.getMessage());

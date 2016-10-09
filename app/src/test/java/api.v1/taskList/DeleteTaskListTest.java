@@ -28,10 +28,12 @@ public class DeleteTaskListTest extends TaskListApiHelper {
     private static UserRepository userRepository;
     private static CategoryRepository categoryRepository;
     private static ScheduleRepository scheduleRepository;
+    private static ReminderRepository reminderRepository;
     private static ArrayList<MockHttpServletRequest> validRequestList = new ArrayList();
     private static ArrayList<MockHttpServletRequest> errorRequestList = new ArrayList();
     private static ArrayList<String> sampleCategories = new ArrayList<String>();
     private static ArrayList<String> sampleSchedules = new ArrayList<String>();
+    private static ArrayList<String> sampleReminders = new ArrayList<String>();
     private static ArrayList<String> validTaskLists = new ArrayList<String>();
     private static ArrayList<String> errorTaskLists = new ArrayList<String>();
     private static ArrayList<String> sampleTasks = new ArrayList<String>();
@@ -50,6 +52,7 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         taskListRepository = DeleteTaskList.getTaskListRepository();
         scheduleRepository = DeleteTaskList.getScheduleRepository();
         categoryRepository = DeleteTaskList.getCategoryRepository();
+        reminderRepository = DeleteTaskList.getReminderRepository();
         taskRepository = DeleteTaskList.getTaskRepository();
         userRepository = DeleteTaskList.getUserRepository();
 
@@ -58,16 +61,28 @@ public class DeleteTaskListTest extends TaskListApiHelper {
         for (User user : TaskListApiHelper.toUsers(sampleUsers))
             userRepository.add(user);
 
-        sampleTasks.add("0`0`Mike's work task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[0,1,2]");
-        sampleTasks.add("1`0`Mike's work task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,2]");
-        sampleTasks.add("2`0`Mike's home task 01`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]");
-        sampleTasks.add("3`0`Mike's home task 02`TRUE`This task belongs to Mike H.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[2,0]");
-        sampleTasks.add("4`1`Ken's  work task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[3,4,5]");
-        sampleTasks.add("5`1`Ken's  work task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[4]`[]");
-        sampleTasks.add("6`1`Ken's  home task 01`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]");
-        sampleTasks.add("7`1`Ken's  home task 02`TRUE`This task belongs to  Kenny.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[]");
+        sampleTasks.add("0`0`Mike's 01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[0,1,2]`[0]");	  
+        sampleTasks.add("1`0`Mike's 02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[1]`[1,2]`  [1]");	  
+        sampleTasks.add("2`0`Mike's 01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[2]`[1,2]`  [2]");	  
+        sampleTasks.add("3`0`Mike's 02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[0]`[2,0]`  [3]");	  
+        sampleTasks.add("4`1`Ken's  01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[3,4,5]`[4,5]"); 
+        sampleTasks.add("5`1`Ken's  02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[4]`[]`     [6]");	  
+        sampleTasks.add("6`1`Ken's  01`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[5]`[]`     []");    
+        sampleTasks.add("7`1`Ken's  02`TRUE`.`60000`100000`TRUE`2020-05-31T00:00:00.123Z`NEW`[3]`[]`     []");    
         for (Task task : toTasks(sampleTasks))
             taskRepository.add(task);
+
+        //3. Populate the repository with valid reminders.
+        sampleReminders.add("0`0`2020-05-28T08:31:01.123Z");
+        sampleReminders.add("1`1`2020-05-31T00:00:00.123Z");
+        sampleReminders.add("2`2`2016-06-09T18:30:00.123Z");
+        sampleReminders.add("3`3`2016-06-12T08:00:00.123Z");
+        sampleReminders.add("4`4`2016-06-09T19:00:00.123Z");
+        sampleReminders.add("5`4`2020-05-31T00:00:00.123Z");
+        sampleReminders.add("6`5`2020-05-31T00:00:00.123Z");
+        for(Reminder reminder: toReminders(sampleReminders))
+            reminderRepository.add(reminder);
+
 
         sampleSchedules.add("0`0`2016-06-28T18:00:00.123Z`2016-06-28T19:00:00.123Z`DAILY  `[0,3]      ");
         sampleSchedules.add("1`0`2016-07-03T09:00:00.123Z`2016-06-28T10:00:00.123Z`WEEKLY `[0,1,2]    ");
@@ -140,7 +155,7 @@ public class DeleteTaskListTest extends TaskListApiHelper {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
-        }
+        }//*/
 
         LOGGER.info("First delete TaskLists that have been added to the repository.");
         for (MockHttpServletRequest request : validRequestList) {
@@ -155,7 +170,7 @@ public class DeleteTaskListTest extends TaskListApiHelper {
             MockHttpServletResponse response = new MockHttpServletResponse();
             deleteTaskListInstance.doPost(request, response);
             validateDoPostErrorResponse(response);
-        }
+        }//*/
 
 
         LOGGER.info("Verifying Tasks have been cleaned...");

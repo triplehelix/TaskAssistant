@@ -1,7 +1,5 @@
 package api.v1.model;
 
-import api.v1.error.BusinessException;
-import api.v1.error.Error;
 import api.v1.helper.ModelHelper;
 import com.google.appengine.repackaged.com.google.gson.Gson;
 import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
@@ -50,10 +48,18 @@ public class Category {
     public void setTaskIds(ArrayList<Integer> taskIds) {
         this.taskIds = taskIds;
     }
+
+    /**
+     * Associate a Task with this Category.
+     * @param task
+     */
     public void addTask(Task task){
         if(this.taskIds==null)
             taskIds=new ArrayList<Integer>();
-    if(!taskIds.contains((Object) task.getId()))
+        // Don't add the same id twice.
+        for(int i: taskIds)
+            if(i==task.getId())
+                return;
        taskIds.add(task.getId());
     }
     public ArrayList<Integer> getScheduleIds() {
@@ -62,9 +68,18 @@ public class Category {
     public void setScheduleIds(ArrayList<Integer> scheduleIds) {
         this.scheduleIds = scheduleIds;
     }
+
+    /**
+     * Associate a Schedule with this Category.
+     * @param schedule
+     */
     public void addSchedule(Schedule schedule){
         if(this.scheduleIds==null)
             scheduleIds=new ArrayList<Integer>();
+        // Don't add the same id twice.
+        for(int i: scheduleIds)
+            if(i==schedule.getId())
+                return;
         scheduleIds.add(schedule.getId());
     }
     public int getUserId() {

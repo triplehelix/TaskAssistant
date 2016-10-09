@@ -42,7 +42,7 @@ public class AddTaskListTest extends TaskListApiHelper {
     public void setUp() throws Exception {
         addTaskListInstance=new AddTaskList();
         userRepository=DeleteTaskList.getUserRepository();
-        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[]`[]`[]`[0]");
+        sampleUsers.add("0`mikehedden@gmail.com`a681wo$dKo`[]`[]`[]`[]");
         sampleUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo`[]`[]`[]`[6,2,3,4,5,7]");
         for(User user: TaskListApiHelper.toUsers(sampleUsers))
             userRepository.add(user);

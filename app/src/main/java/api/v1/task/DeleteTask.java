@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import api.v1.error.CriticalException;
-import api.v1.model.Category;
-import api.v1.model.Schedule;
-import api.v1.model.TaskList;
+import api.v1.model.*;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.TaskRequestHandler;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import api.v1.model.Task;
 
 /**
  * This api is used to fetch an existing task. Use the class member
@@ -52,12 +49,14 @@ public class DeleteTask extends TaskRequestHandler {
             TaskList taskList=getCleanedTaskList(task);
             ArrayList<Category> updatedCategories=getCleanedCategories(task);
             ArrayList<Schedule> updatedSchedules=getCleanedSchedules(task);
-
+            ArrayList<Reminder> reminders=getReminders(task);
             //Commit changes to Schedules, Categories and TaskList:
             for(Schedule schedule: updatedSchedules)
                 scheduleRepository.update(schedule);
             for(Category category: updatedCategories)
                 categoryRepository.update(category);
+            for(Reminder reminder: reminders)
+                reminderRepository.delete(reminder);
             taskListRepository.update(taskList);
             taskRepository.delete(task);
 

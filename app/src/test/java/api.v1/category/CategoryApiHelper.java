@@ -75,7 +75,7 @@ public class CategoryApiHelper extends UnitTestHelper {
             task.setInvestedTime(Long.parseLong(elements[6]));
             task.setUrgent(CategoryApiHelper.parseJsonBooleanAsBoolean(elements[7]));
             task.setDueDate(CategoryApiHelper.parseJsonDateAsDate(elements[8]));
-            task.setStatus(elements[9]);
+            task.setStatus(Task.Status.valueOf(elements[9].trim()));
             if (elements.length > 10) {
                 task.setCategoryIds(toIntegerArrayList(elements[10]));
             }
@@ -143,7 +143,7 @@ public class CategoryApiHelper extends UnitTestHelper {
             schedule.setUserId(Integer.parseInt(elements[1]));
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
-            schedule.setRepeatType(elements[4].trim());
+            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
             if(elements.length>5)
                 schedule.setCategoryIds(toIntegerArrayList(elements[5].trim()));
             mySchedules.add(schedule);

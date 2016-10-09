@@ -54,7 +54,7 @@ public class ScheduleTest extends UnitTestHelper{
             schedule.setUserId(Integer.parseInt(elements[1]));
             schedule.setStartDate(parseJsonDateAsDate(elements[2]));
             schedule.setEndDate(parseJsonDateAsDate(elements[3]));
-            schedule.setRepeatType(elements[4].trim());
+            schedule.setRepeatType(Schedule.RepeatTypes.valueOf(elements[4].trim()));
             schedule.setCategoryIds(toIntegerArrayList(elements[5]));
             schedule.setTaskIds(toIntegerArrayList(elements[6]));
             mySchedules.add(schedule);
@@ -112,5 +112,63 @@ public class ScheduleTest extends UnitTestHelper{
                 LOGGER.info("Error attempting to serialize/deserialize the schedule {} {}", json, (gson.fromJson(json, Schedule.class)).toJson() );
             }
         }
+
+        testAddTasksAndCategories();
     }
+
+
+    /**
+     * Validate the addCategory & addTask methods.
+     */
+    private void testAddTasksAndCategories() throws Exception{
+
+        Category category=new Category();
+        Task task=new Task();
+
+        ArrayList<Schedule> mySchedules=toSchedules(validSchedules);
+        Schedule scheduleCategory, scheduleTask;
+        scheduleCategory=new Schedule(mySchedules.get(0));
+        scheduleTask=new Schedule(mySchedules.get(1));
+
+        category.setId(0);
+        task.setId(0);
+
+        scheduleCategory.addCategory(category);
+        scheduleTask.addTask(task);
+
+
+        if(!mySchedules.get(0).equals(scheduleCategory)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    mySchedules.get(0).toJson(),
+                    scheduleCategory.toJson());
+            fail("Error! These objects should be equal!");
+        }
+        if(!mySchedules.get(1).equals(scheduleTask)){
+            LOGGER.error("These objects were evaluated to be not equal when they should be: {} {}",
+                    mySchedules.get(1).toJson(),
+                    scheduleTask.toJson());
+            fail("Error! These objects should be equal!");
+        }
+
+        category.setId(31);
+        task.setId(31);
+
+        scheduleCategory.addCategory(category);
+        scheduleTask.addTask(task);
+
+        if(mySchedules.get(0).equals(scheduleCategory)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    mySchedules.get(0).toJson(),
+                    scheduleCategory.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+        if(mySchedules.get(1).equals(scheduleTask)){
+            LOGGER.error("These objects were evaluated to be equal when they should not be: {} {}",
+                    mySchedules.get(1).toJson(),
+                    scheduleTask.toJson());
+            fail("Error! These objects should be not equal!");
+        }
+
+    }
+
 }

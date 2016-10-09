@@ -2,13 +2,10 @@ package api.v1;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
 import api.v1.model.*;
-import api.v1.repo.UserRepository;
 import api.v1.error.Error;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.util.ArrayList;
-
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -91,7 +88,7 @@ public class AuthRequestHandler extends BaseRequestHandler{
         }
     }
 
-    protected void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
+    private void throwObjectOwnershipError(int userId, String message) throws BusinessException, SystemException{
         User user = new User();
         user.setId(userId);
         user=userRepository.get(user);

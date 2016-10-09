@@ -117,27 +117,64 @@ public class User {
         return gson.toJson(this);
     }
 
+    /**
+     * Add a Category to this User.
+     * @param category
+     */
     public void addCategory(Category category){
         if(categoryIds==null)
             categoryIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: categoryIds)
+            if(i==category.getId())
+                return;
+
         categoryIds.add(category.getId());
     }
 
-    public void addTaskList(TaskList taskList){
-        if(taskListIds==null)
-            taskListIds=new ArrayList<Integer>();
-        taskListIds.add(taskList.getId());
-    }
-    
+    /**
+     * Add a Schedule to this User.
+     * @param schedule
+     */
     public void addSchedule(Schedule schedule){
         if(scheduleIds==null)
             scheduleIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: scheduleIds)
+            if(i==schedule.getId())
+                return;
+
         scheduleIds.add(schedule.getId());
     }
+
+    /**
+     * Add a TaskList to this User.
+     * @param taskList
+     *
+     */
+    public void addTaskList(TaskList taskList){
+        if(taskListIds==null)
+            taskListIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: taskListIds)
+            if(i==taskList.getId())
+                return;
+
+        taskListIds.add(taskList.getId());
+    }
     
+    /**
+     * Add a Calendar to this User.
+     * @param calendar
+     */
     public void addCalendar(Calendar calendar){
         if(calendarIds==null)
             calendarIds=new ArrayList<Integer>();
+        // Don't add the same ID twice.
+        for(int i: calendarIds)
+            if(i==calendar.getId())
+                return;
+
         calendarIds.add(calendar.getId());
     }
 
@@ -170,3 +207,7 @@ public class User {
         return result;
     }
 }
+
+
+
+

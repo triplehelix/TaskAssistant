@@ -3,6 +3,7 @@ package api.v1.auth;
 import api.v1.UnitTestHelper;
 import api.v1.model.User;
 import api.v1.repo.UserRepository;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class tests the AddUser Class.
@@ -34,8 +36,13 @@ public class CreateUserTest extends AuthApiHelper {
      */
     @Before
     public void setUp() throws Exception {
+        verifyRepositoriesAreClean();
+
+
+
         createUserInstance = new CreateUser();
         userRepository=createUserInstance.getUserRepository();
+
         validUsers=new ArrayList<String>();
         validUsers.add("0`mikehedden@gmail.com`a681wo$dKo");
         validUsers.add("1`kenlyon@gmail.com`Mouwkl87%qo");

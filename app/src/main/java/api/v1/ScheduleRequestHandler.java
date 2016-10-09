@@ -16,8 +16,9 @@ import java.util.ArrayList;
  * ScheduleRequestHandler contains, fields and methods that are common to
  * schedule APIs. All schedule APIs inherit ScheduleRequestHandler. 
  */
-public class ScheduleRequestHandler extends TaskRequestHandler {
+public class ScheduleRequestHandler extends AuthRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleRequestHandler.class);
+
     /**
      * Remove references to the supplied schedule id from an ArrayList of Categories.
      * @param scheduleId
@@ -26,7 +27,7 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanCategories(int scheduleId, ArrayList<Category> categories) throws BusinessException, SystemException, CriticalException {
+    private void cleanCategories(int scheduleId, ArrayList<Category> categories) throws BusinessException, SystemException, CriticalException {
         if(categories==null)
             return;
         for(Category category: categories) {
@@ -49,11 +50,11 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanTasks(int scheduleId, ArrayList<Task> tasks) throws BusinessException, SystemException, CriticalException {
+    private void cleanTasks(int scheduleId, ArrayList<Task> tasks) throws BusinessException, SystemException, CriticalException {
         if(tasks==null)
             return;
         for(Task task: tasks) {
-            LOGGER.debug("Here is the Task we are attempting to clean {} ", task.toJson());
+            //LOGGER.debug("Here is the Task we are attempting to clean {} ", task.toJson());
             if (task.getScheduleIds().contains(scheduleId)) {
                 task.getScheduleIds().remove((Object) scheduleId);
             }else {
@@ -72,7 +73,7 @@ public class ScheduleRequestHandler extends TaskRequestHandler {
      * @throws SystemException
      * @throws CriticalException
      */
-    protected void cleanUser(int scheduleId, User user) throws BusinessException, SystemException, CriticalException {
+    private void cleanUser(int scheduleId, User user) throws BusinessException, SystemException, CriticalException {
         if(user.getScheduleIds().contains(scheduleId)) {
             user.getScheduleIds().remove((Object)scheduleId);
         }

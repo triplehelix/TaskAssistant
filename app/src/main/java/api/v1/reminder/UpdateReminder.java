@@ -5,18 +5,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import api.v1.TaskRequestHandler;
+import api.v1.ReminderRequestHandler;
+
 import api.v1.error.CriticalException;
-import api.v1.model.Task;
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
 import api.v1.error.BusinessException;
 import api.v1.error.SystemException;
-import api.v1.error.Error;
 import api.v1.helper.ErrorHelper;
 import java.io.IOException;
-import java.util.Date;
 import api.v1.model.Reminder;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -29,7 +25,7 @@ import org.slf4j.Logger;
  * @author Ken Lyon
  */
 @WebServlet("/api/v1/reminder/UpdateReminder")
-public class UpdateReminder extends TaskRequestHandler {
+public class UpdateReminder extends ReminderRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateReminder.class);
     /**
      *
